@@ -16,18 +16,26 @@ on:
         type: boolean
         default: false
 
+# Secrets 配置说明见 .github/SECRETS.md
+
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'pnpm'
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -35,40 +43,48 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: npm install --ignore-scripts 2>/dev/null || true
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Production env template check
+        run: node scripts/verify-env-template.js
 
       - name: CI verify
-        run: node scripts/ci-verify.js
+        run: pnpm ci:verify
 
   publish:
     needs: verify
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     if: github.event_name == 'workflow_dispatch'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'pnpm'
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install root devDependencies
-        run: |
-          npm install ali-oss miniprogram-ci --no-save --ignore-scripts 2>/dev/null || true
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
 
       - name: Sync production config
-        run: node scripts/sync-prod-config.js
+        run: pnpm sync:prod
 
       - name: Prepare CDN bundle
         if: inputs.upload_cdn == true
-        run: node scripts/prepare-cdn-bundle.js
+        run: pnpm prepare:cdn
 
       - name: Upload CDN to OSS
         if: inputs.upload_cdn == true
@@ -78,7 +94,7 @@ jobs:
           OSS_ACCESS_KEY_ID: ${{ secrets.OSS_ACCESS_KEY_ID }}
           OSS_ACCESS_KEY_SECRET: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
           OSS_PREFIX: ${{ secrets.OSS_PREFIX }}
-        run: node scripts/upload-cdn-oss.js
+        run: pnpm upload:cdn
 
       - name: Write WeChat upload key
         env:
@@ -86,6 +102,7 @@ jobs:
         run: |
           if [ -z "$WECHAT_UPLOAD_PRIVATE_KEY" ]; then
             echo "缺少 GitHub Secret: WECHAT_UPLOAD_PRIVATE_KEY"
+            echo "配置说明: .github/SECRETS.md"
             exit 1
           fi
           mkdir -p deploy

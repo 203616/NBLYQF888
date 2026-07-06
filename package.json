@@ -33,6 +33,7 @@
     "verify:production": "node scripts/verify-production.js",
     "release:checklist": "node scripts/release-checklist.js",
     "verify:platform": "node scripts/verify-platform.js",
+    "verify:env": "node scripts/verify-env-template.js",
     "ci:verify": "node scripts/ci-verify.js",
     "upload:cdn": "node scripts/upload-cdn-oss.js",
     "upload:cdn:dry": "node scripts/upload-cdn-oss.js --dry-run",

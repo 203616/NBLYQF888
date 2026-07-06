@@ -74,5 +74,9 @@ step('多端兼容', () => {
   execSync('node scripts/verify-platform.js', { cwd: root, stdio: 'inherit' })
 })
 
+step('生产密钥模板', () => {
+  execSync('node scripts/verify-env-template.js', { cwd: root, stdio: 'inherit' })
+})
+
 console.log(failed ? '\n=== CI 校验失败 ===' : '\n=== CI 校验通过 ===')
 if (failed) process.exit(1)

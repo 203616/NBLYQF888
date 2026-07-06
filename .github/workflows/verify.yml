@@ -6,29 +6,53 @@ on:
   pull_request:
     branches: [main, master, develop]
 
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'pnpm'
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: CI verify (pages, assets, bundle, config)
-        run: node scripts/ci-verify.js
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Production env template check
+        run: node scripts/verify-env-template.js
+
+      - name: CI verify (pages, assets, bundle, platform)
+        run: pnpm ci:verify
+
+      - name: Integration config static check
+        run: node scripts/verify-integrations.js
+
+      - name: Build admin dashboard
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: pnpm --filter @liangye/admin exec vite build
 
       - name: CDN upload dry-run
-        run: node scripts/upload-cdn-oss.js --dry-run
+        run: pnpm upload:cdn:dry
 
       - name: Mini program upload dry-run
-        run: node scripts/upload-miniprogram-ci.js --dry-run
+        run: pnpm upload:mp:dry

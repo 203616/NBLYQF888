@@ -1,5 +1,7 @@
 # 亮叶企服智能合规全栈版
 
+![CI](https://github.com/203616/NBLYQF888/actions/workflows/verify.yml/badge.svg)
+
 本项目保留微信小程序根目录结构，并新增 Node.js/Express API 与 Vue 管理后台。
 
 ## 目录
@@ -36,6 +38,8 @@ pnpm run dev
 ## 部署前检查
 
 全栈升级计划与批次时间线见 [`deploy/upgrade-roadmap.md`](deploy/upgrade-roadmap.md)；多端真机说明见 [`deploy/platform-compatibility.md`](deploy/platform-compatibility.md)。
+
+生产密钥：复制 [`.env.production.example`](.env.production.example) 为 `.env` 并按 [`deploy/production-secrets.md`](deploy/production-secrets.md) 填写；GitHub Actions Secrets 见 [`.github/SECRETS.md`](.github/SECRETS.md)。
 
 一键部署（推荐）：
 
