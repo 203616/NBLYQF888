@@ -1,0 +1,69 @@
+<view class="page-shell contract-page" wx:if="{{contract}}">
+  <view class="view-only-banner glass-card">
+    <text class="banner-icon">📄</text>
+    <text>本页面仅支持查看合同信息，正式签署需在机构审批通过后完成</text>
+  </view>
+
+  <view class="contract-hero premium-hero">
+    <view class="premium-hero-body contract-hero-body">
+      <text class="premium-badge">合同查看</text>
+      <text class="contract-no">{{contract.contractNo}}</text>
+      <text class="contract-status status-{{contract.statusKey}}">{{contract.status}}</text>
+      <text class="sign-date" wx:if="{{contract.signDate !== '-'}}">签署日期：{{contract.signDate}}</text>
+      <text class="product-name">{{meta.productName}}</text>
+    </view>
+  </view>
+
+  <view class="stat-row">
+    <view class="stat-item glass-card" wx:for="{{highlights}}" wx:key="label">
+      <text class="stat-num">{{item.value}}</text>
+      <text class="stat-label">{{item.label}}</text>
+    </view>
+  </view>
+
+  <view class="section-card glass-card">
+    <text class="section-title">合同主体</text>
+    <view class="party-row" wx:for="{{partyList}}" wx:key="label">
+      <text class="label">{{item.label}}</text>
+      <text class="value">{{item.value}}</text>
+    </view>
+  </view>
+
+  <view class="section-card glass-card">
+    <text class="section-title">融资条款</text>
+    <view class="term-row" wx:for="{{contract.terms}}" wx:key="label">
+      <text class="term-label">{{item.label}}</text>
+      <text class="term-value">{{item.value}}</text>
+    </view>
+  </view>
+
+  <view class="section-card glass-card" wx:if="{{repaymentPlan.length}}">
+    <text class="section-title">还款计划预览（示意）</text>
+    <view class="plan-header">
+      <text>期数</text>
+      <text>还款日</text>
+      <text>月供</text>
+    </view>
+    <view class="plan-row" wx:for="{{repaymentPlan}}" wx:key="term">
+      <text>第{{item.term}}期</text>
+      <text>{{item.date}}</text>
+      <text class="plan-amount">{{item.amount}}</text>
+    </view>
+    <text class="plan-tip">* 最终以正式合同及机构系统生成计划为准</text>
+  </view>
+
+  <view class="section-card glass-card">
+    <text class="section-title">重要条款说明</text>
+    <block wx:for="{{contract.clauses}}" wx:key="*this">
+      <view class="clause-item">
+        <text class="clause-num">{{index + 1}}</text>
+        <text class="clause-text">{{item}}</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="action-row">
+    <button class="btn-outline" bindtap="contactService">咨询专员</button>
+    <button class="btn-gold" bindtap="goBack">返回进件</button>
+  </view>
+</view>

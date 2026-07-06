@@ -1,0 +1,13 @@
+.warranty-intake { padding: 24rpx 32rpx 120rpx; }
+.step-bar { display: flex; flex-wrap: wrap; gap: 8rpx; margin-bottom: 24rpx; }
+.step-item { font-size: 22rpx; padding: 8rpx 16rpx; background: #eee; border-radius: 8rpx; }
+.step-item.active { background: var(--color-primary); color: #fff; }
+.panel { padding: 28rpx; margin-bottom: 24rpx; }
+.panel-title { font-size: 30rpx; font-weight: bold; margin-bottom: 20rpx; display: block; }
+.field { width: 100%; height: 80rpx; background: #f5f7fa; border-radius: 12rpx; padding: 0 24rpx; margin-bottom: 16rpx; box-sizing: border-box; }
+.photo-row { padding: 24rpx; background: var(--color-primary-bg); border-radius: 12rpx; margin-top: 12rpx; color: var(--color-primary); }
+.actions { display: flex; gap: 16rpx; position: fixed; left: 32rpx; right: 32rpx; bottom: 40rpx; }
+.actions button { flex: 1; }
+.hint { display: block; font-size: 24rpx; color: var(--color-text-muted); margin-top: 16rpx; line-height: 1.6; }
+.contract-preview { margin-top: 16rpx; padding: 16rpx; background: #f7f9fc; border-radius: 8rpx; font-size: 22rpx; line-height: 1.6; white-space: pre-wrap; max-height: 400rpx; overflow-y: auto; }
+.plan-desc { display: block; margin-bottom: 16rpx; font-size: 26rpx; }

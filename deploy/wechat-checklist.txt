@@ -1,0 +1,34 @@
+# 微信公众平台配置清单（AppID: wxf49b1aeb1d62f227）
+
+登录 https://mp.weixin.qq.com → 开发 → 开发管理 → 开发设置 → 服务器域名
+
+【request 合法域名】
+  https://api.liangyeqf.com
+
+【uploadFile 合法域名】
+  https://api.liangyeqf.com
+
+【downloadFile 合法域名】（含 CDN 图片域名）
+  https://api.liangyeqf.com
+  https://cdn.liangyeqf.com
+
+【业务域名 / web-view】
+  https://data.stats.gov.cn
+  https://www.ndrc.gov.cn
+
+【CDN 静态资源】
+  域名: https://cdn.liangyeqf.com
+  小程序 useCdnImages: false
+  打包: pnpm prepare:cdn → 上传 deploy/cdn-staging/ 至 CDN 根目录
+
+【管理后台】
+  https://admin.liangyeqf.com
+
+【API 健康检查】
+  https://api.liangyeqf.com/api/v1/health
+
+【上传前检查】
+  pnpm verify:production
+  pnpm verify:compile
+
+注意: 域名须完成 HTTPS 备案与解析后再提交审核。

@@ -1,0 +1,105 @@
+<view class="profile-container page-shell">
+  <view class="user-header premium-hero">
+    <safe-image className="premium-hero-bg" src="/images/banner3.webp" mode="aspectFill" />
+    <view class="premium-hero-body profile-hero-body">
+      <safe-image src="{{userInfo.avatarUrl}}" className="avatar" bind:tap="editProfile" />
+      <text class="nickname">{{userInfo.nickName}}</text>
+      <view class="badge" wx:if="{{userInfo.verified}}">已实名认证</view>
+      <text class="edit-hint" bindtap="editProfile">编辑资料 ›</text>
+    </view>
+  </view>
+
+  <view class="stat-row profile-stats">
+    <view class="stat-item glass-card" wx:for="{{quickStats}}" wx:key="label" data-idx="{{index}}" bindtap="goStat">
+      <text class="stat-num">{{item.value}}</text>
+      <text class="stat-label">{{item.label}}</text>
+    </view>
+  </view>
+
+  <view class="service-entry glass-card" bindtap="goServiceChat">
+    <view class="service-left">
+      <text class="service-icon">💬</text>
+      <view>
+        <text class="service-title">智能客服</text>
+        <text class="service-desc">材料清单、流程咨询、风险提示</text>
+      </view>
+    </view>
+    <text class="service-arrow">›</text>
+  </view>
+
+  <view class="module-grid glass-card">
+    <block wx:for="{{modules}}" wx:key="id">
+      <view 
+        class="module-item {{item.wide ? 'module-wide' : ''}}" 
+        data-id="{{item.id}}"
+        bindtap="navigateToModule"
+      >
+        <text class="iconfont {{item.icon}}"></text>
+        <text>{{item.title}}</text>
+        <text class="module-desc">{{item.desc}}</text>
+        <text class="module-badge" wx:if="{{item.id === 'notifications' && unreadCount > 0}}">{{unreadCount}}</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="section glass-card" wx:if="{{recentIntakes.length}}">
+    <view class="section-header">
+      <text class="title">最近进件</text>
+    </view>
+    <block wx:for="{{recentIntakes}}" wx:key="applicationNo">
+      <view class="intake-row" data-no="{{item.applicationNo}}" bindtap="goIntakeDetail">
+        <view>
+          <text class="intake-name">{{item.productName}}</text>
+          <text class="intake-no">{{item.applicationNo}}</text>
+        </view>
+        <view class="intake-right">
+          <text class="intake-status">{{item.statusText}}</text>
+          <text class="intake-progress">{{item.progress}}%</text>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 文档中心 -->
+  <view class="section glass-card">
+    <view class="section-header">
+      <text class="title">文档中心</text>
+    </view>
+    
+    <view class="doc-list">
+      <block wx:for="{{docItems}}" wx:key="id">
+        <view 
+          class="doc-item" 
+          data-id="{{item.id}}"
+          bindtap="handleDocItemTap"
+        >
+          <view>
+            <text class="doc-name">{{item.name}}</text>
+            <text class="doc-desc">{{item.desc}}</text>
+          </view>
+          <text class="iconfont icon-right"></text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- OA工作台 -->
+  <view class="section glass-card">
+    <view class="section-header">
+      <text class="title">OA工作台</text>
+    </view>
+    
+    <view class="oa-panel">
+      <block wx:for="{{oaStats}}" wx:key="name">
+        <view class="oa-item">
+          <text class="count">{{item.count}}</text>
+          <text>{{item.name}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <view class="compliance-footer">
+    <text>{{complianceNote}}</text>
+  </view>
+</view>

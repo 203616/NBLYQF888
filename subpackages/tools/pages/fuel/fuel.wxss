@@ -1,0 +1,13 @@
+.tool-page { padding-bottom: 40rpx; }
+.tool-hero { margin-bottom: 20rpx; min-height: 160rpx; background: var(--gradient-hero); border-radius: var(--radius-lg); }
+.loc-arrow { margin-left: auto; color: #ccc; font-size: 32rpx; }
+.price-card { padding: 28rpx; }
+.card-title { display: block; font-size: 32rpx; font-weight: 700; color: var(--color-primary); }
+.meta { display: block; font-size: 22rpx; color: var(--color-text-muted); margin-top: 8rpx; }
+.price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12rpx; margin: 24rpx 0; }
+.price-item { text-align: center; padding: 24rpx 12rpx; background: #f7f9fc; border-radius: 16rpx; }
+.price-item.highlight { background: var(--color-primary-bg); }
+.fuel-label { display: block; font-size: 24rpx; color: var(--color-text-muted); }
+.fuel-value { display: block; font-size: 40rpx; font-weight: 700; color: var(--color-primary); margin-top: 8rpx; }
+.fuel-unit { display: block; font-size: 20rpx; color: #aaa; margin-top: 4rpx; }
+.compliance { display: block; font-size: 22rpx; color: var(--color-text-muted); line-height: 1.6; text-align: center; }

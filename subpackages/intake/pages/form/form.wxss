@@ -1,0 +1,219 @@
+.form-hero {
+  position: relative;
+  height: 220rpx;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 24rpx;
+  box-shadow: var(--shadow-hero);
+}
+
+.form-cover {
+  width: 100%;
+  height: 100%;
+}
+
+.form-hero-text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 20rpx 24rpx;
+  background: linear-gradient(transparent, rgba(15, 61, 46, 0.9));
+  color: #fff;
+}
+
+.form-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.form-desc {
+  display: block;
+  font-size: 24rpx;
+  margin-top: 6rpx;
+  opacity: 0.9;
+}
+
+.guide-card {
+  background: var(--color-primary-bg);
+  border-radius: var(--radius-md);
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.guide-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: bold;
+  color: var(--color-primary);
+  margin-bottom: 12rpx;
+}
+
+.guide-line {
+  display: block;
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+}
+
+.progress-mini {
+  margin-top: 16rpx;
+  font-size: 24rpx;
+  color: var(--color-primary);
+  font-weight: bold;
+}
+
+.checklist-card {
+  padding: 20rpx 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.checklist-title {
+  font-size: 26rpx;
+  font-weight: bold;
+  margin-bottom: 12rpx;
+  display: block;
+}
+
+.checklist-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.check-tag {
+  font-size: 22rpx;
+  padding: 6rpx 16rpx;
+  background: #f0f5f3;
+  color: var(--color-primary);
+  border-radius: 999rpx;
+}
+
+.hint {
+  display: block;
+  font-size: 22rpx;
+  color: var(--color-text-muted);
+  margin-bottom: 8rpx;
+  line-height: 1.4;
+}
+
+.hint.block {
+  margin-bottom: 0;
+  margin-top: 4rpx;
+}
+
+.form-card {
+  padding: 8rpx 24rpx;
+}
+
+.form-item {
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.form-item:last-child {
+  border-bottom: none;
+}
+
+.form-item.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  display: block;
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  margin-bottom: 12rpx;
+}
+
+.form-item.row .label {
+  margin-bottom: 0;
+}
+
+.req {
+  color: var(--color-danger);
+}
+
+.input, .textarea, .picker-value {
+  font-size: 30rpx;
+  color: var(--color-text-primary);
+}
+
+.textarea {
+  width: 100%;
+  min-height: 120rpx;
+}
+
+.picker-value {
+  padding: 12rpx 0;
+}
+
+.save-btn {
+  margin-top: 32rpx;
+  width: 100%;
+}
+
+.image-upload {
+  margin-top: 8rpx;
+}
+
+.image-slot {
+  position: relative;
+  width: 240rpx;
+  height: 160rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+
+.upload-preview {
+  width: 100%;
+  height: 100%;
+}
+
+.remove-btn {
+  position: absolute;
+  top: 8rpx;
+  right: 8rpx;
+  width: 40rpx;
+  height: 40rpx;
+  line-height: 36rpx;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 28rpx;
+}
+
+.image-add {
+  width: 240rpx;
+  height: 160rpx;
+  border: 2rpx dashed #ccc;
+  border-radius: 12rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+}
+
+.add-icon {
+  font-size: 48rpx;
+  color: #999;
+  line-height: 1;
+}
+
+.add-text {
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 8rpx;
+}
+
+.ocr-tip {
+  display: block;
+  font-size: 22rpx;
+  color: var(--color-primary);
+  margin-top: 8rpx;
+}

@@ -1,0 +1,99 @@
+<view class="page-shell form-page" wx:if="{{module}}">
+  <view class="form-hero">
+    <safe-image className="form-cover" src="{{module.icon}}" mode="aspectFill" />
+    <view class="form-hero-text">
+      <text class="form-title">{{module.title}}</text>
+      <text class="form-desc">{{module.desc}}</text>
+    </view>
+  </view>
+
+  <view class="guide-card glass-card" wx:if="{{module.guide}}">
+    <text class="guide-title">填写指引</text>
+    <block wx:for="{{module.guide}}" wx:key="*this">
+      <text class="guide-line">· {{item}}</text>
+    </block>
+    <view class="progress-mini" wx:if="{{totalRequired > 0}}">
+      <text>必填完成 {{filledCount}}/{{totalRequired}}</text>
+    </view>
+  </view>
+
+  <view class="checklist-card glass-card" wx:if="{{module.checklist}}">
+    <text class="checklist-title">核心字段</text>
+    <view class="checklist-tags">
+      <block wx:for="{{module.checklist}}" wx:key="*this">
+        <text class="check-tag">{{item}}</text>
+      </block>
+    </view>
+  </view>
+
+  <view class="form-card glass-card">
+    <block wx:for="{{module.fields}}" wx:key="key">
+      <view class="form-item" wx:if="{{item.type === 'text' || item.type === 'number' || item.type === 'idcard'}}">
+        <text class="label">{{item.label}}<text class="req" wx:if="{{item.required}}">*</text></text>
+        <text class="hint" wx:if="{{item.hint}}">{{item.hint}}</text>
+        <input
+          class="input"
+          type="{{item.type === 'number' ? 'number' : 'text'}}"
+          placeholder="{{item.placeholder || '请输入'}}"
+          value="{{formData[item.key]}}"
+          data-key="{{item.key}}"
+          bindinput="handleInput"
+        />
+      </view>
+
+      <view class="form-item" wx:elif="{{item.type === 'textarea'}}">
+        <text class="label">{{item.label}}<text class="req" wx:if="{{item.required}}">*</text></text>
+        <text class="hint" wx:if="{{item.hint}}">{{item.hint}}</text>
+        <textarea
+          class="textarea"
+          placeholder="{{item.placeholder || '请输入'}}"
+          value="{{formData[item.key]}}"
+          data-key="{{item.key}}"
+          bindinput="handleInput"
+        />
+      </view>
+
+      <view class="form-item" wx:elif="{{item.type === 'picker'}}">
+        <text class="label">{{item.label}}<text class="req" wx:if="{{item.required}}">*</text></text>
+        <text class="hint" wx:if="{{item.hint}}">{{item.hint}}</text>
+        <picker range="{{item.options}}" data-key="{{item.key}}" bindchange="handlePicker">
+          <view class="picker-value">{{formData[item.key] || '请选择'}}{{item.suffix || ''}}</view>
+        </picker>
+      </view>
+
+      <view class="form-item row" wx:elif="{{item.type === 'switch'}}">
+        <view>
+          <text class="label">{{item.label}}</text>
+          <text class="hint block" wx:if="{{item.hint}}">{{item.hint}}</text>
+        </view>
+        <switch checked="{{formData[item.key]}}" data-key="{{item.key}}" bindchange="handleSwitch" color="#0F3D2E" />
+      </view>
+
+      <view class="form-item" wx:elif="{{item.type === 'date'}}">
+        <text class="label">{{item.label}}</text>
+        <text class="hint" wx:if="{{item.hint}}">{{item.hint}}</text>
+        <picker mode="date" data-key="{{item.key}}" bindchange="handleDate">
+          <view class="picker-value">{{formData[item.key] || '请选择日期'}}</view>
+        </picker>
+      </view>
+
+      <view class="form-item" wx:elif="{{item.type === 'image'}}">
+        <text class="label">{{item.label}}<text class="req" wx:if="{{item.required}}">*</text></text>
+        <text class="hint" wx:if="{{item.hint}}">{{item.hint}}</text>
+        <view class="image-upload">
+          <view class="image-slot" wx:if="{{formData[item.key]}}" bindtap="handlePreviewImage" data-key="{{item.key}}">
+            <image class="upload-preview" src="{{formData[item.key]}}" mode="aspectFill" />
+            <text class="remove-btn" catchtap="handleRemoveImage" data-key="{{item.key}}">×</text>
+          </view>
+          <view class="image-add" wx:else bindtap="handleChooseImage" data-key="{{item.key}}">
+            <text class="add-icon">+</text>
+            <text class="add-text">上传照片</text>
+          </view>
+          <text class="ocr-tip" wx:if="{{ocrLoading === item.key}}">识别中…</text>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <button class="save-btn primary-btn" bindtap="handleSave">保存并返回</button>
+</view>

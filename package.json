@@ -1,0 +1,53 @@
+
+{
+  "name": "liangye99999",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "prestart": "node fix-fonts.js",
+    "fix": "node fix-path-conflict.js",
+    "dev": "concurrently -n server,admin -c blue,green \"pnpm --filter @liangye/server dev\" \"pnpm --filter @liangye/admin dev\"",
+    "dev:server": "pnpm --filter @liangye/server dev",
+    "dev:admin": "pnpm --filter @liangye/admin dev",
+    "db:migrate": "pnpm --filter @liangye/server db:migrate",
+    "db:seed": "pnpm --filter @liangye/server db:seed",
+    "db:reset": "pnpm --filter @liangye/server db:reset",
+    "generate:images": "python scripts/generate_all_assets.py && python scripts/download_real_images.py",
+    "build:admin": "pnpm --filter @liangye/admin build",
+    "start:server": "pnpm --filter @liangye/server start",
+    "deploy": "node scripts/deploy.js",
+    "deploy:check": "node scripts/deploy-check.js",
+    "verify:integrations": "node scripts/verify-integrations.js --ping",
+    "verify:pages": "node scripts/verify-pages.js",
+    "verify:device": "node scripts/verify-device.js",
+    "audit:bundle": "node scripts/audit-bundle.js",
+    "optimize:images": "python scripts/optimize-images.py",
+    "optimize:images:trim": "python scripts/optimize-images.py --remove-original",
+    "ensure:fallbacks": "python scripts/ensure-image-fallbacks.py",
+    "verify:assets": "node scripts/verify-assets.js",
+    "verify:compile": "node scripts/verify-compile.js",
+    "sync:prod": "node scripts/sync-prod-config.js",
+    "prepare:cdn": "node scripts/prepare-cdn-bundle.js",
+    "verify:production": "node scripts/verify-production.js",
+    "release:checklist": "node scripts/release-checklist.js",
+    "verify:platform": "node scripts/verify-platform.js",
+    "ci:verify": "node scripts/ci-verify.js",
+    "upload:cdn": "node scripts/upload-cdn-oss.js",
+    "upload:cdn:dry": "node scripts/upload-cdn-oss.js --dry-run",
+    "upload:mp": "node scripts/upload-miniprogram-ci.js --set-trial",
+    "upload:mp:dry": "node scripts/upload-miniprogram-ci.js --dry-run",
+    "upload:mp:preview": "node scripts/upload-miniprogram-ci.js --preview",
+    "migrate:covers": "node scripts/migrate-cover-safe-image.js",
+    "migrate:images": "python scripts/move-images-to-subpackages.py && python scripts/update-image-paths.py",
+    "verify:intake": "node scripts/verify-intake-workflow.js",
+    "verify:demands": "node scripts/verify-demands.js",
+    "verify:notifications": "node scripts/verify-notifications.js"
+  },
+  "devDependencies": {
+    "ali-oss": "^6.22.0",
+    "concurrently": "^9.0.0",
+    "miniprogram-ci": "^2.0.0"
+  }
+}

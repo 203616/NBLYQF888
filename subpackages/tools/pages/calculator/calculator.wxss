@@ -1,0 +1,6 @@
+.tool-page { padding-bottom: 40rpx; }
+.tool-hero { margin-bottom: 20rpx; min-height: 160rpx; background: var(--gradient-hero); border-radius: var(--radius-lg); }
+.calc-wrap { padding: 20rpx; margin-bottom: 20rpx; }
+.tips { padding: 20rpx 24rpx; margin-bottom: 20rpx; font-size: 24rpx; color: var(--color-text-muted); line-height: 1.8; }
+.tips-title { display: block; font-size: 28rpx; font-weight: 600; color: var(--color-primary); margin-bottom: 10rpx; }
+.compliance { padding: 20rpx 24rpx; font-size: 22rpx; color: var(--color-text-muted); line-height: 1.6; text-align: center; }

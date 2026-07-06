@@ -1,0 +1,14 @@
+node_modules/
+apps/server/data/
+apps/**/data/
+apps/server/uploads/
+apps/admin/dist/
+.env
+deploy/private.key
+deploy/preview-qrcode.jpg
+npm-debug.log*
+.DS_Store
+Thumbs.db
+*.log
+.cursor/
+*.db

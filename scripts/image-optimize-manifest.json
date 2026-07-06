@@ -1,0 +1,727 @@
+{
+  "items": [
+    {
+      "src": "images/avatar.png",
+      "webp": "images/avatar.webp",
+      "before": 1541,
+      "after": 1930,
+      "saved": -389
+    },
+    {
+      "src": "images/banner1.png",
+      "webp": "images/banner1.webp",
+      "before": 166333,
+      "after": 13046,
+      "saved": 153287
+    },
+    {
+      "src": "images/banner2.png",
+      "webp": "images/banner2.webp",
+      "before": 436172,
+      "after": 47968,
+      "saved": 388204
+    },
+    {
+      "src": "images/banner3.png",
+      "webp": "images/banner3.webp",
+      "before": 166333,
+      "after": 13046,
+      "saved": 153287
+    },
+    {
+      "src": "images/fingerprint.png",
+      "webp": "images/fingerprint.webp",
+      "before": 361,
+      "after": 356,
+      "saved": 5
+    },
+    {
+      "src": "images/icon/alipay.png",
+      "webp": "images/icon/alipay.webp",
+      "before": 491,
+      "after": 452,
+      "saved": 39
+    },
+    {
+      "src": "images/icon/apply.png",
+      "webp": "images/icon/apply.webp",
+      "before": 480,
+      "after": 476,
+      "saved": 4
+    },
+    {
+      "src": "images/icon/calculator.png",
+      "webp": "images/icon/calculator.webp",
+      "before": 248,
+      "after": 294,
+      "saved": -46
+    },
+    {
+      "src": "images/icon/car-clue.png",
+      "webp": "images/icon/car-clue.webp",
+      "before": 256,
+      "after": 312,
+      "saved": -56
+    },
+    {
+      "src": "images/icon/car-finance.png",
+      "webp": "images/icon/car-finance.webp",
+      "before": 429,
+      "after": 426,
+      "saved": 3
+    },
+    {
+      "src": "images/icon/car-loan.png",
+      "webp": "images/icon/car-loan.webp",
+      "before": 462,
+      "after": 492,
+      "saved": -30
+    },
+    {
+      "src": "images/icon/car-new.png",
+      "webp": "images/icon/car-new.webp",
+      "before": 484,
+      "after": 460,
+      "saved": 24
+    },
+    {
+      "src": "images/icon/car-used.png",
+      "webp": "images/icon/car-used.webp",
+      "before": 459,
+      "after": 460,
+      "saved": -1
+    },
+    {
+      "src": "images/icon/car-warranty.png",
+      "webp": "images/icon/car-warranty.webp",
+      "before": 1036,
+      "after": 1582,
+      "saved": -546
+    },
+    {
+      "src": "images/icon/car.png",
+      "webp": "images/icon/car.webp",
+      "before": 383,
+      "after": 278,
+      "saved": 105
+    },
+    {
+      "src": "images/icon/car_active.png",
+      "webp": "images/icon/car_active.webp",
+      "before": 392,
+      "after": 410,
+      "saved": -18
+    },
+    {
+      "src": "images/icon/clue-finance.png",
+      "webp": "images/icon/clue-finance.webp",
+      "before": 896,
+      "after": 1222,
+      "saved": -326
+    },
+    {
+      "src": "images/icon/clue-new.png",
+      "webp": "images/icon/clue-new.webp",
+      "before": 772,
+      "after": 886,
+      "saved": -114
+    },
+    {
+      "src": "images/icon/clue-used.png",
+      "webp": "images/icon/clue-used.webp",
+      "before": 526,
+      "after": 776,
+      "saved": -250
+    },
+    {
+      "src": "images/icon/default.png",
+      "webp": "images/icon/default.webp",
+      "before": 245,
+      "after": 258,
+      "saved": -13
+    },
+    {
+      "src": "images/icon/finance.png",
+      "webp": "images/icon/finance.webp",
+      "before": 496,
+      "after": 462,
+      "saved": 34
+    },
+    {
+      "src": "images/icon/finance_active.png",
+      "webp": "images/icon/finance_active.webp",
+      "before": 496,
+      "after": 462,
+      "saved": 34
+    },
+    {
+      "src": "images/icon/fingerprint.png",
+      "webp": "images/icon/fingerprint.webp",
+      "before": 701,
+      "after": 874,
+      "saved": -173
+    },
+    {
+      "src": "images/icon/fuel.png",
+      "webp": "images/icon/fuel.webp",
+      "before": 240,
+      "after": 270,
+      "saved": -30
+    },
+    {
+      "src": "images/icon/home.png",
+      "webp": "images/icon/home.webp",
+      "before": 283,
+      "after": 238,
+      "saved": 45
+    },
+    {
+      "src": "images/icon/home_active.png",
+      "webp": "images/icon/home_active.webp",
+      "before": 290,
+      "after": 332,
+      "saved": -42
+    },
+    {
+      "src": "images/icon/knowledge.png",
+      "webp": "images/icon/knowledge.webp",
+      "before": 223,
+      "after": 278,
+      "saved": -55
+    },
+    {
+      "src": "images/icon/location.png",
+      "webp": "images/icon/location.webp",
+      "before": 331,
+      "after": 298,
+      "saved": 33
+    },
+    {
+      "src": "images/icon/product.png",
+      "webp": "images/icon/product.webp",
+      "before": 220,
+      "after": 212,
+      "saved": 8
+    },
+    {
+      "src": "images/icon/product_active.png",
+      "webp": "images/icon/product_active.webp",
+      "before": 227,
+      "after": 354,
+      "saved": -127
+    },
+    {
+      "src": "images/icon/tip.png",
+      "webp": "images/icon/tip.webp",
+      "before": 388,
+      "after": 370,
+      "saved": 18
+    },
+    {
+      "src": "images/icon/user.png",
+      "webp": "images/icon/user.webp",
+      "before": 325,
+      "after": 244,
+      "saved": 81
+    },
+    {
+      "src": "images/icon/user_active.png",
+      "webp": "images/icon/user_active.webp",
+      "before": 333,
+      "after": 320,
+      "saved": 13
+    },
+    {
+      "src": "images/icon/wechat.png",
+      "webp": "images/icon/wechat.webp",
+      "before": 624,
+      "after": 806,
+      "saved": -182
+    },
+    {
+      "src": "images/logo.png",
+      "webp": "images/logo.webp",
+      "before": 2108,
+      "after": 2996,
+      "saved": -888
+    },
+    {
+      "src": "subpackages/product/images/products/product-1.png",
+      "webp": "subpackages/product/images/products/product-1.webp",
+      "before": 110914,
+      "after": 10924,
+      "saved": 99990
+    },
+    {
+      "src": "subpackages/product/images/products/product-10.png",
+      "webp": "subpackages/product/images/products/product-10.webp",
+      "before": 85680,
+      "after": 8300,
+      "saved": 77380
+    },
+    {
+      "src": "subpackages/product/images/products/product-2.png",
+      "webp": "subpackages/product/images/products/product-2.webp",
+      "before": 155129,
+      "after": 15146,
+      "saved": 139983
+    },
+    {
+      "src": "subpackages/product/images/products/product-3.png",
+      "webp": "subpackages/product/images/products/product-3.webp",
+      "before": 143183,
+      "after": 11234,
+      "saved": 131949
+    },
+    {
+      "src": "subpackages/product/images/products/product-4.png",
+      "webp": "subpackages/product/images/products/product-4.webp",
+      "before": 160678,
+      "after": 12892,
+      "saved": 147786
+    },
+    {
+      "src": "subpackages/product/images/products/product-5.png",
+      "webp": "subpackages/product/images/products/product-5.webp",
+      "before": 122631,
+      "after": 8736,
+      "saved": 113895
+    },
+    {
+      "src": "subpackages/product/images/products/product-6.png",
+      "webp": "subpackages/product/images/products/product-6.webp",
+      "before": 80706,
+      "after": 6818,
+      "saved": 73888
+    },
+    {
+      "src": "subpackages/product/images/products/product-7.png",
+      "webp": "subpackages/product/images/products/product-7.webp",
+      "before": 209501,
+      "after": 26104,
+      "saved": 183397
+    },
+    {
+      "src": "subpackages/product/images/products/product-8.png",
+      "webp": "subpackages/product/images/products/product-8.webp",
+      "before": 117576,
+      "after": 12748,
+      "saved": 104828
+    },
+    {
+      "src": "subpackages/product/images/products/product-9.png",
+      "webp": "subpackages/product/images/products/product-9.webp",
+      "before": 169880,
+      "after": 16650,
+      "saved": 153230
+    },
+    {
+      "src": "subpackages/news/images/news/news-1.png",
+      "webp": "subpackages/news/images/news/news-1.webp",
+      "before": 156640,
+      "after": 21236,
+      "saved": 135404
+    },
+    {
+      "src": "subpackages/news/images/news/news-2.png",
+      "webp": "subpackages/news/images/news/news-2.webp",
+      "before": 126882,
+      "after": 11314,
+      "saved": 115568
+    },
+    {
+      "src": "subpackages/news/images/news/news-3.png",
+      "webp": "subpackages/news/images/news/news-3.webp",
+      "before": 86678,
+      "after": 4840,
+      "saved": 81838
+    },
+    {
+      "src": "subpackages/news/images/news/news-4.png",
+      "webp": "subpackages/news/images/news/news-4.webp",
+      "before": 119738,
+      "after": 11610,
+      "saved": 108128
+    },
+    {
+      "src": "subpackages/news/images/news/news-5.png",
+      "webp": "subpackages/news/images/news/news-5.webp",
+      "before": 251558,
+      "after": 38260,
+      "saved": 213298
+    },
+    {
+      "src": "subpackages/news/images/news/news-6.png",
+      "webp": "subpackages/news/images/news/news-6.webp",
+      "before": 86109,
+      "after": 8470,
+      "saved": 77639
+    },
+    {
+      "src": "subpackages/cars/images/cars/car-1.png",
+      "webp": "subpackages/cars/images/cars/car-1.webp",
+      "before": 105580,
+      "after": 12762,
+      "saved": 92818
+    },
+    {
+      "src": "subpackages/cars/images/cars/car-2.png",
+      "webp": "subpackages/cars/images/cars/car-2.webp",
+      "before": 89849,
+      "after": 8398,
+      "saved": 81451
+    },
+    {
+      "src": "subpackages/cars/images/cars/car-3.png",
+      "webp": "subpackages/cars/images/cars/car-3.webp",
+      "before": 161955,
+      "after": 20256,
+      "saved": 141699
+    },
+    {
+      "src": "subpackages/cars/images/cars/car-4.png",
+      "webp": "subpackages/cars/images/cars/car-4.webp",
+      "before": 189808,
+      "after": 25158,
+      "saved": 164650
+    },
+    {
+      "src": "subpackages/cars/images/cars/car-5.png",
+      "webp": "subpackages/cars/images/cars/car-5.webp",
+      "before": 93775,
+      "after": 7144,
+      "saved": 86631
+    },
+    {
+      "src": "subpackages/cars/images/cars/car-6.png",
+      "webp": "subpackages/cars/images/cars/car-6.webp",
+      "before": 105283,
+      "after": 7892,
+      "saved": 97391
+    },
+    {
+      "src": "subpackages/knowledge/images/knowledge/knowledge-1.png",
+      "webp": "subpackages/knowledge/images/knowledge/knowledge-1.webp",
+      "before": 105055,
+      "after": 9460,
+      "saved": 95595
+    },
+    {
+      "src": "subpackages/knowledge/images/knowledge/knowledge-2.png",
+      "webp": "subpackages/knowledge/images/knowledge/knowledge-2.webp",
+      "before": 159637,
+      "after": 18308,
+      "saved": 141329
+    },
+    {
+      "src": "subpackages/knowledge/images/knowledge/knowledge-3.png",
+      "webp": "subpackages/knowledge/images/knowledge/knowledge-3.webp",
+      "before": 185398,
+      "after": 27930,
+      "saved": 157468
+    },
+    {
+      "src": "subpackages/knowledge/images/knowledge/knowledge-4.png",
+      "webp": "subpackages/knowledge/images/knowledge/knowledge-4.webp",
+      "before": 198158,
+      "after": 25306,
+      "saved": 172852
+    },
+    {
+      "src": "subpackages/knowledge/images/knowledge/knowledge-5.png",
+      "webp": "subpackages/knowledge/images/knowledge/knowledge-5.webp",
+      "before": 125904,
+      "after": 10464,
+      "saved": 115440
+    },
+    {
+      "src": "subpackages/knowledge/images/knowledge/knowledge-6.png",
+      "webp": "subpackages/knowledge/images/knowledge/knowledge-6.webp",
+      "before": 107340,
+      "after": 16806,
+      "saved": 90534
+    },
+    {
+      "src": "subpackages/tips/images/tips/tips-1.png",
+      "webp": "subpackages/tips/images/tips/tips-1.webp",
+      "before": 80091,
+      "after": 5538,
+      "saved": 74553
+    },
+    {
+      "src": "subpackages/tips/images/tips/tips-2.png",
+      "webp": "subpackages/tips/images/tips/tips-2.webp",
+      "before": 124029,
+      "after": 10522,
+      "saved": 113507
+    },
+    {
+      "src": "subpackages/tips/images/tips/tips-3.png",
+      "webp": "subpackages/tips/images/tips/tips-3.webp",
+      "before": 133829,
+      "after": 12558,
+      "saved": 121271
+    },
+    {
+      "src": "subpackages/tips/images/tips/tips-4.png",
+      "webp": "subpackages/tips/images/tips/tips-4.webp",
+      "before": 187522,
+      "after": 29370,
+      "saved": 158152
+    },
+    {
+      "src": "subpackages/tips/images/tips/tips-5.png",
+      "webp": "subpackages/tips/images/tips/tips-5.webp",
+      "before": 133092,
+      "after": 13198,
+      "saved": 119894
+    },
+    {
+      "src": "subpackages/tips/images/tips/tips-6.png",
+      "webp": "subpackages/tips/images/tips/tips-6.webp",
+      "before": 179419,
+      "after": 18442,
+      "saved": 160977
+    },
+    {
+      "src": "subpackages/exposure/images/exposure/exposure-1.png",
+      "webp": "subpackages/exposure/images/exposure/exposure-1.webp",
+      "before": 83548,
+      "after": 6844,
+      "saved": 76704
+    },
+    {
+      "src": "subpackages/exposure/images/exposure/exposure-2.png",
+      "webp": "subpackages/exposure/images/exposure/exposure-2.webp",
+      "before": 194291,
+      "after": 24674,
+      "saved": 169617
+    },
+    {
+      "src": "subpackages/exposure/images/exposure/exposure-3.png",
+      "webp": "subpackages/exposure/images/exposure/exposure-3.webp",
+      "before": 101124,
+      "after": 10844,
+      "saved": 90280
+    },
+    {
+      "src": "subpackages/exposure/images/exposure/exposure-4.png",
+      "webp": "subpackages/exposure/images/exposure/exposure-4.webp",
+      "before": 133829,
+      "after": 12558,
+      "saved": 121271
+    },
+    {
+      "src": "subpackages/channel/images/channel/avatar-1.png",
+      "webp": "subpackages/channel/images/channel/avatar-1.webp",
+      "before": 1226,
+      "after": 1146,
+      "saved": 80
+    },
+    {
+      "src": "subpackages/channel/images/channel/avatar-2.png",
+      "webp": "subpackages/channel/images/channel/avatar-2.webp",
+      "before": 1226,
+      "after": 902,
+      "saved": 324
+    },
+    {
+      "src": "subpackages/channel/images/channel/avatar-3.png",
+      "webp": "subpackages/channel/images/channel/avatar-3.webp",
+      "before": 1232,
+      "after": 946,
+      "saved": 286
+    },
+    {
+      "src": "subpackages/channel/images/channel/avatar-4.png",
+      "webp": "subpackages/channel/images/channel/avatar-4.webp",
+      "before": 1231,
+      "after": 1046,
+      "saved": 185
+    },
+    {
+      "src": "subpackages/cases/images/cases/case-1.png",
+      "webp": "subpackages/cases/images/cases/case-1.webp",
+      "before": 157721,
+      "after": 16656,
+      "saved": 141065
+    },
+    {
+      "src": "subpackages/cases/images/cases/case-2.png",
+      "webp": "subpackages/cases/images/cases/case-2.webp",
+      "before": 192974,
+      "after": 23812,
+      "saved": 169162
+    },
+    {
+      "src": "subpackages/cases/images/cases/case-3.png",
+      "webp": "subpackages/cases/images/cases/case-3.webp",
+      "before": 104031,
+      "after": 8374,
+      "saved": 95657
+    },
+    {
+      "src": "subpackages/intake/images/intake/archive.png",
+      "webp": "subpackages/intake/images/intake/archive.webp",
+      "before": 46596,
+      "after": 5796,
+      "saved": 40800
+    },
+    {
+      "src": "subpackages/intake/images/intake/audit.png",
+      "webp": "subpackages/intake/images/intake/audit.webp",
+      "before": 81960,
+      "after": 10804,
+      "saved": 71156
+    },
+    {
+      "src": "subpackages/intake/images/intake/basic.png",
+      "webp": "subpackages/intake/images/intake/basic.webp",
+      "before": 64135,
+      "after": 6180,
+      "saved": 57955
+    },
+    {
+      "src": "subpackages/intake/images/intake/collection.png",
+      "webp": "subpackages/intake/images/intake/collection.webp",
+      "before": 60208,
+      "after": 7208,
+      "saved": 53000
+    },
+    {
+      "src": "subpackages/intake/images/intake/contacts.png",
+      "webp": "subpackages/intake/images/intake/contacts.webp",
+      "before": 55147,
+      "after": 6082,
+      "saved": 49065
+    },
+    {
+      "src": "subpackages/intake/images/intake/disburse.png",
+      "webp": "subpackages/intake/images/intake/disburse.webp",
+      "before": 69370,
+      "after": 8064,
+      "saved": 61306
+    },
+    {
+      "src": "subpackages/intake/images/intake/finance.png",
+      "webp": "subpackages/intake/images/intake/finance.webp",
+      "before": 40620,
+      "after": 4058,
+      "saved": 36562
+    },
+    {
+      "src": "subpackages/intake/images/intake/income.png",
+      "webp": "subpackages/intake/images/intake/income.webp",
+      "before": 35144,
+      "after": 3184,
+      "saved": 31960
+    },
+    {
+      "src": "subpackages/intake/images/intake/personal.png",
+      "webp": "subpackages/intake/images/intake/personal.webp",
+      "before": 55333,
+      "after": 5136,
+      "saved": 50197
+    },
+    {
+      "src": "subpackages/intake/images/intake/upload.png",
+      "webp": "subpackages/intake/images/intake/upload.webp",
+      "before": 54645,
+      "after": 5342,
+      "saved": 49303
+    },
+    {
+      "src": "subpackages/intake/images/intake/vehicle.png",
+      "webp": "subpackages/intake/images/intake/vehicle.webp",
+      "before": 37760,
+      "after": 3560,
+      "saved": 34200
+    },
+    {
+      "src": "subpackages/intake/images/intake/work.png",
+      "webp": "subpackages/intake/images/intake/work.webp",
+      "before": 79873,
+      "after": 11566,
+      "saved": 68307
+    },
+    {
+      "src": "subpackages/autoFinance/images/warranty-basic.png",
+      "webp": "subpackages/autoFinance/images/warranty-basic.webp",
+      "before": 163545,
+      "after": 16668,
+      "saved": 146877
+    },
+    {
+      "src": "subpackages/autoFinance/images/warranty-premium.png",
+      "webp": "subpackages/autoFinance/images/warranty-premium.webp",
+      "before": 128511,
+      "after": 15118,
+      "saved": 113393
+    }
+  ],
+  "removed": [
+    "images/banner1.png",
+    "images/banner2.png",
+    "images/banner3.png",
+    "images/fingerprint.png",
+    "subpackages/product/images/products/product-1.png",
+    "subpackages/product/images/products/product-10.png",
+    "subpackages/product/images/products/product-2.png",
+    "subpackages/product/images/products/product-3.png",
+    "subpackages/product/images/products/product-4.png",
+    "subpackages/product/images/products/product-5.png",
+    "subpackages/product/images/products/product-6.png",
+    "subpackages/product/images/products/product-7.png",
+    "subpackages/product/images/products/product-8.png",
+    "subpackages/product/images/products/product-9.png",
+    "subpackages/news/images/news/news-1.png",
+    "subpackages/news/images/news/news-2.png",
+    "subpackages/news/images/news/news-3.png",
+    "subpackages/news/images/news/news-4.png",
+    "subpackages/news/images/news/news-5.png",
+    "subpackages/news/images/news/news-6.png",
+    "subpackages/cars/images/cars/car-1.png",
+    "subpackages/cars/images/cars/car-2.png",
+    "subpackages/cars/images/cars/car-3.png",
+    "subpackages/cars/images/cars/car-4.png",
+    "subpackages/cars/images/cars/car-5.png",
+    "subpackages/cars/images/cars/car-6.png",
+    "subpackages/knowledge/images/knowledge/knowledge-1.png",
+    "subpackages/knowledge/images/knowledge/knowledge-2.png",
+    "subpackages/knowledge/images/knowledge/knowledge-3.png",
+    "subpackages/knowledge/images/knowledge/knowledge-4.png",
+    "subpackages/knowledge/images/knowledge/knowledge-5.png",
+    "subpackages/knowledge/images/knowledge/knowledge-6.png",
+    "subpackages/tips/images/tips/tips-1.png",
+    "subpackages/tips/images/tips/tips-2.png",
+    "subpackages/tips/images/tips/tips-3.png",
+    "subpackages/tips/images/tips/tips-4.png",
+    "subpackages/tips/images/tips/tips-5.png",
+    "subpackages/tips/images/tips/tips-6.png",
+    "subpackages/exposure/images/exposure/exposure-1.png",
+    "subpackages/exposure/images/exposure/exposure-2.png",
+    "subpackages/exposure/images/exposure/exposure-3.png",
+    "subpackages/exposure/images/exposure/exposure-4.png",
+    "subpackages/channel/images/channel/avatar-1.png",
+    "subpackages/channel/images/channel/avatar-2.png",
+    "subpackages/channel/images/channel/avatar-3.png",
+    "subpackages/channel/images/channel/avatar-4.png",
+    "subpackages/cases/images/cases/case-1.png",
+    "subpackages/cases/images/cases/case-2.png",
+    "subpackages/cases/images/cases/case-3.png",
+    "subpackages/intake/images/intake/archive.png",
+    "subpackages/intake/images/intake/audit.png",
+    "subpackages/intake/images/intake/basic.png",
+    "subpackages/intake/images/intake/collection.png",
+    "subpackages/intake/images/intake/contacts.png",
+    "subpackages/intake/images/intake/disburse.png",
+    "subpackages/intake/images/intake/finance.png",
+    "subpackages/intake/images/intake/income.png",
+    "subpackages/intake/images/intake/personal.png",
+    "subpackages/intake/images/intake/upload.png",
+    "subpackages/intake/images/intake/vehicle.png",
+    "subpackages/intake/images/intake/work.png",
+    "subpackages/autoFinance/images/warranty-basic.png",
+    "subpackages/autoFinance/images/warranty-premium.png"
+  ]
+}

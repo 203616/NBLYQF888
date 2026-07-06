@@ -1,0 +1,44 @@
+<view class="apply-page page-shell">
+  <view class="apply-hero premium-hero">
+    <view class="premium-hero-body">
+      <text class="premium-badge">渠道入驻</text>
+      <text class="premium-hero-title">申请入驻</text>
+      <text class="premium-hero-sub">填写团队信息，亮叶企服将在1个工作日内联系您</text>
+    </view>
+  </view>
+
+  <view class="steps glass-card">
+    <view class="step-item" wx:for="{{steps}}" wx:key="title">
+      <text class="step-num">{{index + 1}}</text>
+      <view>
+        <text class="step-title">{{item.title}}</text>
+        <text class="step-desc">{{item.desc}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="form-card glass-card">
+    <view class="field">
+      <text class="label">机构/团队名称</text>
+      <input data-field="name" value="{{form.name}}" bindinput="handleInput" placeholder="请输入名称" />
+    </view>
+    <view class="field">
+      <text class="label">所在城市</text>
+      <input data-field="city" value="{{form.city}}" bindinput="handleInput" placeholder="请输入城市" />
+    </view>
+    <view class="field">
+      <text class="label">联系方式</text>
+      <input data-field="contact" value="{{form.contact}}" bindinput="handleInput" placeholder="手机号/微信号" />
+    </view>
+    <view class="field">
+      <text class="label">擅长领域</text>
+      <input data-field="specialty" value="{{form.specialty}}" bindinput="handleInput" placeholder="如汽车金融、企业贷" />
+    </view>
+    <view class="field column">
+      <text class="label">团队介绍</text>
+      <textarea data-field="intro" value="{{form.intro}}" bindinput="handleInput" placeholder="简要介绍团队优势与服务范围" maxlength="500" />
+    </view>
+    <button class="submit-btn btn-gold" loading="{{submitting}}" bindtap="handleSubmit">提交申请</button>
+    <text class="compliance">亮叶企服仅提供合规信息撮合服务，渠道入驻不收取任何前置费用。</text>
+  </view>
+</view>

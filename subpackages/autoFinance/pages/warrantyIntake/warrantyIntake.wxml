@@ -1,0 +1,62 @@
+<view class="warranty-intake page-shell">
+  <view class="step-bar">
+    <block wx:for="{{steps}}" wx:key="*this">
+      <text class="step-item {{step === index ? 'active' : ''}}">{{index + 1}}.{{item}}</text>
+    </block>
+  </view>
+
+  <view class="panel glass-card" wx:if="{{step === 0}}">
+    <text class="panel-title">车辆信息</text>
+    <input class="field" placeholder="品牌" data-field="brand" bindinput="onInput" value="{{form.brand}}" />
+    <input class="field" placeholder="具体车型" data-field="model" bindinput="onInput" value="{{form.model}}" />
+    <input class="field" placeholder="具体车款" data-field="trim" bindinput="onInput" value="{{form.trim}}" />
+    <input class="field" placeholder="年份" data-field="year" bindinput="onInput" value="{{form.year}}" />
+    <input class="field" placeholder="开票价(元)" data-field="invoicePrice" bindinput="onInput" value="{{form.invoicePrice}}" />
+    <input class="field" placeholder="购买时间" data-field="purchaseDate" bindinput="onInput" value="{{form.purchaseDate}}" />
+    <input class="field" placeholder="上牌地" data-field="registerCity" bindinput="onInput" value="{{form.registerCity}}" />
+    <input class="field" placeholder="车牌号" data-field="plateNo" bindinput="onInput" value="{{form.plateNo}}" />
+    <input class="field" placeholder="融资金额" data-field="financeAmount" bindinput="onInput" value="{{form.financeAmount}}" />
+    <view class="photo-row" data-key="vehicle" bindtap="choosePhoto">上传车辆照片 {{photos.vehicle ? '✓' : '+'}}</view>
+  </view>
+
+  <view class="panel glass-card" wx:if="{{step === 1}}">
+    <text class="panel-title">保险信息</text>
+    <input class="field" placeholder="交强险到期" data-field="compulsoryExpiry" bindinput="onInput" />
+    <input class="field" placeholder="商业险到期" data-field="commercialExpiry" bindinput="onInput" />
+    <input class="field" placeholder="商业险险种与保额" data-field="commercialItems" bindinput="onInput" />
+    <view class="photo-row" data-key="insurance" bindtap="choosePhoto">上传保单照片 {{photos.insurance ? '✓' : '+'}}</view>
+  </view>
+
+  <view class="panel glass-card" wx:if="{{step === 2}}">
+    <text class="panel-title">车主信息</text>
+    <input class="field" placeholder="姓名" data-field="ownerName" bindinput="onInput" />
+    <input class="field" placeholder="电话" data-field="phone" bindinput="onInput" />
+    <input class="field" placeholder="联系地址" data-field="address" bindinput="onInput" />
+    <input class="field" placeholder="紧急联系人" data-field="emergencyContact" bindinput="onInput" />
+    <input class="field" placeholder="进件渠道(可选)" data-field="channel" bindinput="onInput" value="{{form.channel}}" />
+    <input class="field" placeholder="业务员(可选)" data-field="salesName" bindinput="onInput" />
+  </view>
+
+  <view class="panel glass-card" wx:if="{{step === 3}}">
+    <text class="panel-title">延保产品</text>
+    <text class="plan-desc">当前套餐：{{form.planId}} · 保障范围以合同为准</text>
+    <button class="btn-outline" bindtap="reportAccident">事故报备 · 一键预警</button>
+  </view>
+
+  <view class="panel glass-card" wx:if="{{step === 4}}">
+    <text class="panel-title">合同与理赔</text>
+    <button class="btn-outline" bindtap="previewContract">预览延保合同</button>
+    <button class="btn-outline" bindtap="downloadContract">下载 PDF 合同</button>
+    <button class="btn-outline" bindtap="reportAccident">前往理赔申请</button>
+    <text class="hint">理赔：故障报修→客服核实→合作网点检修→按合同范围处理</text>
+    <view class="contract-preview" wx:if="{{contractPreview}}">
+      <text>{{contractPreview}}</text>
+    </view>
+  </view>
+
+  <view class="actions">
+    <button wx:if="{{step > 0}}" class="btn-outline" bindtap="prevStep">上一步</button>
+    <button wx:if="{{step < steps.length - 1}}" class="btn-gold" bindtap="nextStep">下一步</button>
+    <button wx:if="{{step === steps.length - 1}}" class="btn-gold" bindtap="submitApplication">提交延保申请</button>
+  </view>
+</view>

@@ -1,0 +1,13 @@
+<view class="privacy-page page-shell">
+  <view class="privacy-header glass-card">
+    <text class="privacy-title">{{title}}</text>
+    <text class="privacy-update">更新日期：2025-07-01</text>
+  </view>
+  <block wx:for="{{sections}}" wx:key="heading">
+    <view class="section glass-card">
+      <text class="section-heading">{{item.heading}}</text>
+      <text class="section-body">{{item.body}}</text>
+    </view>
+  </block>
+  <view class="footer-note">亮叶企服 · 金融信息咨询与居间撮合平台</view>
+</view>

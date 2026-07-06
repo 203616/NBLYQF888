@@ -1,0 +1,66 @@
+<view class="channel-page page-shell">
+  <view class="channel-hero premium-hero">
+    <safe-image className="premium-hero-bg" src="/images/banner3.webp" mode="aspectFill" />
+    <view class="premium-hero-body">
+      <text class="premium-badge">渠道协作</text>
+      <text class="premium-hero-title">助融渠道</text>
+      <text class="premium-hero-sub">零成本入驻 · 本地撮合 · 合规助融信息协作</text>
+      <button class="hero-btn" bindtap="navigateToApply">申请入驻</button>
+    </view>
+  </view>
+
+  <view class="location-bar glass-card" bindtap="handleChooseCity">
+    <image src="/images/icon/location.png" class="loc-icon" />
+    <text>{{location.city || '定位中'}} · 附近渠道</text>
+    <text class="loc-arrow">›</text>
+  </view>
+
+  <view class="stat-row">
+    <view class="stat-item glass-card" wx:for="{{stats}}" wx:key="label">
+      <text class="stat-num">{{item.value}}</text>
+      <text class="stat-label">{{item.label}}</text>
+    </view>
+  </view>
+
+  <view class="filter-tabs">
+    <text class="filter-tab {{activeTag === 'all' ? 'active' : ''}}" data-tag="all" bindtap="switchTag">全部</text>
+    <text class="filter-tab {{activeTag === '汽车金融' ? 'active' : ''}}" data-tag="汽车金融" bindtap="switchTag">汽车金融</text>
+    <text class="filter-tab {{activeTag === '企业贷' ? 'active' : ''}}" data-tag="企业贷" bindtap="switchTag">企业贷</text>
+    <text class="filter-tab {{activeTag === '官方' ? 'active' : ''}}" data-tag="官方" bindtap="switchTag">官方</text>
+  </view>
+
+  <block wx:for="{{filteredPartners}}" wx:key="id">
+    <view class="partner-card glass-card">
+      <view class="partner-top">
+        <safe-image className="avatar" src="{{item.avatar}}" mode="aspectFill" />
+        <view class="partner-body">
+          <view class="head">
+            <text class="name">{{item.name}}</text>
+            <text class="verified" wx:if="{{item.verified}}">已认证</text>
+          </view>
+          <view class="score-row">
+            <text class="score">⭐ {{item.score}}</text>
+            <text class="cases">案例 {{item.cases}}</text>
+          </view>
+          <text class="meta">{{item.city}} · {{item.contact}}</text>
+        </view>
+      </view>
+      <text class="desc">{{item.desc}}</text>
+      <view class="tags">
+        <block wx:for="{{item.tags}}" wx:key="*this" wx:for-item="tag">
+          <text class="tag">{{tag}}</text>
+        </block>
+      </view>
+      <view class="partner-actions">
+        <button class="btn-outline" size="mini" data-id="{{item.id}}" bindtap="contactPartner">联系渠道</button>
+        <button class="btn-gold" size="mini" data-id="{{item.id}}" bindtap="goIntake">提交进件</button>
+      </view>
+    </view>
+  </block>
+
+  <view class="empty glass-card" wx:if="{{!loading && filteredPartners.length === 0}}">
+    <text>当前城市暂无匹配渠道，可切换城市或联系官方客服</text>
+  </view>
+
+  <button class="service-btn btn-gold" bindtap="navigateToService">联系官方智能客服</button>
+</view>

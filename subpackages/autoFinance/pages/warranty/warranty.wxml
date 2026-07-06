@@ -1,0 +1,115 @@
+<view class="warranty-page" wx:if="{{plan}}">
+  <view class="warranty-hero">
+    <safe-image src="{{plan.cover}}" className="warranty-hero-img" mode="aspectFill" />
+    <view class="warranty-hero-mask"></view>
+    <view class="warranty-hero-body">
+      <text class="warranty-badge">延保服务专区</text>
+      <text class="warranty-hero-title">汽车延保保障</text>
+      <text class="warranty-hero-sub">延长质保 · 道路救援 · 专属顾问 · 检测预约一站式服务</text>
+    </view>
+  </view>
+
+  <view class="plan-tabs glass-card">
+    <block wx:for="{{plans}}" wx:key="id">
+      <view class="plan-tab {{activePlanId === item.id ? 'active' : ''}}" data-id="{{item.id}}" bindtap="switchPlan">
+        <text class="plan-tab-name">{{item.name}}</text>
+        <text class="plan-tab-price">{{item.price}}</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="stat-row">
+    <view class="stat-item glass-card" wx:for="{{highlights}}" wx:key="label">
+      <text class="stat-num">{{item.value}}</text>
+      <text class="stat-label">{{item.label}}</text>
+    </view>
+  </view>
+
+  <view class="section-block">
+    <view class="section-head">
+      <text class="section-head-title">{{plan.name}}</text>
+      <text class="plan-price-tag">{{plan.price}}</text>
+    </view>
+    <view class="plan-card glass-card">
+      <text class="plan-intro">{{plan.intro}}</text>
+      <view class="benefit-list">
+        <block wx:for="{{plan.items}}" wx:key="*this">
+          <view class="benefit-row">
+            <text class="benefit-check">✓</text>
+            <text class="benefit-text">{{item}}</text>
+          </view>
+        </block>
+      </view>
+      <view class="coverage-tags">
+        <text class="coverage-tag" wx:for="{{plan.coverage}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-block">
+    <view class="section-head">
+      <text class="section-head-title">套餐对比</text>
+    </view>
+    <view class="compare-card glass-card">
+      <view class="compare-header">
+        <text class="compare-col">保障项目</text>
+        <text class="compare-col">基础版</text>
+        <text class="compare-col">全面版</text>
+      </view>
+      <block wx:for="{{compareRows}}" wx:key="name">
+        <view class="compare-row">
+          <text class="compare-col name">{{item.name}}</text>
+          <text class="compare-col">{{item.basic}}</text>
+          <text class="compare-col">{{item.premium}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <view class="section-block">
+    <view class="section-head">
+      <text class="section-head-title">服务流程</text>
+    </view>
+    <view class="process-card glass-card">
+      <block wx:for="{{serviceFlow}}" wx:key="title">
+        <view class="flow-item">
+          <view class="flow-index">{{index + 1}}</view>
+          <view class="flow-body">
+            <text class="flow-title">{{item.title}}</text>
+            <text class="flow-desc">{{item.desc}}</text>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <view class="section-block">
+    <view class="section-head">
+      <text class="section-head-title">常见问题</text>
+    </view>
+    <view class="faq-card glass-card">
+      <block wx:for="{{faqs}}" wx:key="q">
+        <view class="faq-item">
+          <text class="faq-q">Q：{{item.q}}</text>
+          <text class="faq-a">{{item.a}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <view class="apply-card glass-card">
+    <text class="apply-title">预约延保咨询</text>
+    <text class="apply-desc">留下联系方式，顾问将协助您完成车辆检测与套餐选择</text>
+    <input class="apply-input" type="number" maxlength="11" placeholder="请输入手机号" value="{{contact}}" bindinput="handleInput" />
+    <view class="apply-actions">
+      <button class="btn-outline" bindtap="contactService">咨询客服</button>
+      <button class="btn-outline" bindtap="goClaim">理赔申请</button>
+      <button class="btn-gold" loading="{{submitting}}" bindtap="handleApply">立即申请延保</button>
+    </view>
+  </view>
+
+  <view class="compliance-tip">
+    <text>{{plan.complianceNote}}</text>
+    <text>延保服务由合作服务商提供，保障范围、免责条款以服务合同为准。</text>
+  </view>
+</view>

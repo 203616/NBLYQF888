@@ -1,0 +1,72 @@
+<view class="page-shell intake-index">
+  <view class="premium-hero">
+    <safe-image className="premium-hero-bg" src="{{systemMeta.heroImage}}" mode="aspectFill" />
+    <view class="premium-hero-body">
+      <text class="premium-badge">{{systemMeta.badge}}</text>
+      <text class="premium-hero-title">{{systemMeta.title}}</text>
+      <text class="premium-hero-sub">{{systemMeta.subtitle}}</text>
+      <text class="app-no">进件编号：{{meta.applicationNo}}</text>
+    </view>
+  </view>
+
+  <view class="stat-row">
+    <view class="stat-item"><text class="stat-num">{{progress}}%</text><text class="stat-label">完成进度</text></view>
+    <view class="stat-item"><text class="stat-num">{{fillModules.length}}</text><text class="stat-label">填报模块</text></view>
+    <view class="stat-item"><text class="stat-num">{{viewModules.length}}</text><text class="stat-label">查看模块</text></view>
+  </view>
+
+  <view class="progress-card glass-card">
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{progress}}%"></view>
+    </view>
+    <text class="progress-tip">{{meta.lastSyncedAt ? '已同步云端 · 支持消息通知' : '联网后将自动同步至后台'}}</text>
+    <text class="demand-link-tip" wx:if="{{meta.demandId}}">关联易融圈需求：{{meta.demandTitle || meta.demandId}}</text>
+  </view>
+
+  <view class="intro-card">
+    <text class="intro-title">填报指引</text>
+    <text class="intro-line">① 完成征信查询授权（01模块）</text>
+    <text class="intro-line">② 完善基本信息、个人信息与必传资料</text>
+    <text class="intro-line">③ 提交审核并跟踪机构独立审批进度</text>
+  </view>
+
+  <view class="module-section-title">材料填报</view>
+  <view class="module-list">
+    <block wx:for="{{fillModules}}" wx:key="id">
+      <view class="module-card" data-path="{{item.path}}" bindtap="navigateModule">
+        <image class="module-icon" src="{{item.icon}}" mode="aspectFit" />
+        <view class="module-body">
+          <view class="module-head">
+            <text class="module-title">{{item.title}}</text>
+            <text class="status-tag status-{{item.status}}">{{item.status === 'done' ? '已完成' : item.status === 'processing' ? '进行中' : '待完善'}}</text>
+          </view>
+          <text class="module-desc">{{item.desc}}</text>
+        </view>
+        <text class="arrow">›</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="module-section-title">进度查看（仅查看）</view>
+  <view class="module-list">
+    <block wx:for="{{viewModules}}" wx:key="id">
+      <view class="module-card view-card" data-path="{{item.path}}" bindtap="navigateModule">
+        <image class="module-icon" src="{{item.icon}}" mode="aspectFit" />
+        <view class="module-body">
+          <view class="module-head">
+            <text class="module-title">{{item.title}}</text>
+            <text class="status-tag status-{{item.status}}">{{item.statusText}}</text>
+          </view>
+          <text class="module-desc">{{item.desc}}</text>
+        </view>
+        <text class="arrow">›</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="action-row">
+    <button class="export-btn btn-outline" bindtap="handleExportPdf">导出进件 PDF</button>
+    <button class="submit-btn btn-gold" bindtap="handleSubmit">提交审核 · 订阅进度通知</button>
+  </view>
+  <view class="compliance-tip">本平台仅提供材料管理与信息撮合，不承诺审批结果</view>
+</view>

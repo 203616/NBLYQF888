@@ -1,0 +1,9 @@
+<image
+  class="{{className}}"
+  src="{{currentSrc}}"
+  mode="{{mode}}"
+  lazy-load="{{lazyLoad}}"
+  show-menu-by-longpress="{{showMenuByLongpress}}"
+  binderror="onError"
+  bindtap="onTap"
+/>

@@ -1,0 +1,27 @@
+.search-page { padding-bottom: 40rpx; }
+.search-header { display: flex; align-items: center; gap: 16rpx; padding: 16rpx 20rpx; margin-bottom: 20rpx; }
+.search-box { flex: 1; display: flex; align-items: center; gap: 12rpx; background: #f7f9fc; border-radius: 999rpx; padding: 12rpx 20rpx; }
+.search-box input { flex: 1; font-size: 28rpx; }
+.cancel { font-size: 28rpx; color: var(--color-primary); flex-shrink: 0; }
+.stat-row { margin-bottom: 20rpx; }
+.stat-item { text-align: center; padding: 16rpx; }
+.stat-num { display: block; font-size: 32rpx; font-weight: 700; color: var(--color-primary); }
+.stat-label { display: block; font-size: 22rpx; color: var(--color-text-muted); }
+.filter-tabs { display: flex; gap: 12rpx; margin-bottom: 20rpx; flex-wrap: wrap; }
+.filter-tab { font-size: 24rpx; padding: 10rpx 22rpx; border-radius: 999rpx; background: #fff; color: #666; box-shadow: var(--shadow-card); }
+.filter-tab.active { background: var(--gradient-hero); color: #fff; }
+.result-card { padding: 24rpx 28rpx; margin-bottom: 16rpx; }
+.result-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10rpx; }
+.type-tag { font-size: 20rpx; padding: 4rpx 14rpx; border-radius: 999rpx; background: var(--color-primary-bg); color: var(--color-primary); }
+.type-product { background: #E6F2EC; color: #0F3D2E; }
+.type-news { background: #E8F4FD; color: #1a6bb5; }
+.type-knowledge { background: #FFF3E0; color: #c77a00; }
+.type-tips { background: #FDECEC; color: #c0392b; }
+.title { display: block; font-size: 28rpx; font-weight: 600; color: var(--color-text-primary); }
+.desc { display: block; font-size: 24rpx; color: var(--color-text-muted); margin-top: 8rpx; line-height: 1.5; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.arrow { color: #ccc; font-size: 32rpx; }
+.empty-result { text-align: center; padding: 80rpx 40rpx; }
+.empty-icon { display: block; font-size: 64rpx; margin-bottom: 16rpx; }
+.empty-text { display: block; font-size: 30rpx; font-weight: 600; }
+.empty-tip { display: block; font-size: 24rpx; color: var(--color-text-muted); margin: 12rpx 0 24rpx; }
+.empty-result button { width: 60%; border-radius: 999rpx; }

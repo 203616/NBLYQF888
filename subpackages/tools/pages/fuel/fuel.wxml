@@ -1,0 +1,39 @@
+<view class="tool-page page-shell">
+  <view class="tool-hero premium-hero">
+    <view class="premium-hero-body">
+      <text class="premium-badge">车主工具</text>
+      <text class="premium-hero-title">油价查询</text>
+      <text class="premium-hero-sub">92# · 95# · 0#柴油参考价格</text>
+    </view>
+  </view>
+
+  <view class="location-bar glass-card" bindtap="handleChooseCity">
+    <image src="/images/icon/location.png" class="loc-icon" />
+    <text>{{location.city || '定位中'}} · 点击切换</text>
+    <text class="loc-arrow">›</text>
+  </view>
+
+  <view class="price-card glass-card" wx:if="{{fuelData}}">
+    <text class="card-title">{{fuelData.current.city}} 油价参考</text>
+    <text class="meta">更新：{{fuelData.updatedAt}}</text>
+    <text class="meta">来源：{{fuelData.sourceName}}</text>
+    <view class="price-grid">
+      <view class="price-item">
+        <text class="fuel-label">92#汽油</text>
+        <text class="fuel-value">{{fuelData.current.gasoline92}}</text>
+        <text class="fuel-unit">元/升</text>
+      </view>
+      <view class="price-item highlight">
+        <text class="fuel-label">95#汽油</text>
+        <text class="fuel-value">{{fuelData.current.gasoline95}}</text>
+        <text class="fuel-unit">元/升</text>
+      </view>
+      <view class="price-item">
+        <text class="fuel-label">0#柴油</text>
+        <text class="fuel-value">{{fuelData.current.diesel0}}</text>
+        <text class="fuel-unit">元/升</text>
+      </view>
+    </view>
+    <text class="compliance">油价数据来自公开信息整理，仅供参考，以加油站实际挂牌价为准。</text>
+  </view>
+</view>

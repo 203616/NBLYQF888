@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "金融计算器",
+  "usingComponents": {
+    "finance-calculator": "/components/finance-calculator/finance-calculator"
+  }
+}

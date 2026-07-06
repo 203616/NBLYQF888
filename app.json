@@ -1,0 +1,274 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/welcome/welcome",
+    "pages/onboarding/onboarding",
+    "pages/home/home",
+    "pages/autoService/autoService",
+    "pages/products/products",
+    "pages/financeCircle/financeCircle",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#0F3D2E",
+    "navigationBarTitleText": "亮叶企服",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F7F9FC",
+    "backgroundTextStyle": "light",
+    "enablePullDownRefresh": false
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#0F3D2E",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页",
+        "iconPath": "images/icon/home.png",
+        "selectedIconPath": "images/icon/home_active.png"
+      },
+      {
+        "pagePath": "pages/autoService/autoService",
+        "text": "汽车企服",
+        "iconPath": "images/icon/car.png",
+        "selectedIconPath": "images/icon/car_active.png"
+      },
+      {
+        "pagePath": "pages/products/products",
+        "text": "产品大全",
+        "iconPath": "images/icon/product.png",
+        "selectedIconPath": "images/icon/product_active.png"
+      },
+      {
+        "pagePath": "pages/financeCircle/financeCircle",
+        "text": "易融圈",
+        "iconPath": "images/icon/finance.png",
+        "selectedIconPath": "images/icon/finance_active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/icon/user.png",
+        "selectedIconPath": "images/icon/user_active.png"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "connectSocket": 20000,
+    "uploadFile": 30000,
+    "downloadFile": 30000
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于展示本地服务机构、好车车源和区域业务数据"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation",
+    "chooseLocation"
+  ],
+  "sitemapLocation": "sitemap.json",
+  "useExtendedLib": {
+    "weui": true
+  },
+  "resizable": true,
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
+  "usingComponents": {
+    "safe-image": "/components/safe-image/safe-image"
+  },
+  "preloadRule": {
+    "pages/home/home": {
+      "network": "all",
+      "packages": ["product", "intake", "autoFinance"]
+    },
+    "pages/autoService/autoService": {
+      "network": "all",
+      "packages": ["autoFinance", "clue", "cars"]
+    },
+    "pages/products/products": {
+      "network": "all",
+      "packages": ["product", "intake"]
+    },
+    "pages/financeCircle/financeCircle": {
+      "network": "all",
+      "packages": ["demand", "social", "channel"]
+    },
+    "pages/profile/profile": {
+      "network": "all",
+      "packages": ["profile", "intake", "service"]
+    }
+  },
+  "subpackages": [
+    {
+      "root": "subpackages/auth",
+      "name": "auth",
+      "pages": [
+        "register/register",
+        "forgot/forgot",
+        "privacy/privacy"
+      ]
+    },
+    {
+      "root": "subpackages/autoFinance",
+      "name": "autoFinance",
+      "pages": [
+        "pages/list/list",
+        "pages/newCar/newCar",
+        "pages/usedCar/usedCar",
+        "pages/carMortgage/carMortgage",
+        "pages/prepayment/prepayment",
+        "pages/warranty/warranty",
+        "pages/warrantyIntake/warrantyIntake",
+        "pages/warrantyClaim/warrantyClaim"
+      ]
+    },
+    {
+      "root": "subpackages/banner",
+      "name": "banner",
+      "pages": [
+        "pages/detail/detail"
+      ]
+    },
+    {
+      "root": "subpackages/clue",
+      "name": "clue",
+      "pages": [
+        "pages/list/list",
+        "pages/detail/detail"
+      ]
+    },
+    {
+      "root": "subpackages/profile",
+      "name": "profile",
+      "pages": [
+        "pages/oa/oa",
+        "pages/docs/docs",
+        "pages/settings/settings",
+        "pages/notifications/notifications"
+      ]
+    },
+    {
+      "root": "subpackages/service",
+      "name": "service",
+      "pages": [
+        "pages/chat/chat"
+      ]
+    },
+    {
+      "root": "subpackages/stats",
+      "name": "stats",
+      "pages": [
+        "pages/region/region"
+      ]
+    },
+    {
+      "root": "subpackages/product",
+      "name": "product",
+      "pages": [
+        "pages/detail/detail"
+      ]
+    },
+    {
+      "root": "subpackages/demand",
+      "name": "demand",
+      "pages": [
+        "pages/detail/detail"
+      ]
+    },
+    {
+      "root": "subpackages/exposure",
+      "name": "exposure",
+      "pages": [
+        "pages/list/list",
+        "pages/detail/detail",
+        "pages/report/report"
+      ]
+    },
+    {
+      "root": "subpackages/knowledge",
+      "name": "knowledge",
+      "pages": [
+        "pages/list/list",
+        "pages/detail/detail"
+      ]
+    },
+    {
+      "root": "subpackages/news",
+      "name": "news",
+      "pages": [
+        "pages/list/list",
+        "pages/detail/detail"
+      ]
+    },
+    {
+      "root": "subpackages/search",
+      "name": "search",
+      "pages": [
+        "pages/result/result"
+      ]
+    },
+    {
+      "root": "subpackages/tips",
+      "name": "tips",
+      "pages": [
+        "pages/list/list",
+        "pages/detail/detail"
+      ]
+    },
+    {
+      "root": "subpackages/tools",
+      "name": "tools",
+      "pages": [
+        "pages/calculator/calculator",
+        "pages/valuation/valuation",
+        "pages/fuel/fuel"
+      ]
+    },
+    {
+      "root": "subpackages/cars",
+      "name": "cars",
+      "pages": [
+        "pages/list/list",
+        "pages/detail/detail"
+      ]
+    },
+    {
+      "root": "subpackages/channel",
+      "name": "channel",
+      "pages": [
+        "pages/list/list",
+        "pages/apply/apply"
+      ]
+    },
+    {
+      "root": "subpackages/intake",
+      "name": "intake",
+      "pages": [
+        "pages/list/list",
+        "pages/index/index",
+        "pages/form/form",
+        "pages/upload/upload",
+        "pages/status/status",
+        "pages/contract/contract"
+      ]
+    },
+    {
+      "root": "subpackages/cases",
+      "name": "cases",
+      "pages": [
+        "pages/detail/detail"
+      ]
+    },
+    {
+      "root": "subpackages/social",
+      "name": "social",
+      "pages": [
+        "pages/feedDetail/feedDetail"
+      ]
+    }
+  ]
+}

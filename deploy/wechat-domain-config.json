@@ -1,0 +1,25 @@
+{
+  "appId": "wxf49b1aeb1d62f227",
+  "appName": "亮叶企服",
+  "updatedAt": "2026-07-06T07:01:17.241Z",
+  "mpAdminUrl": "https://mp.weixin.qq.com → 开发 → 开发管理 → 开发设置 → 服务器域名",
+  "requestDomains": [
+    "https://api.liangyeqf.com"
+  ],
+  "uploadDomains": [
+    "https://api.liangyeqf.com"
+  ],
+  "downloadDomains": [
+    "https://api.liangyeqf.com",
+    "https://cdn.liangyeqf.com"
+  ],
+  "webViewDomains": [
+    "https://data.stats.gov.cn",
+    "https://www.ndrc.gov.cn"
+  ],
+  "notes": [
+    "启用 CDN 图片时，须将 cdn 域名加入 downloadFile 合法域名",
+    "useCdnImages 为 false 时仍可使用本地分包 WebP/PNG，不影响编译",
+    "正式版 request/upload/download 均须 HTTPS"
+  ]
+}

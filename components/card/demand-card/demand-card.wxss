@@ -1,0 +1,40 @@
+.demand-card {
+  background: white;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.05);
+}
+
+.header {
+  border-left: 8rpx solid #0F3D2E;
+  padding-left: 20rpx;
+  margin-bottom: 30rpx;
+}
+
+.header .type {
+  background: #E6F2EC;
+  color: #0F3D2E;
+  padding: 6rpx 15rpx;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+}
+
+.header .title {
+  font-size: 32rpx;
+  font-weight: bold;
+  display: block;
+  margin-top: 15rpx;
+}
+
+.detail .item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+  font-size: 28rpx;
+}
+
+.detail .value {
+  color: #0F3D2E;
+  font-weight: 500;
+}

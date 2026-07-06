@@ -1,0 +1,8 @@
+.privacy-page { padding: 24rpx 32rpx 48rpx; }
+.privacy-header { padding: 32rpx; margin-bottom: 20rpx; }
+.privacy-title { display: block; font-size: 36rpx; font-weight: bold; }
+.privacy-update { display: block; font-size: 24rpx; color: var(--color-text-muted); margin-top: 12rpx; }
+.section { padding: 28rpx; margin-bottom: 16rpx; }
+.section-heading { display: block; font-size: 28rpx; font-weight: bold; margin-bottom: 12rpx; }
+.section-body { font-size: 26rpx; color: var(--color-text-secondary); line-height: 1.8; }
+.footer-note { text-align: center; font-size: 22rpx; color: var(--color-text-muted); margin-top: 32rpx; }

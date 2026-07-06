@@ -1,0 +1,24 @@
+<view class="welcome-page">
+  <safe-image className="welcome-bg" src="/images/banner1.webp" mode="aspectFill" />
+  <view class="welcome-mask"></view>
+
+  <view class="welcome-content">
+    <view class="logo-wrap">
+      <image src="/images/logo.webp" class="logo" mode="aspectFit" />
+      <view class="logo-ring"></view>
+    </view>
+
+    <view class="brand-copy">
+      <text class="premium-badge">金融信息服务平台</text>
+      <text class="brand-title">亮叶企服</text>
+      <view class="divider-gold"></view>
+      <text class="slogan">立足甬江畔 · 专注企业与个人资金方案适配</text>
+    </view>
+  </view>
+
+  <view class="countdown-box glass-card">
+    <text class="countdown-text">{{countdown}} 秒后继续</text>
+    <button class="skip-btn btn-gold" bindtap="handleSkip">立即进入</button>
+    <text class="compliance-mini">居间撮合服务 · 不从事放贷业务</text>
+  </view>
+</view>

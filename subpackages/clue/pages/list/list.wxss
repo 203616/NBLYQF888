@@ -1,0 +1,179 @@
+.clue-page {
+  padding-bottom: 40rpx;
+}
+
+.loc-arrow {
+  margin-left: auto;
+  color: #ccc;
+  font-size: 32rpx;
+}
+
+.clue-hero {
+  margin-bottom: 20rpx;
+  min-height: 200rpx;
+}
+
+.intro-panel {
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.intro-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.intro-desc {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.entry-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.entry-card {
+  text-align: center;
+  padding: 24rpx 12rpx;
+}
+
+.entry-icon {
+  font-size: 40rpx;
+  display: block;
+}
+
+.entry-title {
+  font-size: 24rpx;
+  margin-top: 8rpx;
+}
+
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12rpx;
+  margin-bottom: 20rpx;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 20rpx 8rpx;
+}
+
+.stat-num {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.stat-label {
+  display: block;
+  font-size: 22rpx;
+  color: var(--color-text-muted);
+  margin-top: 4rpx;
+}
+
+.tabs {
+  white-space: nowrap;
+  margin-bottom: 20rpx;
+  display: flex;
+}
+
+.tab {
+  display: inline-block;
+  color: #666;
+  background: #fff;
+  border-radius: 999rpx;
+  padding: 12rpx 28rpx;
+  margin-right: 12rpx;
+  font-size: 24rpx;
+  box-shadow: var(--shadow-card);
+  flex-shrink: 0;
+}
+
+.tab.active {
+  color: #fff;
+  background: var(--gradient-hero);
+}
+
+.clue-card {
+  padding: 24rpx 28rpx;
+  margin-bottom: 16rpx;
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16rpx;
+}
+
+.title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  flex: 1;
+}
+
+.status {
+  color: var(--color-primary);
+  background: var(--color-primary-bg);
+  border-radius: 999rpx;
+  padding: 6rpx 16rpx;
+  font-size: 22rpx;
+  flex-shrink: 0;
+}
+
+.desc {
+  display: block;
+  font-size: 24rpx;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-top: 12rpx;
+}
+
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  font-size: 24rpx;
+  color: var(--color-text-muted);
+  margin-top: 14rpx;
+}
+
+.meta-row.secondary {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.meta-item {
+  white-space: nowrap;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+  margin-top: 14rpx;
+}
+
+.tag {
+  color: var(--color-primary);
+  background: var(--color-primary-bg);
+  border-radius: 999rpx;
+  padding: 6rpx 14rpx;
+  font-size: 22rpx;
+}
+
+.empty {
+  text-align: center;
+  padding: 48rpx 32rpx;
+  font-size: 26rpx;
+  color: var(--color-text-muted);
+}

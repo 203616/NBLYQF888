@@ -1,0 +1,141 @@
+@import '../common/finance-theme.wxss';
+
+.finance-list {
+  padding-bottom: 40rpx;
+}
+
+.product-card {
+  display: flex;
+  align-items: stretch;
+  margin-bottom: 20rpx;
+  overflow: hidden;
+  padding: 0;
+}
+
+.product-cover {
+  width: 180rpx;
+  flex-shrink: 0;
+}
+
+.product-body {
+  flex: 1;
+  padding: 20rpx;
+  min-width: 0;
+}
+
+.product-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 12rpx;
+}
+
+.product-card .icon {
+  width: 56rpx;
+  height: 56rpx;
+  flex-shrink: 0;
+}
+
+.info { flex: 1; min-width: 0; }
+
+.title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: var(--color-text-primary);
+  display: block;
+}
+
+.desc {
+  font-size: 24rpx;
+  color: var(--color-text-muted);
+  margin-top: 8rpx;
+  display: block;
+  line-height: 1.5;
+}
+
+.product-meta {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 10rpx;
+}
+
+.meta-item {
+  font-size: 22rpx;
+  color: var(--color-text-secondary);
+}
+
+.rate {
+  font-size: 22rpx;
+  color: var(--color-primary);
+  margin-top: 8rpx;
+  display: block;
+}
+
+.arrow {
+  align-self: center;
+  color: var(--color-text-muted);
+  font-size: 36rpx;
+  padding-right: 16rpx;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16rpx;
+}
+
+.tool-card {
+  text-align: center;
+  padding: 28rpx 20rpx;
+}
+
+.tool-card .icon {
+  width: 64rpx;
+  height: 64rpx;
+  margin: 0 auto 12rpx;
+}
+
+.tool-card .title {
+  font-size: 28rpx;
+}
+
+.tool-card .desc {
+  font-size: 22rpx;
+  margin-top: 6rpx;
+}
+
+.filter-tabs {
+  white-space: nowrap;
+  margin-bottom: 20rpx;
+}
+
+.filter-tab {
+  display: inline-block;
+  padding: 12rpx 28rpx;
+  margin-right: 12rpx;
+  font-size: 24rpx;
+  background: var(--color-primary-bg);
+  color: var(--color-text-secondary);
+  border-radius: 999rpx;
+}
+
+.filter-tab.active {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.institution {
+  display: block;
+  font-size: 22rpx;
+  color: var(--color-primary);
+  margin: 4rpx 0;
+}
+
+.apply-mini {
+  font-size: 24rpx !important;
+  height: 64rpx !important;
+  line-height: 64rpx !important;
+  padding: 0 24rpx !important;
+  margin-top: 12rpx;
+  width: auto !important;
+  display: inline-block;
+}

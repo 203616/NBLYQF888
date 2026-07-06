@@ -1,0 +1,407 @@
+{
+  "created": [
+    {
+      "webp": "images/banner1.webp",
+      "png": "subpackages/banner/images/banner1.png",
+      "webpSize": 13046,
+      "pngSize": 146064
+    },
+    {
+      "webp": "images/banner2.webp",
+      "png": "subpackages/banner/images/banner2.png",
+      "webpSize": 47968,
+      "pngSize": 414620
+    },
+    {
+      "webp": "images/banner3.webp",
+      "png": "subpackages/banner/images/banner3.png",
+      "webpSize": 13046,
+      "pngSize": 146064
+    },
+    {
+      "webp": "images/logo.webp",
+      "png": "subpackages/banner/images/logo.png",
+      "webpSize": 2996,
+      "pngSize": 24850
+    },
+    {
+      "webp": "images/avatar.webp",
+      "png": "subpackages/banner/images/avatar.png",
+      "webpSize": 1930,
+      "pngSize": 11842
+    },
+    {
+      "webp": "images/fingerprint.webp",
+      "png": "images/fingerprint.png",
+      "webpSize": 356,
+      "pngSize": 1893
+    },
+    {
+      "webp": "images/icon/expose.webp",
+      "png": "images/icon/expose.png",
+      "webpSize": 492,
+      "pngSize": 729
+    },
+    {
+      "webp": "images/icon/news.webp",
+      "png": "images/icon/news.png",
+      "webpSize": 552,
+      "pngSize": 2444
+    },
+    {
+      "webp": "subpackages/autoFinance/images/warranty-basic.webp",
+      "png": "subpackages/autoFinance/images/warranty-basic.png",
+      "webpSize": 16668,
+      "pngSize": 159475
+    },
+    {
+      "webp": "subpackages/autoFinance/images/warranty-premium.webp",
+      "png": "subpackages/autoFinance/images/warranty-premium.png",
+      "webpSize": 15118,
+      "pngSize": 139464
+    },
+    {
+      "webp": "subpackages/cars/images/cars/car-1.webp",
+      "png": "subpackages/cars/images/cars/car-1.png",
+      "webpSize": 12762,
+      "pngSize": 110929
+    },
+    {
+      "webp": "subpackages/cars/images/cars/car-2.webp",
+      "png": "subpackages/cars/images/cars/car-2.png",
+      "webpSize": 8398,
+      "pngSize": 79839
+    },
+    {
+      "webp": "subpackages/cars/images/cars/car-3.webp",
+      "png": "subpackages/cars/images/cars/car-3.png",
+      "webpSize": 20256,
+      "pngSize": 159062
+    },
+    {
+      "webp": "subpackages/cars/images/cars/car-4.webp",
+      "png": "subpackages/cars/images/cars/car-4.png",
+      "webpSize": 25158,
+      "pngSize": 189559
+    },
+    {
+      "webp": "subpackages/cars/images/cars/car-5.webp",
+      "png": "subpackages/cars/images/cars/car-5.png",
+      "webpSize": 7144,
+      "pngSize": 82979
+    },
+    {
+      "webp": "subpackages/cars/images/cars/car-6.webp",
+      "png": "subpackages/cars/images/cars/car-6.png",
+      "webpSize": 7892,
+      "pngSize": 93170
+    },
+    {
+      "webp": "subpackages/cases/images/cases/case-1.webp",
+      "png": "subpackages/cases/images/cases/case-1.png",
+      "webpSize": 16656,
+      "pngSize": 144354
+    },
+    {
+      "webp": "subpackages/cases/images/cases/case-2.webp",
+      "png": "subpackages/cases/images/cases/case-2.png",
+      "webpSize": 23812,
+      "pngSize": 184152
+    },
+    {
+      "webp": "subpackages/cases/images/cases/case-3.webp",
+      "png": "subpackages/cases/images/cases/case-3.png",
+      "webpSize": 8374,
+      "pngSize": 98682
+    },
+    {
+      "webp": "subpackages/channel/images/channel/avatar-1.webp",
+      "png": "subpackages/channel/images/channel/avatar-1.png",
+      "webpSize": 1146,
+      "pngSize": 9705
+    },
+    {
+      "webp": "subpackages/channel/images/channel/avatar-2.webp",
+      "png": "subpackages/channel/images/channel/avatar-2.png",
+      "webpSize": 902,
+      "pngSize": 6812
+    },
+    {
+      "webp": "subpackages/channel/images/channel/avatar-3.webp",
+      "png": "subpackages/channel/images/channel/avatar-3.png",
+      "webpSize": 946,
+      "pngSize": 7545
+    },
+    {
+      "webp": "subpackages/channel/images/channel/avatar-4.webp",
+      "png": "subpackages/channel/images/channel/avatar-4.png",
+      "webpSize": 1046,
+      "pngSize": 9008
+    },
+    {
+      "webp": "subpackages/exposure/images/exposure/exposure-1.webp",
+      "png": "subpackages/exposure/images/exposure/exposure-1.png",
+      "webpSize": 6844,
+      "pngSize": 82871
+    },
+    {
+      "webp": "subpackages/exposure/images/exposure/exposure-2.webp",
+      "png": "subpackages/exposure/images/exposure/exposure-2.png",
+      "webpSize": 24674,
+      "pngSize": 188812
+    },
+    {
+      "webp": "subpackages/exposure/images/exposure/exposure-3.webp",
+      "png": "subpackages/exposure/images/exposure/exposure-3.png",
+      "webpSize": 10844,
+      "pngSize": 94708
+    },
+    {
+      "webp": "subpackages/exposure/images/exposure/exposure-4.webp",
+      "png": "subpackages/exposure/images/exposure/exposure-4.png",
+      "webpSize": 12558,
+      "pngSize": 121424
+    },
+    {
+      "webp": "subpackages/intake/images/intake/archive.webp",
+      "png": "subpackages/intake/images/intake/archive.png",
+      "webpSize": 5796,
+      "pngSize": 45500
+    },
+    {
+      "webp": "subpackages/intake/images/intake/audit.webp",
+      "png": "subpackages/intake/images/intake/audit.png",
+      "webpSize": 10804,
+      "pngSize": 76988
+    },
+    {
+      "webp": "subpackages/intake/images/intake/basic.webp",
+      "png": "subpackages/intake/images/intake/basic.png",
+      "webpSize": 6180,
+      "pngSize": 56606
+    },
+    {
+      "webp": "subpackages/intake/images/intake/collection.webp",
+      "png": "subpackages/intake/images/intake/collection.png",
+      "webpSize": 7208,
+      "pngSize": 59777
+    },
+    {
+      "webp": "subpackages/intake/images/intake/contacts.webp",
+      "png": "subpackages/intake/images/intake/contacts.png",
+      "webpSize": 6082,
+      "pngSize": 51193
+    },
+    {
+      "webp": "subpackages/intake/images/intake/disburse.webp",
+      "png": "subpackages/intake/images/intake/disburse.png",
+      "webpSize": 8064,
+      "pngSize": 68611
+    },
+    {
+      "webp": "subpackages/intake/images/intake/finance.webp",
+      "png": "subpackages/intake/images/intake/finance.png",
+      "webpSize": 4058,
+      "pngSize": 34243
+    },
+    {
+      "webp": "subpackages/intake/images/intake/income.webp",
+      "png": "subpackages/intake/images/intake/income.png",
+      "webpSize": 3184,
+      "pngSize": 27325
+    },
+    {
+      "webp": "subpackages/intake/images/intake/personal.webp",
+      "png": "subpackages/intake/images/intake/personal.png",
+      "webpSize": 5136,
+      "pngSize": 50888
+    },
+    {
+      "webp": "subpackages/intake/images/intake/upload.webp",
+      "png": "subpackages/intake/images/intake/upload.png",
+      "webpSize": 5342,
+      "pngSize": 47613
+    },
+    {
+      "webp": "subpackages/intake/images/intake/vehicle.webp",
+      "png": "subpackages/intake/images/intake/vehicle.png",
+      "webpSize": 3560,
+      "pngSize": 34010
+    },
+    {
+      "webp": "subpackages/intake/images/intake/work.webp",
+      "png": "subpackages/intake/images/intake/work.png",
+      "webpSize": 11566,
+      "pngSize": 79738
+    },
+    {
+      "webp": "subpackages/knowledge/images/knowledge/knowledge-1.webp",
+      "png": "subpackages/knowledge/images/knowledge/knowledge-1.png",
+      "webpSize": 9460,
+      "pngSize": 107406
+    },
+    {
+      "webp": "subpackages/knowledge/images/knowledge/knowledge-2.webp",
+      "png": "subpackages/knowledge/images/knowledge/knowledge-2.png",
+      "webpSize": 18308,
+      "pngSize": 150591
+    },
+    {
+      "webp": "subpackages/knowledge/images/knowledge/knowledge-3.webp",
+      "png": "subpackages/knowledge/images/knowledge/knowledge-3.png",
+      "webpSize": 27930,
+      "pngSize": 193933
+    },
+    {
+      "webp": "subpackages/knowledge/images/knowledge/knowledge-4.webp",
+      "png": "subpackages/knowledge/images/knowledge/knowledge-4.png",
+      "webpSize": 25306,
+      "pngSize": 188208
+    },
+    {
+      "webp": "subpackages/knowledge/images/knowledge/knowledge-5.webp",
+      "png": "subpackages/knowledge/images/knowledge/knowledge-5.png",
+      "webpSize": 10464,
+      "pngSize": 113365
+    },
+    {
+      "webp": "subpackages/knowledge/images/knowledge/knowledge-6.webp",
+      "png": "subpackages/knowledge/images/knowledge/knowledge-6.png",
+      "webpSize": 16806,
+      "pngSize": 122056
+    },
+    {
+      "webp": "subpackages/news/images/news/news-1.webp",
+      "png": "subpackages/news/images/news/news-1.png",
+      "webpSize": 21236,
+      "pngSize": 154422
+    },
+    {
+      "webp": "subpackages/news/images/news/news-2.webp",
+      "png": "subpackages/news/images/news/news-2.png",
+      "webpSize": 11314,
+      "pngSize": 111258
+    },
+    {
+      "webp": "subpackages/news/images/news/news-3.webp",
+      "png": "subpackages/news/images/news/news-3.png",
+      "webpSize": 4840,
+      "pngSize": 68457
+    },
+    {
+      "webp": "subpackages/news/images/news/news-4.webp",
+      "png": "subpackages/news/images/news/news-4.png",
+      "webpSize": 11610,
+      "pngSize": 110955
+    },
+    {
+      "webp": "subpackages/news/images/news/news-5.webp",
+      "png": "subpackages/news/images/news/news-5.png",
+      "webpSize": 38260,
+      "pngSize": 249023
+    },
+    {
+      "webp": "subpackages/news/images/news/news-6.webp",
+      "png": "subpackages/news/images/news/news-6.png",
+      "webpSize": 8470,
+      "pngSize": 69993
+    },
+    {
+      "webp": "subpackages/product/images/products/product-1.webp",
+      "png": "subpackages/product/images/products/product-1.png",
+      "webpSize": 10924,
+      "pngSize": 108819
+    },
+    {
+      "webp": "subpackages/product/images/products/product-10.webp",
+      "png": "subpackages/product/images/products/product-10.png",
+      "webpSize": 8300,
+      "pngSize": 75820
+    },
+    {
+      "webp": "subpackages/product/images/products/product-2.webp",
+      "png": "subpackages/product/images/products/product-2.png",
+      "webpSize": 15146,
+      "pngSize": 140756
+    },
+    {
+      "webp": "subpackages/product/images/products/product-3.webp",
+      "png": "subpackages/product/images/products/product-3.png",
+      "webpSize": 11234,
+      "pngSize": 131361
+    },
+    {
+      "webp": "subpackages/product/images/products/product-4.webp",
+      "png": "subpackages/product/images/products/product-4.png",
+      "webpSize": 12892,
+      "pngSize": 148055
+    },
+    {
+      "webp": "subpackages/product/images/products/product-5.webp",
+      "png": "subpackages/product/images/products/product-5.png",
+      "webpSize": 8736,
+      "pngSize": 111656
+    },
+    {
+      "webp": "subpackages/product/images/products/product-6.webp",
+      "png": "subpackages/product/images/products/product-6.png",
+      "webpSize": 6818,
+      "pngSize": 61688
+    },
+    {
+      "webp": "subpackages/product/images/products/product-7.webp",
+      "png": "subpackages/product/images/products/product-7.png",
+      "webpSize": 26104,
+      "pngSize": 201562
+    },
+    {
+      "webp": "subpackages/product/images/products/product-8.webp",
+      "png": "subpackages/product/images/products/product-8.png",
+      "webpSize": 12748,
+      "pngSize": 112503
+    },
+    {
+      "webp": "subpackages/product/images/products/product-9.webp",
+      "png": "subpackages/product/images/products/product-9.png",
+      "webpSize": 16650,
+      "pngSize": 165239
+    },
+    {
+      "webp": "subpackages/tips/images/tips/tips-1.webp",
+      "png": "subpackages/tips/images/tips/tips-1.png",
+      "webpSize": 5538,
+      "pngSize": 78781
+    },
+    {
+      "webp": "subpackages/tips/images/tips/tips-2.webp",
+      "png": "subpackages/tips/images/tips/tips-2.png",
+      "webpSize": 10522,
+      "pngSize": 107770
+    },
+    {
+      "webp": "subpackages/tips/images/tips/tips-3.webp",
+      "png": "subpackages/tips/images/tips/tips-3.png",
+      "webpSize": 12558,
+      "pngSize": 121424
+    },
+    {
+      "webp": "subpackages/tips/images/tips/tips-4.webp",
+      "png": "subpackages/tips/images/tips/tips-4.png",
+      "webpSize": 29370,
+      "pngSize": 205113
+    },
+    {
+      "webp": "subpackages/tips/images/tips/tips-5.webp",
+      "png": "subpackages/tips/images/tips/tips-5.png",
+      "webpSize": 13198,
+      "pngSize": 119869
+    },
+    {
+      "webp": "subpackages/tips/images/tips/tips-6.webp",
+      "png": "subpackages/tips/images/tips/tips-6.png",
+      "webpSize": 18442,
+      "pngSize": 165213
+    }
+  ],
+  "skipped": []
+}

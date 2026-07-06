@@ -1,0 +1,32 @@
+<view class="news-page page-shell">
+  <view class="news-hero premium-hero">
+    <safe-image className="premium-hero-bg" src="/images/banner2.webp" mode="aspectFill" />
+    <view class="premium-hero-body">
+      <text class="premium-badge">资讯动态</text>
+      <text class="premium-hero-title">行业资讯</text>
+      <text class="premium-hero-sub">政策解读 · 市场动态 · 服务公告</text>
+    </view>
+  </view>
+
+  <view class="search-bar glass-card">
+    <icon type="search" size="16" color="#999" />
+    <input placeholder="搜索行业新闻" value="{{keyword}}" bindinput="onSearchInput" bindconfirm="onSearch" />
+  </view>
+
+  <block wx:for="{{filteredList}}" wx:key="id">
+    <view class="news-card glass-card" bindtap="navigateToDetail" data-id="{{item.id}}">
+      <safe-image src="{{item.cover}}" className="cover" mode="aspectFill" />
+      <view class="news-body">
+        <text class="category">{{item.category}}</text>
+        <text class="title">{{item.title}}</text>
+        <text class="summary">{{item.summary}}</text>
+        <view class="news-footer">
+          <text>{{item.source}}</text>
+          <text>阅读 {{item.views}}</text>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <view class="empty-state glass-card" wx:if="{{!filteredList.length}}">暂无相关资讯</view>
+</view>

@@ -1,0 +1,108 @@
+{
+  "setting": {
+    "es6": true,
+    "postcss": true,
+    "minified": true,
+    "minifywxml": true,
+    "minifywxss": true,
+    "minifyjs": true,
+    "uglifyFileName": false,
+    "enhance": true,
+    "packNpmRelationList": [],
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "useCompilerPlugins": false,
+    "minifyWXML": true,
+    "cacheDisabled": true,
+    "ignoreUploadUnusedFiles": false,
+    "urlCheck": false,
+    "autoResizable": true,
+    "compileWorklet": false,
+    "uploadWithSourceMap": false,
+    "packNpmManually": false,
+    "minifyWXSS": true,
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true
+  },
+  "compileType": "miniprogram",
+  "simulatorPluginLibVersion": {},
+  "packOptions": {
+    "ignore": [
+      {
+        "type": "file",
+        "value": "build.js"
+      },
+      {
+        "type": "file",
+        "value": "checkFonts.js"
+      },
+      {
+        "type": "file",
+        "value": "fix-fonts.js"
+      },
+      {
+        "type": "file",
+        "value": "fix-path-conflict.js"
+      },
+      {
+        "type": "file",
+        "value": "forceRefresh.js"
+      },
+      {
+        "type": "file",
+        "value": "refresh.js"
+      },
+      {
+        "type": "file",
+        "value": "verifyFonts.js"
+      },
+      {
+        "type": "folder",
+        "value": "cloudfunctions"
+      },
+      {
+        "type": "folder",
+        "value": "apps"
+      },
+      {
+        "type": "folder",
+        "value": "node_modules"
+      },
+      {
+        "type": "folder",
+        "value": "scripts"
+      },
+      {
+        "type": "file",
+        "value": "pnpm-lock.yaml"
+      },
+      {
+        "type": "file",
+        "value": "pnpm-workspace.yaml"
+      },
+      {
+        "type": "file",
+        "value": "README.md"
+      },
+      {
+        "type": "file",
+        "value": ".env.example"
+      }
+    ],
+    "include": [
+      {
+        "type": "folder",
+        "value": "images"
+      }
+    ]
+  },
+  "appid": "wxf49b1aeb1d62f227",
+  "editorSetting": {},
+  "libVersion": "3.8.9"
+}

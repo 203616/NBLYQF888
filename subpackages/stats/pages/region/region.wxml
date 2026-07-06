@@ -1,0 +1,95 @@
+<view class="region-page page-shell">
+  <view class="region-hero premium-hero">
+    <safe-image className="premium-hero-bg" src="/images/banner2.webp" mode="aspectFill" />
+    <view class="premium-hero-body">
+      <text class="premium-badge">数据看板</text>
+      <text class="premium-hero-title">地区业务统计</text>
+      <text class="premium-hero-sub">省 · 市 · 区县多级数据概览</text>
+    </view>
+  </view>
+
+  <view class="location-bar glass-card" bindtap="handleChooseCity">
+    <image src="/images/icon/location.png" class="loc-icon" />
+    <text>{{location.city || '定位中'}} · 点击切换城市</text>
+    <text class="loc-arrow">›</text>
+  </view>
+
+  <scroll-view scroll-x class="province-tabs glass-card" wx:if="{{viewLevel === 'city'}}">
+    <block wx:for="{{provinces}}" wx:key="*this">
+      <text class="tab-item {{activeProvince === item ? 'active' : ''}}" data-province="{{item}}" bindtap="switchProvince">{{item}}</text>
+    </block>
+  </scroll-view>
+
+  <view class="current-card glass-card" wx:if="{{currentCity && viewLevel === 'city'}}">
+    <text class="current-title">{{currentCity.city}} 当前概览</text>
+    <view class="metric-grid">
+      <view class="metric-item"><text class="metric-value">{{currentCity.clues}}</text><text class="metric-label">线索</text></view>
+      <view class="metric-item"><text class="metric-value">{{currentCity.demands}}</text><text class="metric-label">需求</text></view>
+      <view class="metric-item"><text class="metric-value">{{currentCity.applications}}</text><text class="metric-label">申请</text></view>
+    </view>
+  </view>
+
+  <view class="district-header glass-card" wx:if="{{viewLevel === 'district'}}">
+    <text class="back-link" bindtap="backToCity">‹ 返回城市列表</text>
+    <text class="current-title">{{selectedCity}} 区县明细</text>
+  </view>
+
+  <view class="source-card glass-card">
+    <text>更新时间：{{updatedAt}}</text>
+    <text>数据来源：{{source}}</text>
+  </view>
+
+  <block wx:if="{{viewLevel === 'city'}}">
+    <block wx:for="{{list}}" wx:key="city">
+      <view class="region-card glass-card" wx:if="{{activeProvince === '全部' || item.province === activeProvince}}" data-city="{{item.city}}" bindtap="selectCity">
+        <view class="region-head">
+          <text class="region-name">{{item.province}} {{item.city}}</text>
+          <text class="region-drill">查看区县 ›</text>
+        </view>
+        <view class="bar">
+          <view class="bar-inner" style="width: {{(item.clues + item.demands + item.applications) * 100 / maxValue}}%;"></view>
+        </view>
+        <view class="metric-grid">
+          <view class="metric-item"><text class="metric-value">{{item.clues}}</text><text class="metric-label">线索</text></view>
+          <view class="metric-item"><text class="metric-value">{{item.demands}}</text><text class="metric-label">需求</text></view>
+          <view class="metric-item"><text class="metric-value">{{item.applications}}</text><text class="metric-label">申请</text></view>
+        </view>
+        <text class="region-source">{{item.sourceName}}</text>
+      </view>
+    </block>
+  </block>
+
+  <block wx:if="{{viewLevel === 'district'}}">
+    <block wx:for="{{districts}}" wx:key="district">
+      <view class="region-card glass-card district-card">
+        <view class="region-head">
+          <text class="region-name">{{item.district}}</text>
+        </view>
+        <view class="bar">
+          <view class="bar-inner district-bar" style="width: {{(item.clues + item.demands + item.applications) * 100 / maxValue}}%;"></view>
+        </view>
+        <view class="metric-grid">
+          <view class="metric-item"><text class="metric-value">{{item.clues}}</text><text class="metric-label">线索</text></view>
+          <view class="metric-item"><text class="metric-value">{{item.demands}}</text><text class="metric-label">需求</text></view>
+          <view class="metric-item"><text class="metric-value">{{item.applications}}</text><text class="metric-label">申请</text></view>
+        </view>
+      </view>
+    </block>
+    <view class="empty-hint glass-card" wx:if="{{!districts.length}}">
+      <text>该城市暂无区县明细数据</text>
+    </view>
+  </block>
+
+  <view class="section glass-card">
+    <text class="section-title">数据来源说明</text>
+    <block wx:for="{{dataSources}}" wx:key="name">
+      <view class="source-item" data-url="{{item.url}}" bindtap="openSource">
+        <view>
+          <text class="source-name">{{item.name}}</text>
+          <text class="source-desc">{{item.desc}}</text>
+        </view>
+        <text class="source-link">{{item.url ? '复制链接' : '内部'}}</text>
+      </view>
+    </block>
+  </view>
+</view>

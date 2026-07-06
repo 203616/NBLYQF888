@@ -1,0 +1,12 @@
+.news-page { padding-bottom: 40rpx; }
+.news-hero { margin-bottom: 20rpx; min-height: 200rpx; }
+.search-bar { display: flex; align-items: center; gap: 12rpx; padding: 18rpx 24rpx; margin-bottom: 20rpx; }
+.search-bar input { flex: 1; font-size: 28rpx; }
+.news-card { display: flex; overflow: hidden; margin-bottom: 16rpx; padding: 0; }
+.cover { width: 200rpx; height: 180rpx; flex-shrink: 0; }
+.news-body { flex: 1; padding: 20rpx; min-width: 0; }
+.category { font-size: 22rpx; color: var(--color-primary); background: var(--color-primary-bg); padding: 4rpx 12rpx; border-radius: 12rpx; }
+.title { display: block; font-size: 28rpx; font-weight: 700; margin-top: 10rpx; color: var(--color-text-primary); }
+.summary { display: block; font-size: 24rpx; color: var(--color-text-muted); margin-top: 8rpx; line-height: 1.5; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.news-footer { display: flex; justify-content: space-between; margin-top: 12rpx; font-size: 22rpx; color: #aaa; }
+.empty-state { text-align: center; padding: 60rpx; font-size: 26rpx; color: var(--color-text-muted); }

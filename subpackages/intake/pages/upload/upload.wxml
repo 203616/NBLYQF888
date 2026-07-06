@@ -1,0 +1,97 @@
+<view class="page-shell upload-page">
+  <view class="upload-hero premium-hero">
+    <safe-image className="premium-hero-bg" src="/subpackages/intake/images/intake/upload.webp" mode="aspectFill" />
+    <view class="premium-hero-body">
+      <text class="premium-badge">阿里云 OCR</text>
+      <text class="premium-hero-title">资料上传</text>
+      <text class="premium-hero-sub">必传 {{requiredDone}}/{{requiredTotal}} · 身份证支持自动识别填入</text>
+    </view>
+  </view>
+
+  <view class="progress-card glass-card">
+    <view class="progress-head">
+      <text class="progress-title">上传进度</text>
+      <text class="progress-pct">{{uploadPercent}}%</text>
+    </view>
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{uploadPercent}}%"></view>
+    </view>
+    <view class="sync-row" wx:if="{{syncing}}">
+      <text class="sync-dot"></text>
+      <text>正在同步云端并识别…</text>
+    </view>
+    <view class="sync-row done" wx:elif="{{cloudSynced}}">
+      <text>✓ 已同步云端</text>
+    </view>
+    <view class="sync-row warn" wx:else>
+      <text>本地已保存，联网后自动同步</text>
+    </view>
+  </view>
+
+  <view class="ocr-summary glass-card" wx:if="{{ocrSummary.length}}">
+    <text class="ocr-summary-title">识别结果摘要</text>
+    <block wx:for="{{ocrSummary}}" wx:key="key">
+      <view class="ocr-summary-row">
+        <text class="ocr-doc">{{item.name}}</text>
+        <text class="ocr-status-tag status-{{item.status}}">{{item.statusText}}</text>
+      </view>
+      <text class="ocr-fields" wx:if="{{item.preview}}">{{item.preview}}</text>
+    </block>
+    <button class="fill-btn btn-gold" wx:if="{{canFillPersonal}}" bindtap="fillPersonalFromOcr">一键填入个人信息</button>
+  </view>
+
+  <view class="upload-list">
+    <block wx:for="{{items}}" wx:key="key">
+      <view class="upload-card glass-card {{item.required ? 'required' : ''}}">
+        <view class="upload-info">
+          <view class="upload-head">
+            <view class="upload-title-row">
+              <text class="upload-name">{{item.name}}<text class="req" wx:if="{{item.required}}">*</text></text>
+              <text class="ocr-badge" wx:if="{{item.ocr}}">OCR</text>
+            </view>
+            <text class="upload-status status-{{item.status}}">{{item.statusText}}</text>
+          </view>
+          <text class="upload-desc">{{item.desc}}</text>
+          <text class="upload-example">示例：{{item.example}}</text>
+
+          <view class="ocr-panel" wx:if="{{item.ocr && item.ocrStatus === 'success' && item.ocrPreview}}">
+            <text class="ocr-panel-title">识别内容</text>
+            <text class="ocr-panel-text">{{item.ocrPreview}}</text>
+          </view>
+          <view class="ocr-panel processing" wx:elif="{{item.ocr && item.ocrStatus === 'processing'}}">
+            <text class="ocr-panel-text">正在调用阿里云 OCR 识别…</text>
+          </view>
+          <view class="ocr-panel failed" wx:elif="{{item.ocr && item.ocrStatus === 'failed'}}">
+            <text class="ocr-panel-text">识别失败，请重新拍摄清晰照片后重试</text>
+          </view>
+
+          <view class="preview-grid" wx:if="{{item.files.length}}">
+            <block wx:for="{{item.files}}" wx:for-item="file" wx:for-index="fidx" wx:key="*this">
+              <view class="preview-item">
+                <image class="preview-img" src="{{file}}" mode="aspectFill" data-url="{{file}}" data-urls="{{item.files}}" bindtap="handlePreview" />
+                <text class="delete-btn" data-key="{{item.key}}" data-index="{{fidx}}" catchtap="handleDelete">×</text>
+              </view>
+            </block>
+            <view class="preview-add" data-key="{{item.key}}" bindtap="handleUpload" wx:if="{{item.count < 9}}">
+              <text>+</text>
+            </view>
+          </view>
+        </view>
+        <view class="action-row">
+          <button class="upload-btn" size="mini" data-key="{{item.key}}" bindtap="handleUpload" wx:if="{{item.count < 9}}">拍照/相册</button>
+          <button class="ocr-btn" size="mini" data-key="{{item.key}}" bindtap="handleOcr" wx:if="{{item.ocr && item.count > 0}}" loading="{{item.ocrStatus === 'processing'}}" disabled="{{item.ocrStatus === 'processing'}}">
+            {{item.ocrStatus === 'success' ? '重新识别' : '智能识别'}}
+          </button>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="tips-card glass-card">
+    <text class="tips-title">上传须知</text>
+    <text class="tips-line">· 身份证上传后将自动触发 OCR，也可手动点击「智能识别」</text>
+    <text class="tips-line">· 单类材料最多 9 张，建议原图上传保证清晰度</text>
+    <text class="tips-line">· 银行流水需连续完整，不可缺页或遮挡金额</text>
+    <text class="tips-line">· 所有材料加密存储，仅用于融资审核</text>
+  </view>
+</view>

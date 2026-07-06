@@ -1,0 +1,27 @@
+<view class="banner-detail page-shell" wx:if="{{bannerDetail}}">
+  <safe-image src="{{bannerDetail.image || bannerDetail.img}}" className="banner-image" mode="widthFix" />
+
+  <view class="content-card glass-card">
+    <text class="premium-badge">专题活动</text>
+    <text class="title">{{bannerDetail.title}}</text>
+    <view class="rich-content">
+      <rich-text nodes="{{bannerDetail.content}}"></rich-text>
+    </view>
+    <view class="highlight-row" wx:if="{{bannerDetail.highlights.length}}">
+      <text class="highlight-tag" wx:for="{{bannerDetail.highlights}}" wx:key="*this">{{item}}</text>
+    </view>
+    <button class="action-btn btn-gold" bindtap="handleAction">{{bannerDetail.actionText || '立即了解'}}</button>
+  </view>
+
+  <view class="section glass-card" wx:if="{{relatedProducts.length}}">
+    <text class="section-title">相关产品</text>
+    <scroll-view class="product-scroll" scroll-x>
+      <block wx:for="{{relatedProducts}}" wx:key="id">
+        <view class="product-card" bindtap="navigateToProduct" data-id="{{item.id}}">
+          <safe-image src="{{item.cover || item.image}}" className="product-image" mode="aspectFill" />
+          <text class="product-name">{{item.name}}</text>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+</view>

@@ -1,0 +1,29 @@
+page {
+  --color-primary: #0F3D2E;
+  --color-primary-light: #1F6B4B;
+  --color-primary-bg: #E6F2EC;
+  --color-gold: #D4A84B;
+  --color-bg-page: #F7F9FC;
+  --color-bg-card: #FFFFFF;
+  --color-text-primary: #333333;
+  --color-text-secondary: #666666;
+  --color-text-muted: #999999;
+  --color-border: #eeeeee;
+  --color-success: #52c41a;
+  --color-warning: #faad14;
+  --color-danger: #e64340;
+  --gradient-hero: linear-gradient(135deg, #0F3D2E 0%, #1F6B4B 100%);
+  --space-sm: 16rpx;
+  --space-md: 24rpx;
+  --space-lg: 30rpx;
+  --space-xl: 40rpx;
+  --radius-sm: 8rpx;
+  --radius-md: 16rpx;
+  --radius-lg: 24rpx;
+  --radius-pill: 88rpx;
+  --shadow-card: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
+  --shadow-hero: 0 10rpx 28rpx rgba(15, 61, 46, 0.16);
+  --safe-top: 0px;
+  --safe-bottom: 0px;
+  --page-bottom-padding: 24rpx;
+}

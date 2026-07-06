@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "易融圈",
+  "usingComponents": {
+    "demand-card": "/components/card/demand-card/demand-card"
+  }
+}

@@ -1,0 +1,262 @@
+.products-page {
+  padding: 24rpx;
+  min-height: 100vh;
+  background: #F7F9FC;
+}
+
+.hero-card {
+  margin-bottom: 24rpx;
+  min-height: 240rpx;
+}
+
+.product-item {
+  margin-bottom: 24rpx;
+  overflow: hidden;
+  padding: 0;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.category-grid-item {
+  text-align: center;
+  padding: 20rpx 8rpx;
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+.category-grid-item.active {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.grid-icon {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.grid-name {
+  display: block;
+  font-size: 22rpx;
+  margin-top: 8rpx;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16rpx;
+}
+
+.grid-product {
+  overflow: hidden;
+  padding: 0;
+  transition: transform 0.15s;
+}
+
+.grid-product.tap-active {
+  transform: scale(0.97);
+  opacity: 0.9;
+}
+
+.category-section {
+  padding: 20rpx 24rpx;
+  margin-bottom: 16rpx;
+}
+
+.section-head-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-head-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.section-head-count {
+  font-size: 24rpx;
+  color: var(--color-text-muted);
+}
+
+.empty-btn {
+  margin-top: 24rpx;
+  width: 60%;
+}
+
+.grid-cover {
+  width: 100%;
+  height: 160rpx;
+}
+
+.grid-title {
+  display: block;
+  font-size: 24rpx;
+  font-weight: 600;
+  padding: 12rpx 16rpx 4rpx;
+  line-height: 1.4;
+}
+
+.grid-rate {
+  display: block;
+  font-size: 22rpx;
+  color: var(--color-gold);
+  padding: 0 16rpx 16rpx;
+}
+
+.category-item {
+  display: inline-block;
+  text-align: center;
+  padding: 18rpx 28rpx;
+  background: white;
+  border-radius: 999rpx;
+  margin-right: 14rpx;
+  color: #666;
+  box-shadow: 0 4rpx 14rpx rgba(15, 61, 46, 0.06);
+}
+
+.category-item.active {
+  background: #0F3D2E;
+  color: #fff;
+}
+
+.category-item .icon {
+  font-size: 28rpx;
+  margin-right: 6rpx;
+}
+
+.product-list {
+  display: flex;
+  flex-direction: column;
+  gap: 22rpx;
+}
+
+.product-item {
+  display: flex;
+  gap: 22rpx;
+  background: white;
+  border-radius: 22rpx;
+  padding: 22rpx;
+  box-shadow: 0 8rpx 24rpx rgba(15, 61, 46, 0.08);
+}
+
+.cover {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 18rpx;
+  background: #E6F2EC;
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.product-item .header {
+  margin-bottom: 20rpx;
+}
+
+.product-item .name {
+  font-weight: bold;
+  display: block;
+  font-size: 30rpx;
+  color: #333;
+  line-height: 1.4;
+}
+
+.product-item .rate {
+  color: #0F3D2E;
+  font-size: 26rpx;
+  display: block;
+  margin-top: 10rpx;
+}
+
+.product-item .desc {
+  color: #666;
+  font-size: 26rpx;
+  line-height: 1.6;
+  display: block;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12rpx;
+  margin-top: 20rpx;
+}
+
+.info-item {
+  background: #f7f9fc;
+  border-radius: 12rpx;
+  padding: 14rpx;
+}
+
+.info-label {
+  display: block;
+  color: #999;
+  font-size: 22rpx;
+}
+
+.info-value {
+  display: block;
+  color: #333;
+  font-size: 24rpx;
+  font-weight: bold;
+  margin-top: 4rpx;
+}
+
+.suitable {
+  display: block;
+  margin-top: 18rpx;
+  color: #666;
+  font-size: 24rpx;
+  line-height: 1.5;
+}
+
+.compliance {
+  display: block;
+  color: #8a6d3b;
+  background: #fff8e6;
+  border-radius: 12rpx;
+  padding: 14rpx;
+  margin-top: 16rpx;
+  font-size: 22rpx;
+  line-height: 1.5;
+}
+
+.tag-row {
+  margin-top: 16rpx;
+}
+
+.tag {
+  display: inline-block;
+  padding: 6rpx 14rpx;
+  margin-right: 8rpx;
+  margin-bottom: 8rpx;
+  border-radius: 22rpx;
+  background: #E6F2EC;
+  color: #0F3D2E;
+  font-size: 22rpx;
+}
+
+.product-item .footer {
+  text-align: right;
+  color: #0F3D2E;
+  margin-top: 24rpx;
+  font-size: 26rpx;
+}
+
+.empty-state {
+  text-align: center;
+  color: #999;
+  padding: 120rpx 0;
+  line-height: 1.7;
+}

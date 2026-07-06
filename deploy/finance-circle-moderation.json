@@ -1,0 +1,21 @@
+{
+  "enabled": true,
+  "autoApproveTextOnly": true,
+  "maxTextLengthForAutoApprove": 200,
+  "reviewPostsWithImages": true,
+  "blockedKeywords": [
+    "赌博",
+    "套现",
+    "高利贷",
+    "保证下款",
+    "100%通过",
+    "包过",
+    "洗白"
+  ],
+  "blockedKeywordAction": "reject",
+  "useAliyunContentSecurity": true,
+  "aliyunTextBlockAction": "reject",
+  "aliyunTextReviewAction": "pending",
+  "aliyunImageBlockAction": "reject",
+  "aliyunImageReviewAction": "pending"
+}

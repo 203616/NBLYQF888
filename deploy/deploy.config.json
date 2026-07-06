@@ -1,0 +1,28 @@
+{
+  "appId": "wxf49b1aeb1d62f227",
+  "appName": "亮叶企服",
+  "apiDomain": "api.liangyeqf.com",
+  "apiBaseUrl": "https://api.liangyeqf.com/api/v1",
+  "cdnBaseUrl": "https://cdn.liangyeqf.com",
+  "useCdnImages": false,
+  "miniprogramRobot": 1,
+  "miniprogramAutoTrial": true,
+  "adminDomain": "admin.liangyeqf.com",
+  "adminUrl": "https://admin.liangyeqf.com",
+  "requestDomains": [
+    "https://api.liangyeqf.com"
+  ],
+  "uploadDomains": [
+    "https://api.liangyeqf.com"
+  ],
+  "downloadDomains": [
+    "https://api.liangyeqf.com",
+    "https://cdn.liangyeqf.com"
+  ],
+  "webViewDomains": [
+    "https://data.stats.gov.cn",
+    "https://www.ndrc.gov.cn"
+  ],
+  "serverPort": 3000,
+  "nodeEnv": "production"
+}

@@ -1,0 +1,13 @@
+<view class="section-card">
+  <view class="header">
+    <text class="title">{{title}}</text>
+    <text 
+      wx:if="{{showMore}}" 
+      class="iconfont icon-more"
+      bindtap="handleMore"
+    ></text>
+  </view>
+  <view class="content">
+    <slot></slot>
+  </view>
+</view>

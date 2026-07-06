@@ -1,0 +1,204 @@
+<view class="finance-calculator">
+  <view class="form-group">
+    <text class="label">贷款产品</text>
+    <view class="product-types">
+      <block wx:for="{{productTypes}}" wx:key="index">
+        <text
+          class="product-type {{form.productType === item ? 'selected' : ''}}"
+          data-product="{{item}}"
+          bindtap="handleProductSelect"
+        >{{item}}</text>
+      </block>
+    </view>
+  </view>
+
+  <view class="form-group">
+    <text class="label">还款方式</text>
+    <view class="repayment-methods">
+      <block wx:for="{{availableMethods.length ? availableMethods : repaymentMethods}}" wx:key="id">
+        <text
+          class="repayment-method {{form.repaymentMethod === item.id ? 'selected' : ''}}"
+          data-method="{{item.id}}"
+          bindtap="handleRepaymentSelect"
+        >{{item.name}}</text>
+      </block>
+    </view>
+  </view>
+
+  <view class="form-group">
+    <text class="label">贷款金额（元）</text>
+    <input
+      type="number"
+      placeholder="请输入贷款金额"
+      value="{{form.loanAmount}}"
+      bindinput="handleInputChange"
+      data-field="loanAmount"
+    />
+  </view>
+
+  <view class="form-group">
+    <text class="label">贷款期限（月）</text>
+    <input
+      type="number"
+      placeholder="请输入贷款期限"
+      value="{{form.loanTerm}}"
+      bindinput="handleInputChange"
+      data-field="loanTerm"
+    />
+  </view>
+
+  <view class="form-group">
+    <text class="label">年利率（%）</text>
+    <input
+      type="number"
+      placeholder="请输入年利率"
+      value="{{form.annualRate}}"
+      bindinput="handleInputChange"
+      data-field="annualRate"
+    />
+  </view>
+
+  <view wx:if="{{form.repaymentMethod === 'equal_installment'}}">
+    <view class="form-group">
+      <text class="label">违约金率（%）</text>
+      <input
+        type="number"
+        placeholder="请输入违约金率"
+        value="{{form.penaltyRate}}"
+        bindinput="handleInputChange"
+        data-field="penaltyRate"
+      />
+    </view>
+
+    <view class="form-group" wx:if="{{form.repaymentMethod === 'equal_installment' && form.productType !== '车贷'}}">
+      <text class="label">返现率（%）</text>
+      <input type="number" value="{{form.rebateRate}}" bindinput="handleInputChange" data-field="rebateRate" />
+    </view>
+
+    <view class="form-group">
+      <text class="label">已还期数（月）</text>
+      <input
+        type="number"
+        placeholder="请输入已还期数"
+        value="{{form.paidMonths}}"
+        bindinput="handleInputChange"
+        data-field="paidMonths"
+      />
+    </view>
+  </view>
+
+  <button class="calculate-btn" bindtap="calculate">开始计算</button>
+  <button class="reset-btn" bindtap="resetCalculator">重置计算器</button>
+
+  <view class="results-section" wx:if="{{showResults}}">
+    <text class="section-title">计算结果</text>
+
+    <view class="result-item">
+      <text>贷款产品</text>
+      <text>{{form.productType}}</text>
+    </view>
+
+    <view class="result-item">
+      <text>还款方式</text>
+      <text>{{repaymentMethodName}}</text>
+    </view>
+
+    <block wx:if="{{form.repaymentMethod === 'equal_installment'}}">
+      <view class="result-item">
+        <text>每月本金</text>
+        <text>¥{{displayResults.monthlyPrincipal}}</text>
+      </view>
+      <view class="result-item">
+        <text>每月利息</text>
+        <text>¥{{displayResults.monthlyInterest}}</text>
+      </view>
+      <view class="result-item">
+        <text>每月还款额</text>
+        <text>¥{{displayResults.monthlyPayment}}</text>
+      </view>
+      <view class="result-item">
+        <text>总利息</text>
+        <text>¥{{displayResults.totalInterest}}</text>
+      </view>
+      <view class="result-item">
+        <text>已还本金</text>
+        <text>¥{{displayResults.repaidPrincipal}}</text>
+      </view>
+      <view class="result-item">
+        <text>已还利息</text>
+        <text>¥{{displayResults.repaidInterest}}</text>
+      </view>
+      <view class="result-item">
+        <text>剩余本金</text>
+        <text>¥{{displayResults.remainingPrincipal}}</text>
+      </view>
+      <view class="result-item">
+        <text>违约金</text>
+        <text>¥{{displayResults.penaltyAmount}}</text>
+      </view>
+      <view class="result-item">
+        <text>返现金额</text>
+        <text wx:if="{{form.productType !== '车贷'}}">¥{{displayResults.rebateAmount}}</text>
+        <text wx:else>—</text>
+      </view>
+      <view class="result-item highlight">
+        <text>实际支出</text>
+        <text>¥{{displayResults.actualCost}}</text>
+      </view>
+      <view class="result-item">
+        <text>月均成本</text>
+        <text>¥{{displayResults.monthlyCost}}/月</text>
+      </view>
+      <view class="result-item highlight">
+        <text>实际年化利率</text>
+        <text>{{displayResults.effectiveRate}}%</text>
+      </view>
+      <view class="analysis">
+        <text class="analysis-line">财务分析：</text>
+        <text class="analysis-line">{{analysisText}}</text>
+        <text class="analysis-suggest">建议{{analysisSuggestion}}</text>
+      </view>
+    </block>
+
+    <block wx:if="{{form.repaymentMethod === 'equal_payment'}}">
+      <view class="result-item">
+        <text>每月还款额</text>
+        <text>¥{{displayResults.monthlyPayment}}</text>
+      </view>
+      <view class="result-item">
+        <text>总利息</text>
+        <text>¥{{displayResults.totalInterest}}</text>
+      </view>
+    </block>
+
+    <block wx:if="{{form.repaymentMethod === 'interest_first'}}">
+      <view class="result-item">
+        <text>每月利息</text>
+        <text>¥{{displayResults.monthlyInterest}}</text>
+      </view>
+      <view class="result-item">
+        <text>最后月还款</text>
+        <text>¥{{displayResults.lastPayment}}</text>
+      </view>
+      <view class="result-item">
+        <text>总利息</text>
+        <text>¥{{displayResults.totalInterest}}</text>
+      </view>
+    </block>
+
+    <view class="schedule-section" wx:if="{{schedule.length}}">
+      <text class="section-title">还款计划表</text>
+      <scroll-view scroll-y class="schedule-scroll">
+        <view class="schedule-row head"><text>期次</text><text>月供</text><text>本金</text><text>利息</text></view>
+        <block wx:for="{{schedule}}" wx:key="period">
+          <view class="schedule-row"><text>{{item.period}}</text><text>{{item.payment.toFixed(2)}}</text><text>{{item.principal.toFixed(2)}}</text><text>{{item.interest.toFixed(2)}}</text></view>
+        </block>
+      </scroll-view>
+      <view class="export-row">
+        <button class="export-btn" bindtap="exportScheduleImage">导出图片</button>
+        <button class="export-btn" bindtap="exportSchedulePdf">导出PDF</button>
+      </view>
+    </view>
+  </view>
+  <canvas type="2d" id="exportCanvas" class="export-canvas" />
+</view>

@@ -1,0 +1,11 @@
+<view class="news-card" bindtap="handleTap">
+  <safe-image wx:if="{{cover}}" className="cover" src="{{cover}}" mode="aspectFill" />
+  <view class="body">
+    <view class="category">{{category}}</view>
+    <text class="title">{{title}}</text>
+    <view class="meta" wx:if="{{date}}">
+      <text>{{date}}</text>
+      <text wx:if="{{views}}">阅读 {{views}}</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,16 @@
+<view class="service-card">
+  <view class="title">{{title}}</view>
+  
+  <view class="items">
+    <block wx:for="{{items}}" wx:key="*this">
+      <view 
+        class="item" 
+        data-index="{{index}}"
+        bindtap="handleItemTap"
+      >
+        <text class="icon">✓</text>
+        <text>{{item}}</text>
+      </view>
+    </block>
+  </view>
+</view>

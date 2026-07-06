@@ -1,0 +1,57 @@
+<view class="tip-detail page-shell" wx:if="{{!loading && tip}}">
+  <view class="detail-hero premium-hero level-{{tip.level}}">
+    <view class="premium-hero-body">
+      <text class="premium-badge">{{tip.levelText}}</text>
+      <text class="premium-hero-title">{{tip.title}}</text>
+      <text class="premium-hero-sub">{{tip.category}} · 阅读 {{tip.views || 0}}</text>
+    </view>
+  </view>
+
+  <view class="section glass-card">
+    <text class="section-title">正文内容</text>
+    <view class="rich-content">
+      <rich-text nodes="{{tip.content}}"></rich-text>
+    </view>
+  </view>
+
+  <view class="section glass-card">
+    <text class="section-title">典型案例</text>
+    <text class="paragraph">{{tip.case}}</text>
+  </view>
+
+  <view class="section glass-card">
+    <text class="section-title">防范措施</text>
+    <block wx:for="{{tip.preventions}}" wx:key="index">
+      <view class="prevention-item">
+        <text class="step-num">{{index + 1}}</text>
+        <text class="step-text">{{item}}</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="section glass-card" wx:if="{{relatedExposures.length}}">
+    <text class="section-title">相关曝光</text>
+    <block wx:for="{{relatedExposures}}" wx:key="id">
+      <view class="related-card" data-id="{{item.id}}" bindtap="navigateToExposure">
+        <text class="related-title">{{item.title}}</text>
+        <text class="related-desc">{{item.content}}</text>
+        <text class="related-meta">{{item.count}} · {{item.status}}</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="section glass-card" wx:if="{{relatedKnowledge.length}}">
+    <text class="section-title">继续学习</text>
+    <block wx:for="{{relatedKnowledge}}" wx:key="id">
+      <view class="related-card" data-id="{{item.id}}" bindtap="navigateToKnowledge">
+        <text class="related-title">{{item.title}}</text>
+        <text class="related-desc">{{item.summary}}</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="action-bar">
+    <button class="btn-outline" bindtap="goReport">我要举报</button>
+    <button class="btn-gold" bindtap="goChat">咨询客服</button>
+  </view>
+</view>

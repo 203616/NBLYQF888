@@ -1,0 +1,80 @@
+<view class="product-detail page-shell" wx:if="{{product}}">
+  <view class="cover-wrap">
+    <safe-image className="product-cover" src="{{product.cover}}" mode="aspectFill" />
+    <view class="cover-overlay premium-hero">
+      <view class="premium-hero-body">
+        <view class="tag-row">
+          <block wx:for="{{product.tags}}" wx:key="*this">
+            <text class="tag">{{item}}</text>
+          </block>
+        </view>
+        <text class="premium-hero-title">{{product.name}}</text>
+        <text class="premium-hero-sub">{{product.desc}}</text>
+        <text class="institution-line" wx:if="{{product.institution}}">{{product.institution}} · {{product.region || '宁波市'}}</text>
+        <view class="rate-box">
+          <text class="rate">{{product.rate}}</text>
+          <text class="rate-label">参考费率/方案类型</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="info-grid">
+    <view class="info-card glass-card">
+      <text class="info-label">额度范围</text>
+      <text class="info-value">{{product.amount}}</text>
+    </view>
+    <view class="info-card glass-card">
+      <text class="info-label">期限范围</text>
+      <text class="info-value">{{product.term}}</text>
+    </view>
+  </view>
+
+  <view class="section glass-card">
+    <text class="section-title">适用场景</text>
+    <text class="paragraph">{{product.suitable}}</text>
+  </view>
+
+  <view class="section glass-card" wx:if="{{product.highlights.length}}">
+    <text class="section-title">方案亮点</text>
+    <block wx:for="{{product.highlights}}" wx:key="*this">
+      <view class="list-row">✓ {{item}}</view>
+    </block>
+  </view>
+
+  <view class="section glass-card" wx:if="{{product.process.length}}">
+    <text class="section-title">办理流程</text>
+    <block wx:for="{{product.process}}" wx:key="*this">
+      <view class="step-row">
+        <text class="step-index">{{index + 1}}</text>
+        <text class="step-text">{{item}}</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="section glass-card" wx:if="{{product.materials.length}}">
+    <text class="section-title">常用材料</text>
+    <block wx:for="{{product.materials}}" wx:key="*this">
+      <view class="list-row">· {{item}}</view>
+    </block>
+  </view>
+
+  <view class="section glass-card" wx:if="{{product.faq && product.faq.length}}">
+    <text class="section-title">常见问题</text>
+    <block wx:for="{{product.faq}}" wx:key="q">
+      <view class="faq-item">
+        <text class="faq-q">Q：{{item.q}}</text>
+        <text class="faq-a">A：{{item.a}}</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="compliance glass-card" wx:if="{{product.complianceNote}}">
+    <text>{{product.complianceNote}}</text>
+  </view>
+
+  <view class="action-bar">
+    <button class="btn-outline" bindtap="goChat">咨询客服</button>
+    <button class="btn-gold" loading="{{submitting}}" bindtap="submitApply">立即申请</button>
+  </view>
+</view>

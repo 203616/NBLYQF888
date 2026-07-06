@@ -1,0 +1,56 @@
+<view class="exposure-detail page-shell" wx:if="{{!loading && exposureDetail}}">
+  <view class="detail-hero premium-hero">
+    <view class="premium-hero-body">
+      <text class="premium-badge">{{exposureDetail.typeName || '曝光'}}</text>
+      <text class="premium-hero-title">{{exposureDetail.title}}</text>
+      <text class="premium-hero-sub" style="color: {{exposureDetail.statusColor}}">{{exposureDetail.status}} · {{exposureDetail.count}}</text>
+    </view>
+  </view>
+
+  <view class="section glass-card">
+    <text class="meta-date">{{exposureDetail.date}}</text>
+    <view class="rich-content">
+      <rich-text nodes="{{exposureDetail.content}}"></rich-text>
+    </view>
+  </view>
+
+  <view class="section glass-card" wx:if="{{exposureDetail.evidence.length}}">
+    <text class="section-title">举报证据</text>
+    <scroll-view class="evidence-scroll" scroll-x>
+      <block wx:for="{{exposureDetail.evidence}}" wx:key="index">
+        <image src="{{item}}" class="evidence-img" mode="aspectFill" data-index="{{index}}" bindtap="previewImage" />
+      </block>
+    </scroll-view>
+  </view>
+
+  <view class="section glass-card" wx:if="{{exposureDetail.progress.length}}">
+    <text class="section-title">处理进展</text>
+    <block wx:for="{{exposureDetail.progress}}" wx:key="date">
+      <view class="progress-item">
+        <text class="progress-dot"></text>
+        <view>
+          <text class="progress-date">{{item.date}}</text>
+          <text class="progress-action">{{item.action}} · {{item.org}}</text>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="section glass-card" wx:if="{{relatedExposures.length}}">
+    <text class="section-title">相关曝光</text>
+    <block wx:for="{{relatedExposures}}" wx:key="id">
+      <view class="related-card" data-id="{{item.id}}" bindtap="navigateToRelated">
+        <text class="related-title">{{item.title}}</text>
+        <text class="related-desc">{{item.content}}</text>
+        <text class="related-meta">{{item.count}} · {{item.status}}</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="action-bar">
+    <button class="btn-outline" bindtap="navigateToReport">我也要举报</button>
+    <button class="btn-gold" open-type="share">分享曝光</button>
+  </view>
+</view>
+
+<view class="loading" wx:if="{{loading}}"><text>加载中...</text></view>

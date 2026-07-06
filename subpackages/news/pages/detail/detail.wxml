@@ -1,0 +1,37 @@
+<view class="news-detail page-shell" wx:if="{{!loading && newsDetail}}">
+  <view class="detail-hero premium-hero">
+    <safe-image className="premium-hero-bg" src="{{newsDetail.cover}}" mode="aspectFill" wx:if="{{newsDetail.cover}}" />
+    <view class="premium-hero-body">
+      <text class="premium-badge">{{newsDetail.source}}</text>
+      <text class="premium-hero-title">{{newsDetail.title}}</text>
+      <text class="premium-hero-sub">{{newsDetail.date}} · 阅读 {{newsDetail.views}}</text>
+    </view>
+  </view>
+
+  <view class="section glass-card">
+    <view class="rich-content">
+      <rich-text nodes="{{newsDetail.content}}"></rich-text>
+    </view>
+  </view>
+
+  <view class="section glass-card" wx:if="{{relatedNews.length}}">
+    <text class="section-title">相关推荐</text>
+    <block wx:for="{{relatedNews}}" wx:key="id">
+      <view class="related-item" bindtap="navigateToRelated" data-id="{{item.id}}">
+        <text>{{item.title}}</text>
+        <text class="arrow">›</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="section glass-card" wx:if="{{relatedLinks.length}}">
+    <text class="section-title">关联服务</text>
+    <block wx:for="{{relatedLinks}}" wx:key="title">
+      <view class="link-card" data-path="{{item.path}}" bindtap="navigateToLink">
+        <text class="link-type">{{item.type}}</text>
+        <text class="link-title">{{item.title}}</text>
+        <text class="link-desc">{{item.desc}}</text>
+      </view>
+    </block>
+  </view>
+</view>

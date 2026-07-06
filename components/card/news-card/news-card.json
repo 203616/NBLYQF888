@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "safe-image": "/components/safe-image/safe-image"
+  }
+}

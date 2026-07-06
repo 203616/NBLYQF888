@@ -1,0 +1,76 @@
+<view class="clue-detail page-shell" wx:if="{{!loading && clueDetail}}">
+  <view class="detail-hero premium-hero">
+    <view class="premium-hero-body">
+      <text class="premium-badge">{{clueDetail.typeText}}</text>
+      <text class="premium-hero-title">{{clueDetail.title}}</text>
+      <text class="premium-hero-sub price">{{clueDetail.price}}</text>
+    </view>
+  </view>
+
+  <view class="status-bar glass-card">
+    <text class="status-label">跟进状态</text>
+    <text class="status-value" style="color: {{clueDetail.statusColor}}">{{clueDetail.status}}</text>
+  </view>
+
+  <view class="info-card glass-card">
+    <text class="section-title">基本信息</text>
+    <view class="info-row">
+      <text class="label">所在地</text>
+      <text class="value">{{clueDetail.location}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">区县</text>
+      <text class="value">{{clueDetail.district || '-'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">线索编号</text>
+      <text class="value">{{clueDetail.externalId || '-'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">来源渠道</text>
+      <text class="value">{{clueDetail.dealer}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">联系人</text>
+      <text class="value">{{clueDetail.contact}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">创建时间</text>
+      <text class="value">{{clueDetail.createTime}}</text>
+    </view>
+  </view>
+
+  <view class="tags-row" wx:if="{{clueDetail.tags.length}}">
+    <block wx:for="{{clueDetail.tags}}" wx:key="*this">
+      <text class="tag">{{item}}</text>
+    </block>
+  </view>
+
+  <view class="desc-card glass-card">
+    <text class="section-title">线索描述</text>
+    <text class="desc">{{clueDetail.description}}</text>
+  </view>
+
+  <view class="desc-card glass-card">
+    <text class="section-title">关联工具</text>
+    <block wx:for="{{relatedActions}}" wx:key="title">
+      <view class="related-action" data-path="{{item.path}}" bindtap="navigateToAction">
+        <text class="related-icon">{{item.icon}}</text>
+        <view>
+          <text class="related-title">{{item.title}}</text>
+          <text class="related-desc">{{item.desc}}</text>
+        </view>
+        <text class="arrow">›</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="action-bar">
+    <button class="btn-outline" bindtap="handleFollow">标记跟进</button>
+    <button class="btn-gold" bindtap="handleContact">联系客户</button>
+  </view>
+</view>
+
+<view class="loading" wx:if="{{loading}}">
+  <text>加载中...</text>
+</view>

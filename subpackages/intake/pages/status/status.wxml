@@ -1,0 +1,70 @@
+<view class="page-shell status-page" wx:if="{{module}}">
+  <view class="view-only-banner glass-card" wx:if="{{viewOnly}}">
+    <text class="banner-icon">👁️</text>
+    <text>本模块仅支持查看进度，审核、放款等操作由机构专员处理</text>
+  </view>
+
+  <view class="status-hero premium-hero">
+    <safe-image className="premium-hero-bg status-cover" src="{{module.icon}}" mode="aspectFill" />
+    <view class="premium-hero-body">
+      <text class="premium-badge">{{sectionLabel}}</text>
+      <text class="premium-hero-title">{{module.title}}</text>
+      <text class="premium-hero-sub">{{module.desc}}</text>
+      <text class="app-no">进件 {{meta.applicationNo}} · {{meta.productName}}</text>
+    </view>
+  </view>
+
+  <view class="stat-row">
+    <view class="stat-item glass-card" wx:for="{{stats}}" wx:key="label">
+      <text class="stat-num">{{item.value}}</text>
+      <text class="stat-label">{{item.label}}</text>
+    </view>
+  </view>
+
+  <view class="workflow-card glass-card">
+    <view class="wf-head">
+      <text class="workflow-label">当前状态</text>
+      <text class="wf-tag status-{{workflow.status || 'pending'}}">{{workflowStatusText}}</text>
+    </view>
+    <text class="workflow-remark">{{workflow.remark || '等待处理中，请耐心等待'}}</text>
+    <text class="workflow-meta" wx:if="{{workflow.operator}}">处理人：{{workflow.operator}} · {{workflow.time}}</text>
+  </view>
+
+  <view class="summary-card glass-card" wx:if="{{summary.length}}">
+    <text class="section-title">已提交材料摘要</text>
+    <block wx:for="{{summary}}" wx:key="label">
+      <view class="summary-row">
+        <text class="summary-label">{{item.label}}</text>
+        <view class="summary-right">
+          <text class="summary-value {{item.done ? 'done' : 'pending'}}">{{item.value}}</text>
+          <text class="check-icon">{{item.done ? '✓' : '○'}}</text>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="timeline-card glass-card">
+    <view class="timeline-head-row">
+      <text class="section-title">流程节点</text>
+      <text class="node-count">共 {{timeline.length}} 步</text>
+    </view>
+    <block wx:for="{{timeline}}" wx:key="step">
+      <view class="timeline-item">
+        <view class="dot dot-{{item.status}}"></view>
+        <view class="timeline-body">
+          <view class="timeline-head">
+            <text class="step-name">{{item.step}}</text>
+            <text class="step-status tag-{{item.status}}">{{item.statusText}}</text>
+          </view>
+          <text class="step-desc">{{item.desc}}</text>
+          <text class="step-time" wx:if="{{item.time && item.time !== '-'}}">{{item.time}}</text>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="action-row">
+    <button class="action-btn outline" bindtap="contactService">联系专员</button>
+    <button class="action-btn primary" bindtap="goIntakeHome">返回进件首页</button>
+  </view>
+</view>

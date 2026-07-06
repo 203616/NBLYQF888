@@ -1,0 +1,166 @@
+@import '../common/finance-theme.wxss';
+
+.prepayment-page {
+  padding-bottom: 160rpx;
+}
+
+.progress-banner {
+  margin: -40rpx 24rpx 24rpx;
+  position: relative;
+  z-index: 2;
+  padding: 24rpx;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+  font-size: 24rpx;
+}
+
+.progress-label {
+  color: var(--color-text-muted);
+}
+
+.progress-value {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.progress-bar-wrap {
+  height: 12rpx;
+  background: var(--color-primary-bg);
+  border-radius: 6rpx;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--gradient-hero);
+  border-radius: 6rpx;
+  transition: width 0.3s;
+}
+
+.block-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 20rpx;
+  padding-left: 16rpx;
+  border-left: 6rpx solid #D4A84B;
+}
+
+.field-row {
+  margin-bottom: 24rpx;
+}
+
+.field-label {
+  display: block;
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  margin-bottom: 10rpx;
+}
+
+.field-input {
+  height: 80rpx;
+  background: #f7f9fc;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+  font-size: 30rpx;
+}
+
+.preset-row {
+  margin-top: 8rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx dashed #e5e7eb;
+}
+
+.preset-label {
+  font-size: 24rpx;
+  color: var(--color-text-muted);
+}
+
+.preset-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 12rpx;
+}
+
+.preset-tag {
+  font-size: 24rpx;
+  padding: 10rpx 20rpx;
+  border-radius: 999rpx;
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+}
+
+.result-hero {
+  margin: 0 24rpx 24rpx;
+  padding: 32rpx;
+  border-radius: var(--radius-lg);
+  background: var(--gradient-hero);
+  color: #fff;
+  text-align: center;
+  box-shadow: var(--shadow-hero);
+}
+
+.result-hero-label {
+  display: block;
+  font-size: 26rpx;
+  opacity: 0.9;
+}
+
+.result-hero-amount {
+  display: block;
+  font-size: 52rpx;
+  font-weight: 700;
+  margin: 12rpx 0;
+  color: #D4A84B;
+}
+
+.result-hero-meta {
+  display: flex;
+  justify-content: center;
+  gap: 32rpx;
+  font-size: 24rpx;
+  opacity: 0.9;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16rpx;
+}
+
+.result-cell {
+  background: #f7faf8;
+  border-radius: 12rpx;
+  padding: 16rpx;
+}
+
+.cell-label {
+  display: block;
+  font-size: 22rpx;
+  color: var(--color-text-muted);
+}
+
+.cell-value {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-top: 6rpx;
+}
+
+.cell-value.highlight {
+  color: var(--color-primary);
+}
+
+.tip-line {
+  display: block;
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+}

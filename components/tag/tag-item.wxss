@@ -1,0 +1,30 @@
+.tag-item {
+  display: inline-block;
+  padding: 6rpx 18rpx;
+  border-radius: 8rpx;
+  font-size: 22rpx;
+  margin-right: 12rpx;
+  margin-bottom: 8rpx;
+  line-height: 1.4;
+}
+
+/* 主色标签 */
+.primary {
+  background: #E6F2EC;
+  color: #0F3D2E;
+  border: 1rpx solid #0F3D2E;
+}
+
+/* 成功标签 */
+.success {
+  background: #f6ffed;
+  color: #52c41a;
+  border: 1rpx solid #52c41a;
+}
+
+/* 警示标签 */
+.warning {
+  background: #fffbe6;
+  color: #faad14;
+  border: 1rpx solid #faad14;
+}

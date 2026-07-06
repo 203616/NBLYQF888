@@ -1,0 +1,56 @@
+<view class="onboarding-page page-shell">
+  <view class="onboarding-hero premium-hero">
+    <safe-image className="premium-hero-bg" src="/images/banner3.webp" mode="aspectFill" />
+    <view class="premium-hero-body">
+      <text class="premium-badge">安全合规</text>
+      <text class="premium-hero-title">完善授权信息</text>
+      <text class="premium-hero-sub">进入首页前，请阅读协议并授权必要信息</text>
+    </view>
+  </view>
+
+  <view class="step-indicator">
+    <view class="step-dot {{step >= 1 ? 'active' : ''}}">1</view>
+    <view class="step-line {{step >= 2 ? 'active' : ''}}"></view>
+    <view class="step-dot {{step >= 2 ? 'active' : ''}}">2</view>
+    <view class="step-line {{step >= 3 ? 'active' : ''}}"></view>
+    <view class="step-dot {{step >= 3 ? 'active' : ''}}">3</view>
+  </view>
+
+  <view class="panel glass-card" wx:if="{{step === 1}}">
+    <text class="panel-title">隐私与服务协议</text>
+    <text class="panel-desc">根据《个人信息保护法》及微信平台要求，使用前需阅读并同意以下协议。</text>
+    <view class="agree-row" bindtap="togglePrivacy">
+      <text class="checkbox {{agreedPrivacy ? 'checked' : ''}}">{{agreedPrivacy ? '✓' : ''}}</text>
+      <text class="agree-text">我已阅读并同意 <text class="link" catchtap="viewPrivacy">《隐私政策》</text></text>
+    </view>
+    <view class="agree-row" bindtap="toggleService">
+      <text class="checkbox {{agreedService ? 'checked' : ''}}">{{agreedService ? '✓' : ''}}</text>
+      <text class="agree-text">我已阅读并同意 <text class="link" catchtap="viewService">《用户服务协议》</text></text>
+    </view>
+    <text class="compliance-note">亮叶企服仅提供金融信息咨询与居间撮合，不具备金融牌照，不从事放贷业务。</text>
+  </view>
+
+  <view class="panel glass-card" wx:if="{{step === 2}}">
+    <text class="panel-title">手机号授权</text>
+    <text class="panel-desc">用于进件进度通知、需求匹配联系及账号安全验证。</text>
+    <button class="phone-btn btn-gold" open-type="getPhoneNumber" bindgetphonenumber="handleGetPhoneNumber">微信授权手机号</button>
+    <text class="or-text">或手动输入</text>
+    <input class="phone-input" type="number" maxlength="11" placeholder="请输入手机号" value="{{phone}}" bindinput="onPhoneInput" />
+  </view>
+
+  <view class="panel glass-card" wx:if="{{step === 3}}">
+    <text class="panel-title">定位授权</text>
+    <text class="panel-desc">用于展示宁波本地金融机构、车源线索与区域服务信息。</text>
+    <view class="loc-status" wx:if="{{locationDone}}">
+      <text class="loc-ok">✓ 已设置服务城市：{{locationCity || '宁波市'}}</text>
+    </view>
+    <button class="loc-btn btn-outline" bindtap="authorizeLocation" wx:if="{{!locationDone}}">授权获取当前位置</button>
+    <text class="skip-link" bindtap="skipLocation">暂不定位，使用默认城市（宁波）</text>
+  </view>
+
+  <view class="action-bar">
+    <button class="btn-gold" loading="{{submitting}}" bindtap="nextStep">
+      {{step === 3 ? '进入首页' : '下一步'}}
+    </button>
+  </view>
+</view>

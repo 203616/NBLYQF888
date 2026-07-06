@@ -1,0 +1,42 @@
+<view class="search-page page-shell">
+  <view class="search-header glass-card">
+    <view class="search-box">
+      <icon type="search" size="16" color="#999" />
+      <input placeholder="输入搜索关键词" confirm-type="search" bindconfirm="doSearch" value="{{keyword}}" bindinput="onKeywordInput" />
+    </view>
+    <text class="cancel" bindtap="goBack">取消</text>
+  </view>
+
+  <view class="stat-row" wx:if="{{results.length}}">
+    <view class="stat-item glass-card">
+      <text class="stat-num">{{results.length}}</text>
+      <text class="stat-label">条结果</text>
+    </view>
+  </view>
+
+  <view class="filter-tabs">
+    <block wx:for="{{searchTypes}}" wx:key="type">
+      <view class="filter-tab {{item.active ? 'active' : ''}}" bindtap="switchType" data-type="{{item.type}}">{{item.name}}</view>
+    </block>
+  </view>
+
+  <block wx:if="{{results.length > 0}}">
+    <block wx:for="{{results}}" wx:key="id">
+      <view class="result-card glass-card" bindtap="navigateToDetail" data-index="{{index}}">
+        <view class="result-head">
+          <text class="type-tag type-{{item.type}}">{{item.typeLabel}}</text>
+          <text class="arrow">›</text>
+        </view>
+        <text class="title">{{item.title}}</text>
+        <text class="desc">{{item.desc}}</text>
+      </view>
+    </block>
+  </block>
+
+  <view class="empty-result glass-card" wx:else>
+    <text class="empty-icon">🔍</text>
+    <text class="empty-text">没有找到相关结果</text>
+    <text class="empty-tip">换个关键词试试，或浏览产品大全</text>
+    <button class="btn-outline" bindtap="goProducts">浏览产品</button>
+  </view>
+</view>
