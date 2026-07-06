@@ -17,7 +17,52 @@ router.get('/dashboard', (req, res) => {
   const warrantyClaims = db.prepare("SELECT COUNT(*) AS count FROM warranty_claims").get().count
   const valuations = db.prepare("SELECT COUNT(*) AS count FROM vehicle_valuations").get().count
   const pendingFinancePosts = db.prepare("SELECT COUNT(*) AS count FROM finance_circle_posts WHERE review_status = 'pending'").get().count
-  ok(res, { todayDemands, pendingReports, applications, intakeApplications, intakeAuditing, clues, warrantyApps, warrantyClaims, valuations, pendingFinancePosts })
+
+  const financeInbox = db.prepare(`
+    SELECT id, user_name AS userName, content, created_at AS createdAt
+    FROM finance_circle_posts
+    WHERE review_status = 'pending'
+    ORDER BY id DESC LIMIT 8
+  `).all().map(row => ({
+    type: 'finance_post',
+    id: row.id,
+    title: row.userName || '匿名用户',
+    desc: String(row.content || '').slice(0, 80) || '（无文字内容）',
+    time: row.createdAt,
+    link: '/social/finance-posts'
+  }))
+
+  const intakeInbox = db.prepare(`
+    SELECT id, application_no AS applicationNo, product_name AS productName, status, updated_at AS updatedAt
+    FROM intake_applications
+    WHERE status = 'auditing'
+    ORDER BY updated_at DESC LIMIT 8
+  `).all().map(row => ({
+    type: 'intake',
+    id: row.id,
+    title: row.applicationNo,
+    desc: row.productName || '进件审核中',
+    time: row.updatedAt,
+    link: `/intake/detail/${row.id}`
+  }))
+
+  const unifiedInbox = [...financeInbox, ...intakeInbox]
+    .sort((a, b) => String(b.time || '').localeCompare(String(a.time || '')))
+    .slice(0, 12)
+
+  ok(res, {
+    todayDemands,
+    pendingReports,
+    applications,
+    intakeApplications,
+    intakeAuditing,
+    clues,
+    warrantyApps,
+    warrantyClaims,
+    valuations,
+    pendingFinancePosts,
+    unifiedInbox
+  })
 })
 
 router.get('/integrations', async (req, res) => {

@@ -1,4 +1,4 @@
-<view class="products-page">
+<view class="products-page page-shell">
   <view class="hero-card premium-hero">
     <safe-image className="premium-hero-bg" src="/images/banner2.webp" mode="aspectFill" />
     <view class="premium-hero-body">

@@ -37,6 +37,12 @@ App({
       this.globalData.lastSessionCheckAt = now
       this.checkUserAuthStatus()
     }
+    if (wx.getStorageSync('onboardingCompleted')) {
+      try {
+        const { flushPendingSync } = require('./api/intake')
+        flushPendingSync().catch(() => null)
+      } catch (e) { /* ignore */ }
+    }
   },
 
   globalData: {

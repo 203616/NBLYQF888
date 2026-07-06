@@ -33,15 +33,42 @@ function syncToServer() {
   if (!useIntakeApi()) return Promise.resolve({ local: true })
   const store = getStore()
   const payload = store.getData()
+  const { enqueue, getPendingCount } = require('../utils/intakeSyncQueue')
   return post('/intake/sync', payload, { showError: false }).then(res => {
     if (res && res.serverId) {
       const data = store.getData()
       data.meta.serverId = res.serverId
       data.meta.lastSyncedAt = new Date().toISOString()
+      data.meta.syncPending = false
       store.saveData(data)
     }
     return res
+  }).catch(err => {
+    enqueue(payload, err?.message || 'offline')
+    const data = store.getData()
+    data.meta.syncPending = true
+    data.meta.syncQueueCount = getPendingCount()
+    store.saveData(data)
+    return { queued: true, pending: getPendingCount() }
   })
+}
+
+function flushPendingSync() {
+  if (!useIntakeApi()) return Promise.resolve({ flushed: 0 })
+  const { flushSyncQueue } = require('../utils/intakeSyncQueue')
+  const store = getStore()
+  return flushSyncQueue(payload => post('/intake/sync', payload, { showError: false }).then(res => {
+    if (res?.serverId) {
+      const data = store.getData()
+      if (data.meta.applicationNo === payload.meta?.applicationNo) {
+        data.meta.serverId = res.serverId
+        data.meta.lastSyncedAt = new Date().toISOString()
+        data.meta.syncPending = false
+        store.saveData(data)
+      }
+    }
+    return res
+  }))
 }
 
 function pullFromServer(applicationNo, options = {}) {
@@ -254,6 +281,7 @@ module.exports = {
   getWorkflowTimeline,
   getSubmissionSummary,
   getMyIntakeList,
+  flushPendingSync,
   exportApplicationPdf,
   useIntakeApi,
   INTAKE_STATUS_TEXT

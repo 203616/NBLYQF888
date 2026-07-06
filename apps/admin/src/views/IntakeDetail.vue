@@ -51,9 +51,10 @@
               <template #default="{ row }">{{ docLabel(row.doc_key) }}</template>
             </el-table-column>
             <el-table-column prop="file_name" label="文件名" min-width="160" show-overflow-tooltip />
-            <el-table-column label="预览" width="90">
+            <el-table-column label="预览" width="120">
               <template #default="{ row }">
-                <el-button link type="primary" @click="openFile(row.file_url)">查看</el-button>
+                <el-button v-if="isImageFile(row.file_url || row.file_name)" link type="primary" @click="previewImage(row)">图片预览</el-button>
+                <el-button v-else link type="primary" @click="openFile(row.file_url)">打开</el-button>
               </template>
             </el-table-column>
             <el-table-column label="OCR" width="120">
@@ -125,6 +126,11 @@
     <el-dialog v-model="ocrVisible" title="OCR 识别结果" width="520px">
       <pre class="ocr-json">{{ ocrPreview }}</pre>
     </el-dialog>
+
+    <el-dialog v-model="imagePreviewVisible" title="材料图片预览" width="760px" class="image-preview-dialog">
+      <p class="preview-name">{{ previewImageName }}</p>
+      <el-image :src="previewImageUrl" fit="contain" class="preview-image" :preview-src-list="[previewImageUrl]" preview-teleported />
+    </el-dialog>
   </div>
   <div v-else class="loading-wrap" v-loading="true" />
 </template>
@@ -140,6 +146,9 @@ const router = useRouter()
 const detail = ref(null)
 const ocrVisible = ref(false)
 const ocrPreview = ref('')
+const imagePreviewVisible = ref(false)
+const previewImageUrl = ref('')
+const previewImageName = ref('')
 const workflowLoading = ref('')
 
 const stageMeta = {
@@ -272,7 +281,22 @@ function fileHref(url) {
   return `${window.location.origin}${url}`
 }
 
+function isImageFile(urlOrName = '') {
+  return /\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(String(urlOrName))
+}
+
+function previewImage(row) {
+  previewImageUrl.value = fileHref(row.file_url)
+  previewImageName.value = row.file_name || docLabel(row.doc_key)
+  imagePreviewVisible.value = true
+}
+
 function openFile(url) {
+  if (!url) return
+  if (isImageFile(url)) {
+    previewImage({ file_url: url, file_name: url.split('/').pop() })
+    return
+  }
   window.open(fileHref(url), '_blank')
 }
 
@@ -480,6 +504,17 @@ onMounted(load)
   overflow: auto;
   white-space: pre-wrap;
   word-break: break-all;
+}
+
+.preview-name {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--brand-muted);
+}
+
+.preview-image {
+  width: 100%;
+  max-height: 60vh;
 }
 
 .loading-wrap {

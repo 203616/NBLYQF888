@@ -26,6 +26,11 @@ function syncAfterOnboarding() {
     )
   } catch (e) {}
 
+  try {
+    const { flushPendingSync } = require('../api/intake')
+    tasks.push(flushPendingSync().catch(() => null))
+  } catch (e) {}
+
   return Promise.all(tasks)
 }
 

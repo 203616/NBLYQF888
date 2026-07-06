@@ -47,5 +47,21 @@ const roadmap = path.join(root, 'deploy', 'upgrade-roadmap.md')
 if (fs.existsSync(roadmap)) ok('upgrade-roadmap.md')
 else fail('缺少 upgrade-roadmap.md')
 
+const intakeQueue = path.join(root, 'utils', 'intakeSyncQueue.js')
+if (fs.existsSync(intakeQueue)) {
+  const qsrc = fs.readFileSync(intakeQueue, 'utf8')
+  ;['enqueue', 'flushSyncQueue', 'getPendingCount'].forEach(k => {
+    if (qsrc.includes(k)) ok(`intakeSyncQueue.js 含 ${k}`)
+    else fail(`intakeSyncQueue.js 缺少 ${k}`)
+  })
+} else fail('缺少 utils/intakeSyncQueue.js')
+
+const intakeApi = path.join(root, 'api', 'intake.js')
+if (fs.existsSync(intakeApi)) {
+  const isrc = fs.readFileSync(intakeApi, 'utf8')
+  if (isrc.includes('flushPendingSync')) ok('api/intake.js flushPendingSync')
+  else fail('api/intake.js 缺少 flushPendingSync')
+}
+
 console.log(failed ? '\n=== 多端检查失败 ===' : '\nALL_PLATFORM_OK')
 if (failed) process.exit(1)

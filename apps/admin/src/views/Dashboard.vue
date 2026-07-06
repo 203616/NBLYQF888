@@ -16,6 +16,33 @@
     </el-row>
 
     <el-row :gutter="16" class="panel-row">
+      <el-col :span="24">
+        <div class="page-card inbox-panel">
+          <div class="inbox-header">
+            <h3 class="section-title">审核待办 Inbox</h3>
+            <span class="inbox-badge">{{ inboxItems.length }} 项待处理</span>
+          </div>
+          <el-empty v-if="!inboxItems.length" description="暂无融圈或进件待办" />
+          <div v-else class="inbox-list">
+            <router-link
+              v-for="item in inboxItems"
+              :key="`${item.type}-${item.id}`"
+              :to="item.link"
+              class="inbox-item"
+            >
+              <span class="inbox-type" :class="item.type">{{ item.type === 'finance_post' ? '融圈' : '进件' }}</span>
+              <div class="inbox-body">
+                <strong>{{ item.title }}</strong>
+                <p class="inbox-desc">{{ item.desc }}</p>
+              </div>
+              <span class="inbox-time">{{ formatTime(item.time) }}</span>
+            </router-link>
+          </div>
+        </div>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="16" class="panel-row">
       <el-col :span="14">
         <div class="page-card">
           <h3 class="section-title">运营待办</h3>
@@ -30,11 +57,14 @@
       <el-col :span="10">
         <div class="page-card quick-panel">
           <h3 class="section-title">快捷入口</h3>
-          <div class="quick-grid">
-            <router-link v-for="item in quickLinks" :key="item.path" :to="item.path" class="quick-link">
-              <span class="quick-icon">{{ item.icon }}</span>
-              <span>{{ item.title }}</span>
-            </router-link>
+          <div v-for="group in quickLinkGroups" :key="group.title" class="quick-group">
+            <div class="quick-group-title">{{ group.icon }} {{ group.title }}</div>
+            <div class="quick-grid">
+              <router-link v-for="item in group.items" :key="item.path" :to="item.path" class="quick-link">
+                <span class="quick-icon">{{ item.icon }}</span>
+                <span>{{ item.title }}</span>
+              </router-link>
+            </div>
           </div>
         </div>
         <div class="page-card tip-panel">
@@ -85,7 +115,7 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { getDashboard, getIntegrations, getDeployStatus, getDeployHistory } from '../api/resources'
 
-const data = reactive({})
+const data = reactive({ unifiedInbox: [] })
 const integrations = ref(null)
 const deployStatus = ref(null)
 const deployHistory = ref([])
@@ -99,20 +129,75 @@ const cards = [
   { key: 'pendingFinancePosts', title: '待审融圈', icon: '💬' }
 ]
 
-const todos = [
-  { time: '今日', type: 'primary', title: '处理新增融资需求', desc: '分配专员跟进易融圈与线索转化' },
-  { time: '今日', type: 'warning', title: '进件材料查看', desc: '核对新同步进件完整性与 OCR 识别结果' },
-  { time: '本周', type: 'success', title: '内容运营复核', desc: '检查轮播图、文章与曝光案例发布状态' },
-  { time: '持续', type: 'info', title: '系统配置维护', desc: '维护产品利率、材料清单与订阅消息模板' }
+const quickLinkGroups = [
+  {
+    title: '业务管理',
+    icon: '💼',
+    items: [
+      { path: '/intake', title: '进件管理', icon: '📋' },
+      { path: '/social/finance-posts', title: '融圈审核', icon: '💬' },
+      { path: '/clues', title: '汽车线索', icon: '🚗' },
+      { path: '/applications', title: '融资申请', icon: '💰' }
+    ]
+  },
+  {
+    title: '内容与运营',
+    icon: '📝',
+    items: [
+      { path: '/products', title: '产品管理', icon: '📦' },
+      { path: '/operations/banners', title: '轮播图', icon: '🖼️' },
+      { path: '/content/articles', title: '内容中心', icon: '📄' }
+    ]
+  },
+  {
+    title: '系统发布',
+    icon: '⚙️',
+    items: [
+      { path: '/system/deploy', title: '发布部署', icon: '🚀' },
+      { path: '/system/release-checklist', title: '正式版清单', icon: '✅' },
+      { path: '/system/integrations', title: '集成联调', icon: '🔗' },
+      { path: '/social/finance-moderation', title: '审核规则', icon: '🛡️' }
+    ]
+  }
 ]
 
-const quickLinks = [
-  { path: '/intake', title: '进件管理', icon: '📋' },
-  { path: '/system/deploy', title: '发布部署', icon: '🚀' },
-  { path: '/system/integrations', title: '集成联调', icon: '🔗' },
-  { path: '/clues', title: '汽车线索', icon: '🚗' },
-  { path: '/products', title: '产品管理', icon: '📦' }
-]
+const todos = computed(() => {
+  const list = [
+    { time: '今日', type: 'primary', title: '处理新增融资需求', desc: '分配专员跟进易融圈与线索转化' },
+    { time: '今日', type: 'warning', title: '进件材料查看', desc: '核对新同步进件完整性与 OCR 识别结果' }
+  ]
+  if (data.pendingFinancePosts > 0) {
+    list.unshift({
+      time: '待办',
+      type: 'danger',
+      title: `融圈动态待审核 ${data.pendingFinancePosts} 条`,
+      desc: '请在融圈动态审核中处理用户上传图片'
+    })
+  }
+  if (data.intakeAuditing > 0) {
+    list.unshift({
+      time: '待办',
+      type: 'warning',
+      title: `审核中进件 ${data.intakeAuditing} 笔`,
+      desc: '进件管理 → 查看材料与推进流程'
+    })
+  }
+  list.push(
+    { time: '本周', type: 'success', title: '内容运营复核', desc: '检查轮播图、文章与曝光案例发布状态' },
+    { time: '持续', type: 'info', title: '系统配置维护', desc: '维护产品利率、材料清单与订阅消息模板' }
+  )
+  return list
+})
+
+const inboxItems = computed(() => Array.isArray(data.unifiedInbox) ? data.unifiedInbox : [])
+
+function formatTime(value) {
+  if (!value) return '—'
+  const d = new Date(value)
+  if (Number.isNaN(d.getTime())) return String(value).slice(0, 16)
+  const pad = n => String(n).padStart(2, '0')
+  return `${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`
+}
 
 const integrationAlerts = computed(() => ({
   ocr: integrations.value?.ocr?.configured
@@ -197,6 +282,21 @@ onMounted(async () => {
   gap: 12px;
 }
 
+.quick-group {
+  margin-bottom: 16px;
+}
+
+.quick-group:last-child {
+  margin-bottom: 0;
+}
+
+.quick-group-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--brand-muted);
+  margin-bottom: 10px;
+}
+
 .quick-link {
   display: flex;
   align-items: center;
@@ -229,5 +329,85 @@ onMounted(async () => {
   color: var(--brand-primary);
   font-size: 13px;
   text-decoration: none;
+}
+
+.inbox-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.inbox-badge {
+  font-size: 12px;
+  color: var(--brand-muted);
+  background: #f0f5f2;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.inbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inbox-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f7faf8;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.2s;
+}
+
+.inbox-item:hover {
+  background: #e6f2ec;
+}
+
+.inbox-type {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.inbox-type.finance_post {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.inbox-type.intake {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.inbox-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.inbox-body strong {
+  display: block;
+  font-size: 14px;
+}
+
+.inbox-desc {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--brand-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.inbox-time {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--brand-muted);
 }
 </style>
