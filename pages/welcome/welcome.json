@@ -1,3 +1,7 @@
 {
-  "usingComponents": {}
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "欢迎",
+  "usingComponents": {
+    "safe-image": "/components/safe-image/safe-image"
+  }
 }

@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "延保理赔",
-  "usingComponents": {}
+  "usingComponents": {
+    "safe-image": "/components/safe-image/safe-image"
+  }
 }

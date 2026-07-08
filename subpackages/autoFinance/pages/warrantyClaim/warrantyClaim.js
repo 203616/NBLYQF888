@@ -1,4 +1,4 @@
-const { submitWarrantyClaim, getWarrantyClaims, getWarrantyApplications } = require('../../../../api/warranty')
+const { submitWarrantyClaim, getWarrantyClaims, getWarrantyApplications } = require('../../api/warranty')
 
 Page({
   data: {

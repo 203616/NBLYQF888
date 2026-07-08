@@ -1,4 +1,4 @@
-const { submitWarrantyApplication, getWarrantyContract, getWarrantyContractPdfUrl } = require('../../../../api/warranty')
+const { submitWarrantyApplication, getWarrantyContract, getWarrantyContractPdfUrl } = require('../../api/warranty')
 
 Page({
   data: {

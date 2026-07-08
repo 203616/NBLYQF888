@@ -20,20 +20,22 @@ Component({
 
   observers: {
     src(src) {
-      this.applySrc(src)
+      this.applySrc(src == null ? '' : src)
     }
   },
 
   lifetimes: {
     attached() {
-      this.applySrc(this.properties.src)
+      const src = this.properties.src
+      this.applySrc(src == null ? '' : src)
     }
   },
 
   methods: {
     applySrc(src) {
-      const primary = getImageUrl(src || '')
-      const fallback = this.properties.fallback || getFallbackPath(primary)
+      const raw = src == null ? '' : String(src)
+      const primary = getImageUrl(raw) || ''
+      const fallback = this.properties.fallback || (primary ? getFallbackPath(primary) : '')
       this.setData({ currentSrc: primary, fallbackSrc: fallback })
     },
 

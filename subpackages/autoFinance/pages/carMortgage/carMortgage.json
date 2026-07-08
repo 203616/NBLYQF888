@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "车抵贷",
-  "usingComponents": {}
+  "usingComponents": {
+    "safe-image": "/components/safe-image/safe-image"
+  }
 }

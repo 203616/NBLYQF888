@@ -1,3 +1,7 @@
 {
   "navigationBarTitleText": "OA工作台"
+,
+  "usingComponents": {
+    "safe-image": "/components/safe-image/safe-image"
+  }
 }

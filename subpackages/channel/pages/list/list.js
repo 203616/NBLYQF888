@@ -1,4 +1,4 @@
-const { getChannelList } = require('../../../../api/channel')
+const { getChannelList } = require('../../api/channel')
 const { getAppLocation, chooseLocation, requestLocation } = require('../../../../utils/location')
 
 Page({

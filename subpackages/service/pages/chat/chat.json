@@ -1,3 +1,7 @@
 {
   "navigationBarTitleText": "智能客服"
+,
+  "usingComponents": {
+    "safe-image": "/components/safe-image/safe-image"
+  }
 }

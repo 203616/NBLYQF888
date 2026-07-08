@@ -1,3 +1,7 @@
 {
   "navigationBarTitleText": "流程状态"
+,
+  "usingComponents": {
+    "safe-image": "/components/safe-image/safe-image"
+  }
 }

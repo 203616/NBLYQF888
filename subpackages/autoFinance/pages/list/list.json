@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "汽车融资",
-  "usingComponents": {}
+  "usingComponents": {
+    "safe-image": "/components/safe-image/safe-image"
+  }
 }

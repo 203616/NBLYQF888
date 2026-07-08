@@ -1,4 +1,4 @@
-const { getRegionStats } = require('../../../../api/analytics')
+const { getRegionStats } = require('../../api/analytics')
 const { getAppLocation, chooseLocation, requestLocation } = require('../../../../utils/location')
 
 Page({

@@ -5,14 +5,33 @@ const mock = require('../../../../api/mock')
 
 const router = express.Router()
 
+function fixCoverPath(cover) {
+  if (!cover || typeof cover !== 'string') return cover
+  if (cover.startsWith('/images/products/')) {
+    return cover.replace('/images/products/', '/subpackages/product/images/products/')
+  }
+  if (cover.startsWith('/images/news/')) {
+    return cover.replace('/images/news/', '/subpackages/news/images/news/')
+  }
+  return cover
+}
+
+function mapRow(row) {
+  if (!row || typeof row !== 'object') return row
+  const out = { ...row }
+  if (out.cover) out.cover = fixCoverPath(out.cover)
+  if (out.img) out.img = fixCoverPath(out.img)
+  return out
+}
+
 router.get('/', (req, res) => {
-  const banners = db.prepare('SELECT * FROM banners WHERE status = ? ORDER BY sort ASC, id ASC').all('published')
+  const banners = db.prepare('SELECT * FROM banners WHERE status = ? ORDER BY sort ASC, id ASC').all('published').map(mapRow)
   const stats = db.prepare('SELECT label, value FROM site_stats ORDER BY sort ASC, id ASC').all()
   const serviceScenes = db.prepare('SELECT scene_id AS id, title, desc, icon, path FROM service_scenes ORDER BY sort ASC, id ASC').all()
-  const newsList = db.prepare('SELECT id, category, title, summary, published_at AS date, source, views, cover FROM articles WHERE type = ? AND status = ? ORDER BY published_at DESC LIMIT 4').all('news', 'published')
-  const products = db.prepare('SELECT * FROM products WHERE status = ? ORDER BY sort ASC, id ASC LIMIT 8').all('published')
-  const demands = db.prepare('SELECT * FROM demands ORDER BY created_at DESC, id DESC LIMIT 3').all()
-  const cases = db.prepare('SELECT * FROM success_cases WHERE status = ? ORDER BY sort ASC, id ASC').all('published')
+  const newsList = db.prepare('SELECT id, category, title, summary, published_at AS date, source, views, cover FROM articles WHERE type = ? AND status = ? ORDER BY published_at DESC LIMIT 4').all('news', 'published').map(mapRow)
+  const products = db.prepare('SELECT * FROM products WHERE status = ? ORDER BY sort ASC, id ASC LIMIT 8').all('published').map(mapRow)
+  const demands = db.prepare('SELECT * FROM demands ORDER BY created_at DESC, id DESC LIMIT 3').all().map(mapRow)
+  const cases = db.prepare('SELECT * FROM success_cases WHERE status = ? ORDER BY sort ASC, id ASC').all('published').map(mapRow)
   const categoryProducts = {
     business: mock.products.filter(p => p.category === 'business').slice(0, 3),
     personal: mock.products.filter(p => p.category === 'personal').slice(0, 3),

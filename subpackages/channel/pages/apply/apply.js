@@ -1,4 +1,4 @@
-const { applyChannel } = require('../../../../api/channel')
+const { applyChannel } = require('../../api/channel')
 const { getAppLocation } = require('../../../../utils/location')
 
 Page({

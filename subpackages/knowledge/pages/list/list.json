@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "行业知识",
-  "usingComponents": {}
+  "usingComponents": {
+    "safe-image": "/components/safe-image/safe-image"
+  }
 }

@@ -1,4 +1,4 @@
-const { search } = require('../../../../api/content')
+const { search } = require('../../api/search')
 
 const TYPE_LABELS = {
   product: '产品',

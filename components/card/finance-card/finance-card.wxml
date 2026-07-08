@@ -21,7 +21,7 @@
   <!-- 标签区域 -->
   <view class="tag-area" wx:if="{{product.tags && product.tags.length}}">
     <block wx:for="{{product.tags}}" wx:key="index">
-      <tag-item text="{{item}}" />
+      <text class="tag-text">{{item}}</text>
     </block>
   </view>
   

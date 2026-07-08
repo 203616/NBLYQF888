@@ -1,4 +1,6 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "safe-image": "/components/safe-image/safe-image"
+  },
   "navigationBarTitleText": "新车五年按揭"
 }

@@ -1,4 +1,4 @@
-const { getCarDetail } = require('../../../../api/cars')
+const { getCarDetail } = require('../../api/cars')
 
 Page({
   data: {

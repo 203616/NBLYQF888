@@ -63,7 +63,7 @@
   padding-top: 20rpx;
 }
 
-.tag-item {
+.tag-text {
   display: inline-block;
   padding: 6rpx 18rpx;
   border-radius: 8rpx;
@@ -74,16 +74,4 @@
   background: #E6F2EC;
   color: #0F3D2E;
   border: 1rpx solid #0F3D2E;
-}
-
-.tag-item.warning {
-  background: #fffbe6;
-  color: #faad14;
-  border: 1rpx solid #faad14;
-}
-
-.tag-item.success {
-  background: #f6ffed;
-  color: #52c41a;
-  border: 1rpx solid #52c41a;
 }

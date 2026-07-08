@@ -1,4 +1,4 @@
-const { getFuelPrices } = require('../../../../api/tools')
+const { getFuelPrices } = require('../../api/tools')
 const { getAppLocation, chooseLocation, requestLocation } = require('../../../../utils/location')
 
 Page({

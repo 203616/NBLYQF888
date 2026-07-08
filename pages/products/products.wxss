@@ -91,9 +91,20 @@
   width: 60%;
 }
 
-.grid-cover {
+.grid-cover-wrap {
   width: 100%;
-  height: 160rpx;
+  height: 0;
+  padding-bottom: 55%;
+  overflow: hidden;
+  position: relative;
+}
+
+.grid-cover-wrap safe-image,
+.grid-cover-wrap .cover-slot {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
 }
 
 .grid-title {

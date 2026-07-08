@@ -1,7 +1,9 @@
 {
+  "navigationBarTitleText": "首页",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
   "usingComponents": {
-    "news-card": "/components/card/news-card/news-card",
-    "demand-card": "/components/card/demand-card/demand-card",
-    "section-card": "/components/card/section-card/section-card"
+    "safe-image": "/components/safe-image/safe-image",
+    "news-card": "/components/card/news-card/news-card"
   }
 }

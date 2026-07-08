@@ -1,38 +1,40 @@
 <view class="home-container page-shell">
-  <view class="home-hero premium-hero">
-    <safe-image className="premium-hero-bg" src="/images/banner1.webp" mode="aspectFill" />
-    <view class="premium-hero-body">
-      <text class="premium-badge">亮叶企服</text>
-      <text class="premium-hero-title">一站式汽车金融与企服平台</text>
-      <text class="premium-hero-sub">购车融资 · 宁波银行/工行/农行 · 延保 · 智能进件与合规撮合</text>
+  <view class="home-top glass-card">
+    <view class="top-row">
+      <view class="location-chip" bindtap="handleChooseCity">
+        <image src="/images/icon/location.png" class="loc-icon" mode="aspectFit" />
+        <text>{{location.city || '宁波市'}}</text>
+      </view>
+      <text class="top-brand">亮叶企服</text>
+    </view>
+    <view class="search-bar">
+      <icon type="search" size="16" color="#999" />
+      <input
+        placeholder="搜索产品、资讯、避坑指南"
+        value="{{searchValue}}"
+        confirm-type="search"
+        bindinput="handleSearchInput"
+        bindconfirm="handleSearch"
+      />
     </view>
   </view>
 
-  <view class="location-bar glass-card" bindtap="handleChooseCity">
-    <image src="/images/icon/location.png" class="loc-icon" />
-    <text>{{location.city || '定位中'}} · 亮叶企服</text>
+  <view class="section section-grid">
+    <view class="section-header">
+      <text class="title">全部服务</text>
+      <text class="more" bindtap="navigateToProducts">产品大全 ></text>
+    </view>
+    <view class="grid-4x4">
+      <block wx:for="{{serviceGrid}}" wx:key="title">
+        <view class="grid-cell glass-card" data-path="{{item.path}}" bindtap="navigateGrid">
+          <text class="grid-icon">{{item.icon}}</text>
+          <text class="grid-title">{{item.title}}</text>
+        </view>
+      </block>
+    </view>
   </view>
 
-  <swiper class="banner-swiper" autoplay interval="5000" circular indicator-dots indicator-color="rgba(255,255,255,0.4)" indicator-active-color="#D4A84B">
-    <block wx:for="{{banners}}" wx:key="id">
-      <swiper-item>
-        <safe-image className="banner-slide" src="{{item.img}}" mode="aspectFill" dataIndex="{{index}}" bind:tap="handleBannerTap" />
-      </swiper-item>
-    </block>
-  </swiper>
-
-  <view class="search-bar glass-card">
-    <icon type="search" size="16" color="#999" />
-    <input
-      placeholder="搜索产品、资讯、避坑指南"
-      value="{{searchValue}}"
-      confirm-type="search"
-      bindinput="handleSearchInput"
-      bindconfirm="handleSearch"
-    />
-  </view>
-
-  <view class="stats-card glass-card">
+  <view class="stats-card glass-card" wx:if="{{stats.length}}">
     <block wx:for="{{stats}}" wx:key="label">
       <view class="stat-item">
         <text class="stat-value">{{item.value}}</text>
@@ -41,39 +43,33 @@
     </block>
   </view>
 
-  <view class="section">
+  <swiper wx:if="{{banners.length}}" class="banner-swiper" autoplay interval="5000" circular indicator-dots indicator-color="rgba(255,255,255,0.4)" indicator-active-color="#D4A84B">
+    <block wx:for="{{banners}}" wx:key="id">
+      <swiper-item>
+        <safe-image className="banner-slide" src="{{item.img}}" mode="aspectFill" lazyLoad="{{true}}" dataIndex="{{index}}" bind:tap="handleBannerTap" />
+      </swiper-item>
+    </block>
+  </swiper>
+
+  <view class="section" wx:if="{{productList.length}}">
     <view class="section-header">
-      <text class="title">金融产品服务</text>
+      <text class="title">精选产品</text>
       <text class="more" bindtap="navigateToProducts">全部 ></text>
     </view>
-    <view class="category-flat-grid">
-      <block wx:for="{{categoryNav}}" wx:key="id">
-        <view class="category-flat-item glass-card" data-path="{{item.path}}" bindtap="navigateToCategory">
-          <text class="cat-icon-lg">{{item.icon}}</text>
-          <text class="cat-title">{{item.title}}</text>
-          <text class="cat-desc">{{item.desc}}</text>
+    <view class="product-grid-4">
+      <block wx:for="{{productList}}" wx:key="id">
+        <view class="product-cell glass-card" data-path="{{item.path}}" bindtap="navigateToProduct">
+          <view class="product-cell-cover" wx:if="{{item.cover}}">
+            <safe-image className="cover-slot" src="{{item.cover}}" mode="aspectFill" />
+          </view>
+          <view class="product-cell-body">
+            <text class="product-cell-name">{{item.name}}</text>
+            <text class="product-cell-rate">{{item.rate}}</text>
+          </view>
         </view>
       </block>
     </view>
   </view>
-
-  <block wx:for="{{categorySections}}" wx:key="id">
-    <view class="section" wx:if="{{item.products.length}}">
-      <view class="section-header">
-        <text class="title">{{item.title}}</text>
-        <text class="more" data-category="{{item.id}}" bindtap="navigateToCategoryProducts">更多 ></text>
-      </view>
-      <view class="product-flat-grid">
-        <block wx:for="{{item.products}}" wx:key="id">
-          <view class="product-flat-card glass-card" data-path="{{item.path}}" bindtap="navigateToProduct">
-            <safe-image className="product-flat-cover" src="{{item.cover}}" mode="aspectFill" />
-            <text class="product-flat-name">{{item.name}}</text>
-            <text class="product-flat-inst">{{item.institution || item.rate}}</text>
-          </view>
-        </block>
-      </view>
-    </view>
-  </block>
 
   <view class="section" wx:if="{{institutions.length}}">
     <view class="section-header">
@@ -93,122 +89,38 @@
     </view>
   </view>
 
-  <view class="quick-actions">
-    <view class="quick-card" bindtap="navigateToServiceChat">
-      <text class="quick-title">智能客服</text>
-      <text class="quick-desc">材料清单、风险提示、服务流程实时咨询</text>
-    </view>
-    <view class="quick-card" bindtap="navigateToRegionStats">
-      <text class="quick-title">地区数据</text>
-      <text class="quick-desc">查看各地区业务统计与公开数据来源</text>
-    </view>
-    <view class="quick-card quick-card-wide" bindtap="navigateToChannel">
-      <text class="quick-title">助融渠道</text>
-      <text class="quick-desc">零成本入驻，拓展合规助贷合作渠道</text>
-    </view>
-  </view>
-
-  <view class="section">
-    <view class="section-header">
-      <text class="title">车主工具</text>
-    </view>
-    <view class="tool-grid">
-      <block wx:for="{{toolEntries}}" wx:key="title">
-        <view class="tool-item" data-path="{{item.path}}" bindtap="navigateToTool">
-          <image class="tool-icon" src="{{item.icon}}" mode="aspectFit" />
-          <text class="tool-title">{{item.title}}</text>
-          <text class="tool-desc">{{item.desc}}</text>
-        </view>
-      </block>
-    </view>
-  </view>
-
-  <view class="section">
-    <view class="section-header">
-      <text class="title">服务场景</text>
-    </view>
-    <view class="service-list">
-      <block wx:for="{{services}}" wx:key="id">
-        <view class="service-item" data-path="{{item.path}}" bindtap="navigateToService">
-          <image class="service-icon" src="{{item.icon}}" mode="aspectFit" />
-          <view class="service-info">
-            <text class="service-title">{{item.title}}</text>
-            <text class="service-desc">{{item.desc}}</text>
-          </view>
-        </view>
-      </block>
-    </view>
-  </view>
-
-  <view class="section" wx:if="{{categoryProducts.business}}">
-    <view class="section-header">
-      <text class="title">企业经营贷</text>
-      <text class="more" data-category="business" bindtap="navigateToCategoryProducts">更多 ></text>
-    </view>
-    <scroll-view class="product-scroll" scroll-x enhanced show-scrollbar="{{false}}">
-      <block wx:for="{{categoryProducts.business}}" wx:key="id">
-        <view class="product-card" data-path="{{item.path}}" bindtap="navigateToProduct">
-          <safe-image className="product-cover" src="{{item.cover}}" mode="aspectFill" />
-          <text class="product-title">{{item.name}}</text>
-          <text class="product-rate">{{item.institution || item.rate}}</text>
-        </view>
-      </block>
-    </scroll-view>
-  </view>
-
-  <view class="section">
-    <view class="section-header">
-      <text class="title">精选产品</text>
-      <text class="more" bindtap="navigateToProducts">全部 ></text>
-    </view>
-    <scroll-view class="product-scroll" scroll-x enhanced show-scrollbar="{{false}}">
-      <block wx:for="{{productList}}" wx:key="id">
-        <view class="product-card" data-path="{{item.path}}" data-id="{{item.id}}" bindtap="navigateToProduct">
-          <safe-image className="product-cover" src="{{item.cover}}" mode="aspectFill" />
-          <text class="product-title">{{item.name}}</text>
-          <text class="product-rate">{{item.rate}}</text>
-          <view class="tag-row">
-            <block wx:for="{{item.tags}}" wx:key="*this">
-              <text class="tag">{{item}}</text>
-            </block>
-          </view>
-        </view>
-      </block>
-    </scroll-view>
-  </view>
-
-  <view class="section">
+  <view class="section" wx:if="{{cases.length}}">
     <view class="section-header">
       <text class="title">服务案例</text>
     </view>
-    <view class="case-list">
+    <view class="waterfall-list">
       <block wx:for="{{cases}}" wx:key="id">
-        <view class="case-card" data-path="{{item.path}}" bindtap="navigateToCase">
-          <safe-image className="case-cover" src="{{item.cover}}" mode="aspectFill" />
-          <view class="case-body">
-            <text class="case-tag">{{item.tag}}</text>
-            <text class="case-title">{{item.title}}</text>
-            <text class="case-result">{{item.result}}</text>
-            <text class="case-desc">{{item.desc}}</text>
-            <text class="case-link">查看方案 ></text>
+        <view class="waterfall-card glass-card" data-path="{{item.path}}" bindtap="navigateToCase">
+          <view class="waterfall-card-cover" wx:if="{{item.cover}}">
+            <safe-image className="wfall-cover" src="{{item.cover}}" mode="aspectFill" />
+          </view>
+          <view class="waterfall-card-body">
+            <text class="wfall-tag">{{item.tag}}</text>
+            <text class="wfall-title">{{item.title}}</text>
+            <text class="wfall-desc">{{item.result}}</text>
           </view>
         </view>
       </block>
     </view>
   </view>
 
-  <view class="section">
+  <view class="section" wx:if="{{newsList.length}}">
     <view class="section-header">
       <text class="title">最新资讯</text>
       <text class="more" bindtap="navigateToNews">更多 ></text>
     </view>
-    <view class="news-grid">
+    <view class="waterfall-list">
       <block wx:for="{{newsList}}" wx:key="id">
         <news-card
           id="{{item.id}}"
           category="{{item.category}}"
           title="{{item.title}}"
-          cover="{{item.cover}}"
+          cover="{{item.cover || ''}}"
           date="{{item.date}}"
           views="{{item.views}}"
           bind:cardtap="navigateToNewsDetail"
@@ -222,20 +134,20 @@
       <text class="title">精选需求</text>
       <text class="more" bindtap="navigateToDemand">去发布 ></text>
     </view>
-    <block wx:for="{{demandList}}" wx:key="id">
-      <view class="demand-card-enhanced glass-card" data-id="{{item.id}}" bindtap="navigateToDemandDetail">
-        <safe-image className="demand-cover" src="{{item.cover || '/images/banner2.webp'}}" mode="aspectFill" />
-        <view class="demand-body">
-          <text class="demand-type">{{item.type === 'funding' ? '找资金' : '供资金'}}</text>
-          <text class="demand-title">{{item.title}}</text>
-          <text class="demand-meta">{{item.amount}} · {{item.period}} · {{item.city}}</text>
-          <view class="progress-wrap">
-            <view class="progress-bar"><view class="progress-inner" style="width: {{item.progress}}%;"></view></view>
-            <text class="progress-text">匹配 {{item.progress}}%</text>
+    <view class="waterfall-list">
+      <block wx:for="{{demandList}}" wx:key="id">
+        <view class="waterfall-card glass-card" data-id="{{item.id}}" bindtap="navigateToDemandDetail">
+          <view class="waterfall-card-cover" wx:if="{{item.cover}}">
+            <safe-image className="wfall-cover" src="{{item.cover}}" mode="aspectFill" />
+          </view>
+          <view class="waterfall-card-body">
+            <text class="wfall-tag">{{item.type === 'funding' ? '找资金' : '供资金'}}</text>
+            <text class="wfall-title">{{item.title}}</text>
+            <text class="wfall-desc">{{item.amount}} · {{item.period}} · {{item.city}}</text>
           </view>
         </view>
-      </view>
-    </block>
+      </block>
+    </view>
   </view>
 
   <view class="compliance-tip">本平台仅提供金融信息咨询与居间撮合服务，不发放贷款</view>

@@ -1,4 +1,4 @@
-const { getExposureDetail } = require('../../../../api/content')
+const { getExposureDetail } = require('../../api/exposure')
 const mock = require('../../../../api/mock')
 
 Page({

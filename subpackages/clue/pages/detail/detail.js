@@ -1,4 +1,4 @@
-const { getClueDetail } = require('../../../../api/clue')
+const { getClueDetail } = require('../../api/clue')
 
 const TYPE_MAP = {
   new: '新车线索',

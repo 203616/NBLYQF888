@@ -60,7 +60,7 @@ Page({
   loadProfileData() {
     let progress = 0
     try {
-      const store = require('../../subpackages/intake/utils/store')
+      const store = require('../../utils/intakeStore')
       progress = store.getData().meta?.progress || 0
     } catch (e) {}
 

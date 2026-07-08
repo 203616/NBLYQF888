@@ -17,7 +17,7 @@
     "useCompilerPlugins": false,
     "minifyWXML": true,
     "cacheDisabled": true,
-    "ignoreUploadUnusedFiles": false,
+    "ignoreUploadUnusedFiles": true,
     "urlCheck": false,
     "autoResizable": true,
     "compileWorklet": false,
@@ -26,12 +26,14 @@
     "minifyWXSS": true,
     "localPlugins": false,
     "disableUseStrict": false,
-    "condition": false,
+    "condition": true,
     "swc": false,
     "disableSWC": true
   },
   "compileType": "miniprogram",
-  "simulatorPluginLibVersion": {},
+  "simulatorPluginLibVersion": {
+    "wxext14566970e7e9f62": "2.27.3"
+  },
   "packOptions": {
     "ignore": [
       {
@@ -79,6 +81,14 @@
         "value": "scripts"
       },
       {
+        "type": "folder",
+        "value": "deploy"
+      },
+      {
+        "type": "folder",
+        "value": "models"
+      },
+      {
         "type": "file",
         "value": "pnpm-lock.yaml"
       },
@@ -93,6 +103,14 @@
       {
         "type": "file",
         "value": ".env.example"
+      },
+      {
+        "type": "file",
+        "value": ".env"
+      },
+      {
+        "type": "file",
+        "value": "package.json"
       }
     ],
     "include": [
@@ -104,5 +122,7 @@
   },
   "appid": "wxf49b1aeb1d62f227",
   "editorSetting": {},
-  "libVersion": "3.8.9"
+  "libVersion": "3.8.9",
+  "projectArchitecture": "multiPlatform",
+  "testRoot": "minitest/"
 }

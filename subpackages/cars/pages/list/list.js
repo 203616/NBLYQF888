@@ -1,4 +1,4 @@
-const { getCarList } = require('../../../../api/cars')
+const { getCarList } = require('../../api/cars')
 const { getAppLocation, chooseLocation, requestLocation } = require('../../../../utils/location')
 
 Page({

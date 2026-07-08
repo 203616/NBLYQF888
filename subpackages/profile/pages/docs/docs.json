@@ -1,3 +1,7 @@
 {
   "navigationBarTitleText": "文档中心"
+,
+  "usingComponents": {
+    "safe-image": "/components/safe-image/safe-image"
+  }
 }

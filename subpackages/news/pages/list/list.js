@@ -1,4 +1,4 @@
-const { getNewsList } = require('../../../../api/content')
+const { getNewsList } = require('../../api/news')
 
 Page({
   data: {

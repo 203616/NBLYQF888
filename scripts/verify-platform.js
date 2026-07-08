@@ -57,11 +57,13 @@ if (fs.existsSync(intakeQueue)) {
 } else fail('缺少 utils/intakeSyncQueue.js')
 
 const intakeApi = path.join(root, 'api', 'intake.js')
-if (fs.existsSync(intakeApi)) {
-  const isrc = fs.readFileSync(intakeApi, 'utf8')
-  if (isrc.includes('flushPendingSync')) ok('api/intake.js flushPendingSync')
-  else fail('api/intake.js 缺少 flushPendingSync')
-}
+  if (fs.existsSync(intakeApi)) {
+    const isrc = fs.readFileSync(intakeApi, 'utf8')
+    if (isrc.includes('flushPendingSync')) ok('api/intake.js flushPendingSync')
+    else fail('api/intake.js 缺少 flushPendingSync')
+    if (isrc.includes('../utils/intakeMeta')) ok('api/intake.js 主包 intakeMeta')
+    else if (isrc.includes('subpackages/intake')) fail('api/intake.js 仍引用分包路径')
+  }
 
 console.log(failed ? '\n=== 多端检查失败 ===' : '\nALL_PLATFORM_OK')
 if (failed) process.exit(1)

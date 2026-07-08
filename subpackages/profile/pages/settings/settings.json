@@ -1,3 +1,7 @@
 {
   "navigationBarTitleText": "系统设置"
+,
+  "usingComponents": {
+    "safe-image": "/components/safe-image/safe-image"
+  }
 }

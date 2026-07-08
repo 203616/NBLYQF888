@@ -1,4 +1,4 @@
-const { getClueList } = require('../../../../api/clue')
+const { getClueList } = require('../../api/clue')
 const { getAppLocation, chooseLocation, requestLocation } = require('../../../../utils/location')
 
 Page({

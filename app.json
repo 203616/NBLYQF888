@@ -1,8 +1,7 @@
 {
   "pages": [
-    "pages/login/login",
     "pages/welcome/welcome",
-    "pages/onboarding/onboarding",
+    "pages/login/login",
     "pages/home/home",
     "pages/autoService/autoService",
     "pages/products/products",
@@ -77,9 +76,6 @@
   "resizable": true,
   "style": "v2",
   "lazyCodeLoading": "requiredComponents",
-  "usingComponents": {
-    "safe-image": "/components/safe-image/safe-image"
-  },
   "preloadRule": {
     "pages/home/home": {
       "network": "all",
@@ -109,7 +105,8 @@
       "pages": [
         "register/register",
         "forgot/forgot",
-        "privacy/privacy"
+        "privacy/privacy",
+        "onboarding/onboarding"
       ]
     },
     {

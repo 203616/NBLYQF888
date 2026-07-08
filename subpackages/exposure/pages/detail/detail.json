@@ -1,5 +1,7 @@
 {
   "navigationBarTitleText": "曝光详情",
-  "usingComponents": {},
+  "usingComponents": {
+    "safe-image": "/components/safe-image/safe-image"
+  },
   "enablePullDownRefresh": false
 }

@@ -1,4 +1,4 @@
-const { getFaqs, sendChatMessage } = require('../../../../api/service')
+const { getFaqs, sendChatMessage } = require('../../api/service')
 
 const SOURCE_MAP = {
   system: '系统欢迎语',

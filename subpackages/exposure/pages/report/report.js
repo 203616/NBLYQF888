@@ -1,4 +1,4 @@
-const { submitReport } = require('../../../../api/content')
+const { submitReport } = require('../../api/exposure')
 
 Page({
   data: {

@@ -1,4 +1,4 @@
-const { getTipsList } = require('../../../../api/content')
+const { getTipsList } = require('../../api/tips')
 
 Page({
   data: {

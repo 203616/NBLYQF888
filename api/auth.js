@@ -76,10 +76,10 @@ function localWechatLogin() {
 }
 
 function loginByWechat(code) {
-  if (getConfig().useMockFallback) {
+  if (getConfig().useMockFallback || isApiOffline()) {
     return Promise.resolve(localWechatLogin())
   }
-  return post('/auth/wechat-login', { code }, { showError: false })
+  return post('/auth/wechat-login', { code }, { showError: false, timeout: 8000 })
     .then(res => ({
       token: res.token,
       userInfo: {
@@ -89,7 +89,10 @@ function loginByWechat(code) {
       }
     }))
     .catch(err => {
-      if (err?.offline || isApiOffline()) return localWechatLogin()
+      const msg = String(err?.message || '')
+      if (err?.offline || isApiOffline() || msg.includes('超时') || msg.toLowerCase().includes('timeout')) {
+        return localWechatLogin()
+      }
       return Promise.reject(err)
     })
 }

@@ -1,7 +1,7 @@
 const store = require('../../utils/store')
 const { SECTION_MAP, rebuildSectionMap } = require('../../utils/modules')
 const { syncToServer } = require('../../../../api/intake')
-const { uploadIntakeFile, runIdCardOcr } = require('../../../../utils/intakeUpload')
+const { uploadIntakeFile, runIdCardOcr } = require('../../utils/intakeUpload')
 
 Page({
   data: {

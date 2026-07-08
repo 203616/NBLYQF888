@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "二手车按揭",
-  "usingComponents": {}
+  "usingComponents": {
+    "safe-image": "/components/safe-image/safe-image"
+  }
 }

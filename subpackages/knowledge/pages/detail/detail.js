@@ -1,4 +1,4 @@
-const { getKnowledgeDetail } = require('../../../../api/content')
+const { getKnowledgeDetail } = require('../../api/knowledge')
 const mock = require('../../../../api/mock')
 
 Page({

@@ -1,9 +1,9 @@
-const { getSystemKey } = require('../subpackages/intake/utils/systems/meta')
+const { getSystemKey } = require('../utils/intakeMeta')
 const { getConfig } = require('../utils/config')
 const { post, get } = require('../utils/request')
 
 function getStore() {
-  return require('../subpackages/intake/utils/store')
+  return require('../utils/intakeStore')
 }
 
 const STATUS_TEXT = {

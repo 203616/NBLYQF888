@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "汽车服务",
   "usingComponents": {
-    "service-card": "/components/card/service-card/service-card" 
+    "safe-image": "/components/safe-image/safe-image"
   }
 }

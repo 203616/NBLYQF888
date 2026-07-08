@@ -1,5 +1,5 @@
 const store = require('../../utils/store')
-const { uploadIntakeFile, runIdCardOcr, useIntakeApi } = require('../../../../utils/intakeUpload')
+const { uploadIntakeFile, runIdCardOcr, useIntakeApi } = require('../../utils/intakeUpload')
 const { syncToServer } = require('../../../../api/intake')
 
 const UPLOAD_ITEMS = [

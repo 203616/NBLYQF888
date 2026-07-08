@@ -1,34 +1,58 @@
 const { getHomeData } = require('../../api/home')
-const { getAppLocation, chooseLocation, requestLocation } = require('../../utils/location')
+const { getAppLocation, chooseLocation } = require('../../utils/location')
 const { preloadForPage } = require('../../utils/subpackagePreload')
+const { normalizeImageField } = require('../../utils/image')
+
+const SERVICE_GRID = [
+  { icon: '🏢', title: '经营贷', path: '/pages/products/products?category=business' },
+  { icon: '👤', title: '消费贷', path: '/pages/products/products?category=personal' },
+  { icon: '🏠', title: '抵押贷', path: '/pages/products/products?category=property' },
+  { icon: '⚙️', title: '融资租赁', path: '/pages/products/products?category=lease' },
+  { icon: '🚗', title: '新车按揭', path: '/subpackages/autoFinance/pages/newCar/newCar' },
+  { icon: '🔄', title: '二手车贷', path: '/subpackages/autoFinance/pages/usedCar/usedCar' },
+  { icon: '🔑', title: '车辆抵押', path: '/subpackages/autoFinance/pages/carMortgage/carMortgage' },
+  { icon: '🛡️', title: '汽车延保', path: '/subpackages/autoFinance/pages/warranty/warranty' },
+  { icon: '🧮', title: '计算器', path: '/subpackages/tools/pages/calculator/calculator' },
+  { icon: '🚙', title: '亮叶好车', path: '/subpackages/cars/pages/list/list' },
+  { icon: '📊', title: '车辆估值', path: '/subpackages/tools/pages/valuation/valuation' },
+  { icon: '⛽', title: '油价查询', path: '/subpackages/tools/pages/fuel/fuel' },
+  { icon: '💬', title: '智能客服', path: '/subpackages/service/pages/chat/chat' },
+  { icon: '📈', title: '地区数据', path: '/subpackages/stats/pages/region/region' },
+  { icon: '🤝', title: '助融渠道', path: '/subpackages/channel/pages/list/list' },
+  { icon: '💡', title: '易融圈', path: '/pages/financeCircle/financeCircle' }
+]
+
+function withCover(item) {
+  if (!item) return item
+  return {
+    ...item,
+    cover: item.cover ? normalizeImageField(item.cover) : '',
+    img: item.img ? normalizeImageField(item.img) : item.img
+  }
+}
 
 Page({
   data: {
+    serviceGrid: SERVICE_GRID,
     banners: [],
     stats: [],
     newsList: [],
     productList: [],
-    categoryNav: [],
     institutions: [],
-    categorySections: [],
     cases: [],
-    demandData: null,
-    services: [],
+    demandList: [],
     searchValue: '',
     loading: true,
-    location: null,
-    toolEntries: [
-      { title: '计算器', desc: '多产品还款测算', path: '/subpackages/tools/pages/calculator/calculator', icon: '/images/icon/calculator.png' },
-      { title: '亮叶好车', desc: '本地精选车源', path: '/subpackages/cars/pages/list/list', icon: '/images/icon/car-finance.png' },
-      { title: '车辆估值', desc: '快速参考估值', path: '/subpackages/tools/pages/valuation/valuation', icon: '/images/icon/car-clue.png' },
-      { title: '油价查询', desc: '本地油价参考', path: '/subpackages/tools/pages/fuel/fuel', icon: '/images/icon/fuel.png' }
-    ]
+    location: null
   },
 
   onLoad() {
-    if (!wx.getStorageSync('onboardingCompleted')) return
+    if (!wx.getStorageSync('onboardingCompleted')) {
+      wx.redirectTo({ url: '/pages/welcome/welcome' })
+      return
+    }
     preloadForPage('pages/home/home')
-    this.initLocation()
+    this.setData({ location: getAppLocation() })
     this.loadHomeData()
   },
 
@@ -38,35 +62,28 @@ Page({
     }
   },
 
-  initLocation() {
-    requestLocation({ showError: false })
-      .catch(() => null)
-      .finally(() => {
-        this.setData({ location: getAppLocation() })
-      })
+  onPullDownRefresh() {
+    this.loadHomeData()
   },
 
   loadHomeData() {
     getHomeData()
       .then(data => {
         this.setData({
-          banners: data.banners || [],
+          banners: (data.banners || []).map(withCover).filter(b => b.img),
           stats: data.stats || [],
-          services: data.serviceScenes || [],
-          newsList: data.newsList || [],
-          productList: data.products || [],
-          categoryNav: data.categoryNav || [],
+          newsList: (data.newsList || []).slice(0, 4).map(withCover),
+          productList: (data.products || []).slice(0, 8).map(withCover),
           institutions: data.institutions || [],
-          categoryProducts: data.categoryProducts || {},
-          categorySections: data.categorySections || [],
-          demandList: data.demands || [],
-          demandData: (data.demands && data.demands[0]) || null,
-          cases: data.cases || [],
+          demandList: (data.demands || []).slice(0, 2).map(withCover),
+          cases: (data.cases || []).slice(0, 3).map(withCover),
           loading: false
         })
+        wx.stopPullDownRefresh()
       })
       .catch(() => {
         this.setData({ loading: false })
+        wx.stopPullDownRefresh()
       })
   },
 
@@ -93,19 +110,22 @@ Page({
     }
   },
 
-  navigateToService(e) {
+  navigateGrid(e) {
     const path = e.currentTarget.dataset.path
-    if (path) {
-      if (path.startsWith('/pages/')) {
-        const tabPath = path.split('?')[0]
-        wx.switchTab({ url: tabPath })
-        if (path.includes('category=')) {
-          wx.setStorageSync('productsCategory', path.split('category=')[1].split('&')[0])
-        }
-      } else {
-        wx.navigateTo({ url: path })
+    if (!path) return
+    if (path.startsWith('/pages/')) {
+      const tabPath = path.split('?')[0]
+      wx.switchTab({ url: tabPath })
+      if (path.includes('category=')) {
+        wx.setStorageSync('productsCategory', path.split('category=')[1].split('&')[0])
       }
+    } else {
+      wx.navigateTo({ url: path })
     }
+  },
+
+  navigateToProducts() {
+    wx.switchTab({ url: '/pages/products/products' })
   },
 
   navigateToNews() {
@@ -122,7 +142,7 @@ Page({
   },
 
   navigateToDemandDetail(e) {
-    const id = e.currentTarget.dataset.id || (this.data.demandData && this.data.demandData.id)
+    const id = e.currentTarget.dataset.id
     if (id) wx.navigateTo({ url: `/subpackages/demand/pages/detail/detail?id=${id}` })
   },
 
@@ -130,27 +150,10 @@ Page({
     wx.switchTab({ url: '/pages/financeCircle/financeCircle' })
   },
 
-  navigateToProducts() {
-    wx.switchTab({ url: '/pages/products/products' })
-  },
-
-  navigateToServiceChat() {
-    wx.navigateTo({ url: '/subpackages/service/pages/chat/chat' })
-  },
-
-  navigateToRegionStats() {
-    wx.navigateTo({ url: '/subpackages/stats/pages/region/region' })
-  },
-
   handleChooseCity() {
     chooseLocation().then(location => {
       this.setData({ location })
     })
-  },
-
-  navigateToTool(e) {
-    const path = e.currentTarget.dataset.path
-    if (path) wx.navigateTo({ url: path })
   },
 
   navigateToNewsDetail(e) {
@@ -170,27 +173,6 @@ Page({
     }
   },
 
-  navigateToCategory(e) {
-    const path = e.currentTarget.dataset.path
-    if (!path) return
-    if (path.startsWith('/pages/')) {
-      wx.switchTab({ url: path.split('?')[0] })
-      if (path.includes('category=')) {
-        wx.setStorageSync('productsCategory', path.split('category=')[1])
-      }
-    } else {
-      wx.navigateTo({ url: path })
-    }
-  },
-
-  navigateToCategoryProducts(e) {
-    const category = e.currentTarget.dataset.category
-    if (category) {
-      wx.setStorageSync('productsCategory', category)
-      wx.switchTab({ url: '/pages/products/products' })
-    }
-  },
-
   navigateToInstitutionProduct(e) {
     const name = e.currentTarget.dataset.name
     const map = {
@@ -205,9 +187,5 @@ Page({
     const url = map[name] || '/pages/products/products'
     if (url.startsWith('/pages/')) wx.switchTab({ url })
     else wx.navigateTo({ url })
-  },
-
-  navigateToChannel() {
-    wx.navigateTo({ url: '/subpackages/channel/pages/list/list' })
   }
 })

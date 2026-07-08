@@ -1,4 +1,4 @@
-const { getKnowledgeList } = require('../../../../api/content')
+const { getKnowledgeList } = require('../../api/knowledge')
 
 Page({
   data: {

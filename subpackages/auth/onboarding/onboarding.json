@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "完善授权",
+  "usingComponents": {
+    "safe-image": "/components/safe-image/safe-image"
+  }
+}

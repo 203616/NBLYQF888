@@ -22,7 +22,7 @@ App({
     const token = wx.getStorageSync('authToken')
     this.globalData.authStatus = !!token
     this.globalData._bootstrapDone = false
-    if (token && wx.getStorageSync('onboardingCompleted')) {
+    if (token && wx.getStorageSync('onboardingCompleted') && !wx.getStorageSync('isGuest')) {
       setTimeout(() => {
         try {
           require('./utils/appBootstrap').syncAfterOnboarding()
@@ -37,7 +37,7 @@ App({
       this.globalData.lastSessionCheckAt = now
       this.checkUserAuthStatus()
     }
-    if (wx.getStorageSync('onboardingCompleted')) {
+    if (wx.getStorageSync('onboardingCompleted') && wx.getStorageSync('authToken') && !wx.getStorageSync('isGuest')) {
       try {
         const { flushPendingSync } = require('./api/intake')
         flushPendingSync().catch(() => null)

@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "产品大全",
-  "usingComponents": {}
+  "usingComponents": {
+    "safe-image": "/components/safe-image/safe-image"
+  }
 }

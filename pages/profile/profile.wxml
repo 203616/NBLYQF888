@@ -1,15 +1,15 @@
 <view class="profile-container page-shell">
-  <view class="user-header premium-hero">
-    <safe-image className="premium-hero-bg" src="/images/banner3.webp" mode="aspectFill" />
-    <view class="premium-hero-body profile-hero-body">
-      <safe-image src="{{userInfo.avatarUrl}}" className="avatar" bind:tap="editProfile" />
-      <text class="nickname">{{userInfo.nickName}}</text>
+  <view class="user-header premium-hero" style="height: 593rpx; display: block; box-sizing: border-box; left: 0rpx; top: 0rpx">
+    
+    <view class="premium-hero-body profile-hero-body" style="height: 787rpx; display: flex; box-sizing: border-box; left: 0rpx; top: 0rpx; width: 368rpx">
+      <safe-image style="width: 645rpx; height: 462rpx; display: block; box-sizing: border-box; position: relative; left: 162rpx; top: -97rpx" src="{{userInfo.avatarUrl}}" className="avatar" bind:tap="editProfile" />
+      <text class="nickname" style="position: relative; left: 189rpx; top: -116rpx">{{userInfo.nickName}}</text>
       <view class="badge" wx:if="{{userInfo.verified}}">已实名认证</view>
-      <text class="edit-hint" bindtap="editProfile">编辑资料 ›</text>
+      <text class="edit-hint" bindtap="editProfile" style="position: relative; left: 189rpx; top: -135rpx">编辑资料 ›</text>
     </view>
   </view>
 
-  <view class="stat-row profile-stats">
+  <view class="profile-stats">
     <view class="stat-item glass-card" wx:for="{{quickStats}}" wx:key="label" data-idx="{{index}}" bindtap="goStat">
       <text class="stat-num">{{item.value}}</text>
       <text class="stat-label">{{item.label}}</text>

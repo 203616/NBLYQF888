@@ -1,4 +1,4 @@
-const { getTipDetail } = require('../../../../api/content')
+const { getTipDetail } = require('../../api/tips')
 const mock = require('../../../../api/mock')
 
 Page({

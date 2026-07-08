@@ -1,7 +1,6 @@
 const app = getApp()
 const { loginByWechat, sendSmsCode, loginByPhone } = require('../../api/auth')
 const { isApiOffline } = require('../../utils/config')
-const { requestLocation } = require('../../utils/location')
 const { syncAfterOnboarding } = require('../../utils/appBootstrap')
 
 function finishEntry(res, phone) {
@@ -27,15 +26,16 @@ Page({
     codeText: '获取验证码',
     loggingIn: false,
     agreedPrivacy: false,
-    agreedService: false,
-    agreedLocation: false,
-    locationCity: '',
-    showPhoneForm: false
+    agreedService: false
   },
 
   onLoad() {
-    if (wx.getStorageSync('authToken') && wx.getStorageSync('onboardingCompleted')) {
-      wx.switchTab({ url: '/pages/home/home' })
+    const token = wx.getStorageSync('authToken')
+    const done = wx.getStorageSync('onboardingCompleted')
+    if (token && done) {
+      setTimeout(() => {
+        wx.switchTab({ url: '/pages/home/home' })
+      }, 80)
     }
   },
 
@@ -47,10 +47,6 @@ Page({
     this.setData({ agreedService: !this.data.agreedService })
   },
 
-  toggleLocationAgree() {
-    this.setData({ agreedLocation: !this.data.agreedLocation })
-  },
-
   viewPrivacy() {
     wx.navigateTo({ url: '/subpackages/auth/privacy/privacy?type=privacy' })
   },
@@ -59,24 +55,9 @@ Page({
     wx.navigateTo({ url: '/subpackages/auth/privacy/privacy?type=service' })
   },
 
-  authorizeLocation() {
-    requestLocation({ showError: true })
-      .then(loc => {
-        this.setData({ agreedLocation: true, locationCity: loc.city })
-        wx.showToast({ title: `已定位 ${loc.city}`, icon: 'success' })
-      })
-      .catch(() => {
-        this.setData({ agreedLocation: true, locationCity: '宁波市' })
-      })
-  },
-
   validateAgreements() {
     if (!this.data.agreedPrivacy || !this.data.agreedService) {
       wx.showToast({ title: '请先勾选协议', icon: 'none' })
-      return false
-    }
-    if (!this.data.agreedLocation) {
-      wx.showToast({ title: '请授权定位或勾选定位同意', icon: 'none' })
       return false
     }
     return true
@@ -92,7 +73,10 @@ Page({
         if (isApiOffline()) wx.showToast({ title: '演示模式', icon: 'none', duration: 1200 })
         finishEntry(res, this.data.phone || wx.getStorageSync('userPhone'))
       })
-      .catch(() => wx.showToast({ title: '登录失败', icon: 'none' }))
+      .catch(err => {
+        console.warn('[login] wechat auth failed', err)
+        wx.showToast({ title: '登录失败', icon: 'none' })
+      })
       .finally(() => {
         this.setData({ loggingIn: false })
         wx.hideLoading()
@@ -134,7 +118,10 @@ Page({
     wx.showLoading({ title: '登录中...', mask: true })
     loginByPhone(this.data.phone, this.data.smsCode)
       .then(res => finishEntry(res, this.data.phone))
-      .catch(() => wx.showToast({ title: '登录失败', icon: 'none' }))
+      .catch(err => {
+        console.warn('[login] phone login failed', err)
+        wx.showToast({ title: '登录失败', icon: 'none' })
+      })
       .finally(() => {
         this.setData({ loggingIn: false })
         wx.hideLoading()
@@ -145,9 +132,7 @@ Page({
     if (!this.validateAgreements()) return
     wx.setStorageSync('onboardingCompleted', true)
     wx.setStorageSync('privacyAgreedAt', new Date().toISOString())
-    if (!this.data.locationCity) {
-      this.setData({ locationCity: '宁波市', agreedLocation: true })
-    }
-    syncAfterOnboarding().finally(() => wx.switchTab({ url: '/pages/home/home' }))
+    wx.setStorageSync('isGuest', true)
+    wx.switchTab({ url: '/pages/home/home' })
   }
 })

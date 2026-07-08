@@ -20,30 +20,56 @@
 .welcome-content {
   position: relative;
   z-index: 1;
-  padding: 120rpx 48rpx 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 60rpx 48rpx 48rpx;
+  box-sizing: border-box;
+}
+
+.welcome-top {
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.welcome-page .premium-badge {
+  display: inline-block;
+  font-size: 22rpx;
+  color: #0F3D2E;
+  background: rgba(212, 168, 75, 0.9);
+  padding: 8rpx 24rpx;
+  border-radius: 999rpx;
+  letter-spacing: 2rpx;
+  font-weight: 600;
+}
+
+.welcome-middle {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  flex: 1;
 }
 
 .logo-wrap {
   position: relative;
-  margin-bottom: 48rpx;
+  margin-bottom: 32rpx;
 }
 
 .logo {
-  width: 200rpx;
-  height: 200rpx;
-  border-radius: 40rpx;
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 32rpx;
   position: relative;
   z-index: 1;
 }
 
 .logo-ring {
   position: absolute;
-  inset: -16rpx;
+  inset: -12rpx;
   border: 3rpx solid rgba(212, 168, 75, 0.5);
-  border-radius: 48rpx;
+  border-radius: 40rpx;
   animation: pulse 2s ease-in-out infinite;
 }
 
@@ -52,80 +78,102 @@
   50% { opacity: 1; transform: scale(1.03); }
 }
 
-.brand-copy {
-  text-align: center;
-  color: #fff;
-  margin-bottom: 48rpx;
-}
-
 .brand-title {
   display: block;
-  font-size: 52rpx;
+  font-size: 48rpx;
   font-weight: 700;
+  color: #fff;
   letter-spacing: 6rpx;
-  margin: 12rpx 0;
+  margin-bottom: 16rpx;
+}
+
+.divider-gold {
+  width: 60rpx;
+  height: 4rpx;
+  background: linear-gradient(90deg, #D4A84B, #F5D97E);
+  border-radius: 2rpx;
+  margin: 0 auto 16rpx;
 }
 
 .slogan {
   display: block;
-  font-size: 28rpx;
-  line-height: 1.8;
-  opacity: 0.95;
-}
-
-.sub-slogan {
-  display: block;
   font-size: 24rpx;
-  opacity: 0.8;
-  margin-top: 8rpx;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  text-align: center;
+  margin-bottom: 32rpx;
 }
 
 .welcome-features {
   width: 100%;
+  max-width: 500rpx;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12rpx;
 }
 
 .welcome-features .feature-item {
-  background: rgba(255, 255, 255, 0.12);
-  border: 1rpx solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1rpx solid rgba(255, 255, 255, 0.18);
+  border-radius: 16rpx;
+  padding: 20rpx 12rpx;
+  text-align: center;
+}
+
+.feat-icon {
+  display: block;
+  font-size: 36rpx;
+  margin-bottom: 6rpx;
 }
 
 .welcome-features .feat-title {
+  display: block;
+  font-size: 22rpx;
   color: #fff;
+  font-weight: 500;
+  margin-bottom: 4rpx;
 }
 
 .welcome-features .feat-desc {
-  color: rgba(255, 255, 255, 0.75);
+  display: block;
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.welcome-bottom {
+  flex-shrink: 0;
+  text-align: center;
 }
 
 .countdown-box {
-  position: fixed;
-  left: 32rpx;
-  right: 32rpx;
-  bottom: 80rpx;
-  z-index: 2;
-  padding: 32rpx;
-  text-align: center;
+  margin-bottom: 16rpx;
 }
 
 .countdown-text {
   display: block;
-  font-size: 26rpx;
-  color: var(--color-text-secondary);
-  margin-bottom: 20rpx;
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 16rpx;
 }
 
 .skip-btn {
-  width: 100%;
-  height: 88rpx;
-  line-height: 88rpx;
+  width: 280rpx;
+  height: 80rpx;
+  line-height: 80rpx;
   border-radius: 999rpx;
-  font-size: 32rpx;
+  font-size: 28rpx;
+  background: linear-gradient(135deg, #D4A84B, #C49A3E);
+  color: #fff;
+  border: none;
+  margin: 0 auto;
 }
 
 .compliance-mini {
   display: block;
   font-size: 20rpx;
-  color: var(--color-text-muted);
-  margin-top: 20rpx;
+  color: rgba(255, 255, 255, 0.5);
   line-height: 1.5;
 }

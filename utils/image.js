@@ -13,6 +13,24 @@ const MAIN_FALLBACK_MAP = {
   '/images/avatar.webp': '/subpackages/banner/images/avatar.png'
 }
 
+/** 历史错误路径 → 分包真实路径 */
+const LEGACY_PATH_PREFIX = [
+  ['/images/products/', '/subpackages/product/images/products/'],
+  ['/images/news/', '/subpackages/news/images/news/'],
+  ['/images/knowledge/', '/subpackages/knowledge/images/knowledge/'],
+  ['/images/tips/', '/subpackages/tips/images/tips/'],
+  ['/images/cases/', '/subpackages/cases/images/cases/']
+]
+
+function resolveLocalImagePath(path) {
+  if (!path || typeof path !== 'string') return ''
+  let local = path.startsWith('/') ? path : `/${path}`
+  LEGACY_PATH_PREFIX.forEach(([from, to]) => {
+    if (local.startsWith(from)) local = local.replace(from, to)
+  })
+  return local
+}
+
 function preferWebp(path) {
   if (!path || typeof path !== 'string') return path
   if (path.startsWith('http://') || path.startsWith('https://')) return path
@@ -32,17 +50,19 @@ function toLocalPath(urlPath) {
 }
 
 function getFallbackPath(path) {
-  const local = toLocalPath(path)
+  const local = resolveLocalImagePath(toLocalPath(path))
   if (MAIN_FALLBACK_MAP[local]) return MAIN_FALLBACK_MAP[local]
   if (local.endsWith('.webp')) return local.replace(/\.webp$/i, '.png')
   return local
 }
 
 function getImageUrl(localPath) {
-  if (!localPath || typeof localPath !== 'string') return localPath
+  if (localPath == null || localPath === '') return ''
+  if (typeof localPath !== 'string') return ''
   if (localPath.startsWith('http://') || localPath.startsWith('https://')) return localPath
   const { cdnBaseUrl, useCdnImages } = getConfig()
-  const normalized = preferWebp(localPath.startsWith('/') ? localPath : `/${localPath}`)
+  const resolved = resolveLocalImagePath(localPath)
+  const normalized = preferWebp(resolved.startsWith('/') ? resolved : `/${resolved}`)
   if (useCdnImages && cdnBaseUrl) {
     const base = cdnBaseUrl.replace(/\/$/, '')
     return `${base}${normalized}`
@@ -80,7 +100,9 @@ function normalizeMediaInObject(obj) {
 
 module.exports = {
   MAIN_FALLBACK_MAP,
+  LEGACY_PATH_PREFIX,
   preferWebp,
+  resolveLocalImagePath,
   toLocalPath,
   getFallbackPath,
   getImageUrl,

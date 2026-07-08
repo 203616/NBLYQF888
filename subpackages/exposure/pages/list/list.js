@@ -1,4 +1,4 @@
-const { getExposureList } = require('../../../../api/content')
+const { getExposureList } = require('../../api/exposure')
 
 Page({
   data: {

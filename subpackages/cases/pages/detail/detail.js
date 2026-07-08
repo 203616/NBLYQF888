@@ -1,4 +1,4 @@
-const { getCaseDetail } = require('../../../../api/cases')
+const { getCaseDetail } = require('../../api/cases')
 
 Page({
   data: {

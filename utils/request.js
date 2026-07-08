@@ -39,8 +39,20 @@ function normalizeError(error) {
 }
 
 function request(options) {
-  const { apiBaseUrl } = getConfig()
+  const config = getConfig()
+  const { apiBaseUrl } = config
   const { url, method = 'GET', data = {}, header = {}, showError = true, timeout = 15000, retry = 1 } = options
+
+  // If offline already marked, or mock fallback is on, reject immediately without network call
+  if (isApiOffline() || config.useMockFallback) {
+    const error = {
+      code: 'OFFLINE',
+      message: '本地演示模式：API 未连接',
+      offline: true
+    }
+    return Promise.reject(error)
+  }
+
   const targetUrl = url.startsWith('http') ? url : `${apiBaseUrl}${url}`
 
   if (!url.startsWith('http') && !apiBaseUrl) {
@@ -76,7 +88,7 @@ function request(options) {
               statusCode: res.statusCode,
               message: body.message || body.msg || '请求失败'
             })
-            if (showError) wx.showToast({ title: error.message, icon: 'none' })
+            if (showError && !error.offline) wx.showToast({ title: error.message, icon: 'none' })
             reject(error)
           }
         },
@@ -85,10 +97,12 @@ function request(options) {
           if (error.offline && !isApiOffline()) {
             markApiOffline()
           }
-          if (remainingRetry > 0 && error.message.includes('超时')) {
+          // Only retry if there are retries left and it's a connection/timeout error
+          if (remainingRetry > 0 && (error.offline || error.message.includes('超时'))) {
             send(remainingRetry - 1)
             return
           }
+          // Don't show toast for offline errors — caller handles it
           if (showError && !error.offline) {
             wx.showToast({ title: error.message, icon: 'none' })
           }

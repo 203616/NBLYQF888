@@ -1,5 +1,5 @@
-const { getValuationBrands, estimateVehicle, submitValuation } = require('../../../../api/tools')
-const { uploadValuationPhoto, ocrValuationPhoto } = require('../../../../utils/valuationUpload')
+const { getValuationBrands, estimateVehicle, submitValuation } = require('../../api/tools')
+const { uploadValuationPhoto, ocrValuationPhoto } = require('../../utils/valuationUpload')
 const { getAppLocation, chooseLocation } = require('../../../../utils/location')
 
 const PHOTO_SLOTS = [
