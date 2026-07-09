@@ -24,7 +24,7 @@
 
   <block wx:for="{{exposureList}}" wx:key="id">
     <view class="exposure-card glass-card" bindtap="navigateToDetail" data-id="{{item.id}}">
-      <safe-image className="cover-thumb" src="{{item.cover}}" mode="aspectFill" />
+      <safe-image className="cover-thumb" src="{{item.cover || ''}}" mode="aspectFill" />
       <view class="card-body">
         <view class="card-header">
           <text class="type-tag">{{item.typeName}}</text>

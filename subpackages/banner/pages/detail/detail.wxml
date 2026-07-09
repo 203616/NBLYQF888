@@ -1,5 +1,5 @@
 <view class="banner-detail page-shell" wx:if="{{bannerDetail}}">
-  <safe-image src="{{bannerDetail.image || bannerDetail.img}}" className="banner-image" mode="widthFix" />
+  <safe-image src="{{(bannerDetail.image || bannerDetail.img) || ''}}" className="banner-image" mode="widthFix" />
 
   <view class="content-card glass-card">
     <text class="premium-badge">专题活动</text>
@@ -18,7 +18,7 @@
     <scroll-view class="product-scroll" scroll-x>
       <block wx:for="{{relatedProducts}}" wx:key="id">
         <view class="product-card" bindtap="navigateToProduct" data-id="{{item.id}}">
-          <safe-image src="{{item.cover || item.image}}" className="product-image" mode="aspectFill" />
+          <safe-image src="{{(item.cover || item.image) || ''}}" className="product-image" mode="aspectFill" />
           <text class="product-name">{{item.name}}</text>
         </view>
       </block>

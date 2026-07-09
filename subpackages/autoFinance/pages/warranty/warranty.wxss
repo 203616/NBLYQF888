@@ -35,7 +35,7 @@
   padding: 6rpx 18rpx;
   border-radius: 999rpx;
   background: rgba(212, 168, 75, 0.95);
-  color: #0F3D2E;
+  color: var(--color-primary);
   font-size: 22rpx;
   font-weight: 600;
   margin-bottom: 12rpx;

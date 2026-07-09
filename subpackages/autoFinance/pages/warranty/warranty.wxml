@@ -1,6 +1,6 @@
 <view class="warranty-page" wx:if="{{plan}}">
   <view class="warranty-hero">
-    <safe-image src="{{plan.cover}}" className="warranty-hero-img" mode="aspectFill" />
+    <safe-image src="{{plan.cover || ''}}" className="warranty-hero-img" mode="aspectFill" />
     <view class="warranty-hero-mask"></view>
     <view class="warranty-hero-body">
       <text class="warranty-badge">延保服务专区</text>

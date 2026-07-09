@@ -32,7 +32,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, repoRoot, '')
   const adminBase = (env.ADMIN_BASE_PATH || '/ly-admin').replace(/\/$/, '')
   const adminPort = Number(env.ADMIN_PORT || 5188)
-  const apiTarget = env.PUBLIC_BASE_URL || 'http://localhost:3000'
+  const apiTarget = env.PUBLIC_BASE_URL || 'http://localhost:4003'
 
   return {
     envDir: repoRoot,
@@ -41,7 +41,7 @@ export default defineConfig(({ mode }) => {
     server: {
       host: '0.0.0.0',
       port: adminPort,
-      strictPort: false,
+      strictPort: true,
       open: `${adminBase}/`,
       proxy: {
         '/api': {

@@ -9,6 +9,16 @@
   margin-bottom: 30rpx;
 }
 
+.form-row {
+  display: flex;
+  gap: 20rpx;
+}
+
+.form-group.half {
+  flex: 1;
+  min-width: 0;
+}
+
 .label {
   display: block;
   font-size: 28rpx;
@@ -17,12 +27,47 @@
   font-weight: bold;
 }
 
-input {
+.label-tip {
+  font-size: 22rpx;
+  color: #999;
+  font-weight: normal;
+  margin-left: 10rpx;
+}
+
+.form-input {
   height: 80rpx;
   border: 1rpx solid #e0e0e0;
   border-radius: 8rpx;
   padding: 0 20rpx;
   font-size: 28rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.picker-input {
+  height: 80rpx;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+}
+
+.picker-value {
+  color: #333;
+  font-size: 28rpx;
+}
+
+.picker-value.placeholder {
+  color: #bbb;
+}
+
+.picker-arrow {
+  font-size: 20rpx;
+  color: #999;
 }
 
 .product-types, .repayment-methods {
@@ -34,39 +79,87 @@ input {
 .product-type, .repayment-method {
   padding: 15rpx 30rpx;
   border-radius: 40rpx;
-  background: #E6F2EC;
-  color: #0F3D2E;
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
   font-size: 26rpx;
 }
 
 .product-type.selected, .repayment-method.selected {
-  background: #0F3D2E;
+  background: var(--color-primary);
   color: white;
 }
 
-.calculate-btn, .reset-btn {
-  height: 80rpx;
-  line-height: 80rpx;
-  border-radius: 40rpx;
-  font-size: 30rpx;
+/* 提前还款区域 */
+.prepay-section {
+  background: #f8faf8;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  border: 1rpx solid #e8f0e8;
+}
+
+.section-subtitle {
+  display: block;
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #0F3D2E;
+  margin-bottom: 16rpx;
+}
+
+.tips-text {
+  font-size: 22rpx;
+  color: #888;
+  line-height: 1.5;
+  padding: 10rpx 0;
+}
+
+/* 按钮行 */
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
   margin: 30rpx 0;
 }
 
 .calculate-btn {
+  flex: 1;
+  min-width: 200rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  border-radius: 40rpx;
+  font-size: 30rpx;
   background: #0F3D2E;
   color: white;
 }
 
 .reset-btn {
+  flex: 1;
+  min-width: 200rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  border-radius: 40rpx;
+  font-size: 28rpx;
   background: #E6F2EC;
   color: #0F3D2E;
   border: 1rpx solid #0F3D2E;
 }
 
+.clear-btn {
+  flex: 0 0 auto;
+  padding: 0 40rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  border-radius: 40rpx;
+  font-size: 26rpx;
+  background: #fff3e0;
+  color: #e65100;
+  border: 1rpx solid #ffcc80;
+}
+
 .results-section {
   margin-top: 30rpx;
   padding-top: 30rpx;
-  border-top: 1rpx solid #eee;
+  border-top: 2rpx solid #0F3D2E;
 }
 
 .section-title {
@@ -77,11 +170,17 @@ input {
   margin-bottom: 20rpx;
 }
 
+.divider {
+  height: 1rpx;
+  background: #e0e0e0;
+  margin: 20rpx 0;
+}
+
 .result-item {
   display: flex;
   justify-content: space-between;
-  padding: 15rpx 0;
-  font-size: 28rpx;
+  padding: 12rpx 0;
+  font-size: 27rpx;
   border-bottom: 1rpx solid #f0f0f0;
 }
 
@@ -90,25 +189,67 @@ input {
   color: #e53f3f;
 }
 
-.analysis {
-  margin-top: 30rpx;
-  padding: 20rpx;
-  background: #fff9e9;
-  border-radius: 8rpx;
-  font-size: 26rpx;
-  color: #666;
-  line-height: 1.5;
-}
-
-.analysis-line {
-  display: block;
-  margin-bottom: 10rpx;
-}
-
-.analysis-suggest {
-  display: block;
+.result-amount {
+  font-size: 32rpx;
   font-weight: bold;
   color: #0F3D2E;
+}
+
+/* 还款计划表 */
+.schedule-section {
+  margin-top: 30rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #eee;
+}
+
+.schedule-scroll {
+  max-height: 600rpx;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 8rpx;
+}
+
+.schedule-row {
+  display: flex;
+  padding: 12rpx 16rpx;
+  font-size: 24rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.schedule-row.head .schedule-header-item {
+  flex: 1;
+  text-align: center;
+  font-size: 24rpx;
+  color: white;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+}
+
+.schedule-row .cell-text {
+  flex: 1;
+  text-align: center;
+  font-size: 22rpx;
+}
+
+.export-row {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 16rpx;
+}
+
+.export-btn {
+  flex: 1;
+  height: 70rpx;
+  line-height: 70rpx;
+  border-radius: 35rpx;
+  font-size: 26rpx;
+  background: #E6F2EC;
+  color: #0F3D2E;
+  border: 1rpx solid #0F3D2E;
+}
+
+.export-btn-disabled {
+  opacity: 0.6;
 }
 
 .export-canvas {
@@ -117,4 +258,21 @@ input {
   top: -9999px;
   width: 750px;
   height: 1200px;
+}
+
+/* 快速金额快捷选择 */
+.quick-amounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 10rpx;
+}
+
+.quick-amount-btn {
+  padding: 10rpx 24rpx;
+  border-radius: 30rpx;
+  background: #f5f5f5;
+  color: #666;
+  font-size: 24rpx;
+  border: 1rpx solid #e0e0e0;
 }

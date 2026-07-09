@@ -24,6 +24,19 @@ page {
 .icon-heart:before { content: "♥"; }
 .icon-right:before { content: "›"; }
 .icon-more:before { content: "⋯"; }
+.icon-location:before { content: "📍"; }
+.icon-calculator:before { content: "🧮"; }
+.icon-fuel:before { content: "⛽"; }
+.icon-car-finance:before { content: "🚗"; }
+.icon-car-new:before { content: "🆕"; }
+.icon-car-used:before { content: "🔄"; }
+.icon-car-loan:before { content: "🔑"; }
+.icon-car-clue:before { content: "🔍"; }
+.icon-knowledge:before { content: "📖"; }
+.icon-tip:before { content: "💡"; }
+.icon-finance:before { content: "🏦"; }
+.icon-default:before { content: "📋"; }
+.icon-search:before { content: "🔍"; }
 
 .page-shell {
   min-height: 100vh;
@@ -69,6 +82,10 @@ page {
   width: 32rpx;
   height: 32rpx;
   margin-right: 12rpx;
+  font-size: 32rpx;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hero-card {
@@ -103,6 +120,36 @@ page {
   padding: 0 30rpx;
   margin-bottom: 24rpx;
   box-shadow: var(--shadow-card);
+}
+
+/* ===== Global filter pills / tabs ===== */
+.filter-tab,
+.filter-pill {
+  display: inline-block;
+  font-size: 24rpx;
+  padding: 10rpx 22rpx;
+  border-radius: 999rpx;
+  background: var(--color-bg-card);
+  color: var(--color-text-secondary);
+  box-shadow: var(--shadow-card);
+  margin-right: 12rpx;
+}
+.filter-tab.active,
+.filter-pill.active {
+  background: var(--gradient-hero);
+  color: #fff;
+}
+
+.hero-btn {
+  margin-top: 16rpx;
+  background: var(--color-bg-card);
+  color: var(--color-primary);
+  border-radius: 999rpx;
+  font-size: 26rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  padding: 0 32rpx;
+  display: inline-block;
 }
 
 .search-bar input {

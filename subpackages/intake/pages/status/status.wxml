@@ -5,7 +5,7 @@
   </view>
 
   <view class="status-hero premium-hero">
-    <safe-image className="premium-hero-bg status-cover" src="{{module.icon}}" mode="aspectFill" />
+    <safe-image className="premium-hero-bg status-cover" src="{{module.icon || ''}}" mode="aspectFill" />
     <view class="premium-hero-body">
       <text class="premium-badge">{{sectionLabel}}</text>
       <text class="premium-hero-title">{{module.title}}</text>

@@ -14,6 +14,22 @@ function listByType(type) {
   return db.prepare('SELECT id, type, category, title, summary, content, cover, source, level, risk_level AS levelText, views, published_at AS date FROM articles WHERE type = ? AND status = ? ORDER BY published_at DESC, id DESC').all(type, 'published').map(normalizeArticle)
 }
 
+// 内容根路径 - 返回内容分类概览
+router.get('/', (req, res) => {
+  try {
+    const newsCount = db.prepare('SELECT COUNT(*) AS count FROM articles WHERE type = ? AND status = ?').get('news', 'published').count
+    const knowledgeCount = db.prepare('SELECT COUNT(*) AS count FROM articles WHERE type = ? AND status = ?').get('knowledge', 'published').count
+    const tipsCount = db.prepare('SELECT COUNT(*) AS count FROM articles WHERE type = ? AND status = ?').get('tips', 'published').count
+    ok(res, { categories: [
+      { type: 'news', label: '金融资讯', count: newsCount },
+      { type: 'knowledge', label: '金融知识', count: knowledgeCount },
+      { type: 'tips', label: '防骗技巧', count: tipsCount }
+    ]})
+  } catch (e) {
+    fail(res, '内容获取失败: ' + e.message)
+  }
+})
+
 router.get('/news', (req, res) => ok(res, listByType('news')))
 router.get('/knowledge', (req, res) => ok(res, listByType('knowledge')))
 router.get('/tips', (req, res) => ok(res, listByType('tips')))

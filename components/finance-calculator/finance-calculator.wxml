@@ -1,204 +1,233 @@
 <view class="finance-calculator">
+  <!-- ============ 产品类型（原生 picker） ============ -->
   <view class="form-group">
-    <text class="label">贷款产品</text>
-    <view class="product-types">
-      <block wx:for="{{productTypes}}" wx:key="index">
-        <text
-          class="product-type {{form.productType === item ? 'selected' : ''}}"
-          data-product="{{item}}"
-          bindtap="handleProductSelect"
-        >{{item}}</text>
-      </block>
-    </view>
+    <text class="label">产品类型</text>
+    <picker mode="selector" value="{{productTypeIdx}}" range="{{productTypes}}" range-key="{{'name'}}" bindchange="onProductPickerChange">
+      <view class="picker-input">
+        <text class="picker-value">{{productLabel}}</text>
+        <text class="picker-arrow">▼</text>
+      </view>
+    </picker>
   </view>
 
+  <block wx:if="{{isVehicleProduct}}">
+    <!-- ============ 车辆信息（车贷/车分期专用） ============ -->
+    <view class="form-group">
+      <text class="label">车辆品牌</text>
+      <picker mode="selector" value="{{brandIdx}}" range="{{vehicleBrands}}" bindchange="onBrandPickerChange">
+        <view class="picker-input">
+          <text class="picker-value {{form.vehicleBrand ? '' : 'placeholder'}}">{{form.vehicleBrand || '请选择品牌'}}</text>
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-group">
+      <text class="label">车型/车款</text>
+      <input type="text" placeholder="请输入车型（如A4L、Model Y）" value="{{form.vehicleModel}}" bindinput="handleInputChange" data-field="vehicleModel" class="form-input" />
+    </view>
+
+    <view class="form-group">
+      <text class="label">车辆年款</text>
+      <picker mode="selector" value="{{yearIdx}}" range="{{yearRange}}" bindchange="onYearPickerChange">
+        <view class="picker-input">
+          <text class="picker-value">{{form.vehicleYear || '请选择年款'}}</text>
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-group">
+      <text class="label">开票价格（元）</text>
+      <input type="number" placeholder="请输入车辆开票价格" value="{{form.invoicePrice}}" bindinput="handleInputChange" bindblur="handleInputBlur" data-field="invoicePrice" class="form-input" />
+    </view>
+
+    <view class="form-row">
+      <view class="form-group half">
+        <text class="label">首付比例（%）</text>
+        <input type="number" placeholder="如30" value="{{form.downPaymentRate}}" bindinput="handleInputChange" bindblur="handleInputBlur" data-field="downPaymentRate" class="form-input" />
+      </view>
+      <view class="form-group half">
+        <text class="label">首付金额（元）</text>
+        <input type="number" placeholder="自动计算" value="{{form.downPayment}}" bindinput="handleInputChange" data-field="downPayment" class="form-input" />
+      </view>
+    </view>
+
+    <view class="form-group">
+      <text class="label">贷款金额（元）<text class="label-tip">千位取整</text></text>
+      <input type="number" placeholder="请输入贷款金额" value="{{form.loanAmount}}" bindinput="handleInputChange" data-field="loanAmount" class="form-input" />
+    </view>
+
+    <view class="form-group">
+      <text class="label">金融机构</text>
+      <picker mode="selector" value="{{instIdx}}" range="{{financialInstitutions}}" bindchange="onInstPickerChange">
+        <view class="picker-input">
+          <text class="picker-value {{form.financialInstitution ? '' : 'placeholder'}}">{{form.financialInstitution || '请选择金融机构'}}</text>
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+  </block>
+
+  <!-- ============ 通用字段 ============ -->
   <view class="form-group">
     <text class="label">还款方式</text>
     <view class="repayment-methods">
       <block wx:for="{{availableMethods.length ? availableMethods : repaymentMethods}}" wx:key="id">
-        <text
-          class="repayment-method {{form.repaymentMethod === item.id ? 'selected' : ''}}"
-          data-method="{{item.id}}"
-          bindtap="handleRepaymentSelect"
-        >{{item.name}}</text>
+        <text class="repayment-method {{form.repaymentMethod === item.id ? 'selected' : ''}}" data-method="{{item.id}}" bindtap="handleRepaymentSelect">{{item.name}}</text>
       </block>
     </view>
   </view>
 
   <view class="form-group">
     <text class="label">贷款金额（元）</text>
-    <input
-      type="number"
-      placeholder="请输入贷款金额"
-      value="{{form.loanAmount}}"
-      bindinput="handleInputChange"
-      data-field="loanAmount"
-    />
+    <input type="number" placeholder="请输入贷款金额" value="{{form.loanAmount}}" bindinput="handleInputChange" data-field="loanAmount" class="form-input" />
   </view>
 
   <view class="form-group">
-    <text class="label">贷款期限（月）</text>
-    <input
-      type="number"
-      placeholder="请输入贷款期限"
-      value="{{form.loanTerm}}"
-      bindinput="handleInputChange"
-      data-field="loanTerm"
-    />
+    <text class="label">贷款期限</text>
+    <picker mode="selector" value="{{termIdx}}" range="{{loanTermOptions}}" range-key="{{''}}" bindchange="onTermPickerChange">
+      <view class="picker-input">
+        <text class="picker-value">{{termLabel}}</text>
+        <text class="picker-arrow">▼</text>
+      </view>
+    </picker>
   </view>
 
   <view class="form-group">
     <text class="label">年利率（%）</text>
-    <input
-      type="number"
-      placeholder="请输入年利率"
-      value="{{form.annualRate}}"
-      bindinput="handleInputChange"
-      data-field="annualRate"
-    />
+    <input type="digit" placeholder="请输入年利率" value="{{form.annualRate}}" bindinput="handleInputChange" data-field="annualRate" class="form-input" />
   </view>
 
-  <view wx:if="{{form.repaymentMethod === 'equal_installment'}}">
-    <view class="form-group">
-      <text class="label">违约金率（%）</text>
-      <input
-        type="number"
-        placeholder="请输入违约金率"
-        value="{{form.penaltyRate}}"
-        bindinput="handleInputChange"
-        data-field="penaltyRate"
-      />
+  <!-- ============ 提前还款相关（等本等息 & 车类业务） ============ -->
+  <block wx:if="{{form.repaymentMethod === 'equal_installment' && isVehicleProduct}}">
+    <view class="prepay-section">
+      <text class="section-subtitle">提前还款设置</text>
+      <view class="form-group">
+        <text class="label">违约金比例（%）</text>
+        <input type="number" placeholder="如5" value="{{form.penaltyRate}}" bindinput="handleInputChange" data-field="penaltyRate" class="form-input" />
+      </view>
+      <view class="form-group">
+        <text class="label">已还期数（月）</text>
+        <input type="number" placeholder="请输入已还期数" value="{{form.paidMonths}}" bindinput="handleInputChange" data-field="paidMonths" class="form-input" />
+      </view>
+      <view class="tips-text">规则说明：5年期合同，24期内提前还款按{{form.penaltyRate}}%收取违约金，超过24期免违约金</view>
     </view>
+  </block>
 
-    <view class="form-group" wx:if="{{form.repaymentMethod === 'equal_installment' && form.productType !== '车贷'}}">
-      <text class="label">返现率（%）</text>
-      <input type="number" value="{{form.rebateRate}}" bindinput="handleInputChange" data-field="rebateRate" />
-    </view>
-
-    <view class="form-group">
-      <text class="label">已还期数（月）</text>
-      <input
-        type="number"
-        placeholder="请输入已还期数"
-        value="{{form.paidMonths}}"
-        bindinput="handleInputChange"
-        data-field="paidMonths"
-      />
-    </view>
+  <!-- ============ 操作按钮 ============ -->
+  <view class="btn-row">
+    <button class="calculate-btn" bindtap="calculate">开始计算</button>
+    <button class="reset-btn" bindtap="resetCalculator">重置</button>
+    <button class="clear-btn" wx:if="{{showResults}}" bindtap="clearResults">清除结果</button>
   </view>
 
-  <button class="calculate-btn" bindtap="calculate">开始计算</button>
-  <button class="reset-btn" bindtap="resetCalculator">重置计算器</button>
-
+  <!-- ============ 结果区域 ============ -->
   <view class="results-section" wx:if="{{showResults}}">
-    <text class="section-title">计算结果</text>
+    <text class="section-title">📊 计算结果</text>
 
+    <!-- 基本信息 -->
     <view class="result-item">
-      <text>贷款产品</text>
-      <text>{{form.productType}}</text>
+      <text>产品类型</text>
+      <text>{{productLabel}}</text>
     </view>
-
+    <block wx:if="{{isVehicleProduct}}">
+      <view class="result-item"><text>车辆信息</text><text>{{form.vehicleBrand}} {{form.vehicleModel}} {{form.vehicleYear}}</text></view>
+      <view class="result-item"><text>金融机构</text><text>{{form.financialInstitution || '—'}}</text></view>
+    </block>
     <view class="result-item">
       <text>还款方式</text>
       <text>{{repaymentMethodName}}</text>
     </view>
+    <view class="result-item">
+      <text>贷款金额</text>
+      <text>¥{{form.loanAmount}}</text>
+    </view>
+    <view class="result-item">
+      <text>年利率</text>
+      <text>{{form.annualRate}}%</text>
+    </view>
+    <view class="result-item">
+      <text>贷款期限</text>
+      <text>{{form.loanTerm}}期（{{termYearsLabel}}）</text>
+    </view>
 
+    <!-- 等本等息（车贷/车分期专用） -->
     <block wx:if="{{form.repaymentMethod === 'equal_installment'}}">
-      <view class="result-item">
-        <text>每月本金</text>
-        <text>¥{{displayResults.monthlyPrincipal}}</text>
-      </view>
-      <view class="result-item">
-        <text>每月利息</text>
-        <text>¥{{displayResults.monthlyInterest}}</text>
-      </view>
-      <view class="result-item">
-        <text>每月还款额</text>
-        <text>¥{{displayResults.monthlyPayment}}</text>
-      </view>
-      <view class="result-item">
-        <text>总利息</text>
-        <text>¥{{displayResults.totalInterest}}</text>
-      </view>
-      <view class="result-item">
-        <text>已还本金</text>
-        <text>¥{{displayResults.repaidPrincipal}}</text>
-      </view>
-      <view class="result-item">
-        <text>已还利息</text>
-        <text>¥{{displayResults.repaidInterest}}</text>
-      </view>
-      <view class="result-item">
-        <text>剩余本金</text>
-        <text>¥{{displayResults.remainingPrincipal}}</text>
-      </view>
-      <view class="result-item">
-        <text>违约金</text>
-        <text>¥{{displayResults.penaltyAmount}}</text>
-      </view>
-      <view class="result-item">
-        <text>返现金额</text>
-        <text wx:if="{{form.productType !== '车贷'}}">¥{{displayResults.rebateAmount}}</text>
-        <text wx:else>—</text>
-      </view>
-      <view class="result-item highlight">
-        <text>实际支出</text>
-        <text>¥{{displayResults.actualCost}}</text>
-      </view>
-      <view class="result-item">
-        <text>月均成本</text>
-        <text>¥{{displayResults.monthlyCost}}/月</text>
-      </view>
-      <view class="result-item highlight">
-        <text>实际年化利率</text>
-        <text>{{displayResults.effectiveRate}}%</text>
-      </view>
-      <view class="analysis">
-        <text class="analysis-line">财务分析：</text>
-        <text class="analysis-line">{{analysisText}}</text>
-        <text class="analysis-suggest">建议{{analysisSuggestion}}</text>
-      </view>
+      <view class="result-item"><text>月还本金</text><text>¥{{displayResults.monthlyPrincipal}}</text></view>
+      <view class="result-item"><text>月还利息</text><text>¥{{displayResults.monthlyInterest}}</text></view>
+      <view class="result-item highlight"><text>每月还款额</text><text>¥{{displayResults.monthlyPayment}}</text></view>
+      <view class="result-item highlight"><text>总利息</text><text>¥{{displayResults.totalInterest}}</text></view>
+      <view class="result-item"><text>还款总额</text><text>¥{{displayResults.totalPayment}}</text></view>
+      <block wx:if="{{isVehicleProduct}}">
+        <view class="divider"></view>
+        <text class="section-subtitle">📌 提前还款测算</text>
+        <view class="result-item"><text>已还期数</text><text>{{form.paidMonths}}期</text></view>
+        <view class="result-item"><text>已还本金</text><text>¥{{displayResults.repaidPrincipal}}</text></view>
+        <view class="result-item"><text>已还利息</text><text>¥{{displayResults.repaidInterest}}</text></view>
+        <view class="result-item"><text>剩余本金</text><text>¥{{displayResults.remainingPrincipal}}</text></view>
+        <view class="result-item"><text>违约金比例</text><text>{{displayResults.penaltyRate}}%</text></view>
+        <view class="result-item"><text>违约金</text><text>¥{{displayResults.penaltyAmount}}</text></view>
+        <view class="result-item highlight"><text>提前还款总额</text><text>¥{{displayResults.prepayTotal}}</text></view>
+      </block>
     </block>
 
+    <!-- 等额本息 -->
     <block wx:if="{{form.repaymentMethod === 'equal_payment'}}">
-      <view class="result-item">
-        <text>每月还款额</text>
-        <text>¥{{displayResults.monthlyPayment}}</text>
-      </view>
-      <view class="result-item">
-        <text>总利息</text>
-        <text>¥{{displayResults.totalInterest}}</text>
-      </view>
+      <view class="result-item"><text>每月还款额</text><text class="result-amount">¥{{displayResults.monthlyPayment}}</text></view>
+      <view class="result-item"><text>还款总额</text><text>¥{{displayResults.totalPayment}}</text></view>
+      <view class="result-item highlight"><text>总利息</text><text>¥{{displayResults.totalInterest}}</text></view>
     </block>
 
+    <!-- 等额本金 -->
+    <block wx:if="{{form.repaymentMethod === 'equal_principal'}}">
+      <view class="result-item"><text>每月本金</text><text>¥{{displayResults.monthlyPrincipal}}</text></view>
+      <view class="result-item"><text>首月还款</text><text class="result-amount">¥{{displayResults.firstPayment}}</text></view>
+      <view class="result-item"><text>末月还款</text><text>¥{{displayResults.lastPayment}}</text></view>
+      <view class="result-item"><text>月供递减</text><text>¥{{displayResults.monthlyDecline}}</text></view>
+      <view class="result-item"><text>还款总额</text><text>¥{{displayResults.totalPayment}}</text></view>
+      <view class="result-item highlight"><text>总利息</text><text>¥{{displayResults.totalInterest}}</text></view>
+    </block>
+
+    <!-- 先息后本 -->
     <block wx:if="{{form.repaymentMethod === 'interest_first'}}">
-      <view class="result-item">
-        <text>每月利息</text>
-        <text>¥{{displayResults.monthlyInterest}}</text>
-      </view>
-      <view class="result-item">
-        <text>最后月还款</text>
-        <text>¥{{displayResults.lastPayment}}</text>
-      </view>
-      <view class="result-item">
-        <text>总利息</text>
-        <text>¥{{displayResults.totalInterest}}</text>
-      </view>
+      <view class="result-item"><text>每月利息</text><text>¥{{displayResults.monthlyInterest}}</text></view>
+      <view class="result-item"><text>最后月还款</text><text class="result-amount">¥{{displayResults.lastPayment}}</text></view>
+      <view class="result-item"><text>还款总额</text><text>¥{{displayResults.totalPayment}}</text></view>
+      <view class="result-item highlight"><text>总利息</text><text>¥{{displayResults.totalInterest}}</text></view>
     </block>
 
+    <!-- 一次性还本付息 -->
+    <block wx:if="{{form.repaymentMethod === 'lump_sum'}}">
+      <view class="result-item"><text>到期还款</text><text class="result-amount">¥{{displayResults.lastPayment}}</text></view>
+      <view class="result-item"><text>其中利息</text><text>¥{{displayResults.totalInterest}}</text></view>
+      <view class="result-item"><text>月均还款</text><text>¥{{displayResults.monthlyEquivalent}}</text></view>
+      <view class="result-item highlight"><text>还款总额</text><text>¥{{displayResults.totalPayment}}</text></view>
+    </block>
+
+    <!-- 还款计划表 -->
     <view class="schedule-section" wx:if="{{schedule.length}}">
-      <text class="section-title">还款计划表</text>
+      <text class="section-title">📋 还款计划表（共 {{schedule.length}} 期）</text>
       <scroll-view scroll-y class="schedule-scroll">
-        <view class="schedule-row head"><text>期次</text><text>月供</text><text>本金</text><text>利息</text></view>
-        <block wx:for="{{schedule}}" wx:key="period">
-          <view class="schedule-row"><text>{{item.period}}</text><text>{{item.payment.toFixed(2)}}</text><text>{{item.principal.toFixed(2)}}</text><text>{{item.interest.toFixed(2)}}</text></view>
+        <view class="schedule-row head">
+          <text class="schedule-header-item">期次</text><text class="schedule-header-item">月供</text><text class="schedule-header-item">本金</text><text class="schedule-header-item">利息</text><text class="schedule-header-item">剩余</text>
+        </view>
+        <block wx:for="{{scheduleDisplay}}" wx:key="period">
+          <view class="schedule-row">
+            <text class="cell-text">{{item.period}}</text>
+            <text class="cell-text">{{item.payment}}</text>
+            <text class="cell-text">{{item.principal}}</text>
+            <text class="cell-text">{{item.interest}}</text>
+            <text class="cell-text">{{item.remaining}}</text>
+          </view>
         </block>
       </scroll-view>
       <view class="export-row">
-        <button class="export-btn" bindtap="exportScheduleImage">导出图片</button>
-        <button class="export-btn" bindtap="exportSchedulePdf">导出PDF</button>
+        <button class="export-btn {{exportingImage ? 'export-btn-disabled' : ''}}" bindtap="exportScheduleImage">{{exportImageBtnText}}</button>
+        <button class="export-btn {{exportingPdf ? 'export-btn-disabled' : ''}}" bindtap="exportSchedulePdf">{{exportPdfBtnText}}</button>
       </view>
     </view>
   </view>
+
   <canvas type="2d" id="exportCanvas" class="export-canvas" />
 </view>

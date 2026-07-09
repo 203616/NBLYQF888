@@ -9,7 +9,7 @@
 
     <view class="welcome-middle" style="position: relative; left: -356rpx; top: -200rpx">
       <view class="logo-wrap">
-        <image src="/images/logo.webp" class="logo" mode="aspectFit" />
+        <image src="/images/logo.webp" class="logo" mode="aspectFit" lazy-load="{{true}}" />
         <view class="logo-ring"></view>
       </view>
 

@@ -6,4 +6,8 @@
   show-menu-by-longpress="{{showMenuByLongpress}}"
   binderror="onError"
   bindtap="onTap"
+  wx:if="{{!showPlaceholder}}"
 />
+<view class="{{className}} {{className + '-placeholder'}}" wx:else>
+  <text class="placeholder-icon">🖼️</text>
+</view>

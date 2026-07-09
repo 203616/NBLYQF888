@@ -8,6 +8,10 @@ export function getDashboard() {
   return request.get('/admin/dashboard')
 }
 
+export function getSystemStatus() {
+  return request.get('/admin/system-status')
+}
+
 export function getIntegrations() {
   return request.get('/admin/integrations')
 }
@@ -100,4 +104,12 @@ export function listResource(resource) {
 
 export function updateResource(resource, id, data) {
   return request.patch(`/admin/${resource}/${id}`, data)
+}
+
+export function createResource(resource, data) {
+  return request.post(`/admin/${resource}`, data)
+}
+
+export function getMeta(type) {
+  return request.get(`/admin/meta/${type}`)
 }

@@ -36,7 +36,7 @@
 .welcome-page .premium-badge {
   display: inline-block;
   font-size: 22rpx;
-  color: #0F3D2E;
+  color: var(--color-primary);
   background: rgba(212, 168, 75, 0.9);
   padding: 8rpx 24rpx;
   border-radius: 999rpx;
@@ -85,6 +85,7 @@
   color: #fff;
   letter-spacing: 6rpx;
   margin-bottom: 16rpx;
+  text-align: center;
 }
 
 .divider-gold {

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>车辆估值 - 亮叶企服</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="page-header">
+    <span class="back-btn" onclick="history.back()">←</span>
+    <h1>车辆估值</h1>
+  </div>
+  <div class="page-content">
+    <p style="font-size:14px;color:#666;margin-bottom:16px;">请输入车辆信息，获取估值参考（数据来源于 API，当前为演示数据）</p>
+    <div id="resultArea"></div>
+  </div>
+  <script>
+    // Simple mock estimate
+    document.getElementById('resultArea').innerHTML = '<div class="card"><h3>演示说明</h3><p style="font-size:14px;color:#666;">车辆估值功能需要对接 API 数据。您可以直接通过微信小程序使用完整功能。</p><p style="margin-top:12px;font-size:13px;color:#999;">本移动端网页为亮叶企服辅助工具，完整服务请打开微信小程序。</p></div>'
+  </script>
+</body>
+</html>

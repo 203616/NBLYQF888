@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const { scanFinanceContent } = require('./aliyun-content-security.service')
 
-const root = path.resolve(__dirname, '../../../..')
+const root = path.resolve(__dirname, '../../../../')
 const configPath = path.join(root, 'deploy', 'finance-circle-moderation.json')
 
 const DEFAULT_RULES = {

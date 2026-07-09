@@ -46,7 +46,7 @@
       <view class="photo-grid">
         <block wx:for="{{photos}}" wx:key="*this">
           <view class="photo-item">
-            <image src="{{item}}" mode="aspectFill" />
+            <image src="{{item}}" mode="aspectFill" lazy-load="{{true}}" />
             <text class="remove" data-idx="{{index}}" catchtap="removePhoto">×</text>
           </view>
         </block>

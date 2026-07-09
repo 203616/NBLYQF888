@@ -2,24 +2,9 @@
   padding-bottom: 140rpx;
 }
 
-.location-bar {
-  display: flex;
-  align-items: center;
-  padding: 18rpx 24rpx;
-  margin-bottom: 16rpx;
-  color: var(--color-primary);
-  font-size: 26rpx;
-}
-
-.loc-icon {
-  width: 32rpx;
-  height: 32rpx;
-  margin-right: 12rpx;
-}
-
 .loc-arrow {
   margin-left: auto;
-  color: #ccc;
+  color: var(--color-text-muted);
   font-size: 32rpx;
 }
 
@@ -114,7 +99,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 22rpx 0;
-  border-bottom: 1rpx solid #f0f0f0;
+  border-bottom: 1rpx solid var(--color-border);
 }
 
 .form-item.column {
@@ -207,8 +192,8 @@
   font-size: 24rpx;
   padding: 10rpx 24rpx;
   border-radius: 999rpx;
-  background: #f0f0f0;
-  color: #666;
+  background: var(--color-bg-card);
+  color: var(--color-text-secondary);
 }
 
 .filter-tab.active {
@@ -220,7 +205,7 @@
   display: flex;
   align-items: center;
   padding: 24rpx 0;
-  border-top: 1rpx solid #f0f0f0;
+  border-top: 1rpx solid var(--color-border);
 }
 
 .demand-body {
@@ -243,7 +228,7 @@
 
 .tag-funding {
   background: #fff8e6;
-  color: #b8860b;
+  color: #8a6d3b;
 }
 
 .tag-loan {
@@ -291,7 +276,7 @@
 
 .progress-bar {
   height: 8rpx;
-  background: #f0f0f0;
+  background: var(--color-border);
   border-radius: 4rpx;
   overflow: hidden;
 }
@@ -310,7 +295,7 @@
 
 .demand-arrow {
   font-size: 36rpx;
-  color: #ccc;
+  color: var(--color-text-muted);
   padding-left: 12rpx;
 }
 

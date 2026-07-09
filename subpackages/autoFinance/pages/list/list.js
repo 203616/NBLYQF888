@@ -24,10 +24,10 @@ Page({
       { icon: '📱', title: '进度可追踪', desc: '进件材料云端同步，审核节点可视化' }
     ],
     tools: [
-      { id: 'calculator', title: '金融计算器', desc: '等额本息/本金多方式测算', icon: '/images/icon/calculator.png', url: '/subpackages/tools/pages/calculator/calculator' },
-      { id: 'valuation', title: '车辆估值', desc: '快速参考市场估值', icon: '/images/icon/car-clue.png', url: '/subpackages/tools/pages/valuation/valuation' },
-      { id: 'cars', title: '靠谱好车', desc: '本地精选合规车源', icon: '/images/icon/car-finance.png', url: '/subpackages/cars/pages/list/list' },
-      { id: 'prepayment', title: '提前还款测算', desc: '专项提前还款成本分析', icon: '/images/icon/calculator.png', url: '/subpackages/autoFinance/pages/prepayment/prepayment' }
+      { id: 'calculator', title: '金融计算器', desc: '等额本息/本金多方式测算', icon: '🧮', url: '/subpackages/tools/pages/calculator/calculator' },
+      { id: 'valuation', title: '车辆估值', desc: '快速参考市场估值', icon: '🔍', url: '/subpackages/tools/pages/valuation/valuation' },
+      { id: 'cars', title: '靠谱好车', desc: '本地精选合规车源', icon: '🚗', url: '/subpackages/cars/pages/list/list' },
+      { id: 'prepayment', title: '提前还款测算', desc: '专项提前还款成本分析', icon: '🧮', url: '/subpackages/autoFinance/pages/prepayment/prepayment' }
     ],
     processSteps: [
       { title: '提交基础信息', desc: '填写个人与车辆信息，选择目标机构产品' },

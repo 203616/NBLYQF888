@@ -144,7 +144,7 @@
 }
 
 .arrow {
-  color: #ccc;
+  color: var(--color-text-muted);
   font-size: 36rpx;
   margin-left: 12rpx;
 }

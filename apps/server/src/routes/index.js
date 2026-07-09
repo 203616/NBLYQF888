@@ -18,6 +18,7 @@ const intakeRoutes = require('./intake.routes')
 const warrantyRoutes = require('./warranty.routes')
 const adminRoutes = require('./admin.routes')
 const financeCircleRoutes = require('./financeCircle.routes')
+const casesRoutes = require('./cases.routes')
 
 const router = express.Router()
 
@@ -55,6 +56,7 @@ router.use('/channels', channelRoutes)
 router.use('/intake', intakeRoutes)
 router.use('/warranty', warrantyRoutes)
 router.use('/finance-circle', financeCircleRoutes)
+router.use('/cases', casesRoutes)
 router.use('/admin', adminRoutes)
 
 module.exports = router

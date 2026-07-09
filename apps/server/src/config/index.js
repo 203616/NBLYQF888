@@ -14,6 +14,7 @@ module.exports = {
     : path.join(rootDir, 'apps', 'server', 'uploads'),
   nodeEnv: process.env.NODE_ENV || 'development',
   adminDist: path.join(rootDir, 'apps', 'admin', 'dist'),
+  adminBase: (process.env.ADMIN_BASE_PATH || '/ly-admin').replace(/\/$/, ''),
   ocrProvider: process.env.OCR_PROVIDER || 'aliyun',
   publicBaseUrl: process.env.PUBLIC_BASE_URL || ''
 }

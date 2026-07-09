@@ -38,7 +38,7 @@
   display: block;
   font-size: 30rpx;
   line-height: 1.7;
-  color: #333;
+  color: var(--color-text-primary);
   margin-bottom: 20rpx;
 }
 
@@ -64,11 +64,11 @@
 
 .action-btn {
   font-size: 26rpx;
-  color: #666;
+  color: var(--color-text-secondary);
 }
 
 .action-btn.liked {
-  color: #0F3D2E;
+  color: var(--color-primary);
   font-weight: 600;
 }
 
@@ -82,14 +82,14 @@
   display: block;
   font-size: 30rpx;
   font-weight: 600;
-  color: #0F3D2E;
+  color: var(--color-primary);
   margin-bottom: 12rpx;
 }
 
 .panel-desc {
   display: block;
   font-size: 26rpx;
-  color: #666;
+  color: var(--color-text-secondary);
   line-height: 1.6;
   margin-bottom: 20rpx;
 }
@@ -101,13 +101,13 @@
 
 .comment-user {
   font-weight: 600;
-  color: #0F3D2E;
+  color: var(--color-primary);
   margin-right: 8rpx;
 }
 
 .comment-content {
   font-size: 28rpx;
-  color: #333;
+  color: var(--color-text-primary);
 }
 
 .comment-time {

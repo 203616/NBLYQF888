@@ -1,6 +1,6 @@
 <view class="case-detail page-shell" wx:if="{{caseDetail}}">
   <view class="case-hero premium-hero">
-    <safe-image className="premium-hero-bg" src="{{caseDetail.cover}}" mode="aspectFill" />
+    <safe-image className="premium-hero-bg" src="{{caseDetail.cover || ''}}" mode="aspectFill" />
     <view class="premium-hero-body">
       <text class="premium-badge">{{caseDetail.tag}}</text>
       <text class="premium-hero-title">{{caseDetail.title}}</text>

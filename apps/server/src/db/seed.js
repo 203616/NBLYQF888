@@ -48,8 +48,19 @@ function seed() {
   const insertScene = db.prepare('INSERT INTO service_scenes (scene_id, title, desc, icon, path, sort) VALUES (?, ?, ?, ?, ?, ?)')
   mock.serviceScenes.forEach((item, index) => insertScene.run(item.id, item.title, item.desc, item.icon, item.path, index))
 
-  const insertCase = db.prepare('INSERT INTO success_cases (id, title, result, desc, sort) VALUES (?, ?, ?, ?, ?)')
-  mock.cases.forEach((item, index) => insertCase.run(item.id, item.title, item.result, item.desc, index))
+  const insertCase = db.prepare('INSERT INTO success_cases (id, title, result, desc, cover, detail, sort) VALUES (?, ?, ?, ?, ?, ?, ?)')
+  mock.cases.forEach((item, index) => {
+    const detailMap = {
+      1: { client: '鄞州某连锁餐饮', industry: '餐饮', city: '宁波市鄞州区', duration: '3天', amount: '80万元', institution: '宁波银行容易贷', challenge: '门店扩张需备货资金，但材料分散在多家门店，重复提交效率低。', solution: '亮叶专员统一整理近12个月流水、租赁合同与纳税记录，通过容易贷线上授权测额，3个工作日内完成预审反馈。', outcome: '客户获得80万经营周转额度意向，减少2轮材料补交。', timeline: ['Day1 需求对接与材料清单', 'Day2 纳税数据授权与流水整理', 'Day3 预审反馈与方案确认'], relatedPath: '/subpackages/product/pages/detail/detail?id=11', cover: '/subpackages/cases/images/cases/case-1.webp', tag: '企业经营' },
+      2: { client: '宁波某新能源经销商', industry: '汽车零售', city: '宁波市', duration: '5天', amount: '200万元', institution: '建行+宁波银行组合', challenge: '库存车辆占用大量资金，回款周期与厂家结算节奏不匹配。', solution: '结合车辆清单、销售合同与历史回款数据，设计短期库存周转方案，匹配建行营运车辆融资与银行承兑组合。', outcome: '获得200万周转额度意向，缓解2个月库存资金压力。', timeline: ['Day1 库存清单梳理', 'Day2-3 机构方案比选', 'Day4-5 材料提交与预审'], relatedPath: '/subpackages/autoFinance/pages/list/list', cover: '/subpackages/cases/images/cases/case-2.webp', tag: '汽车金融' },
+      3: { client: '北仑某物流企业', industry: '物流', city: '宁波市北仑区', duration: '1天', amount: '评估价28万', institution: '平安银行车主贷', challenge: '企业临时周转，需快速了解不押车方案与综合成本。', solution: '当日完成车辆权属核验与评估价参考，明确GPS安装、保险要求与还款安排，提交车抵进件预审。', outcome: '当日获得评估反馈，客户明确综合成本后决定是否继续办理。', timeline: ['上午 车辆材料核验', '下午 评估价反馈与方案说明'], relatedPath: '/subpackages/autoFinance/pages/carMortgage/carMortgage', cover: '/subpackages/cases/images/cases/case-3.webp', tag: '车抵服务' },
+      4: { client: '鄞州某商贸企业', industry: '批发零售', city: '宁波市鄞州区', duration: '7天', amount: '500万元', institution: '工商银行e抵快贷', challenge: '大额经营周转，需住宅抵押，材料涉及多人共有人。', solution: '整理房产证、婚姻证明、经营流水与用途说明，对接工行宁波市分行e抵快贷，协调共有人签署材料。', outcome: '7个工作日内完成评估与初审，获得500万额度意向。', timeline: ['Day1-2 产权材料整理', 'Day3-4 房产评估', 'Day5-7 机构初审'], relatedPath: '/subpackages/product/pages/detail/detail?id=17', cover: '/subpackages/cases/images/cases/case-4.webp', tag: '抵押经营' },
+      5: { client: '江北某事业单位员工', industry: '公共服务', city: '宁波市江北区', duration: '2天', amount: '50万元', institution: '宁波银行白领通', challenge: '装修资金需求，不了解公积金客户可匹配的产品路径。', solution: '根据公积金连续缴存记录与收入证明，匹配宁波银行白领通消费贷，明确用途合规要求。', outcome: '2天内完成方案说明与材料清单，客户按清单准备后提交机构审核。', timeline: ['Day1 资质评估', 'Day2 方案与材料清单'], relatedPath: '/subpackages/product/pages/detail/detail?id=14', cover: '/subpackages/cases/images/cases/case-5.webp', tag: '消费信贷' },
+      6: { client: '慈溪某制造企业', industry: '制造业', city: '宁波市慈溪市', duration: '4天', amount: '按团购规模', institution: '工行+延保服务商', challenge: '50名员工团购新能源，需同时办理车贷与三电延保，流程繁琐。', solution: '批量收集员工材料，统一对接工行汽车分期与延保套餐，进件系统批量填报减少重复录入。', outcome: '4天内完成首批20名员工材料预审与延保套餐选择。', timeline: ['Day1 团购方案说明', 'Day2-3 批量进件', 'Day4 延保套餐确认'], relatedPath: '/subpackages/autoFinance/pages/warranty/warranty?type=ev', cover: '/subpackages/cases/images/cases/case-6.webp', tag: '团购服务' }
+    }
+    const detail = detailMap[item.id] || {}
+    insertCase.run(item.id, item.title, item.result, item.desc, detail.cover || '', JSON.stringify(detail), index)
+  })
 
   const insertProduct = db.prepare('INSERT INTO products (id, category, name, rate, desc, amount, term, suitable, path, cover, compliance_note, source_name, source_url, sort) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
   const insertTag = db.prepare('INSERT INTO product_tags (product_id, tag) VALUES (?, ?)')
@@ -155,6 +166,38 @@ function seed() {
     desc: '亮叶企服体验版（种子数据）',
     updatedAt: new Date().toISOString()
   })
+
+  // --- 系统配置种子数据 ---
+  const insertConfig = db.prepare('INSERT OR IGNORE INTO config_settings (category, key, value, description) VALUES (?, ?, ?, ?)')
+  ;[
+    ['general', 'service_phone', '400-888-7777', '客服热线'],
+    ['general', 'brand_name', '亮叶企服', '品牌名称'],
+    ['general', 'company_address', '浙江省宁波市鄞州区南部商务区', '公司地址'],
+    ['general', 'working_hours', '周一至周五 9:00-18:00', '工作时间'],
+    ['email', 'smtp_host', '', 'SMTP 服务器地址'],
+    ['email', 'smtp_port', '465', 'SMTP 端口'],
+    ['email', 'admin_email', 'admin@liangyeqf.com', '管理员邮箱'],
+    ['risk', 'max_loan_amount', '500000', '最大贷款金额（元）'],
+    ['risk', 'min_credit_score', '600', '最低信用分'],
+    ['risk', 'require_guarantor', 'true', '大额贷款是否需要担保人'],
+    ['display', 'home_banner_interval', '5000', '首页轮播切换间隔（ms）'],
+    ['display', 'products_per_page', '20', '产品列表每页数量']
+  ].forEach(row => insertConfig.run(...row))
+
+  // --- 初始审计日志 ---
+  const insertAudit = db.prepare("INSERT INTO audit_logs (admin_id, admin_name, action, resource_type, detail) VALUES (?, ?, ?, ?, ?)")
+  insertAudit.run(1, '超级管理员', 'login', 'system', '数据库初始化默认登录')
+
+  // --- RBAC 初始化 ---
+  const { initRbac } = require('../services/rbac.service')
+  initRbac()
+
+  // --- 举报示例数据 ---
+  const insertReport = db.prepare('INSERT INTO exposure_reports (type, title, content, contact, evidence, user_id, status, admin_note, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)')
+  insertReport.run('诈骗', '假冒贷款平台诈骗', '声称无抵押快速放款，要求先交2000元手续费', '张先生 13900001111', '', 1, 'pending', '', "datetime('now', '-2 days')")
+  insertReport.run('虚假信息', '产品利率与实际不符', '宣传利率3.6%，实际申请时被告知利率8.5%', '李女士 13800002222', '', 1, 'pending', '', "datetime('now', '-1 days')")
+  insertReport.run('骚扰', '频繁电话推销', '一天打5次电话推销贷款产品，已明确表示不需要', '王先生 13700003333', '', 1, 'confirmed', '已核实，标记该号码为骚扰电话', "datetime('now', '-5 days')")
+  insertReport.run('其他', '个人信息疑似泄露', '从未注册过的平台知道我手机号和姓名', '陈女士 13600004444', '', 1, 'dismissed', '经核查无证据证明信息泄露', "datetime('now', '-7 days')")
 
   db.exec('PRAGMA foreign_keys = ON')
 }

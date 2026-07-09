@@ -28,10 +28,10 @@
     </scroll-view>
     <block wx:for="{{filteredProducts}}" wx:key="id">
       <view class="product-card glass-card">
-        <safe-image className="product-cover" src="{{item.cover}}" mode="aspectFill" bindtap="navigateToPage" data-url="{{item.url}}" />
+        <safe-image className="product-cover" src="{{item.cover || ''}}" mode="aspectFill" bindtap="navigateToPage" data-url="{{item.url}}" />
         <view class="product-body" bindtap="navigateToPage" data-url="{{item.url}}">
           <view class="product-top">
-            <image class="icon" src="{{item.icon}}" mode="aspectFit" />
+            <text class="iconfont product-icon">{{item.icon}}</text>
             <view class="info">
               <text class="title">{{item.title}}</text>
               <text class="institution">{{item.institution}} · {{item.region}}</text>
@@ -74,7 +74,7 @@
     <view class="tool-grid">
       <block wx:for="{{tools}}" wx:key="id">
         <view class="tool-card glass-card" bindtap="navigateToPage" data-url="{{item.url}}">
-          <image class="icon" src="{{item.icon}}" mode="aspectFit" />
+          <text class="iconfont tool-icon">{{item.icon}}</text>
           <text class="title">{{item.title}}</text>
           <text class="desc">{{item.desc}}</text>
         </view>

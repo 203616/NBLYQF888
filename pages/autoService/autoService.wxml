@@ -9,7 +9,7 @@
   </view>
 
   <view class="location-bar glass-card" bindtap="handleChooseCity">
-    <image src="/images/icon/location.png" class="loc-icon" />
+    <text class="iconfont icon-location loc-icon"></text>
     <text>{{location.city || '定位中'}} · 本地汽车企服</text>
     <text class="loc-arrow">›</text>
   </view>
@@ -26,7 +26,7 @@
     <view class="product-grid">
       <block wx:for="{{products}}" wx:key="id">
         <view class="product-card" data-id="{{item.id}}" bindtap="handleProductTap">
-          <image class="icon" src="{{item.icon}}" mode="aspectFit" />
+          <text class="iconfont icon">{{item.icon}}</text>
           <text class="p-title">{{item.title}}</text>
           <text class="p-desc">{{item.desc}}</text>
         </view>
@@ -43,7 +43,7 @@
     <view class="tool-grid">
       <block wx:for="{{tools}}" wx:key="id">
         <view class="tool-item" data-url="{{item.url}}" bindtap="handleToolTap">
-          <image src="{{item.icon}}" class="tool-icon" mode="aspectFit" />
+          <text class="iconfont tool-icon">{{item.icon}}</text>
           <text class="tool-title">{{item.title}}</text>
         </view>
       </block>

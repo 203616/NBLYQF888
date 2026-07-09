@@ -81,7 +81,7 @@
   padding: 4rpx 14rpx;
   border-radius: 999rpx;
   background: #f0f0f0;
-  color: #666;
+  color: var(--color-text-secondary);
 }
 
 .wf-tag.status-processing { background: #fff8e6; color: #b8860b; }

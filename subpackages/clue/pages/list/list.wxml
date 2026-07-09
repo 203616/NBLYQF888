@@ -1,6 +1,6 @@
 <view class="clue-page page-shell">
   <view class="location-bar glass-card" bindtap="handleChooseCity">
-    <image src="/images/icon/location.png" class="loc-icon" />
+    <text class="iconfont icon-location loc-icon"></text>
     <text>{{location.city || '定位中'}} · 本地线索</text>
     <text class="loc-arrow">›</text>
   </view>

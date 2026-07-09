@@ -15,12 +15,17 @@ Component({
 
   data: {
     currentSrc: '',
-    fallbackSrc: ''
+    fallbackSrc: '',
+    showPlaceholder: false
   },
 
   observers: {
-    src(src) {
-      this.applySrc(src == null ? '' : src)
+    'src': function (src) {
+      if (src == null || src === '') {
+        this.setData({ currentSrc: '', showPlaceholder: true })
+        return
+      }
+      this.applySrc(src)
     }
   },
 
@@ -35,18 +40,22 @@ Component({
     applySrc(src) {
       const raw = src == null ? '' : String(src)
       const primary = getImageUrl(raw) || ''
-      const fallback = this.properties.fallback || (primary ? getFallbackPath(primary) : '')
-      this.setData({ currentSrc: primary, fallbackSrc: fallback })
+      const fb = this.properties.fallback || (primary ? getFallbackPath(primary) : '')
+      this.setData({ currentSrc: primary, fallbackSrc: fb, showPlaceholder: false })
     },
 
     onError() {
       const { currentSrc, fallbackSrc } = this.data
       if (fallbackSrc && currentSrc !== fallbackSrc) {
         this.setData({ currentSrc: fallbackSrc })
+        return
       }
+      // fallback 也失败则显示占位符
+      this.setData({ showPlaceholder: true })
     },
 
     onTap(e) {
+      if (this.data.showPlaceholder) return
       const url = this.properties.previewUrl || this.properties.src || ''
       const previewUrls = this.properties.previewUrls
       const detail = {

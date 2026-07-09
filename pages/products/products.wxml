@@ -32,7 +32,7 @@
     <block wx:for="{{productList}}" wx:key="id">
       <view class="grid-product glass-card {{tappingId === item.id ? 'tap-active' : ''}}" data-id="{{item.id}}" bindtap="handleProductTap">
         <view class="grid-cover-wrap" wx:if="{{item.cover}}">
-          <safe-image className="cover-slot" src="{{item.cover}}" mode="aspectFill" />
+          <safe-image className="cover-slot" src="{{item.cover || ''}}" mode="aspectFill" />
         </view>
         <text class="grid-title">{{item.name}}</text>
         <text class="grid-rate">{{item.rate}}</text>

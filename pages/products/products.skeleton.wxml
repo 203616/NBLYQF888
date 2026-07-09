@@ -1,0 +1,77 @@
+<!--
+此文件为开发者工具生成，生成时间: 2026/7/8上午10:31:40
+使用方法：
+在 E:\NBLYQF8888\pages\products\products.wxml 引入模板
+
+```
+<import src="products.skeleton.wxml"/>
+<template is="skeleton" wx:if="{{loading}}" />
+```
+
+在 E:\NBLYQF8888\pages\products\products.wxss 中引入样式
+```
+@import "./products.skeleton.wxss";
+```
+
+更多详细信息可以参考文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/skeleton.html
+-->
+<template name="skeleton">
+  <view class="sk-container">
+    <view class="products-page page-shell" data-ib-structured-id="0">
+      <view class="hero-card premium-hero sk-image" data-ib-structured-id="1">
+        <view is="components/safe-image/safe-image" data-ib-structured-id="2">
+          <image mode="aspectFill" class="image--premium-hero-bg sk-image"></image>
+        </view>
+        <view class="premium-hero-body" data-ib-structured-id="3">
+          <text class="premium-badge sk-transparent sk-text-18-7500-38 sk-text" data-ib-structured-id="4">产品中心</text>
+          <text class="premium-hero-title sk-transparent sk-text-18-7500-967 sk-text" data-ib-structured-id="5">产品与服务大全</text>
+          <text class="premium-hero-sub sk-transparent sk-text-20-5882-682 sk-text" data-ib-structured-id="6">信息咨询与居间撮合 · 以持牌机构审核为准</text>
+        </view>
+      </view>
+      <view class="category-section glass-card" data-ib-structured-id="7">
+        <view class="section-head-row" data-ib-structured-id="8">
+          <text class="section-head-title sk-transparent sk-text-18-7500-771 sk-text" data-ib-structured-id="9">全部产品</text>
+          <text class="section-head-count sk-transparent sk-text-18-7500-732 sk-text" data-ib-structured-id="10">0 款产品</text>
+        </view>
+      </view>
+      <view class="category-grid" data-ib-structured-id="11">
+        <view class="category-grid-item active" data-ib-structured-id="13" data-id="all">
+          <text class="grid-icon sk-transparent sk-text-18-7500-931 sk-text" data-ib-structured-id="14" style="background-position-x: 50%;">全</text>
+          <text class="grid-name sk-transparent sk-text-18-7500-298 sk-text" data-ib-structured-id="15" style="background-position-x: 50%;">全部</text>
+        </view>
+        <view class="category-grid-item" data-ib-structured-id="13" data-id="auto">
+          <text class="grid-icon sk-transparent sk-text-18-7500-479 sk-text" data-ib-structured-id="14" style="background-position-x: 50%;">车</text>
+          <text class="grid-name sk-transparent sk-text-18-7500-895 sk-text" data-ib-structured-id="15" style="background-position-x: 50%;">汽车金融</text>
+        </view>
+        <view class="category-grid-item" data-ib-structured-id="13" data-id="business">
+          <text class="grid-icon sk-transparent sk-text-18-7500-660 sk-text" data-ib-structured-id="14" style="background-position-x: 50%;">企</text>
+          <text class="grid-name sk-transparent sk-text-18-7500-315 sk-text" data-ib-structured-id="15" style="background-position-x: 50%;">企业贷款</text>
+        </view>
+        <view class="category-grid-item" data-ib-structured-id="13" data-id="personal">
+          <text class="grid-icon sk-transparent sk-text-18-7500-260 sk-text" data-ib-structured-id="14" style="background-position-x: 50%;">人</text>
+          <text class="grid-name sk-transparent sk-text-18-7500-512 sk-text" data-ib-structured-id="15" style="background-position-x: 50%;">个人贷款</text>
+        </view>
+        <view class="category-grid-item" data-ib-structured-id="13" data-id="property">
+          <text class="grid-icon sk-transparent sk-text-18-7500-118 sk-text" data-ib-structured-id="14" style="background-position-x: 50%;">押</text>
+          <text class="grid-name sk-transparent sk-text-18-7500-72 sk-text" data-ib-structured-id="15" style="background-position-x: 50%;">抵押咨询</text>
+        </view>
+        <view class="category-grid-item" data-ib-structured-id="13" data-id="lease">
+          <text class="grid-icon sk-transparent sk-text-18-7500-669 sk-text" data-ib-structured-id="14" style="background-position-x: 50%;">租</text>
+          <text class="grid-name sk-transparent sk-text-18-7500-561 sk-text" data-ib-structured-id="15" style="background-position-x: 50%;">融资租赁</text>
+        </view>
+        <view class="category-grid-item" data-ib-structured-id="13" data-id="private">
+          <text class="grid-icon sk-transparent sk-text-18-7500-921 sk-text" data-ib-structured-id="14" style="background-position-x: 50%;">险</text>
+          <text class="grid-name sk-transparent sk-text-18-7500-30 sk-text" data-ib-structured-id="15" style="background-position-x: 50%;">民间风险</text>
+        </view>
+        <view class="category-grid-item" data-ib-structured-id="13" data-id="warranty">
+          <text class="grid-icon sk-transparent sk-text-18-7500-426 sk-text" data-ib-structured-id="14" style="background-position-x: 50%;">保</text>
+          <text class="grid-name sk-transparent sk-text-18-7500-567 sk-text" data-ib-structured-id="15" style="background-position-x: 50%;">汽车延保</text>
+        </view>
+        <view class="category-grid-item" data-ib-structured-id="13" data-id="workflow">
+          <text class="grid-icon sk-transparent sk-text-18-7500-565 sk-text" data-ib-structured-id="14" style="background-position-x: 50%;">件</text>
+          <text class="grid-name" data-ib-structured-id="15"></text>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>

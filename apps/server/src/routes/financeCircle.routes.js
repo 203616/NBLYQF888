@@ -58,55 +58,59 @@ router.post('/upload-image', async (req, res) => {
   }
 })
 
-router.post('/posts', async (req, res) => {
-  const { content, images, userName, avatar, userPhone } = req.body || {}
-  if (!content || !String(content).trim()) return fail(res, '内容不能为空')
+router.post('/posts', async (req, res, next) => {
+  try {
+    const { content, images, userName, avatar, userPhone } = req.body || {}
+    if (!content || !String(content).trim()) return fail(res, '内容不能为空')
 
-  const review = await evaluateFinancePostReviewAsync({
-    content,
-    images
-  })
-  const authorPhone = normalizePhone(userPhone)
-  const reviewedAt = review.status !== 'pending' ? new Date().toISOString() : null
+    const review = await evaluateFinancePostReviewAsync({
+      content,
+      images
+    })
+    const authorPhone = normalizePhone(userPhone)
+    const reviewedAt = review.status !== 'pending' ? new Date().toISOString() : null
 
-  const result = db.prepare(`
-    INSERT INTO finance_circle_posts (
-      user_name, avatar, content, images, likes, post_type,
-      review_status, review_note, reviewed_at, author_phone
+    const result = db.prepare(`
+      INSERT INTO finance_circle_posts (
+        user_name, avatar, content, images, likes, post_type,
+        review_status, review_note, reviewed_at, author_phone
+      )
+      VALUES (?, ?, ?, ?, 0, 'feed', ?, ?, ?, ?)
+    `).run(
+      userName || '亮叶用户',
+      avatar || '/images/avatar.png',
+      content,
+      JSON.stringify(images || []),
+      review.status,
+      review.note,
+      reviewedAt,
+      authorPhone || null
     )
-    VALUES (?, ?, ?, ?, 0, 'feed', ?, ?, ?, ?)
-  `).run(
-    userName || '亮叶用户',
-    avatar || '/images/avatar.png',
-    content,
-    JSON.stringify(images || []),
-    review.status,
-    review.note,
-    reviewedAt,
-    authorPhone || null
-  )
 
-  const postId = result.lastInsertRowid
-  if (review.status === 'pending') {
-    try {
-      notifyFinancePostPending({ postId, userName, contentPreview: content })
-    } catch (err) {
-      console.warn('finance pending notification failed', err.message)
+    const postId = result.lastInsertRowid
+    if (review.status === 'pending') {
+      try {
+        notifyFinancePostPending({ postId, userName, contentPreview: content })
+      } catch (err) {
+        console.warn('finance pending notification failed', err.message)
+      }
     }
-  }
 
-  const messages = {
-    approved: review.auto ? '已自动通过并展示' : '发布成功',
-    pending: '已提交，审核通过后展示',
-    rejected: '内容未通过审核，请修改后重试'
-  }
+    const messages = {
+      approved: review.auto ? '已自动通过并展示' : '发布成功',
+      pending: '已提交，审核通过后展示',
+      rejected: '内容未通过审核，请修改后重试'
+    }
 
-  ok(res, {
-    id: postId,
-    reviewStatus: review.status,
-    autoReview: review.auto,
-    reviewRule: review.rule || null
-  }, messages[review.status] || messages.pending)
+    ok(res, {
+      id: postId,
+      reviewStatus: review.status,
+      autoReview: review.auto,
+      reviewRule: review.rule || null
+    }, messages[review.status] || messages.pending)
+  } catch (e) {
+    next(e)
+  }
 })
 
 router.post('/posts/:id/like', (req, res) => {

@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const { execSync } = require('child_process')
 
-const root = path.resolve(__dirname, '../../../..')
+const root = path.resolve(__dirname, '../../../../')
 
 function maskSecret(value) {
   if (!value) return ''

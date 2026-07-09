@@ -1,6 +1,6 @@
 <view class="page-shell form-page" wx:if="{{module}}">
   <view class="form-hero">
-    <safe-image className="form-cover" src="{{module.icon}}" mode="aspectFill" />
+    <safe-image className="form-cover" src="{{module.icon || ''}}" mode="aspectFill" />
     <view class="form-hero-text">
       <text class="form-title">{{module.title}}</text>
       <text class="form-desc">{{module.desc}}</text>
@@ -82,7 +82,7 @@
         <text class="hint" wx:if="{{item.hint}}">{{item.hint}}</text>
         <view class="image-upload">
           <view class="image-slot" wx:if="{{formData[item.key]}}" bindtap="handlePreviewImage" data-key="{{item.key}}">
-            <image class="upload-preview" src="{{formData[item.key]}}" mode="aspectFill" />
+              <image class="upload-preview" src="{{formData[item.key]}}" mode="aspectFill" lazy-load="{{true}}" />
             <text class="remove-btn" catchtap="handleRemoveImage" data-key="{{item.key}}">×</text>
           </view>
           <view class="image-add" wx:else bindtap="handleChooseImage" data-key="{{item.key}}">

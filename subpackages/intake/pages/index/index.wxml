@@ -1,6 +1,6 @@
 <view class="page-shell intake-index">
   <view class="premium-hero">
-    <safe-image className="premium-hero-bg" src="{{systemMeta.heroImage}}" mode="aspectFill" />
+    <safe-image className="premium-hero-bg" src="{{systemMeta.heroImage || ''}}" mode="aspectFill" />
     <view class="premium-hero-body">
       <text class="premium-badge">{{systemMeta.badge}}</text>
       <text class="premium-hero-title">{{systemMeta.title}}</text>
@@ -34,7 +34,7 @@
   <view class="module-list">
     <block wx:for="{{fillModules}}" wx:key="id">
       <view class="module-card" data-path="{{item.path}}" bindtap="navigateModule">
-        <image class="module-icon" src="{{item.icon}}" mode="aspectFit" />
+        <image class="module-icon" src="{{item.icon}}" mode="aspectFit" lazy-load="{{true}}" />
         <view class="module-body">
           <view class="module-head">
             <text class="module-title">{{item.title}}</text>
@@ -51,7 +51,7 @@
   <view class="module-list">
     <block wx:for="{{viewModules}}" wx:key="id">
       <view class="module-card view-card" data-path="{{item.path}}" bindtap="navigateModule">
-        <image class="module-icon" src="{{item.icon}}" mode="aspectFit" />
+        <image class="module-icon" src="{{item.icon}}" mode="aspectFit" lazy-load="{{true}}" />
         <view class="module-body">
           <view class="module-head">
             <text class="module-title">{{item.title}}</text>

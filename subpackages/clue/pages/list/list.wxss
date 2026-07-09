@@ -4,7 +4,7 @@
 
 .loc-arrow {
   margin-left: auto;
-  color: #ccc;
+  color: var(--color-text-muted);
   font-size: 32rpx;
 }
 
@@ -87,8 +87,8 @@
 
 .tab {
   display: inline-block;
-  color: #666;
-  background: #fff;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-card);
   border-radius: 999rpx;
   padding: 12rpx 28rpx;
   margin-right: 12rpx;

@@ -18,7 +18,7 @@
     <text class="section-title">举报证据</text>
     <scroll-view class="evidence-scroll" scroll-x>
       <block wx:for="{{exposureDetail.evidence}}" wx:key="index">
-        <image src="{{item}}" class="evidence-img" mode="aspectFill" data-index="{{index}}" bindtap="previewImage" />
+        <image src="{{item}}" class="evidence-img" mode="aspectFill" data-index="{{index}}" bindtap="previewImage" lazy-load="{{true}}" />
       </block>
     </scroll-view>
   </view>

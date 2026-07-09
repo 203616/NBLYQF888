@@ -68,7 +68,7 @@
           <view class="preview-grid" wx:if="{{item.files.length}}">
             <block wx:for="{{item.files}}" wx:for-item="file" wx:for-index="fidx" wx:key="*this">
               <view class="preview-item">
-                <image class="preview-img" src="{{file}}" mode="aspectFill" data-url="{{file}}" data-urls="{{item.files}}" bindtap="handlePreview" />
+                <image class="preview-img" src="{{file}}" mode="aspectFill" data-url="{{file}}" data-urls="{{item.files}}" bindtap="handlePreview" lazy-load="{{true}}" />
                 <text class="delete-btn" data-key="{{item.key}}" data-index="{{fidx}}" catchtap="handleDelete">×</text>
               </view>
             </block>

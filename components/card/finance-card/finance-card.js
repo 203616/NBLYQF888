@@ -7,7 +7,7 @@ Component({
         id: '',
         title: '金融产品',
         desc: '产品描述',
-        icon: '/images/icon/default.png',
+        icon: '📋',
         tags: ['热门', '限时']
       }
     },

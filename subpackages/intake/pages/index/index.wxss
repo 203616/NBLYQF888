@@ -175,7 +175,7 @@
 
 .arrow {
   font-size: 40rpx;
-  color: #ccc;
+  color: var(--color-text-muted);
   margin-left: 8rpx;
 }
 

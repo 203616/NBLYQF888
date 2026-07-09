@@ -15,6 +15,8 @@
 .product-cover {
   width: 180rpx;
   flex-shrink: 0;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  overflow: hidden;
 }
 
 .product-body {
@@ -29,10 +31,15 @@
   gap: 12rpx;
 }
 
-.product-card .icon {
+.product-card .icon,
+.product-card .product-icon {
   width: 56rpx;
   height: 56rpx;
   flex-shrink: 0;
+  font-size: 48rpx;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .info { flex: 1; min-width: 0; }
@@ -88,10 +95,15 @@
   padding: 28rpx 20rpx;
 }
 
-.tool-card .icon {
+.tool-card .icon,
+.tool-card .tool-icon {
   width: 64rpx;
   height: 64rpx;
   margin: 0 auto 12rpx;
+  font-size: 52rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .tool-card .title {

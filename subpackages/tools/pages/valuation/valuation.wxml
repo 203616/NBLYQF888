@@ -16,7 +16,7 @@
     <view class="photo-grid">
       <block wx:for="{{photoSlots}}" wx:key="key">
         <view class="photo-slot" data-key="{{item.key}}" bindtap="choosePhoto">
-          <image wx:if="{{photos[item.key]}}" src="{{photos[item.key]}}" mode="aspectFill" class="photo-preview" />
+          <image wx:if="{{photos[item.key]}}" src="{{photos[item.key]}}" mode="aspectFill" class="photo-preview" lazy-load="{{true}}" />
           <text wx:else class="photo-placeholder">+ {{item.label}}</text>
         </view>
       </block>

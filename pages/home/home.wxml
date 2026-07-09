@@ -2,7 +2,7 @@
   <view class="home-top glass-card">
     <view class="top-row">
       <view class="location-chip" bindtap="handleChooseCity">
-        <image src="/images/icon/location.png" class="loc-icon" mode="aspectFit" />
+        <text class="iconfont icon-location loc-icon"></text>
         <text>{{location.city || '宁波市'}}</text>
       </view>
       <text class="top-brand">亮叶企服</text>
@@ -46,7 +46,7 @@
   <swiper wx:if="{{banners.length}}" class="banner-swiper" autoplay interval="5000" circular indicator-dots indicator-color="rgba(255,255,255,0.4)" indicator-active-color="#D4A84B">
     <block wx:for="{{banners}}" wx:key="id">
       <swiper-item>
-        <safe-image className="banner-slide" src="{{item.img}}" mode="aspectFill" lazyLoad="{{true}}" dataIndex="{{index}}" bind:tap="handleBannerTap" />
+        <safe-image className="banner-slide" src="{{item.img || ''}}" mode="aspectFill" lazyLoad="{{true}}" dataIndex="{{index}}" bind:tap="handleBannerTap" />
       </swiper-item>
     </block>
   </swiper>
@@ -60,7 +60,7 @@
       <block wx:for="{{productList}}" wx:key="id">
         <view class="product-cell glass-card" data-path="{{item.path}}" bindtap="navigateToProduct">
           <view class="product-cell-cover" wx:if="{{item.cover}}">
-            <safe-image className="cover-slot" src="{{item.cover}}" mode="aspectFill" />
+            <safe-image className="cover-slot" src="{{item.cover || ''}}" mode="aspectFill" />
           </view>
           <view class="product-cell-body">
             <text class="product-cell-name">{{item.name}}</text>
@@ -97,7 +97,7 @@
       <block wx:for="{{cases}}" wx:key="id">
         <view class="waterfall-card glass-card" data-path="{{item.path}}" bindtap="navigateToCase">
           <view class="waterfall-card-cover" wx:if="{{item.cover}}">
-            <safe-image className="wfall-cover" src="{{item.cover}}" mode="aspectFill" />
+            <safe-image className="wfall-cover" src="{{item.cover || ''}}" mode="aspectFill" />
           </view>
           <view class="waterfall-card-body">
             <text class="wfall-tag">{{item.tag}}</text>
@@ -138,7 +138,7 @@
       <block wx:for="{{demandList}}" wx:key="id">
         <view class="waterfall-card glass-card" data-id="{{item.id}}" bindtap="navigateToDemandDetail">
           <view class="waterfall-card-cover" wx:if="{{item.cover}}">
-            <safe-image className="wfall-cover" src="{{item.cover}}" mode="aspectFill" />
+            <safe-image className="wfall-cover" src="{{item.cover || ''}}" mode="aspectFill" />
           </view>
           <view class="waterfall-card-body">
             <text class="wfall-tag">{{item.type === 'funding' ? '找资金' : '供资金'}}</text>

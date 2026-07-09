@@ -1,7 +1,7 @@
 <view class="feed-detail page-shell" wx:if="{{post}}">
   <view class="feed-card glass-card">
     <view class="feed-head">
-      <safe-image className="feed-avatar" src="{{post.avatar}}" mode="aspectFill" />
+      <safe-image className="feed-avatar" src="{{post.avatar || ''}}" mode="aspectFill" />
       <view class="feed-meta">
         <text class="feed-user">{{post.user}}</text>
         <text class="feed-time">{{post.time}}</text>
@@ -9,7 +9,7 @@
     </view>
     <text class="feed-content">{{post.content}}</text>
     <view class="feed-images" wx:if="{{post.images.length}}">
-      <safe-image wx:for="{{post.images}}" wx:key="*this" src="{{item}}" previewUrl="{{item}}" previewUrls="{{post.images}}" className="feed-img" bind:tap="previewImage" />
+      <safe-image wx:for="{{post.images}}" wx:key="*this" src="{{item || ''}}" previewUrl="{{item}}" previewUrls="{{post.images}}" className="feed-img" bind:tap="previewImage" />
     </view>
     <view class="feed-actions">
       <text class="action-btn {{post.liked ? 'liked' : ''}}" bindtap="handleLike">👍 {{post.likes || 0}}</text>

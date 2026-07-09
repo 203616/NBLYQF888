@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>金融计算器 - 亮叶企服</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="page-header">
+    <span class="back-btn" onclick="history.back()">←</span>
+    <h1>金融计算器</h1>
+  </div>
+  <div class="page-content">
+    <div class="card">
+      <h3>贷款参数</h3>
+      <div class="form-group">
+        <label>贷款金额（元）</label>
+        <input type="number" id="loanAmount" value="100000" />
+      </div>
+      <div class="form-group">
+        <label>贷款期限（月）</label>
+        <input type="number" id="loanTerm" value="36" />
+      </div>
+      <div class="form-group">
+        <label>年利率（%）</label>
+        <input type="number" id="annualRate" value="6" step="0.1" />
+      </div>
+      <div class="form-group">
+        <label>还款方式</label>
+        <select id="repaymentMethod">
+          <option value="equal_payment">等额本息</option>
+          <option value="equal_principal">等额本金</option>
+          <option value="interest_first">先息后本</option>
+          <option value="lump_sum">一次性还本付息</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" onclick="calculate()">计算</button>
+      <button class="btn btn-outline" onclick="resetForm()">清零</button>
+    </div>
+
+    <div class="card" id="resultCard" style="display:none;">
+      <h3>计算结果</h3>
+      <div id="resultList"></div>
+    </div>
+
+    <div class="card" id="scheduleCard" style="display:none;">
+      <h3>还款计划表</h3>
+      <div id="scheduleList"></div>
+    </div>
+  </div>
+
+  <script>
+  function formatMoney(v) { return '¥' + Number(v).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',') }
+
+  function calculate() {
+    const amount = parseFloat(document.getElementById('loanAmount').value) || 0
+    const term = parseInt(document.getElementById('loanTerm').value) || 1
+    const rate = parseFloat(document.getElementById('annualRate').value) || 0
+    const method = document.getElementById('repaymentMethod').value
+    const monthlyRate = rate / 100 / 12
+
+    let result = {}
+    let schedule = []
+
+    if (method === 'equal_payment') {
+      // 等额本息: M = P * r * (1+r)^n / ((1+r)^n - 1)
+      if (rate === 0) {
+        const mp = amount / term
+        result = { monthlyPayment: mp, totalInterest: 0, totalPayment: amount }
+        for (let i = 1; i <= term; i++) schedule.push({ period: i, payment: mp, principal: mp, interest: 0, remaining: amount - mp * i })
+      } else {
+        const factor = Math.pow(1 + monthlyRate, term)
+        const monthlyPayment = amount * monthlyRate * factor / (factor - 1)
+        let remaining = amount, totalInterest = 0
+        for (let i = 1; i <= term; i++) {
+          const interest = remaining * monthlyRate
+          const principal = monthlyPayment - interest
+          remaining = Math.max(0, remaining - principal)
+          totalInterest += interest
+          schedule.push({ period: i, payment: monthlyPayment, principal, interest, remaining })
+        }
+        result = { monthlyPayment, totalInterest, totalPayment: amount + totalInterest }
+      }
+    } else if (method === 'equal_principal') {
+      // 等额本金: 每月本金固定，利息递减
+      const monthlyPrincipal = amount / term
+      let totalInterest = 0, remaining = amount
+      for (let i = 1; i <= term; i++) {
+        const interest = remaining * monthlyRate
+        const payment = monthlyPrincipal + interest
+        remaining -= monthlyPrincipal
+        totalInterest += interest
+        schedule.push({ period: i, payment, principal: monthlyPrincipal, interest, remaining: Math.max(0, remaining) })
+      }
+      result = {
+        monthlyPrincipal,
+        firstPayment: schedule[0].payment,
+        lastPayment: schedule[schedule.length - 1].payment,
+        totalInterest,
+        totalPayment: amount + totalInterest,
+        monthlyDecline: schedule.length > 1 ? schedule[0].payment - schedule[1].payment : 0
+      }
+    } else if (method === 'interest_first') {
+      // 先息后本: 前 n-1 期只还利息，最后一期还本金+利息
+      const monthlyInterest = amount * monthlyRate
+      let totalInterest = 0
+      for (let i = 1; i <= term; i++) {
+        const interest = monthlyInterest
+        const principal = i === term ? amount : 0
+        const payment = interest + principal
+        totalInterest += interest
+        schedule.push({ period: i, payment, principal, interest, remaining: i === term ? 0 : amount })
+      }
+      result = {
+        monthlyInterest,
+        lastPayment: amount + monthlyInterest,
+        totalInterest,
+        totalPayment: amount + totalInterest
+      }
+    } else if (method === 'lump_sum') {
+      // 一次性还本付息: 到期一次还本+全部利息
+      const totalInterest = amount * rate / 100 * term / 12
+      const totalPayment = amount + totalInterest
+      schedule.push({ period: 1, payment: totalPayment, principal: amount, interest: totalInterest, remaining: 0 })
+      result = { totalInterest, totalPayment, monthlyEquivalent: totalPayment / term }
+    }
+
+    // 显示结果
+    const resultCard = document.getElementById('resultCard')
+    const resultList = document.getElementById('resultList')
+    resultCard.style.display = 'block'
+    resultList.innerHTML = ''
+
+    const fields = []
+    if (result.monthlyPayment !== undefined) fields.push({ label: '每月还款', value: formatMoney(result.monthlyPayment), highlight: true })
+    if (result.monthlyPrincipal !== undefined) fields.push({ label: '每月本金', value: formatMoney(result.monthlyPrincipal) })
+    if (result.monthlyInterest !== undefined) fields.push({ label: '每月利息', value: formatMoney(result.monthlyInterest) })
+    if (result.firstPayment !== undefined) fields.push({ label: '首月还款', value: formatMoney(result.firstPayment) })
+    if (result.lastPayment !== undefined) fields.push({ label: '末月还款', value: formatMoney(result.lastPayment) })
+    if (result.monthlyDecline !== undefined) fields.push({ label: '月供递减', value: formatMoney(result.monthlyDecline) })
+    if (result.monthlyEquivalent !== undefined) fields.push({ label: '月均还款', value: formatMoney(result.monthlyEquivalent) })
+    fields.push({ label: '总利息', value: formatMoney(result.totalInterest), highlight: true })
+    fields.push({ label: '还款总额', value: formatMoney(result.totalPayment), highlight: true })
+
+    fields.forEach(f => {
+      const row = document.createElement('div')
+      row.className = 'result-row' + (f.highlight ? ' highlight' : '')
+      row.innerHTML = '<span class="label">' + f.label + '</span><span class="value">' + f.value + '</span>'
+      resultList.appendChild(row)
+    })
+
+    // 显示计划表
+    const scheduleCard = document.getElementById('scheduleCard')
+    const scheduleList = document.getElementById('scheduleList')
+    scheduleCard.style.display = 'block'
+    scheduleList.innerHTML = '<div class="result-row" style="font-weight:bold;color:var(--primary);"><span>期次</span><span>月供</span><span>本金</span><span>利息</span></div>'
+    schedule.forEach(r => {
+      const row = document.createElement('div')
+      row.className = 'result-row'
+      row.style.fontSize = '13px'
+      row.innerHTML = '<span>' + r.period + '</span><span>' + formatMoney(r.payment) + '</span><span>' + formatMoney(r.principal) + '</span><span>' + formatMoney(r.interest) + '</span>'
+      scheduleList.appendChild(row)
+    })
+
+    // 滚动到结果
+    resultCard.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  function resetForm() {
+    document.getElementById('loanAmount').value = '100000'
+    document.getElementById('loanTerm').value = '36'
+    document.getElementById('annualRate').value = '6'
+    document.getElementById('repaymentMethod').value = 'equal_payment'
+    document.getElementById('resultCard').style.display = 'none'
+    document.getElementById('scheduleCard').style.display = 'none'
+  }
+  </script>
+</body>
+</html>

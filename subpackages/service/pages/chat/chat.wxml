@@ -37,7 +37,7 @@
   <scroll-view scroll-y class="message-list" scroll-into-view="{{scrollInto}}" scroll-with-animation>
     <block wx:for="{{messages}}" wx:key="id">
       <view id="msg-{{item.id}}" class="message-row {{item.role}}">
-        <safe-image className="avatar" src="{{item.role === 'user' ? userAvatar : botAvatar}}" mode="aspectFill" />
+        <safe-image className="avatar" src="{{(item.role === 'user' ? userAvatar : botAvatar) || ''}}" mode="aspectFill" />
         <view class="bubble-wrap">
           <text class="sender-name">{{item.role === 'user' ? '我' : '亮叶助手'}}</text>
           <view class="bubble {{item.role}}">
@@ -50,7 +50,7 @@
       </view>
     </block>
     <view class="typing-row" wx:if="{{loading}}" id="msg-typing">
-      <safe-image className="avatar" src="{{botAvatar}}" mode="aspectFill" />
+      <safe-image className="avatar" src="{{botAvatar || ''}}" mode="aspectFill" />
       <view class="typing-bubble">
         <text class="typing-dot"></text>
         <text class="typing-dot"></text>

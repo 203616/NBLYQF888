@@ -2,7 +2,7 @@ const { execSync, spawn } = require('child_process')
 const fs = require('fs')
 const path = require('path')
 
-const root = path.resolve(__dirname, '../../../..')
+const root = path.resolve(__dirname, '../../../../')
 
 const ACTIONS = {
   'sync-prod': {

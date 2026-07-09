@@ -7,10 +7,10 @@ Page({
   data: {
     products: catalog.autoFinanceProducts.slice(0, 6),
     allProducts: catalog.autoFinanceProducts,    tools: [
-      { id: 'calculator', title: '金融计算器', icon: '/images/icon/calculator.png', url: '/subpackages/tools/pages/calculator/calculator' },
-      { id: 'valuation', title: '车辆估值', icon: '/images/icon/car-clue.png', url: '/subpackages/tools/pages/valuation/valuation' },
-      { id: 'fuel', title: '油价查询', icon: '/images/icon/fuel.png', url: '/subpackages/tools/pages/fuel/fuel' },
-      { id: 'cars', title: '靠谱好车', icon: '/images/icon/car-finance.png', url: '/subpackages/cars/pages/list/list' }
+      { id: 'calculator', title: '金融计算器', icon: '🧮', url: '/subpackages/tools/pages/calculator/calculator' },
+      { id: 'valuation', title: '车辆估值', icon: '🔍', url: '/subpackages/tools/pages/valuation/valuation' },
+      { id: 'fuel', title: '油价查询', icon: '⛽', url: '/subpackages/tools/pages/fuel/fuel' },
+      { id: 'cars', title: '靠谱好车', icon: '🚗', url: '/subpackages/cars/pages/list/list' }
     ],
     location: null,
     stats: [

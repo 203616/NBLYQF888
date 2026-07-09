@@ -1,6 +1,6 @@
 .tool-page { padding-bottom: 40rpx; }
 .tool-hero { margin-bottom: 20rpx; min-height: 160rpx; background: var(--gradient-hero); border-radius: var(--radius-lg); }
-.loc-arrow { margin-left: auto; color: #ccc; font-size: 32rpx; }
+.loc-arrow { margin-left: auto; color: var(--color-text-muted); font-size: 32rpx; }
 .price-card { padding: 28rpx; }
 .card-title { display: block; font-size: 32rpx; font-weight: 700; color: var(--color-primary); }
 .meta { display: block; font-size: 22rpx; color: var(--color-text-muted); margin-top: 8rpx; }

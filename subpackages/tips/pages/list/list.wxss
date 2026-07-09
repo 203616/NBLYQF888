@@ -68,15 +68,8 @@
 
 .filter-pill {
   display: inline-block;
-  font-size: 24rpx;
-  padding: 10rpx 22rpx;
-  border-radius: 999rpx;
-  background: #fff;
-  color: #666;
-  box-shadow: var(--shadow-card);
   margin-right: 12rpx;
 }
-
 .filter-pill.active {
   background: var(--gradient-hero);
   color: #fff;

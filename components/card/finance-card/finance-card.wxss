@@ -19,6 +19,10 @@
 .card-icon {
   width: 80rpx;
   height: 80rpx;
+  font-size: 60rpx;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .fav-icon {
@@ -71,7 +75,7 @@
   margin-right: 12rpx;
   margin-bottom: 8rpx;
   line-height: 1.4;
-  background: #E6F2EC;
-  color: #0F3D2E;
-  border: 1rpx solid #0F3D2E;
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+  border: 1rpx solid var(--color-primary);
 }

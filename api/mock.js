@@ -13,10 +13,10 @@ const stats = [
 ]
 
 const serviceScenes = [
-  { id: 'auto', title: '汽车融资', desc: '新车按揭、二手车按揭、车抵贷', icon: '/images/icon/car-finance.png', path: '/subpackages/autoFinance/pages/list/list' },
-  { id: 'business', title: '企业周转', desc: '宁波银行·农行·建行小微贷', icon: '/images/icon/finance.png', path: '/pages/products/products?category=business' },
-  { id: 'risk', title: '风险防范', desc: '避坑指南、曝光案例、合规提醒', icon: '/images/icon/tip.png', path: '/subpackages/tips/pages/list/list' },
-  { id: 'knowledge', title: '融资课堂', desc: '政策解读、流程说明、成本测算', icon: '/images/icon/knowledge.png', path: '/subpackages/knowledge/pages/list/list' }
+  { id: 'auto', title: '汽车融资', desc: '新车按揭、二手车按揭、车抵贷', icon: '🚗', path: '/subpackages/autoFinance/pages/list/list' },
+  { id: 'business', title: '企业周转', desc: '宁波银行·农行·建行小微贷', icon: '🏦', path: '/pages/products/products?category=business' },
+  { id: 'risk', title: '风险防范', desc: '避坑指南、曝光案例、合规提醒', icon: '💡', path: '/subpackages/tips/pages/list/list' },
+  { id: 'knowledge', title: '融资课堂', desc: '政策解读、流程说明、成本测算', icon: '📖', path: '/subpackages/knowledge/pages/list/list' }
 ]
 
 const baseProducts = [

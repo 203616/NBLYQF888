@@ -10,7 +10,7 @@
   </view>
 
   <view class="location-bar glass-card" bindtap="handleChooseCity">
-    <image src="/images/icon/location.png" class="loc-icon" />
+        <text class="iconfont icon-location loc-icon"></text>
     <text>{{location.city || '定位中'}} · 附近渠道</text>
     <text class="loc-arrow">›</text>
   </view>
@@ -32,7 +32,7 @@
   <block wx:for="{{filteredPartners}}" wx:key="id">
     <view class="partner-card glass-card">
       <view class="partner-top">
-        <safe-image className="avatar" src="{{item.avatar}}" mode="aspectFill" />
+        <safe-image className="avatar" src="{{item.avatar || ''}}" mode="aspectFill" />
         <view class="partner-body">
           <view class="head">
             <text class="name">{{item.name}}</text>

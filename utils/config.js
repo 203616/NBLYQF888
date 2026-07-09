@@ -35,7 +35,7 @@ const config = {
     useCdnImages: false
   },
   development: {
-    apiBaseUrl: 'http://localhost:3000/api/v1',
+    apiBaseUrl: 'http://localhost:4008/api/v1',
     useMockFallback: false,
     appMode: 'api-content',
     cdnBaseUrl: '',

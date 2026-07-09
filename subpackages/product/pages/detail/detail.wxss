@@ -34,7 +34,7 @@
 }
 
 .tag {
-  color: #0F3D2E;
+  color: var(--color-primary);
   background: rgba(255, 255, 255, 0.9);
   border-radius: 999rpx;
   padding: 4rpx 14rpx;

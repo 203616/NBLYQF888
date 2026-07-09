@@ -34,11 +34,15 @@
   margin: 20rpx 0 12rpx;
   font-weight: bold;
   color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 280rpx;
 }
 
 .badge {
   background: rgba(212, 168, 75, 0.9);
-  color: #0F3D2E;
+  color: var(--color-primary);
   padding: 6rpx 20rpx;
   border-radius: 30rpx;
   font-size: 24rpx;

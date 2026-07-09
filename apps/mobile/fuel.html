@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>油价查询 - 亮叶企服</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="page-header">
+    <span class="back-btn" onclick="history.back()">←</span>
+    <h1>油价查询</h1>
+  </div>
+  <div class="page-content">
+    <div class="card" id="fuelCard">
+      <h3>宁波市今日油价</h3>
+      <div id="fuelList"></div>
+    </div>
+  </div>
+  <script>
+    async function loadFuel() {
+      try {
+        const res = await fetch('/api/v1/tools/fuel?city=宁波市')
+        const json = await res.json()
+        const data = json.data || json
+        const prices = data.current?.prices || data.prices || []
+        const list = document.getElementById('fuelList')
+        list.innerHTML = ''
+        prices.forEach(p => {
+          const row = document.createElement('div')
+          row.className = 'result-row'
+          row.innerHTML = '<span class="label">' + p.name + '</span><span class="value">' + p.price + ' 元/L</span>'
+          list.appendChild(row)
+        })
+      } catch (e) {
+        document.getElementById('fuelList').innerHTML = '<p style="color:#999;font-size:14px;">获取油价失败，请稍后重试</p>'
+      }
+    }
+    loadFuel()
+  </script>
+</body>
+</html>

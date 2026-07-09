@@ -1,6 +1,6 @@
 .region-page { padding-bottom: 40rpx; }
 .region-hero { margin-bottom: 20rpx; min-height: 200rpx; }
-.loc-arrow { margin-left: auto; color: #ccc; font-size: 32rpx; }
+.loc-arrow { margin-left: auto; color: var(--color-text-muted); font-size: 32rpx; }
 .current-card, .source-card, .region-card, .district-header { padding: 24rpx 28rpx; margin-bottom: 16rpx; }
 .current-title, .region-name { display: block; font-size: 30rpx; font-weight: 700; color: var(--color-primary); }
 .metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12rpx; margin-top: 16rpx; }

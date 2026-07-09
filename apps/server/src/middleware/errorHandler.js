@@ -5,8 +5,12 @@ function notFound(req, res) {
 }
 
 function errorHandler(error, req, res, next) {
-  console.error(error)
-  fail(res, error.message || 'Internal server error', error.status || 500)
+  console.error('[Error]', error.message || error)
+  if (process.env.NODE_ENV === 'production') {
+    fail(res, '服务器内部错误', 500)
+  } else {
+    fail(res, error.message || 'Internal server error', error.status || 500)
+  }
 }
 
 module.exports = {

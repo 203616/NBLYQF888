@@ -9,7 +9,7 @@
 
 .loc-arrow {
   margin-left: auto;
-  color: #ccc;
+  color: var(--color-text-muted);
   font-size: 32rpx;
 }
 
@@ -70,8 +70,11 @@
 .product-card .icon {
   width: 72rpx;
   height: 72rpx;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0 auto 12rpx;
+  font-size: 56rpx;
 }
 
 .p-title {
@@ -94,7 +97,7 @@
   align-items: center;
   margin-top: 16rpx;
   padding-top: 16rpx;
-  border-top: 1rpx solid #f0f0f0;
+  border-top: 1rpx solid var(--color-border);
   font-size: 24rpx;
   color: var(--color-primary);
 }
@@ -115,8 +118,11 @@
 .tool-icon {
   width: 48rpx;
   height: 48rpx;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0 auto 8rpx;
+  font-size: 40rpx;
 }
 
 .tool-title {
@@ -139,7 +145,7 @@
 }
 
 .chip.outline {
-  background: #fff;
+  background: var(--color-bg-card);
   border: 1rpx solid var(--color-primary);
 }
 
@@ -175,5 +181,5 @@
 }
 
 .arrow {
-  color: #ccc;
+  color: var(--color-text-muted);
 }

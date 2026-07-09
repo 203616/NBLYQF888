@@ -1,6 +1,6 @@
 <view class="car-detail page-shell" wx:if="{{car}}">
   <view class="cover-wrap">
-    <safe-image src="{{car.cover}}" className="hero-img" mode="aspectFill" />
+    <safe-image src="{{car.cover || ''}}" className="hero-img" mode="aspectFill" />
     <view class="cover-overlay">
       <text class="premium-hero-title">{{car.brand}} {{car.model}}</text>
       <text class="price">{{car.price}}</text>

@@ -9,6 +9,27 @@ function getFaqs() {
   return get('/service/faq')
 }
 
+function getChatSessions(userId) {
+  if (getConfig().useMockFallback) {
+    return Promise.resolve({ list: [], total: 0 })
+  }
+  return get('/service/sessions', { userId })
+}
+
+function createSession(userId, title) {
+  if (getConfig().useMockFallback) {
+    return Promise.resolve({ id: Date.now() })
+  }
+  return post('/service/sessions', { userId, title })
+}
+
+function getSessionMessages(sessionId) {
+  if (getConfig().useMockFallback) {
+    return Promise.resolve({ session: {}, messages: [] })
+  }
+  return get(`/service/sessions/${sessionId}/messages`)
+}
+
 function sendChatMessage(data) {
   if (getConfig().useMockFallback) {
     const question = data.message || ''
@@ -28,5 +49,8 @@ function sendChatMessage(data) {
 
 module.exports = {
   getFaqs,
+  getChatSessions,
+  getSessionMessages,
+  createSession,
   sendChatMessage
 }

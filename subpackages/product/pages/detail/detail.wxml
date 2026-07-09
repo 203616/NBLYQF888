@@ -1,6 +1,6 @@
 <view class="product-detail page-shell" wx:if="{{product}}">
   <view class="cover-wrap">
-    <safe-image className="product-cover" src="{{product.cover}}" mode="aspectFill" />
+    <safe-image className="product-cover" src="{{product.cover || ''}}" mode="aspectFill" />
     <view class="cover-overlay premium-hero">
       <view class="premium-hero-body">
         <view class="tag-row">

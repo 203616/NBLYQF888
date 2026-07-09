@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>亮叶企服 - 汽车金融与企服平台</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- ===== 头部 ===== -->
+    <header class="header">
+      <div class="logo">亮</div>
+      <div class="header-title">
+        <h1>亮叶企服</h1>
+        <p>汽车金融 · 企服平台</p>
+      </div>
+      <span class="header-menu-btn" onclick="toggleMenu()">☰</span>
+    </header>
+
+    <!-- ===== 侧边菜单 ===== -->
+    <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+    <div class="side-menu" id="sideMenu">
+      <div class="menu-header">
+        <div class="menu-logo">亮叶企服</div>
+        <span class="menu-close" onclick="toggleMenu()">✕</span>
+      </div>
+      <div class="menu-items">
+        <a class="menu-item active" href="#" onclick="navigateTo('home');toggleMenu()">🏠 首页</a>
+        <a class="menu-item" href="#" onclick="navigateTo('products');toggleMenu()">📋 产品大全</a>
+        <a class="menu-item" href="#" onclick="navigateTo('calculator');toggleMenu()">🧮 金融计算器</a>
+        <a class="menu-item" href="#" onclick="navigateTo('cars');toggleMenu()">🚗 亮叶好车</a>
+        <a class="menu-item" href="#" onclick="navigateTo('valuation');toggleMenu()">📊 车辆估值</a>
+        <a class="menu-item" href="#" onclick="navigateTo('fuel');toggleMenu()">⛽ 油价查询</a>
+        <a class="menu-item" href="#" onclick="navigateTo('news');toggleMenu()">📰 最新资讯</a>
+        <a class="menu-item" href="#" onclick="navigateTo('knowledge');toggleMenu()">📚 金融知识</a>
+        <a class="menu-item" href="#" onclick="navigateTo('tips');toggleMenu()">💡 避坑指南</a>
+        <a class="menu-item" href="#" onclick="navigateTo('financeCircle');toggleMenu()">🤝 易融圈</a>
+        <a class="menu-item" href="#" onclick="navigateTo('service');toggleMenu()">💬 智能客服</a>
+        <a class="menu-item" href="#" onclick="navigateTo('channel');toggleMenu()">🏦 助融渠道</a>
+      </div>
+    </div>
+
+    <!-- ===== 主内容区 ===== -->
+    <main id="mainContent"></main>
+
+    <!-- ===== 底部导航 ===== -->
+    <nav class="tab-bar" id="tabBar">
+      <a class="tab-item active" href="#" data-page="home" onclick="navigateTo('home')">
+        <span class="tab-icon">🏠</span><span class="tab-label">首页</span>
+      </a>
+      <a class="tab-item" href="#" data-page="products" onclick="navigateTo('products')">
+        <span class="tab-icon">📋</span><span class="tab-label">产品</span>
+      </a>
+      <a class="tab-item" href="#" data-page="calculator" onclick="navigateTo('calculator')">
+        <span class="tab-icon">🧮</span><span class="tab-label">计算器</span>
+      </a>
+      <a class="tab-item" href="#" data-page="financeCircle" onclick="navigateTo('financeCircle')">
+        <span class="tab-icon">🤝</span><span class="tab-label">易融圈</span>
+      </a>
+      <a class="tab-item" href="#" data-page="service" onclick="navigateTo('service')">
+        <span class="tab-icon">💬</span><span class="tab-label">客服</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- ===== 页面模板 ===== -->
+  <template id="tpl-home"><div class="page-home">
+    <!-- Banner -->
+    <section class="banner" id="homeBanner">
+      <div class="banner-slide" id="bannerSlide">
+        <h2>智能匹配融资方案</h2>
+        <p>车抵贷 · 经营贷 · 信用贷 · 一站式服务</p>
+      </div>
+    </section>
+
+    <!-- 快捷入口 -->
+    <section class="quick-entry">
+      <a class="entry-card" href="#" onclick="navigateTo('calculator')"><span class="entry-icon">🧮</span><span>计算器</span></a>
+      <a class="entry-card" href="#" onclick="navigateTo('valuation')"><span class="entry-icon">🚗</span><span>车辆估值</span></a>
+      <a class="entry-card" href="#" onclick="navigateTo('fuel')"><span class="entry-icon">⛽</span><span>油价查询</span></a>
+      <a class="entry-card" href="#" onclick="navigateTo('cars')"><span class="entry-icon">🛵</span><span>亮叶好车</span></a>
+    </section>
+
+    <!-- 金融服务 -->
+    <section class="section home-section">
+      <div class="section-header"><h3>金融服务</h3><a href="#" onclick="navigateTo('products')">全部 ›</a></div>
+      <div class="service-grid" id="serviceGrid"></div>
+    </section>
+
+    <!-- 最新资讯 -->
+    <section class="section home-section" id="newsSection">
+      <div class="section-header"><h3>最新资讯</h3><a href="#" onclick="navigateTo('news')">更多 ›</a></div>
+      <div class="article-list" id="newsList"></div>
+    </section>
+
+    <!-- 合作机构 -->
+    <section class="section home-section" id="instSection">
+      <div class="section-header"><h3>合作金融机构</h3></div>
+      <div class="inst-grid" id="instGrid"></div>
+    </section>
+
+    <!-- 合规提示 -->
+    <div class="compliance-bar">本平台不从事放贷业务，不承诺任何机构审批结果</div>
+  </div></template>
+
+  <template id="tpl-products"><div class="page-content page-products">
+    <h2 class="page-title">产品大全</h2>
+    <div class="filter-tabs" id="productTabs">
+      <span class="filter-tab active" onclick="filterProducts('all',this)">全部</span>
+      <span class="filter-tab" onclick="filterProducts('business',this)">经营贷</span>
+      <span class="filter-tab" onclick="filterProducts('personal',this)">消费贷</span>
+      <span class="filter-tab" onclick="filterProducts('mortgage',this)">抵押贷</span>
+      <span class="filter-tab" onclick="filterProducts('newCar',this)">新车</span>
+      <span class="filter-tab" onclick="filterProducts('usedCar',this)">二手车</span>
+    </div>
+    <div class="product-grid" id="productGrid"></div>
+  </div></template>
+
+  <template id="tpl-calculator"><div class="page-content page-calculator">
+    <h2 class="page-title">金融计算器</h2>
+
+    <div class="card">
+      <div class="calc-nav" id="calcNav">
+        <span class="calc-nav-item active" onclick="switchCalcTab('loan',this)">贷款计算</span>
+        <span class="calc-nav-item" onclick="switchCalcTab('car',this)">车贷计算</span>
+      </div>
+
+      <!-- 通用贷款 -->
+      <div id="calcLoan">
+        <div class="form-group">
+          <label>贷款金额（元）</label>
+          <input type="number" id="cLoanAmount" value="100000" />
+        </div>
+        <div class="form-group">
+          <label>贷款期限（月）</label>
+          <select id="cLoanTerm"><option value="12">12期</option><option value="24">24期</option><option value="36" selected>36期</option><option value="48">48期</option><option value="60">60期</option></select>
+        </div>
+        <div class="form-group">
+          <label>年利率（%）</label>
+          <input type="number" id="cAnnualRate" value="6" step="0.1" />
+        </div>
+        <div class="form-group">
+          <label>还款方式</label>
+          <select id="cMethod">
+            <option value="equal_payment">等额本息</option>
+            <option value="equal_principal">等额本金</option>
+            <option value="interest_first">先息后本</option>
+            <option value="lump_sum">一次性还本付息</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" onclick="calcLoan()">计算</button>
+        <button class="btn btn-outline" onclick="resetCalc()">清零</button>
+      </div>
+
+      <!-- 车贷 -->
+      <div id="calcCar" style="display:none">
+        <div class="form-group">
+          <label>车辆品牌</label>
+          <select id="cCarBrand"><option value="">请选择品牌</option></select>
+        </div>
+        <div class="form-group">
+          <label>车辆型号</label>
+          <input type="text" id="cCarModel" placeholder="如 Model Y、A4L" />
+        </div>
+        <div class="form-group">
+          <label>开票价格（元）</label>
+          <input type="number" id="cInvoicePrice" placeholder="如 200000" />
+        </div>
+        <div class="form-row">
+          <div class="form-group half">
+            <label>首付比例（%）</label>
+            <input type="number" id="cDownRate" value="30" />
+          </div>
+          <div class="form-group half">
+            <label>首付金额（元）</label>
+            <input type="number" id="cDownAmount" placeholder="自动计算" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>贷款金额（元）</label>
+          <input type="number" id="cCarLoanAmount" placeholder="千位取整" />
+        </div>
+        <div class="form-group">
+          <label>贷款期限</label>
+          <select id="cCarTerm"><option value="12">12期</option><option value="24">24期</option><option value="36">36期</option><option value="48">48期</option><option value="60" selected>60期</option></select>
+        </div>
+        <div class="form-group">
+          <label>年利率（%）</label>
+          <input type="number" id="cCarRate" value="3" step="0.1" />
+        </div>
+        <div class="form-group">
+          <label>已还期数（月）</label>
+          <input type="number" id="cPaidMonths" value="0" />
+        </div>
+        <div class="tips-text">车贷默认等本等息还款，提前还款违约金率5%（24期内），24期后免违约金</div>
+        <button class="btn btn-primary" onclick="calcCarLoan()">计算</button>
+        <button class="btn btn-outline" onclick="resetCalc()">清零</button>
+      </div>
+    </div>
+
+    <!-- 结果 -->
+    <div class="card" id="calcResult" style="display:none">
+      <h3>计算结果</h3>
+      <div id="calcResultList"></div>
+    </div>
+    <div class="card" id="calcSchedule" style="display:none">
+      <h3>还款计划表 <span style="font-size:13px;font-weight:400;color:#999" id="scheduleCount"></span></h3>
+      <div class="schedule-scroll"><div id="scheduleList"></div></div>
+      <button class="btn btn-outline" style="margin-top:12px" onclick="document.getElementById('calcSchedule').style.display='none'">收起计划表</button>
+    </div>
+  </div></template>
+
+  <template id="tpl-cars"><div class="page-content">
+    <h2 class="page-title">亮叶好车</h2>
+    <div class="card"><p style="color:#999;font-size:14px;text-align:center;padding:40px 0" id="carsLoading">加载中...</p></div>
+    <div class="car-grid" id="carGrid"></div>
+  </div></template>
+
+  <template id="tpl-valuation"><div class="page-content">
+    <h2 class="page-title">车辆估值</h2>
+    <div class="card">
+      <div class="form-group">
+        <label>车辆品牌</label>
+        <select id="vBrand"><option value="">请选择品牌</option></select>
+      </div>
+      <div class="form-group">
+        <label>车型</label>
+        <input type="text" id="vModel" placeholder="如 Model Y、A4L" />
+      </div>
+      <div class="form-group">
+        <label>上牌年份</label>
+        <select id="vYear"></select>
+      </div>
+      <div class="form-group">
+        <label>行驶里程（万公里）</label>
+        <input type="number" id="vMileage" value="5" step="0.1" />
+      </div>
+      <button class="btn btn-primary" onclick="estimateValue()">开始估值</button>
+    </div>
+    <div class="card" id="valuationResult" style="display:none"><h3>估值结果</h3><div id="valuationBody"></div></div>
+  </div></template>
+
+  <template id="tpl-fuel"><div class="page-content">
+    <h2 class="page-title">油价查询</h2>
+    <div class="card">
+      <h3>宁波市今日油价</h3>
+      <div id="fuelList"></div>
+    </div>
+  </div></template>
+
+  <template id="tpl-news"><div class="page-content">
+    <h2 class="page-title">最新资讯</h2>
+    <div class="article-list" id="newsFullList"></div>
+  </div></template>
+
+  <template id="tpl-knowledge"><div class="page-content">
+    <h2 class="page-title">金融知识</h2>
+    <div class="article-list" id="knowledgeList"></div>
+  </div></template>
+
+  <template id="tpl-tips"><div class="page-content">
+    <h2 class="page-title">避坑指南</h2>
+    <div class="article-list" id="tipsList"></div>
+  </div></template>
+
+  <template id="tpl-financeCircle"><div class="page-content">
+    <h2 class="page-title">易融圈</h2>
+    <div class="filter-tabs" id="fcTabs" style="margin-bottom:12px">
+      <span class="filter-tab active" onclick="filterFC('all',this)">全部</span>
+      <span class="filter-tab" onclick="filterFC('funding',this)">找资金</span>
+      <span class="filter-tab" onclick="filterFC('loan',this)">供资金</span>
+    </div>
+    <div id="fcLoading" style="text-align:center;padding:40px;color:#999">加载中...</div>
+    <div class="demand-list" id="fcList"></div>
+  </div></template>
+
+  <template id="tpl-service"><div class="page-content page-chat">
+    <h2 class="page-title">智能客服</h2>
+    <div class="card chat-box" id="chatBox">
+      <div class="chat-msg bot-msg">
+        <div class="msg-avatar">🤖</div>
+        <div class="msg-content">您好！我是亮叶企服智能客服，请问有什么可以帮您？<br/><br/>您可以咨询：<br/>• 贷款产品及条件<br/>• 申请材料清单<br/>• 进件流程说明<br/>• 风险提示等</div>
+      </div>
+    </div>
+    <div class="chat-input-row">
+      <input class="chat-input" id="chatInput" placeholder="输入您的问题..." onkeydown="if(event.key==='Enter')sendChat()" />
+      <button class="chat-send-btn" onclick="sendChat()">发送</button>
+    </div>
+    <div class="faq-hints" id="faqHints">
+      <span onclick="quickAsk('有哪些贷款产品')">有哪些贷款产品</span>
+      <span onclick="quickAsk('申请需要什么材料')">申请材料</span>
+      <span onclick="quickAsk('进件流程是什么')">进件流程</span>
+    </div>
+  </div></template>
+
+  <template id="tpl-channel"><div class="page-content">
+    <h2 class="page-title">助融渠道</h2>
+    <div class="card"><p style="color:#999;font-size:14px;text-align:center;padding:20px 0" id="channelLoading">加载渠道列表...</p></div>
+    <div id="channelList"></div>
+  </div></template>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

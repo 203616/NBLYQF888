@@ -55,6 +55,8 @@ CREATE TABLE IF NOT EXISTS success_cases (
   title TEXT,
   result TEXT,
   desc TEXT,
+  cover TEXT DEFAULT '',
+  detail TEXT DEFAULT '{}',
   sort INTEGER DEFAULT 0,
   status TEXT DEFAULT 'published'
 );
@@ -387,4 +389,96 @@ CREATE TABLE IF NOT EXISTS finance_circle_comments (
   user_name TEXT,
   content TEXT,
   created_at TEXT DEFAULT (datetime('now'))
+);
+
+-- ============================================
+-- 审计日志表（记录管理员操作日志）
+-- ============================================
+CREATE TABLE IF NOT EXISTS audit_logs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  admin_id INTEGER,
+  admin_name TEXT,
+  action TEXT NOT NULL,
+  resource_type TEXT,
+  resource_id TEXT,
+  detail TEXT,
+  ip_address TEXT,
+  created_at TEXT DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_audit_admin ON audit_logs(admin_id);
+CREATE INDEX IF NOT EXISTS idx_audit_action ON audit_logs(action);
+CREATE INDEX IF NOT EXISTS idx_audit_time ON audit_logs(created_at);
+
+-- ============================================
+-- 系统配置表（扩展键值配置）
+-- ============================================
+CREATE TABLE IF NOT EXISTS config_settings (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  category TEXT NOT NULL DEFAULT 'general',
+  key TEXT UNIQUE NOT NULL,
+  value TEXT,
+  description TEXT,
+  updated_at TEXT DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_config_cat ON config_settings(category);
+
+-- ============================================
+-- 数据导出记录表
+-- ============================================
+CREATE TABLE IF NOT EXISTS export_records (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  admin_id INTEGER,
+  resource_type TEXT NOT NULL,
+  file_name TEXT,
+  file_size INTEGER,
+  record_count INTEGER,
+  status TEXT DEFAULT 'completed',
+  created_at TEXT DEFAULT (datetime('now'))
+);
+
+-- ============================================
+-- RBAC：权限定义表
+-- ============================================
+CREATE TABLE IF NOT EXISTS permissions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  code TEXT UNIQUE NOT NULL,
+  name TEXT NOT NULL,
+  group_name TEXT DEFAULT '',
+  description TEXT,
+  created_at TEXT DEFAULT (datetime('now'))
+);
+
+-- ============================================
+-- RBAC：角色表
+-- ============================================
+CREATE TABLE IF NOT EXISTS roles (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT UNIQUE NOT NULL,
+  description TEXT,
+  is_system INTEGER DEFAULT 0,
+  created_at TEXT DEFAULT (datetime('now'))
+);
+
+-- ============================================
+-- RBAC：角色-权限关联表
+-- ============================================
+CREATE TABLE IF NOT EXISTS role_permissions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  role_id INTEGER NOT NULL,
+  permission_code TEXT NOT NULL,
+  FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
+  FOREIGN KEY (permission_code) REFERENCES permissions(code) ON DELETE CASCADE,
+  UNIQUE(role_id, permission_code)
+);
+
+-- ============================================
+-- RBAC：用户-角色关联表
+-- ============================================
+CREATE TABLE IF NOT EXISTS admin_role_assignments (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  admin_id INTEGER NOT NULL,
+  role_id INTEGER NOT NULL,
+  FOREIGN KEY (admin_id) REFERENCES admin_users(id) ON DELETE CASCADE,
+  FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
+  UNIQUE(admin_id, role_id)
 );

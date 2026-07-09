@@ -1,7 +1,7 @@
 <view class="finance-card" bind:tap="handleCardTap">
   <!-- 图标区域 -->
   <view class="card-header">
-    <image class="card-icon" src="{{product.icon}}" mode="aspectFit" />
+    <text class="iconfont card-icon">{{product.icon}}</text>
     <view animation="{{animationData}}">
       <view 
         class="fav-icon {{isFav ? 'fav-active' : ''}}" 

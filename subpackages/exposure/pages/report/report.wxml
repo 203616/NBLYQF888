@@ -34,7 +34,7 @@
       <view class="upload-area">
         <block wx:for="{{evidence}}" wx:key="index">
           <view class="upload-item">
-            <image src="{{item}}" class="preview" mode="aspectFill" />
+            <image src="{{item}}" class="preview" mode="aspectFill" lazy-load="{{true}}" />
             <text class="remove" data-index="{{index}}" bindtap="removeImage">×</text>
           </view>
         </block>

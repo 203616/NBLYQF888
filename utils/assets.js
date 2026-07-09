@@ -19,15 +19,18 @@ const ASSETS = {
   warrantyBasic: `${MEDIA}/autoFinance/images/warranty-basic.webp`,
   warrantyPremium: `${MEDIA}/autoFinance/images/warranty-premium.webp`,
   icon: {
-    location: '/images/icon/location.png',
-    calculator: '/images/icon/calculator.png',
-    fuel: '/images/icon/fuel.png',
-    carFinance: '/images/icon/car-finance.png',
-    carNew: '/images/icon/car-new.png',
-    carUsed: '/images/icon/car-used.png',
-    carLoan: '/images/icon/car-loan.png',
-    knowledge: '/images/icon/knowledge.png',
-    tip: '/images/icon/tip.png'
+    location: 'icon-location',
+    calculator: 'icon-calculator',
+    fuel: 'icon-fuel',
+    carFinance: 'icon-car-finance',
+    carNew: 'icon-car-new',
+    carUsed: 'icon-car-used',
+    carLoan: 'icon-car-loan',
+    knowledge: 'icon-knowledge',
+    tip: 'icon-tip',
+    finance: 'icon-finance',
+    carClue: 'icon-car-clue',
+    default: 'icon-default'
   }
 }
 

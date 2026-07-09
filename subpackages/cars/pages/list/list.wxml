@@ -9,7 +9,7 @@
   </view>
 
   <view class="location-bar glass-card" bindtap="handleChooseCity">
-    <image src="/images/icon/location.png" class="loc-icon" />
+        <text class="iconfont icon-location loc-icon"></text>
     <text>{{location.city || '定位中'}} · 本地好车</text>
     <text class="loc-arrow">›</text>
   </view>
@@ -29,7 +29,7 @@
 
   <block wx:for="{{cars}}" wx:key="id">
     <view class="car-card glass-card" data-id="{{item.id}}" bindtap="navigateToDetail">
-      <safe-image src="{{item.cover}}" className="cover" mode="aspectFill" />
+      <safe-image src="{{item.cover || ''}}" className="cover" mode="aspectFill" />
       <view class="info">
         <text class="title">{{item.brand}} {{item.model}}</text>
         <text class="meta">{{item.year}}年 · {{item.mileage}} · {{item.city}}</text>

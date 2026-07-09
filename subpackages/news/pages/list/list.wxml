@@ -15,7 +15,7 @@
 
   <block wx:for="{{filteredList}}" wx:key="id">
     <view class="news-card glass-card" bindtap="navigateToDetail" data-id="{{item.id}}">
-      <safe-image src="{{item.cover}}" className="cover" mode="aspectFill" />
+      <safe-image src="{{item.cover || ''}}" className="cover" mode="aspectFill" />
       <view class="news-body">
         <text class="category">{{item.category}}</text>
         <text class="title">{{item.title}}</text>

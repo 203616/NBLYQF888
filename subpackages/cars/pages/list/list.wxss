@@ -1,6 +1,6 @@
 .cars-page { padding-bottom: 40rpx; }
 .cars-hero { margin-bottom: 20rpx; min-height: 200rpx; }
-.loc-arrow { margin-left: auto; color: #ccc; font-size: 32rpx; }
+.loc-arrow { margin-left: auto; color: var(--color-text-muted); font-size: 32rpx; }
 .search-bar { display: flex; align-items: center; padding: 18rpx 24rpx; margin-bottom: 20rpx; }
 .search-bar input { flex: 1; margin-left: 12rpx; font-size: 28rpx; }
 .search-btn { color: var(--color-primary); font-size: 26rpx; margin-left: 16rpx; flex-shrink: 0; }

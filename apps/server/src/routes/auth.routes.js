@@ -107,8 +107,26 @@ router.post('/admin/login', (req, res) => {
     return fail(res, '管理员账号或密码错误', 401)
   }
   db.prepare("UPDATE admin_users SET last_login_at = datetime('now') WHERE id = ?").run(admin.id)
-  const token = jwt.sign({ id: admin.id, username: admin.username, role: 'admin', adminRole: admin.role }, jwtSecret, { expiresIn: '7d' })
-  ok(res, { token, admin: { id: admin.id, username: admin.username, name: admin.name, role: admin.role } })
+  const perms = require('../services/rbac.service').getUserPermissions(admin.id)
+  const token = jwt.sign({ id: admin.id, username: admin.username, role: 'admin', adminRole: admin.role, permissions: perms }, jwtSecret, { expiresIn: '7d' })
+  // 获取角色名称
+  const roles = db.prepare(`
+    SELECT GROUP_CONCAT(DISTINCT r.name) AS names
+    FROM admin_role_assignments ara
+    JOIN roles r ON r.id = ara.role_id
+    WHERE ara.admin_id = ?
+  `).get(admin.id)
+  ok(res, {
+    token,
+    admin: {
+      id: admin.id,
+      username: admin.username,
+      name: admin.name,
+      role: admin.role,
+      roleNames: roles?.names ? roles.names.split(',') : [],
+      permissions: perms
+    }
+  })
 })
 
 router.get('/admin/me', requireAdmin, (req, res) => {

@@ -72,8 +72,8 @@
   font-size: 24rpx;
   padding: 10rpx 22rpx;
   border-radius: 999rpx;
-  background: #fff;
-  color: #666;
+  background: var(--color-bg-card);
+  color: var(--color-text-secondary);
   box-shadow: var(--shadow-card);
 }
 

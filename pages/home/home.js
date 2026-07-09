@@ -69,14 +69,21 @@ Page({
   loadHomeData() {
     getHomeData()
       .then(data => {
+        if (!data || typeof data !== 'object') {
+          this.setData({ loading: false })
+          wx.stopPullDownRefresh()
+          return
+        }
+        const safe = (arr) => Array.isArray(arr) ? arr : []
+        const safeMap = (arr) => safe(arr).map(withCover)
         this.setData({
-          banners: (data.banners || []).map(withCover).filter(b => b.img),
-          stats: data.stats || [],
-          newsList: (data.newsList || []).slice(0, 4).map(withCover),
-          productList: (data.products || []).slice(0, 8).map(withCover),
-          institutions: data.institutions || [],
-          demandList: (data.demands || []).slice(0, 2).map(withCover),
-          cases: (data.cases || []).slice(0, 3).map(withCover),
+          banners: safeMap(data.banners).filter(b => b.img),
+          stats: safe(data.stats),
+          newsList: safeMap(data.newsList).slice(0, 4),
+          productList: safeMap(data.products || data.productList).slice(0, 8),
+          institutions: safe(data.institutions),
+          demandList: safeMap(data.demands || data.demandList).slice(0, 2),
+          cases: safeMap(data.cases).slice(0, 3),
           loading: false
         })
         wx.stopPullDownRefresh()

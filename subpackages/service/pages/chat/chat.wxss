@@ -64,7 +64,7 @@
 }
 
 .topic-item {
-  background: #fff;
+  background: var(--color-bg-card);
   border-radius: 16rpx;
   padding: 16rpx 8rpx;
   text-align: center;
@@ -129,7 +129,7 @@
 }
 
 .bubble.assistant {
-  background: #fff;
+  background: var(--color-bg-card);
   border-top-left-radius: 6rpx;
 }
 
@@ -193,7 +193,7 @@
   display: flex;
   align-items: center;
   gap: 8rpx;
-  background: #fff;
+  background: var(--color-bg-card);
   padding: 16rpx 20rpx;
   border-radius: 20rpx;
   box-shadow: var(--shadow-card);

@@ -1,50 +1,53 @@
 <view class="login-page">
-  <view class="login-bg">
-    
-    
+  <!-- 顶部品牌区 -->
+  <view class="login-header">
+    <view class="brand-logo">亮</view>
+    <text class="brand-name">亮叶企服</text>
+    <text class="brand-tag">汽车金融与企服一体化平台</text>
   </view>
 
-  <view class="login-body" style="height: 1343rpx; display: flex; box-sizing: border-box; left: 0rpx; top: 0rpx; position: relative; width: 750rpx">
-    <view class="login-top">
-      <text class="brand-name">亮叶企服</text>
-      <text class="brand-tag">登录后享受完整服务</text>
+  <!-- 登录卡片 -->
+  <view class="login-card">
+    <view class="auth-type">
+      <view class="auth-tab {{authType=='wechat' ? 'active' : ''}}" data-type="wechat" bindtap="switchAuthType">微信登录</view>
+      <view class="auth-tab {{authType=='phone' ? 'active' : ''}}" data-type="phone" bindtap="switchAuthType">手机登录</view>
     </view>
 
-    <view class="login-card-wrap" style="position: relative; left: 39rpx; top: -51rpx">
-      <view class="login-card glass-card" style="position: relative; left: -33rpx; top: 0rpx; height: 977rpx; display: block; box-sizing: border-box">
-        <view class="auth-type">
-          <view class="auth-tab {{authType=='wechat' ? 'active' : ''}}" data-type="wechat" bindtap="switchAuthType">微信登录</view>
-          <view class="auth-tab {{authType=='phone' ? 'active' : ''}}" data-type="phone" bindtap="switchAuthType">手机登录</view>
-        </view>
+    <block wx:if="{{authType === 'wechat'}}">
+      <button class="auth-btn wechat-btn" loading="{{loggingIn}}" disabled="{{loggingIn}}" bindtap="handleWechatAuth">
+        <text class="btn-icon">💬</text>
+        <text>微信一键登录</text>
+      </button>
+    </block>
 
-        <block wx:if="{{authType === 'wechat'}}">
-          <button class="auth-btn primary-btn" loading="{{loggingIn}}" disabled="{{loggingIn}}" bindtap="handleWechatAuth">微信一键登录</button>
-        </block>
-        <block wx:else>
-          <input class="field-input" type="number" maxlength="11" placeholder="手机号" value="{{phone}}" bindinput="onPhoneInput" />
-          <view class="code-row">
-            <input class="field-input code" type="number" maxlength="6" placeholder="验证码" value="{{smsCode}}" bindinput="onCodeInput" />
-            <button class="code-btn" size="mini" disabled="{{codeSending}}" bindtap="sendSmsCode">{{codeText}}</button>
-          </view>
-          <button class="auth-btn primary-btn" loading="{{loggingIn}}" disabled="{{loggingIn}}" bindtap="handlePhoneLogin">登录</button>
-        </block>
+    <block wx:else>
+      <input class="field-input" type="number" maxlength="11" placeholder="请输入手机号" value="{{phone}}" bindinput="onPhoneInput" />
+      <view class="code-row">
+        <input class="field-input code" type="number" maxlength="6" placeholder="验证码" value="{{smsCode}}" bindinput="onCodeInput" />
+        <button class="code-btn" size="mini" disabled="{{codeSending}}" bindtap="sendSmsCode">{{codeText}}</button>
+      </view>
+      <button class="auth-btn primary-btn" loading="{{loggingIn}}" disabled="{{loggingIn}}" bindtap="handlePhoneLogin">
+        <text class="btn-icon">📱</text>
+        <text>登录</text>
+      </button>
+    </block>
 
-        <view class="agree-section" style="position: relative; left: 0rpx; top: 599rpx">
-          <view class="agree-row" bindtap="togglePrivacy">
-            <text class="checkbox {{agreedPrivacy ? 'on' : ''}}">{{agreedPrivacy ? '✓' : ''}}</text>
-            <text>同意 <text class="link" catchtap="viewPrivacy">《隐私政策》</text></text>
-          </view>
-          <view class="agree-row" bindtap="toggleService">
-            <text class="checkbox {{agreedService ? 'on' : ''}}">{{agreedService ? '✓' : ''}}</text>
-            <text>同意 <text class="link" catchtap="viewService">《用户服务协议》</text></text>
-          </view>
-        </view>
+    <!-- 协议勾选 -->
+    <view class="agree-section">
+      <view class="agree-row" bindtap="togglePrivacy">
+        <text class="checkbox {{agreedPrivacy ? 'on' : ''}}">{{agreedPrivacy ? '✓' : ''}}</text>
+        <text>已阅读并同意 <text class="link" catchtap="viewPrivacy">《隐私政策》</text></text>
+      </view>
+      <view class="agree-row" bindtap="toggleService">
+        <text class="checkbox {{agreedService ? 'on' : ''}}">{{agreedService ? '✓' : ''}}</text>
+        <text>已阅读并同意 <text class="link" catchtap="viewService">《用户服务协议》</text></text>
       </view>
     </view>
+  </view>
 
-    <view class="login-bottom-row" style="width: 679rpx; display: block; box-sizing: content-box">
-      <text class="guest-link" bindtap="guestEnter">暂不登录，先逛逛</text>
-      <text class="compliance-tip">本平台不从事放贷业务，不承诺任何机构审批结果</text>
-    </view>
+  <!-- 底部 -->
+  <view class="login-footer">
+    <text class="guest-link" bindtap="guestEnter">暂不登录，先逛逛 →</text>
+    <text class="compliance-tip">本平台不从事放贷业务，不承诺任何机构审批结果</text>
   </view>
 </view>

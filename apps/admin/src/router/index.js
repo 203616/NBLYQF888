@@ -10,13 +10,20 @@ import SystemIntegrations from '../views/SystemIntegrations.vue'
 import SystemDeploy from '../views/SystemDeploy.vue'
 import SystemReleaseChecklist from '../views/SystemReleaseChecklist.vue'
 import FinanceModeration from '../views/FinanceModeration.vue'
+import AuditLogs from '../views/AuditLogs.vue'
+import SystemStatus from '../views/SystemStatus.vue'
+import RoleManage from '../views/RoleManage.vue'
+import AdminUsers from '../views/AdminUsers.vue'
+import SystemSettings from '../views/SystemSettings.vue'
+import ChatSessions from '../views/ChatSessions.vue'
 
 /** 扁平菜单（兼容旧引用） */
 export const menus = [
   { path: '/dashboard', title: '数据概览', icon: '📊', resource: '', group: 'data' },
   { path: '/analytics/regions', title: '地区看板', icon: '🗺️', resource: '', group: 'data' },
   { path: '/operations/sources', title: '数据来源', icon: '📁', resource: 'sources', group: 'ops' },
-  { path: '/service/sessions', title: '客服会话', icon: '💬', resource: 'serviceSessions', group: 'ops' },
+  { path: '/service/sessions', title: '客服会话', icon: '💬', resource: 'chatSessions', group: 'ops' },
+  { path: '/ai/analysis', title: 'AI 分析', icon: '🧠', resource: '', group: 'ops' },
   { path: '/notifications', title: '消息管理', icon: '🔔', resource: 'notifications', group: 'ops' },
   { path: '/operations/banners', title: '轮播图管理', icon: '🖼️', resource: 'banners', group: 'ops' },
   { path: '/products', title: '产品管理', icon: '📦', resource: 'products', group: 'ops' },
@@ -34,10 +41,14 @@ export const menus = [
   { path: '/users', title: '用户管理', icon: '👤', resource: 'users', group: 'business' },
   { path: '/social/finance-posts', title: '融圈动态审核', icon: '💬', resource: 'financeCirclePosts', group: 'business' },
   { path: '/social/finance-moderation', title: '融圈审核规则', icon: '🛡️', resource: '', group: 'business' },
-  { path: '/system/settings', title: '系统设置', icon: '⚙️', resource: 'settings', group: 'system' },
+  { path: '/system/settings', title: '系统设置', icon: '⚙️', resource: '', group: 'system' },
   { path: '/system/integrations', title: '集成联调', icon: '🔗', resource: '', group: 'system' },
   { path: '/system/deploy', title: '发布部署', icon: '🚀', resource: '', group: 'system' },
-  { path: '/system/release-checklist', title: '正式版清单', icon: '✅', resource: '', group: 'system' }
+  { path: '/system/release-checklist', title: '正式版清单', icon: '✅', resource: '', group: 'system' },
+  { path: '/system/audit-logs', title: '审计日志', icon: '📋', resource: '', group: 'system' },
+  { path: '/system/status', title: '系统状态', icon: '📊', resource: '', group: 'system' },
+  { path: '/system/roles', title: '角色权限', icon: '🔐', resource: '', group: 'system' },
+  { path: '/system/admin-users', title: '管理员', icon: '👥', resource: '', group: 'system' }
 ]
 
 /** 侧栏分组大纲 */
@@ -83,7 +94,14 @@ const routes = [
       { path: 'system/deploy', component: SystemDeploy, meta: { title: '发布部署' } },
       { path: 'system/release-checklist', component: SystemReleaseChecklist, meta: { title: '正式版清单' } },
       { path: 'social/finance-moderation', component: FinanceModeration, meta: { title: '融圈审核规则' } },
-      ...menus.filter(item => item.resource).map(item => ({
+      { path: 'system/audit-logs', component: AuditLogs, meta: { title: '审计日志' } },
+      { path: 'system/status', component: SystemStatus, meta: { title: '系统状态' } },
+      { path: 'system/roles', component: RoleManage, meta: { title: '角色权限' } },
+      { path: 'system/admin-users', component: AdminUsers, meta: { title: '管理员管理' } },
+      { path: 'system/settings', component: SystemSettings, meta: { title: '系统设置' } },
+      { path: 'service/sessions', component: ChatSessions, meta: { title: '客服会话' } },
+      { path: 'ai/analysis', component: ChatSessions, meta: { title: 'AI 分析' } },
+      ...menus.filter(item => item.resource && item.resource !== 'chatSessions').map(item => ({
         path: item.path.replace(/^\//, ''),
         component: ResourceList,
         meta: item

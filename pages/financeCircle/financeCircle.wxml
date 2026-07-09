@@ -1,6 +1,6 @@
 <view class="finance-circle page-shell">
   <view class="location-bar glass-card" bindtap="handleChooseCity">
-    <image src="/images/icon/location.png" class="loc-icon" />
+    <text class="iconfont icon-location loc-icon"></text>
     <text>{{location.city || '定位中'}} · 本地需求大厅</text>
     <text class="loc-arrow">›</text>
   </view>
@@ -85,7 +85,7 @@
     <view class="publish-box" wx:if="{{showPublish}}">
       <textarea class="publish-textarea" placeholder="分享融资需求、机构供给或服务心得…" value="{{publishContent}}" bindinput="onPublishInput" />
       <view class="publish-images" wx:if="{{publishImages.length}}">
-        <safe-image wx:for="{{publishImages}}" wx:key="*this" src="{{item}}" className="pub-img" mode="aspectFill" />
+        <safe-image wx:for="{{publishImages}}" wx:key="*this" src="{{item || ''}}" className="pub-img" mode="aspectFill" />
       </view>
       <view class="publish-actions">
         <text class="pub-add-img" bindtap="choosePublishImage">📷 添加图片</text>
@@ -96,7 +96,7 @@
     <block wx:for="{{feedPosts}}" wx:key="id">
       <view class="feed-item" data-id="{{item.id}}" bindtap="navigateToFeedDetail">
         <view class="feed-head">
-          <safe-image className="feed-avatar" src="{{item.avatar}}" mode="aspectFill" />
+          <safe-image className="feed-avatar" src="{{item.avatar || ''}}" mode="aspectFill" />
           <view class="feed-meta">
             <text class="feed-user">{{item.user}}</text>
             <text class="feed-time">{{item.time}}</text>
@@ -105,7 +105,7 @@
         </view>
         <text class="feed-content">{{item.content}}</text>
         <view class="feed-images" wx:if="{{item.images.length}}">
-          <safe-image wx:for="{{item.images}}" wx:key="*this" wx:for-item="img" src="{{img}}" previewUrl="{{img}}" previewUrls="{{item.images}}" className="feed-img" catch:tap="previewFeedImage" />
+          <safe-image wx:for="{{item.images}}" wx:key="*this" wx:for-item="img" src="{{img || ''}}" previewUrl="{{img}}" previewUrls="{{item.images}}" className="feed-img" catch:tap="previewFeedImage" />
         </view>
         <view class="feed-actions">
           <text class="action-btn {{item.liked ? 'liked' : ''}}" data-id="{{item.id}}" catchtap="handleLike">👍 {{item.likes}}</text>

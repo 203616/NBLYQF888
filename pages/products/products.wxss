@@ -1,12 +1,14 @@
 .products-page {
   padding: 24rpx;
   min-height: 100vh;
-  background: #F7F9FC;
+  background: var(--color-bg-page);
 }
 
 .hero-card {
   margin-bottom: 24rpx;
   min-height: 240rpx;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
 }
 
 .product-item {
@@ -25,7 +27,7 @@
 .category-grid-item {
   text-align: center;
   padding: 20rpx 8rpx;
-  background: #fff;
+  background: var(--color-bg-card);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-card);
 }
@@ -99,7 +101,6 @@
   position: relative;
 }
 
-.grid-cover-wrap safe-image,
 .grid-cover-wrap .cover-slot {
   width: 100%;
   height: 100%;
@@ -126,15 +127,15 @@
   display: inline-block;
   text-align: center;
   padding: 18rpx 28rpx;
-  background: white;
+  background: var(--color-bg-card);
   border-radius: 999rpx;
   margin-right: 14rpx;
-  color: #666;
+  color: var(--color-text-secondary);
   box-shadow: 0 4rpx 14rpx rgba(15, 61, 46, 0.06);
 }
 
 .category-item.active {
-  background: #0F3D2E;
+  background: var(--color-primary);
   color: #fff;
 }
 
@@ -152,7 +153,7 @@
 .product-item {
   display: flex;
   gap: 22rpx;
-  background: white;
+  background: var(--color-bg-card);
   border-radius: 22rpx;
   padding: 22rpx;
   box-shadow: 0 8rpx 24rpx rgba(15, 61, 46, 0.08);
@@ -162,7 +163,7 @@
   width: 160rpx;
   height: 160rpx;
   border-radius: 18rpx;
-  background: #E6F2EC;
+  background: var(--color-primary-bg);
   flex-shrink: 0;
 }
 
@@ -179,19 +180,19 @@
   font-weight: bold;
   display: block;
   font-size: 30rpx;
-  color: #333;
+  color: var(--color-text-primary);
   line-height: 1.4;
 }
 
 .product-item .rate {
-  color: #0F3D2E;
+  color: var(--color-primary);
   font-size: 26rpx;
   display: block;
   margin-top: 10rpx;
 }
 
 .product-item .desc {
-  color: #666;
+  color: var(--color-text-secondary);
   font-size: 26rpx;
   line-height: 1.6;
   display: block;
@@ -205,20 +206,20 @@
 }
 
 .info-item {
-  background: #f7f9fc;
+  background: var(--color-primary-bg);
   border-radius: 12rpx;
   padding: 14rpx;
 }
 
 .info-label {
   display: block;
-  color: #999;
+  color: var(--color-text-muted);
   font-size: 22rpx;
 }
 
 .info-value {
   display: block;
-  color: #333;
+  color: var(--color-text-primary);
   font-size: 24rpx;
   font-weight: bold;
   margin-top: 4rpx;
@@ -227,14 +228,14 @@
 .suitable {
   display: block;
   margin-top: 18rpx;
-  color: #666;
+  color: var(--color-text-secondary);
   font-size: 24rpx;
   line-height: 1.5;
 }
 
 .compliance {
   display: block;
-  color: #8a6d3b;
+  color: #6b4f1e;
   background: #fff8e6;
   border-radius: 12rpx;
   padding: 14rpx;
@@ -253,21 +254,21 @@
   margin-right: 8rpx;
   margin-bottom: 8rpx;
   border-radius: 22rpx;
-  background: #E6F2EC;
-  color: #0F3D2E;
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
   font-size: 22rpx;
 }
 
 .product-item .footer {
   text-align: right;
-  color: #0F3D2E;
+  color: var(--color-primary);
   margin-top: 24rpx;
   font-size: 26rpx;
 }
 
 .empty-state {
   text-align: center;
-  color: #999;
+  color: var(--color-text-muted);
   padding: 120rpx 0;
   line-height: 1.7;
 }

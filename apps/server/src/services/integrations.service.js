@@ -54,10 +54,7 @@ function getIntegrationStatus() {
       hint: subscribeReady ? '小程序可请求用户订阅进件通知' : '请在微信公众平台配置模板 ID 并写入 .env'
     },
     contentSecurity,
-    deepseek: {
-      configured: !!process.env.DEEPSEEK_API_KEY,
-      model: process.env.DEEPSEEK_MODEL || 'deepseek-chat'
-    },
+    deepseek: getDeepSeekStatus(),
     cdn: {
       baseUrl: process.env.CDN_BASE_URL || '',
       useCdnImages: process.env.USE_CDN_IMAGES === 'true',
@@ -92,6 +89,30 @@ function getPublicIntegrationConfig() {
       cdnConfigured: !!status.cdn.baseUrl
     },
     cdnBaseUrl: status.cdn.baseUrl || null
+  }
+}
+
+function getDeepSeekStatus() {
+  const db = require('../db')
+  let envKey = process.env.DEEPSEEK_API_KEY || ''
+  let envModel = process.env.DEEPSEEK_MODEL || 'deepseek-chat'
+  let dbKey = ''
+  let dbModel = ''
+  try {
+    const rows = db.prepare("SELECT key, value FROM config_settings WHERE category = 'integration' AND key IN ('integration_deepseek_key', 'integration_deepseek_model')").all()
+    for (const r of rows) {
+      if (r.key === 'integration_deepseek_key') dbKey = r.value
+      if (r.key === 'integration_deepseek_model') dbModel = r.value
+    }
+  } catch {}
+  const effectiveKey = dbKey || envKey
+  const effectiveModel = dbModel || envModel
+  return {
+    configured: !!effectiveKey,
+    model: effectiveModel,
+    keySource: dbKey ? 'database' : (envKey ? 'env' : 'none'),
+    envKeyConfigured: !!envKey,
+    dbKeyConfigured: !!dbKey
   }
 }
 
