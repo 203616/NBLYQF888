@@ -52,7 +52,15 @@ Page({
     return {
       title: detail.title || '亮叶企服曝光台',
       path: `/subpackages/exposure/pages/detail/detail?id=${detail.id}`,
-      imageUrl: '/images/banner2.webp'
+      imageUrl: '/images/banner2.webp',
+      desc: detail.content ? (detail.content.replace(/<[^>]*>/g, '').slice(0, 100) || '曝光台信息披露') : '亮叶企服曝光台信息披露'
+    }
+  },
+
+  onShareTimeline() {
+    const detail = this.data.exposureDetail || {}
+    return {
+      title: detail.title || '亮叶企服曝光台'
     }
   },
 

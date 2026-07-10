@@ -1,5 +1,5 @@
 <view class="auth-page page-shell">
-  <view class="auth-hero premium-hero">
+  <view class="auth-hero premium-hero fadeInUp">
     <view class="premium-hero-body">
       <text class="premium-badge">账号注册</text>
       <text class="premium-hero-title">加入亮叶企服</text>
@@ -27,4 +27,5 @@
     <view class="login-link">已有账号？<text bindtap="navigateToLogin">立即登录</text></view>
     <text class="compliance">本平台仅提供信息撮合服务，不发放贷款</text>
   </view>
+  <view class="page-safe"></view>
 </view>

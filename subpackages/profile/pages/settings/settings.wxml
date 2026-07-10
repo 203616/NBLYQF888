@@ -1,14 +1,7 @@
 <view class="settings-page page-shell">
-  <view class="settings-hero premium-hero">
-    <safe-image className="premium-hero-bg" src="/images/banner2.webp" mode="aspectFill" />
-    <view class="premium-hero-body">
-      <text class="premium-badge">账号中心</text>
-      <text class="premium-hero-title">系统设置</text>
-      <text class="premium-hero-sub">安全 · 隐私 · 通知 · 客服与协议</text>
-    </view>
-  </view>
 
-  <view class="account-card glass-card">
+  <!-- 账号卡片 -->
+  <view class="account-card glass-card fade-in-up" style="animation-delay: 0.05s">
     <safe-image src="{{userInfo.avatar || '/images/avatar.webp'}}" className="avatar" mode="aspectFill" />
     <view class="account-info">
       <text class="name">{{userInfo.nickname || '亮叶用户'}}</text>
@@ -17,24 +10,28 @@
     </view>
   </view>
 
-  <view class="stat-row">
-    <view class="stat-item glass-card" wx:for="{{quickStats}}" wx:key="label">
+  <!-- 快捷状态 -->
+  <view class="stat-row fade-in-up" style="animation-delay: 0.1s">
+    <view class="stat-item" wx:for="{{quickStats}}" wx:key="label">
       <text class="stat-icon">{{item.icon}}</text>
       <text class="stat-num">{{item.value}}</text>
       <text class="stat-label">{{item.label}}</text>
     </view>
   </view>
 
-  <view class="section glass-card dev-panel" wx:if="{{showDevPanel}}">
-    <text class="section-title">体验版 / 开发联调</text>
-    <text class="dev-hint">仅开发版与体验版可见，不改源码，设置存于本机 Storage</text>
+  <!-- 开发联调面板 -->
+  <view class="glass-card dev-panel fade-in-up" style="animation-delay: 0.15s" wx:if="{{showDevPanel}}">
+    <view class="section-header">
+      <text class="title">🔧 体验版 / 开发联调</text>
+    </view>
+    <text class="dev-hint">仅开发版与体验版可见，设置存于本机 Storage</text>
     <picker mode="selector" range="{{envOptions}}" range-key="label" value="{{envPickerIndex}}" bindchange="onEnvPickerChange">
       <view class="setting-row">
         <view class="setting-left">
           <text class="setting-icon">🔧</text>
           <view>
             <text class="setting-title">API 环境</text>
-            <text class="setting-desc">当前：{{envPickerLabel}}</text>
+            <text class="setting-desc">当前：{{envPickerLabel || ''}}</text>
           </view>
         </view>
         <text class="arrow">›</text>
@@ -50,28 +47,34 @@
       </view>
       <switch checked="{{useCdnImages}}" color="#0F3D2E" bindchange="onCdnSwitchChange" />
     </view>
-    <view class="runtime-summary">{{runtimeSummary}}</view>
-    <view class="runtime-summary" wx:if="{{deviceSummary}}">设备：{{deviceSummary}}</view>
+    <view class="runtime-summary">{{runtimeSummary || ''}}</view>
+    <view class="runtime-summary" wx:if="{{deviceSummary || ''}}">设备：{{deviceSummary || ''}}</view>
     <button class="reset-env-btn" bindtap="resetRuntimeEnv">恢复自动检测</button>
   </view>
 
-  <view class="section glass-card trial-panel" wx:if="{{showTrialPanel && trialInfo}}">
-    <text class="section-title">当前体验版</text>
-    <text class="trial-version">v{{trialInfo.version}}</text>
-    <text class="trial-desc">{{trialInfo.desc}}</text>
-    <text class="trial-meta">更新于 {{trialInfo.updatedAtLabel}}</text>
-    <text class="trial-note">{{trialInfo.note}}</text>
+  <!-- 体验版信息 -->
+  <view class="glass-card trial-panel fade-in-up" style="animation-delay: 0.2s" wx:if="{{showTrialPanel && trialInfo}}">
+    <view class="section-header">
+      <text class="title">📦 当前体验版</text>
+    </view>
+    <text class="trial-version">v{{trialInfo.version || ''}}</text>
+    <text class="trial-desc">{{trialInfo.desc || ''}}</text>
+    <text class="trial-meta">更新于 {{trialInfo.updatedAtLabel || ''}}</text>
+    <text class="trial-note">{{trialInfo.note || ''}}</text>
   </view>
 
-  <view class="section glass-card">
-    <text class="section-title">偏好设置</text>
+  <!-- 偏好设置 -->
+  <view class="glass-card fade-in-up" style="animation-delay: 0.25s">
+    <view class="section-header">
+      <text class="title">⚙️ 偏好设置</text>
+    </view>
     <block wx:for="{{settings}}" wx:key="id">
       <view class="setting-row" bindtap="handleSettingTap" data-id="{{item.id}}">
         <view class="setting-left">
           <text class="setting-icon">{{item.icon || '⚙️'}}</text>
           <view>
-            <text class="setting-title">{{item.title}}</text>
-            <text class="setting-desc">{{item.desc}}</text>
+            <text class="setting-title">{{item.title || ''}}</text>
+            <text class="setting-desc">{{item.desc || ''}}</text>
           </view>
         </view>
         <switch wx:if="{{item.hasSwitch}}" checked="{{item.enabled}}" color="#0F3D2E" data-id="{{item.id}}" catchtap="noop" bindchange="handleSwitchChange" />
@@ -80,14 +83,17 @@
     </block>
   </view>
 
-  <view class="section glass-card">
-    <text class="section-title">服务与支持</text>
+  <!-- 服务与支持 -->
+  <view class="glass-card fade-in-up" style="animation-delay: 0.3s">
+    <view class="section-header">
+      <text class="title">📞 服务与支持</text>
+    </view>
     <view class="action-row" bindtap="callService">
       <view class="action-left">
         <text class="action-icon">💬</text>
         <view>
           <text class="action-title">智能客服</text>
-          <text class="action-desc">AI合规咨询 · {{servicePhone}}</text>
+          <text class="action-desc">AI合规咨询 · {{servicePhone || ''}}</text>
         </view>
       </view>
       <text class="arrow">›</text>
@@ -97,19 +103,21 @@
         <text class="action-icon">🔒</text>
         <view>
           <text class="action-title">隐私政策</text>
-          <text class="action-desc">收集范围、授权用途、撤回方式</text>
+          <text class="action-desc">个人信息收集范围与授权说明</text>
         </view>
       </view>
+      <text class="tag right-tag">查阅</text>
       <text class="arrow">›</text>
     </view>
     <view class="action-row" bindtap="openAgreement">
       <view class="action-left">
         <text class="action-icon">📜</text>
         <view>
-          <text class="action-title">服务协议</text>
-          <text class="action-desc">信息咨询与居间撮合服务说明</text>
+          <text class="action-title">用户服务协议</text>
+          <text class="action-desc">信息咨询与居间撮合服务条款</text>
         </view>
       </view>
+      <text class="tag right-tag">查阅</text>
       <text class="arrow">›</text>
     </view>
     <view class="action-row" bindtap="goNotifications">
@@ -124,6 +132,8 @@
     </view>
   </view>
 
-  <view class="version-tip">亮叶企服 v1.0 · 合规信息咨询与居间撮合</view>
-  <button class="logout-btn" bindtap="logout">退出登录</button>
+  <!-- 底部 -->
+  <view class="version-tip fade-in-up" style="animation-delay: 0.35s">亮叶企服 v1.0 · 金融信息咨询与居间撮合</view>
+  <button class="logout-btn btn-outline fade-in-up" style="animation-delay: 0.4s" bindtap="logout">退出登录</button>
+  <view class="page-safe"></view>
 </view>

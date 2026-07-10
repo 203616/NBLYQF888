@@ -117,6 +117,7 @@ function renderProducts(cat) {
   const grid = $('productGrid')
   if (!filtered.length) { grid.innerHTML = '<div style="grid-column:span 2;text-align:center;padding:40px;color:#999">暂无产品</div>'; return }
   grid.innerHTML = filtered.map(p => `<div class="product-card" onclick="showProductDetail(${p.id})">
+    ${p.cover ? `<img class="p-cover" src="${p.cover}" alt="${p.name||''}" onerror="this.style.display='none'" />` : ''}
     <div class="p-name">${p.name||''}</div>
     <span class="p-rate">${p.rate||''}</span>
     <span class="p-desc">${(p.description||'').slice(0,30)}</span>
@@ -173,10 +174,13 @@ function loadArticles(type, containerId) {
     const container = $(containerId)
     if (!Array.isArray(list) || !list.length) { container.innerHTML = '<div style="text-align:center;padding:40px;color:#999">暂无内容</div>'; return }
     container.innerHTML = list.map(a => `<div class="article-card" onclick="showArticleDetail('${type}',${a.id})">
-      <span class="art-cat">${a.category||type}</span>
-      <span class="art-title">${a.title||''}</span>
-      <span class="art-meta">${a.date||''}${a.views ? ' · '+a.views+'次阅读' : ''}</span>
-      ${a.summary ? '<span class="art-summary">'+a.summary.slice(0,80)+'</span>' : ''}
+      ${a.cover || a.img ? `<img class="art-img" src="${a.cover || a.img}" alt="${a.title||''}" onerror="this.style.display='none'" />` : ''}
+      <div class="art-body">
+        <span class="art-cat">${a.category||type}</span>
+        <span class="art-title">${a.title||''}</span>
+        <span class="art-meta">${a.date||''}${a.views ? ' · '+a.views+'次阅读' : ''}</span>
+        ${a.summary ? '<span class="art-summary">'+a.summary.slice(0,80)+'</span>' : ''}
+      </div>
     </div>`).join('')
   })
 }

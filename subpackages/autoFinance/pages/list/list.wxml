@@ -1,25 +1,24 @@
 <view class="page-shell finance-page finance-list">
-  <view class="finance-hero">
-    <safe-image className="finance-hero-img" src="/images/banner1.webp" mode="aspectFill" />
-    <view class="finance-hero-mask"></view>
-    <view class="finance-hero-body">
-      <text class="finance-badge">汽车金融专区</text>
-      <text class="finance-hero-title">汽车融资服务</text>
-      <text class="finance-hero-sub">新车按揭 · 二手车融资 · 车抵周转 · 配套计算器与估值工具</text>
+  <view class="premium-hero fadeInUp">
+    <safe-image className="premium-hero-bg" src="/images/banner1.webp" mode="aspectFill" />
+    <view class="premium-hero-body">
+      <text class="premium-badge">🚗 汽车金融专区</text>
+      <text class="premium-hero-title">汽车融资服务</text>
+      <text class="premium-hero-sub">新车按揭 · 二手车融资 · 车抵周转 · 配套计算器与估值工具</text>
     </view>
   </view>
 
-  <view class="stat-strip">
-    <view class="stat-chip glass-card" wx:for="{{stats}}" wx:key="label">
-      <text class="stat-chip-num">{{item.value}}</text>
-      <text class="stat-chip-label">{{item.label}}</text>
+  <view class="stat-row fadeInUp" style="animation-delay:0.1s">
+    <view class="stat-item" wx:for="{{stats}}" wx:key="label">
+      <text class="stat-num">{{item.value}}</text>
+      <text class="stat-label">{{item.label}}</text>
     </view>
   </view>
 
-  <view class="section-block">
-    <view class="section-head">
-      <text class="section-head-title">持牌机构产品</text>
-      <text class="section-head-more">共 {{products.length}} 款 · 宁波地区</text>
+  <view class="section-block fadeInUp" style="animation-delay:0.2s">
+    <view class="section-header">
+      <text class="title">持牌机构产品</text>
+      <text class="more">共 {{products.length}} 款 · 宁波地区</text>
     </view>
     <scroll-view scroll-x class="filter-tabs" enable-flex>
       <block wx:for="{{filterTypes}}" wx:key="id">
@@ -27,73 +26,82 @@
       </block>
     </scroll-view>
     <block wx:for="{{filteredProducts}}" wx:key="id">
-      <view class="product-card glass-card">
-        <safe-image className="product-cover" src="{{item.cover || ''}}" mode="aspectFill" bindtap="navigateToPage" data-url="{{item.url}}" />
-        <view class="product-body" bindtap="navigateToPage" data-url="{{item.url}}">
+      <view class="product-card glass-card fadeInUp" style="animation-delay:{{0.3 + index * 0.05}}s">
+        <safe-image className="product-cover" src="{{item.cover || ''}}" mode="aspectFill" bindtap="navigateToPage" data-url="{{item.url || ''}}" />
+        <view class="product-body" bindtap="navigateToPage" data-url="{{item.url || ''}}">
           <view class="product-top">
-            <text class="iconfont product-icon">{{item.icon}}</text>
+            <view class="product-icon-wrap" style="background:{{item._iconBg || '#E6F2EC'}}">
+              <text class="product-icon">{{item.icon || '🚗'}}</text>
+            </view>
             <view class="info">
-              <text class="title">{{item.title}}</text>
-              <text class="institution">{{item.institution}} · {{item.region}}</text>
+              <view class="title-row">
+                <text class="title">{{item.title || ''}}</text>
+                <text class="badge {{item._badge.class || ''}}" wx:if="{{item._badge}}">{{item._badge.text || ''}}</text>
+              </view>
+              <text class="institution">{{item.institution || ''}} · {{item.region || ''}}</text>
               <view class="tag-row">
-                <text class="mini-tag" wx:for="{{item.tags}}" wx:key="*this" wx:for-item="tag">{{tag}}</text>
+                <text class="tag" wx:for="{{item.tags || []}}" wx:key="*this" wx:for-item="tag">{{tag}}</text>
               </view>
             </view>
           </view>
-          <text class="desc">{{item.desc}}</text>
+          <text class="desc">{{item.desc || ''}}</text>
           <view class="product-meta">
-            <text class="meta-item">额度 {{item.amount}}</text>
-            <text class="meta-item">期限 {{item.term}}</text>
+            <text class="meta-item">💰 额度 {{item.amount || ''}}</text>
+            <text class="meta-item">📅 期限 {{item.term || ''}}</text>
           </view>
-          <text class="rate">{{item.rate}}</text>
+          <text class="rate">🏷️ {{item.rate || ''}}</text>
         </view>
-        <button class="apply-mini btn-gold" catchtap="goIntake" data-item="{{item}}">咨询进件</button>
+        <button class="apply-mini btn-gold" catchtap="goIntake" data-item="{{item}}">📝 咨询进件</button>
       </view>
     </block>
   </view>
 
-  <view class="section-block">
-    <view class="section-head">
-      <text class="section-head-title">为什么选择亮叶</text>
+  <view class="section-block fadeInUp" style="animation-delay:0.4s">
+    <view class="section-header">
+      <text class="title">为什么选择亮叶</text>
     </view>
     <view class="feature-grid">
       <block wx:for="{{advantages}}" wx:key="title">
-        <view class="feature-cell">
-          <text class="feature-cell-icon">{{item.icon}}</text>
-          <text class="feature-cell-title">{{item.title}}</text>
-          <text class="feature-cell-desc">{{item.desc}}</text>
+        <view class="feature-item fadeInUp" style="animation-delay:{{0.4 + index * 0.05}}s">
+          <view class="feat-icon-wrap">
+            <text class="feat-icon">{{item.icon || ''}}</text>
+          </view>
+          <text class="feat-title">{{item.title || ''}}</text>
+          <text class="feat-desc">{{item.desc || ''}}</text>
         </view>
       </block>
     </view>
   </view>
 
-  <view class="section-block">
-    <view class="section-head">
-      <text class="section-head-title">实用工具</text>
+  <view class="section-block fadeInUp" style="animation-delay:0.5s">
+    <view class="section-header">
+      <text class="title">实用工具</text>
     </view>
     <view class="tool-grid">
       <block wx:for="{{tools}}" wx:key="id">
-        <view class="tool-card glass-card" bindtap="navigateToPage" data-url="{{item.url}}">
-          <text class="iconfont tool-icon">{{item.icon}}</text>
-          <text class="title">{{item.title}}</text>
-          <text class="desc">{{item.desc}}</text>
+        <view class="tool-card card fadeInUp" style="animation-delay:{{0.5 + index * 0.05}}s" bindtap="navigateToPage" data-url="{{item.url || ''}}">
+          <view class="tool-icon-wrap">
+            <text class="tool-icon">{{item.icon || ''}}</text>
+          </view>
+          <text class="title">{{item.title || ''}}</text>
+          <text class="desc">{{item.desc || ''}}</text>
         </view>
       </block>
     </view>
   </view>
 
-  <view class="section-block">
-    <view class="section-head">
-      <text class="section-head-title">办理流程</text>
+  <view class="section-block fadeInUp" style="animation-delay:0.6s">
+    <view class="section-header">
+      <text class="title">办理流程</text>
     </view>
-    <view class="info-card glass-card">
+    <view class="card">
       <view class="process-timeline">
         <block wx:for="{{processSteps}}" wx:key="title">
-          <view class="process-node">
+          <view class="process-node fadeInUp" style="animation-delay:{{0.6 + index * 0.05}}s">
             <text class="process-dot">{{index + 1}}</text>
             <view class="process-content">
-              <text class="process-title">{{item.title}}</text>
-              <text class="process-desc">{{item.desc}}</text>
+              <text class="process-title">{{item.title || ''}}</text>
+              <text class="process-desc">{{item.desc || ''}}</text>
             </view>
           </view>
         </block>
@@ -101,21 +109,22 @@
     </view>
   </view>
 
-  <view class="section-block">
-    <view class="section-head">
-      <text class="section-head-title">常见问题</text>
+  <view class="section-block fadeInUp" style="animation-delay:0.7s">
+    <view class="section-header">
+      <text class="title">常见问题</text>
     </view>
-    <view class="info-card glass-card">
+    <view class="card">
       <block wx:for="{{faqs}}" wx:key="q">
         <view class="faq-item">
-          <text class="faq-q">Q：{{item.q}}</text>
-          <text class="faq-a">{{item.a}}</text>
+          <text class="faq-q">❓ {{item.q || ''}}</text>
+          <text class="faq-a">{{item.a || ''}}</text>
         </view>
       </block>
     </view>
   </view>
 
-  <view class="compliance-banner">
-    <text>{{complianceNote}}</text>
+  <view class="compliance-banner fadeInUp" style="animation-delay:0.8s">
+    <text>{{complianceNote || ''}}</text>
   </view>
+  <view class="page-safe"></view>
 </view>

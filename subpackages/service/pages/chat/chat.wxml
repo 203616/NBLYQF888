@@ -1,67 +1,85 @@
 <view class="chat-page page-shell">
+  <!-- 顶部英雄区 -->
   <view class="chat-hero premium-hero">
+    <safe-image className="premium-hero-bg" src="/images/banner1.webp" mode="aspectFill" />
     <view class="premium-hero-body">
-      <text class="premium-badge">智能客服</text>
+      <text class="premium-badge">🤖 智能客服</text>
       <text class="premium-hero-title">亮叶企服咨询助手</text>
-      <text class="premium-hero-sub">材料清单 · 服务流程 · 风险提示 · {{aiOnline ? 'DeepSeek AI' : '离线演示'}}</text>
+      <text class="premium-hero-sub">材料清单 · 服务流程 · 风险提示 · {{aiOnline ? 'DeepSeek AI 驱动' : '客服支持'}}</text>
     </view>
   </view>
 
-  <view class="ai-status glass-card" wx:if="{{aiOnline}}">
-    <text class="ai-dot online"></text>
-    <text>AI 服务已连接 · DeepSeek 合规回复</text>
+  <!-- AI 连接状态 -->
+  <view class="ai-status glass-card fade-in-up" wx:if="{{!aiChecking}}">
+    <text class="ai-dot {{aiOnline ? 'online' : ''}}"></text>
+    <text class="ai-status-text">{{aiStatusText || (aiOnline ? 'DeepSeek AI 已连接 · 合规回复' : '离线演示模式')}}</text>
   </view>
-  <view class="ai-status offline glass-card" wx:else>
-    <text class="ai-dot"></text>
-    <text>离线演示模式 · 启动 pnpm dev:server 启用 AI</text>
+  <view class="ai-status glass-card fade-in-up" wx:else>
+    <text class="ai-dot checking"></text>
+    <text class="ai-status-text">{{aiStatusText}}</text>
   </view>
 
-  <view class="notice-card glass-card">
+  <!-- 合规提示 -->
+  <view class="notice-card glass-card fade-in-up">
     <text class="notice-icon">🛡️</text>
     <view class="notice-body">
       <text class="notice-title">合规咨询提示</text>
-      <text class="notice-desc">平台仅提供金融信息咨询与居间撮合，不发放贷款，不承诺审批结果，不收取前置保证金。</text>
+      <text class="notice-desc" user-select>平台仅提供金融信息咨询与居间撮合，不发放贷款，不承诺审批结果，不收取前置保证金。</text>
     </view>
   </view>
 
-  <view class="quick-topics" wx:if="{{topics.length}}">
-    <text class="section-label">快捷咨询</text>
+  <!-- 快捷咨询 -->
+  <view class="quick-topics fade-in-up" wx:if="{{topics.length}}">
+    <text class="section-label">💡 快捷咨询</text>
     <view class="topic-grid">
       <view class="topic-item" wx:for="{{topics}}" wx:key="title" data-question="{{item.question}}" bindtap="useTopic">
-        <text class="topic-icon">{{item.icon}}</text>
+        <view class="topic-icon-wrap">
+          <text class="topic-icon">{{item.icon}}</text>
+        </view>
         <text class="topic-title">{{item.title}}</text>
       </view>
     </view>
   </view>
 
-  <scroll-view scroll-y class="message-list" scroll-into-view="{{scrollInto}}" scroll-with-animation>
+  <!-- 消息列表 -->
+  <scroll-view scroll-y class="message-list" scroll-into-view="{{scrollInto}}" scroll-with-animation lower-threshold="50">
     <block wx:for="{{messages}}" wx:key="id">
-      <view id="msg-{{item.id}}" class="message-row {{item.role}}">
+      <view id="msg-{{item.id}}" class="message-row {{item.role}} fade-in-up">
         <safe-image className="avatar" src="{{(item.role === 'user' ? userAvatar : botAvatar) || ''}}" mode="aspectFill" />
         <view class="bubble-wrap">
           <text class="sender-name">{{item.role === 'user' ? '我' : '亮叶助手'}}</text>
-          <view class="bubble {{item.role}}">
-            <text class="message-content">{{item.content}}</text>
+          <view class="bubble {{item.role}} {{item.status === 'failed' ? 'bubble-failed' : ''}}">
+            <text class="message-content" user-select>{{item.content}}</text>
+            <text class="message-time" wx:if="{{item.time}}">{{item.time}}</text>
           </view>
-          <text class="source" wx:if="{{item.source && item.role === 'assistant'}}">
+          <!-- 发送状态 -->
+          <view class="msg-status" wx:if="{{item.role === 'user'}}">
+            <text class="status-sending" wx:if="{{item.status === 'sending'}}">⏳ 发送中…</text>
+            <text class="status-sent" wx:if="{{item.status === 'sent'}}">✓ 已发送</text>
+            <text class="status-failed" wx:if="{{item.status === 'failed'}}" bindtap="retryMessage" data-id="{{item.id}}">⚠️ 发送失败，点击重试</text>
+          </view>
+          <!-- 来源标记 -->
+          <text class="source" user-select wx:if="{{item.source && item.role === 'assistant'}}">
             来源：{{item.sourceText}}<text wx:if="{{item.aiBadge}}" class="ai-badge"> · {{item.aiBadge}}</text>
           </text>
         </view>
       </view>
     </block>
+    <!-- 打字指示器 -->
     <view class="typing-row" wx:if="{{loading}}" id="msg-typing">
       <safe-image className="avatar" src="{{botAvatar || ''}}" mode="aspectFill" />
       <view class="typing-bubble">
-        <text class="typing-dot"></text>
-        <text class="typing-dot"></text>
-        <text class="typing-dot"></text>
+        <text class="typing-dot dot1"></text>
+        <text class="typing-dot dot2"></text>
+        <text class="typing-dot dot3"></text>
         <text class="typing-text">正在整理合规回复…</text>
       </view>
     </view>
   </scroll-view>
 
-  <view class="faq-section">
-    <text class="section-label">常见问题</text>
+  <!-- 常见问题 -->
+  <view class="faq-section fade-in-up">
+    <text class="section-label">❓ 常见问题</text>
     <scroll-view scroll-x class="faq-scroll" enable-flex>
       <block wx:for="{{faqs}}" wx:key="q">
         <view class="faq-chip" data-question="{{item.q}}" bindtap="useFaq">{{item.q}}</view>
@@ -69,11 +87,22 @@
     </scroll-view>
   </view>
 
-  <view class="input-bar">
+  <!-- 输入栏 -->
+  <view class="input-bar {{inputFocused ? 'input-bar-focused' : ''}}">
     <view class="input-wrap">
-      <input value="{{inputValue}}" bindinput="onInput" confirm-type="send" bindconfirm="sendMessage" placeholder="请输入您的问题…" />
+      <input
+        value="{{inputValue}}"
+        bindinput="onInput"
+        bindfocus="onInputFocus"
+        bindblur="onInputBlur"
+        confirm-type="send"
+        bindconfirm="sendMessage"
+        placeholder="请输入您的问题…"
+        class="{{inputFocused ? 'input-active' : ''}}"
+      />
     </view>
     <button class="send-btn" loading="{{loading}}" disabled="{{loading || !inputValue}}" bindtap="sendMessage">发送</button>
     <button class="phone-btn" bindtap="callService">📞</button>
   </view>
+  <view class="page-safe"></view>
 </view>

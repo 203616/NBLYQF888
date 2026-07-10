@@ -1,6 +1,11 @@
 @import "./styles/tokens.wxss";
 @import "./styles/premium.wxss";
 
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 page {
   font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
   background-color: var(--color-bg-page);
@@ -40,7 +45,7 @@ page {
 
 .page-shell {
   min-height: 100vh;
-  padding: var(--space-lg);
+  padding: var(--space-md);
   padding-bottom: var(--page-bottom-padding);
   background: var(--color-bg-page);
   box-sizing: border-box;
@@ -112,13 +117,13 @@ page {
 }
 
 .search-bar {
-  height: 80rpx;
+  height: 72rpx;
   background: var(--color-bg-card);
   border-radius: var(--radius-pill);
   display: flex;
   align-items: center;
-  padding: 0 30rpx;
-  margin-bottom: 24rpx;
+  padding: 0 24rpx;
+  margin-bottom: 16rpx;
   box-shadow: var(--shadow-card);
 }
 
@@ -152,7 +157,7 @@ page {
   display: inline-block;
 }
 
-.search-bar input {
+.search-bar .search-input {
   flex: 1;
   font-size: 28rpx;
 }
@@ -205,7 +210,7 @@ page {
   text-overflow: ellipsis;
 }
 
-button {
+.btn-reset {
   border-radius: var(--radius-pill);
   font-size: 32rpx;
   padding: 0 30rpx;
@@ -289,7 +294,7 @@ button {
 }
 
 @media (max-width: 480px) {
-  button {
+  .btn-reset {
     font-size: 28rpx;
     padding: 0 20rpx;
   }

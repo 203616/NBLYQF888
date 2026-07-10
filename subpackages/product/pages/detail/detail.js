@@ -35,5 +35,21 @@ Page({
 
   goChat() {
     wx.navigateTo({ url: '/subpackages/service/pages/chat/chat' })
+  },
+
+  onShareAppMessage() {
+    const product = this.data.product || {}
+    return {
+      title: product.name || '亮叶产品详情',
+      path: `/subpackages/product/pages/detail/detail?id=${product.id || ''}`,
+      desc: product.desc || product.rate || '亮叶企服金融产品详情'
+    }
+  },
+
+  onShareTimeline() {
+    const product = this.data.product || {}
+    return {
+      title: product.name || '亮叶产品详情'
+    }
   }
 })

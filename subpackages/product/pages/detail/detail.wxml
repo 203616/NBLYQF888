@@ -1,5 +1,5 @@
 <view class="product-detail page-shell" wx:if="{{product}}">
-  <view class="cover-wrap">
+  <view class="cover-wrap fadeInUp">
     <safe-image className="product-cover" src="{{product.cover || ''}}" mode="aspectFill" />
     <view class="cover-overlay premium-hero">
       <view class="premium-hero-body">
@@ -77,4 +77,5 @@
     <button class="btn-outline" bindtap="goChat">咨询客服</button>
     <button class="btn-gold" loading="{{submitting}}" bindtap="submitApply">立即申请</button>
   </view>
+  <view class="page-safe"></view>
 </view>

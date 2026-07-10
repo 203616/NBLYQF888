@@ -1,13 +1,16 @@
 <view class="privacy-page page-shell">
-  <view class="privacy-header glass-card">
-    <text class="privacy-title">{{title}}</text>
+  <view class="privacy-header card fade-in-up">
+    <text class="privacy-title">{{title || ''}}</text>
     <text class="privacy-update">更新日期：2025-07-01</text>
   </view>
   <block wx:for="{{sections}}" wx:key="heading">
-    <view class="section glass-card">
-      <text class="section-heading">{{item.heading}}</text>
-      <text class="section-body">{{item.body}}</text>
+    <view class="section-card card fade-in-up" style="animation-delay: {{0.08 * (index + 1) + 's' || ''}}">
+      <view class="section-header">
+        <text class="heading">{{item.heading || ''}}</text>
+      </view>
+      <text class="section-body">{{item.body || ''}}</text>
     </view>
   </block>
-  <view class="footer-note">亮叶企服 · 金融信息咨询与居间撮合平台</view>
+  <view class="footer-note fade-in-up" style="animation-delay: 0.5s">亮叶企服 · 金融信息咨询与居间撮合平台</view>
+  <view class="page-safe"></view>
 </view>

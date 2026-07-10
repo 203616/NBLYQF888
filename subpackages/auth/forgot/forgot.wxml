@@ -1,5 +1,5 @@
 <view class="auth-page page-shell">
-  <view class="auth-hero premium-hero">
+  <view class="auth-hero premium-hero fadeInUp">
     <view class="premium-hero-body">
       <text class="premium-badge">账号安全</text>
       <text class="premium-hero-title">重置密码</text>
@@ -26,4 +26,5 @@
     <button class="submit-btn btn-gold" bindtap="handleSubmit" disabled="{{isSubmitting}}">{{isSubmitting ? '处理中...' : '重置密码'}}</button>
     <text class="compliance">本平台仅提供信息撮合服务</text>
   </view>
+  <view class="page-safe"></view>
 </view>

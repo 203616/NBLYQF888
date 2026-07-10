@@ -2,11 +2,17 @@
   padding-bottom: 40rpx;
 }
 
-.tips-hero {
-  margin-bottom: 20rpx;
-  min-height: 200rpx;
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30rpx); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
+.fadeInUp {
+  animation: fadeInUp 0.5s ease both;
+}
+
+/* ===== Stat Row ===== */
 .stat-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -33,11 +39,15 @@
   margin-top: 4rpx;
 }
 
+/* ===== Action Bar ===== */
 .action-bar {
   display: flex;
   gap: 16rpx;
   padding: 20rpx;
   margin-bottom: 20rpx;
+  background: var(--color-bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
 }
 
 .action-btn {
@@ -50,36 +60,18 @@
   padding: 0;
 }
 
-.action-btn.primary {
-  background: var(--gradient-hero);
-  color: #fff;
-}
-
-.action-btn.outline {
-  background: #fff;
-  color: var(--color-primary);
-  border: 1rpx solid var(--color-primary);
-}
-
+/* ===== Filter ===== */
 .filter-scroll {
   white-space: nowrap;
   margin-bottom: 20rpx;
 }
 
-.filter-pill {
-  display: inline-block;
-  margin-right: 12rpx;
-}
-.filter-pill.active {
-  background: var(--gradient-hero);
-  color: #fff;
-}
-
+/* ===== Tip Card ===== */
 .tip-card {
   display: flex;
   overflow: hidden;
   margin-bottom: 16rpx;
-  padding: 0;
+  padding: 0 !important;
 }
 
 .cover-thumb {
@@ -115,11 +107,25 @@
   border-radius: 12rpx;
 }
 
-.risk-high { background: #f5222d; color: #fff; }
-.risk-medium { background: #faad14; color: #fff; }
-.risk-low { background: #52c41a; color: #fff; }
+.risk-badge.risk-high,
+.risk-high {
+  background: #f5222d;
+  color: #fff;
+}
 
-.title {
+.risk-badge.risk-medium,
+.risk-medium {
+  background: #faad14;
+  color: #fff;
+}
+
+.risk-badge.risk-low,
+.risk-low {
+  background: #52c41a;
+  color: #fff;
+}
+
+.tip-body .title {
   display: block;
   font-size: 28rpx;
   font-weight: 700;
@@ -144,12 +150,5 @@
   justify-content: space-between;
   margin-top: 12rpx;
   font-size: 22rpx;
-  color: #aaa;
-}
-
-.empty-state {
-  text-align: center;
-  padding: 60rpx;
-  font-size: 26rpx;
   color: var(--color-text-muted);
 }

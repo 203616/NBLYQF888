@@ -1,48 +1,48 @@
-<view class="exposure-detail page-shell" wx:if="{{!loading && exposureDetail}}">
-  <view class="detail-hero premium-hero">
+<view class="page-shell exposure-detail" wx:if="{{!loading && exposureDetail}}">
+  <view class="premium-hero fadeInUp" style="background:linear-gradient(135deg, #5C1A1A, #8B2635)">
     <view class="premium-hero-body">
       <text class="premium-badge">{{exposureDetail.typeName || '曝光'}}</text>
-      <text class="premium-hero-title">{{exposureDetail.title}}</text>
-      <text class="premium-hero-sub" style="color: {{exposureDetail.statusColor}}">{{exposureDetail.status}} · {{exposureDetail.count}}</text>
+      <text class="premium-hero-title">{{exposureDetail.title || ''}}</text>
+      <text class="premium-hero-sub" style="color: {{exposureDetail.statusColor || '#fff'}}">{{exposureDetail.status || ''}} · {{exposureDetail.count || ''}}</text>
     </view>
   </view>
 
-  <view class="section glass-card">
-    <text class="meta-date">{{exposureDetail.date}}</text>
+  <view class="card fadeInUp" style="animation-delay:0.1s">
+    <text class="meta-date">{{exposureDetail.date || ''}}</text>
     <view class="rich-content">
-      <rich-text nodes="{{exposureDetail.content}}"></rich-text>
+      <rich-text nodes="{{exposureDetail.content || ''}}"></rich-text>
     </view>
   </view>
 
-  <view class="section glass-card" wx:if="{{exposureDetail.evidence.length}}">
+  <view class="card fadeInUp" style="animation-delay:0.15s" wx:if="{{exposureDetail.evidence && exposureDetail.evidence.length}}">
     <text class="section-title">举报证据</text>
     <scroll-view class="evidence-scroll" scroll-x>
       <block wx:for="{{exposureDetail.evidence}}" wx:key="index">
-        <image src="{{item}}" class="evidence-img" mode="aspectFill" data-index="{{index}}" bindtap="previewImage" lazy-load="{{true}}" />
+        <safe-image src="{{item || ''}}" className="evidence-img" mode="aspectFill" data-index="{{index}}" bindtap="previewImage" />
       </block>
     </scroll-view>
   </view>
 
-  <view class="section glass-card" wx:if="{{exposureDetail.progress.length}}">
+  <view class="card fadeInUp" style="animation-delay:0.2s" wx:if="{{exposureDetail.progress && exposureDetail.progress.length}}">
     <text class="section-title">处理进展</text>
     <block wx:for="{{exposureDetail.progress}}" wx:key="date">
       <view class="progress-item">
         <text class="progress-dot"></text>
         <view>
-          <text class="progress-date">{{item.date}}</text>
-          <text class="progress-action">{{item.action}} · {{item.org}}</text>
+          <text class="progress-date">{{item.date || ''}}</text>
+          <text class="progress-action">{{item.action || ''}} · {{item.org || ''}}</text>
         </view>
       </view>
     </block>
   </view>
 
-  <view class="section glass-card" wx:if="{{relatedExposures.length}}">
+  <view class="card fadeInUp" style="animation-delay:0.25s" wx:if="{{relatedExposures && relatedExposures.length}}">
     <text class="section-title">相关曝光</text>
     <block wx:for="{{relatedExposures}}" wx:key="id">
       <view class="related-card" data-id="{{item.id}}" bindtap="navigateToRelated">
-        <text class="related-title">{{item.title}}</text>
-        <text class="related-desc">{{item.content}}</text>
-        <text class="related-meta">{{item.count}} · {{item.status}}</text>
+        <text class="related-title">{{item.title || ''}}</text>
+        <text class="related-desc">{{item.content || ''}}</text>
+        <text class="related-meta">{{item.count || ''}} · {{item.status || ''}}</text>
       </view>
     </block>
   </view>
@@ -51,6 +51,7 @@
     <button class="btn-outline" bindtap="navigateToReport">我也要举报</button>
     <button class="btn-gold" open-type="share">分享曝光</button>
   </view>
+  <view class="page-safe"></view>
 </view>
 
-<view class="loading" wx:if="{{loading}}"><text>加载中...</text></view>
+<view class="empty-state" wx:if="{{loading}}">加载中...</view>

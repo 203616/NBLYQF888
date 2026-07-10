@@ -1,76 +1,75 @@
-<view class="case-detail page-shell" wx:if="{{caseDetail}}">
-  <view class="case-hero premium-hero">
+<view class="page-shell case-detail" wx:if="{{caseDetail}}">
+  <view class="premium-hero fadeInUp">
     <safe-image className="premium-hero-bg" src="{{caseDetail.cover || ''}}" mode="aspectFill" />
     <view class="premium-hero-body">
-      <text class="premium-badge">{{caseDetail.tag}}</text>
-      <text class="premium-hero-title">{{caseDetail.title}}</text>
-      <text class="premium-hero-sub">{{caseDetail.result}}</text>
+      <text class="premium-badge">{{caseDetail.tag || ''}}</text>
+      <text class="premium-hero-title">{{caseDetail.title || ''}}</text>
+      <text class="premium-hero-sub">{{caseDetail.result || ''}}</text>
     </view>
   </view>
 
-  <view class="meta-row">
-    <view class="meta-card glass-card">
+  <view class="meta-row fadeInUp" style="animation-delay:0.1s">
+    <view class="meta-card card">
       <text class="meta-label">客户</text>
-      <text class="meta-value">{{caseDetail.client}}</text>
+      <text class="meta-value">{{caseDetail.client || ''}}</text>
     </view>
-    <view class="meta-card glass-card">
+    <view class="meta-card card">
       <text class="meta-label">行业</text>
-      <text class="meta-value">{{caseDetail.industry}}</text>
+      <text class="meta-value">{{caseDetail.industry || ''}}</text>
     </view>
-    <view class="meta-card glass-card">
+    <view class="meta-card card">
       <text class="meta-label">地区</text>
-      <text class="meta-value">{{caseDetail.city}}</text>
+      <text class="meta-value">{{caseDetail.city || ''}}</text>
     </view>
-    <view class="meta-card glass-card">
+    <view class="meta-card card">
       <text class="meta-label">周期</text>
-      <text class="meta-value">{{caseDetail.duration}}</text>
+      <text class="meta-value">{{caseDetail.duration || ''}}</text>
     </view>
   </view>
 
-  <view class="section glass-card">
+  <view class="card fadeInUp" style="animation-delay:0.15s">
     <text class="section-title">案例概述</text>
-    <text class="paragraph">{{caseDetail.desc}}</text>
+    <text class="paragraph">{{caseDetail.desc || ''}}</text>
   </view>
 
-  <view class="section glass-card">
+  <view class="card fadeInUp" style="animation-delay:0.2s">
     <text class="section-title">面临挑战</text>
-    <text class="paragraph">{{caseDetail.challenge}}</text>
+    <text class="paragraph">{{caseDetail.challenge || ''}}</text>
   </view>
 
-  <view class="section glass-card">
+  <view class="card fadeInUp" style="animation-delay:0.25s">
     <text class="section-title">解决方案</text>
-    <text class="paragraph">{{caseDetail.solution}}</text>
+    <text class="paragraph">{{caseDetail.solution || ''}}</text>
     <view class="info-tags">
-      <text class="info-tag">额度：{{caseDetail.amount}}</text>
-      <text class="info-tag">机构：{{caseDetail.institution}}</text>
+      <text class="info-tag">额度：{{caseDetail.amount || ''}}</text>
+      <text class="info-tag">机构：{{caseDetail.institution || ''}}</text>
     </view>
   </view>
 
-  <view class="section glass-card">
+  <view class="card fadeInUp" style="animation-delay:0.3s">
     <text class="section-title">服务成果</text>
-    <text class="paragraph">{{caseDetail.outcome}}</text>
+    <text class="paragraph">{{caseDetail.outcome || ''}}</text>
   </view>
 
-  <view class="section glass-card" wx:if="{{caseDetail.timeline.length}}">
+  <view class="card fadeInUp" style="animation-delay:0.35s" wx:if="{{caseDetail.timeline && caseDetail.timeline.length}}">
     <text class="section-title">服务时间线</text>
     <block wx:for="{{caseDetail.timeline}}" wx:key="*this">
       <view class="timeline-item">
         <text class="timeline-dot"></text>
-        <text class="timeline-text">{{item}}</text>
+        <text class="timeline-text">{{item || ''}}</text>
       </view>
     </block>
   </view>
 
-  <view class="compliance glass-card">
-    <text>{{caseDetail.complianceNote}}</text>
+  <view class="compliance card fadeInUp" style="animation-delay:0.4s">
+    <text>{{caseDetail.complianceNote || ''}}</text>
   </view>
 
   <view class="action-bar">
     <button class="btn-outline" bindtap="goIntake">提交类似进件</button>
     <button class="btn-gold" bindtap="goRelated">查看关联产品</button>
   </view>
+  <view class="page-safe"></view>
 </view>
 
-<view class="loading" wx:if="{{loading}}">
-  <text>加载中...</text>
-</view>
+<view class="empty-state" wx:if="{{loading}}">加载中...</view>

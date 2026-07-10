@@ -35,7 +35,7 @@ router.get('/system-status', (req, res) => {
     const dbSize = db.prepare("SELECT page_count * page_size AS size FROM pragma_page_count, pragma_page_size").get().size
     const tableCount = db.prepare("SELECT COUNT(*) AS count FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").get().count
     const totalRecords = []
-    const tables = ['users', 'products', 'articles', 'demands', 'clues', 'intake_applications', 'banners', 'exposures', 'finance_circle_posts', 'notifications']
+    const tables = ['users', 'products', 'articles', 'demands', 'clues', 'intake_applications', 'banners', 'exposures', 'finance_circle_posts', 'notifications', 'success_cases', 'cars_listings', 'channel_partners']
     for (const t of tables) {
       try { totalRecords.push({ table: t, count: db.prepare(`SELECT COUNT(*) AS c FROM ${t}`).get().c }) } catch (e) {}
     }
@@ -78,7 +78,7 @@ router.get('/export-records', (req, res) => {
 // 数据导出
 router.get('/export/:resource', (req, res) => {
   const { resource } = req.params
-  const allowedTables = ['products', 'articles', 'demands', 'clues', 'users', 'banners', 'exposures', 'notifications', 'finance_circle_posts', 'intake_applications']
+  const allowedTables = ['products', 'articles', 'knowledge', 'tips', 'cases', 'demands', 'clues', 'users', 'banners', 'exposures', 'notifications', 'finance_circle_posts', 'intake_applications', 'cars_listings', 'channel_partners']
   if (!allowedTables.includes(resource)) return fail(res, '不支持的导出类型', 400)
   try {
     const data = db.prepare(`SELECT * FROM ${resource} ORDER BY id DESC`).all()
@@ -334,13 +334,40 @@ router.put('/finance-circle/moderation-rules', (req, res) => {
 })
 
 // =============================================
-// DeepSeek AI 连接测试
+// AI 连接测试（支持多提供商）
 // =============================================
 router.get('/ai/test', async (req, res, next) => {
   try {
     const { testConnection } = require('../services/aiChat.service')
-    const result = await testConnection()
+    const provider = req.query.provider || ''
+    const result = provider ? await testConnection(provider) : await testConnection()
     ok(res, result)
+  } catch (e) {
+    next(e)
+  }
+})
+
+// =============================================
+// 电子签章接口
+// =============================================
+router.post('/esig/create', async (req, res, next) => {
+  try {
+    const { createSignatureTask } = require('../services/esig.service')
+    const result = await createSignatureTask(req.body || {})
+    if (!result.ok) return fail(res, result.message, 400)
+    ok(res, result.data, '签署任务已创建')
+  } catch (e) {
+    next(e)
+  }
+})
+
+router.get('/esig/query', async (req, res, next) => {
+  try {
+    const { querySignatureTask } = require('../services/esig.service')
+    if (!req.query.taskId) return fail(res, '缺少 taskId 参数')
+    const result = await querySignatureTask(req.query.taskId)
+    if (!result.ok) return fail(res, result.message, 400)
+    ok(res, result.data)
   } catch (e) {
     next(e)
   }
@@ -366,6 +393,133 @@ router.get('/chat-analysis/:messageId', (req, res) => {
     ok(res, JSON.parse(row.value))
   } catch {
     ok(res, { raw: row.value })
+  }
+})
+
+// =============================================
+// 分润规则管理
+// =============================================
+
+// 获取分润规则列表（按产品类型分组）
+router.get('/commission-rules', (req, res) => {
+  try {
+    const list = db.prepare('SELECT * FROM commission_rules ORDER BY product_type, role_type').all()
+    const productTypes = db.prepare('SELECT DISTINCT product_type FROM commission_rules ORDER BY product_type').all().map(r => r.product_type)
+    ok(res, { list, productTypes })
+  } catch (e) {
+    fail(res, '查询分润规则失败: ' + e.message)
+  }
+})
+
+// 新增/更新分润规则
+router.post('/commission-rules', (req, res) => {
+  const { product_type, role_type, commission_rate, fixed_amount, min_amount, max_amount, description } = req.body || {}
+  if (!product_type || !role_type || commission_rate === undefined) return fail(res, '产品类型、角色类型和分润比例必填')
+  try {
+    db.prepare(`
+      INSERT INTO commission_rules (product_type, role_type, commission_rate, fixed_amount, min_amount, max_amount, description)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(product_type, role_type) DO UPDATE SET
+        commission_rate = excluded.commission_rate,
+        fixed_amount = excluded.fixed_amount,
+        min_amount = excluded.min_amount,
+        max_amount = excluded.max_amount,
+        description = excluded.description,
+        updated_at = datetime('now')
+    `).run(product_type, role_type, Number(commission_rate), Number(fixed_amount || 0), Number(min_amount || 0), max_amount ? Number(max_amount) : null, description || '')
+    logAudit(req.user.id, req.user.username || 'admin', 'create', 'commission_rules', '', `设置分润规则: ${product_type}/${role_type}`)
+    ok(res, true, '分润规则已保存')
+  } catch (e) {
+    fail(res, '保存失败: ' + e.message)
+  }
+})
+
+// 删除分润规则
+router.delete('/commission-rules/:id', (req, res) => {
+  try {
+    const rule = db.prepare('SELECT * FROM commission_rules WHERE id = ?').get(req.params.id)
+    if (!rule) return fail(res, '规则不存在', 404)
+    db.prepare('DELETE FROM commission_rules WHERE id = ?').run(req.params.id)
+    logAudit(req.user.id, req.user.username || 'admin', 'delete', 'commission_rules', String(rule.id), `删除分润规则: ${rule.product_type}/${rule.role_type}`)
+    ok(res, true, '规则已删除')
+  } catch (e) {
+    fail(res, '删除失败: ' + e.message)
+  }
+})
+
+// 获取分润报表（按账户类型查看）
+router.get('/commission-reports', (req, res) => {
+  try {
+    const roleType = req.query.role_type || ''
+    let where = ''
+    const params = []
+    if (roleType) { where = 'WHERE role_type = ?'; params.push(roleType) }
+    const list = db.prepare(`SELECT * FROM commission_records ${where} ORDER BY created_at DESC LIMIT 100`).all(...params)
+    const summary = db.prepare(`
+      SELECT role_type, COUNT(*) AS count, SUM(commission) AS total_commission, SUM(amount) AS total_amount
+      FROM commission_records ${where.replace('role_type', 'role_type')} GROUP BY role_type
+    `).all(...params)
+    ok(res, { list, summary })
+  } catch (e) {
+    fail(res, '查询分润报表失败: ' + e.message)
+  }
+})
+
+// =============================================
+// OA工作台数据接口
+// =============================================
+
+// 获取OA工作台数据
+router.get('/oa-workbench', (req, res) => {
+  try {
+    // 待办任务 - 审核中的进件
+    const pendingTasks = db.prepare(`
+      SELECT id, application_no, product_name, status, created_at
+      FROM intake_applications
+      WHERE status IN ('auditing', 'draft', 'submitted')
+      ORDER BY id DESC LIMIT 20
+    `).all().map(r => ({
+      id: r.id,
+      title: r.application_no || r.product_name || '进件申请',
+      type: 'intake',
+      status: r.status,
+      createdAt: r.created_at
+    }))
+
+    // 待审核融圈帖子
+    const pendingPosts = db.prepare(`
+      SELECT id, user_name, content, created_at
+      FROM finance_circle_posts
+      WHERE review_status = 'pending'
+      ORDER BY id DESC LIMIT 10
+    `).all().map(r => ({
+      id: r.id,
+      title: (r.user_name || '匿名') + ' 的融圈动态',
+      type: 'finance_post',
+      status: 'pending',
+      createdAt: r.created_at
+    }))
+
+    // 财务概览
+    const financeSummary = db.prepare(`
+      SELECT
+        (SELECT COUNT(*) FROM commission_records WHERE status = 'pending') AS pendingCommissions,
+        (SELECT COUNT(*) FROM commission_records WHERE status = 'settled') AS settledCommissions,
+        (SELECT COALESCE(SUM(commission), 0) FROM commission_records WHERE status = 'settled') AS totalCommissions,
+        (SELECT COUNT(*) FROM intake_applications) AS totalIntakes,
+        (SELECT COUNT(*) FROM intake_applications WHERE status = 'auditing') AS auditingIntakes,
+        (SELECT COUNT(*) FROM intake_applications WHERE status = 'approved') AS approvedIntakes
+    `).get()
+
+    ok(res, {
+      tasks: [...pendingTasks, ...pendingPosts],
+      financeSummary,
+      metadata: {
+        updatedAt: new Date().toISOString()
+      }
+    })
+  } catch (e) {
+    fail(res, '查询OA工作台失败: ' + e.message)
   }
 })
 
@@ -511,6 +665,14 @@ router.get('/meta/:type', (req, res) => {
         const rows = db.prepare("SELECT DISTINCT category FROM articles WHERE category IS NOT NULL AND category != '' ORDER BY category").all()
         return ok(res, rows.map(r => r.category))
       }
+      case 'knowledge-categories': {
+        const rows = db.prepare("SELECT DISTINCT category FROM articles WHERE type = 'knowledge' AND category IS NOT NULL AND category != '' ORDER BY category").all()
+        return ok(res, rows.map(r => r.category))
+      }
+      case 'tips-categories': {
+        const rows = db.prepare("SELECT DISTINCT category FROM articles WHERE type = 'tips' AND category IS NOT NULL AND category != '' ORDER BY category").all()
+        return ok(res, rows.map(r => r.category))
+      }
       case 'exposure-types': {
         const rows = db.prepare("SELECT DISTINCT type FROM exposures ORDER BY type").all()
         return ok(res, rows.map(r => r.type))
@@ -542,6 +704,8 @@ router.get('/:resource', (req, res) => {
   const map = {
     products: 'products',
     articles: 'articles',
+    knowledge: 'articles',
+    tips: 'articles',
     demands: 'demands',
     clues: 'clues',
     exposures: 'exposures',
@@ -557,12 +721,20 @@ router.get('/:resource', (req, res) => {
     warrantyClaims: 'warranty_claims',
     vehicleValuations: 'vehicle_valuations',
     salesStaff: 'sales_staff',
-    financeCirclePosts: 'finance_circle_posts'
+    financeCirclePosts: 'finance_circle_posts',
+    cases: 'success_cases',
+    cars: 'cars_listings',
+    channels: 'channel_partners'
   }
   const table = map[req.params.resource]
   if (!table) return fail(res, '资源不存在', 404)
   try {
-    const rows = db.prepare(`SELECT * FROM ${table} ORDER BY rowid DESC LIMIT 200`).all()
+    let rows
+    if (req.params.resource === 'knowledge' || req.params.resource === 'tips') {
+      rows = db.prepare(`SELECT * FROM articles WHERE type = ? ORDER BY rowid DESC LIMIT 200`).all(req.params.resource)
+    } else {
+      rows = db.prepare(`SELECT * FROM ${table} ORDER BY rowid DESC LIMIT 200`).all()
+    }
     if (req.params.resource === 'financeCirclePosts') {
       const { buildPublicUrl } = require('../services/upload.service')
       const { publicBaseUrl } = require('../config')
@@ -597,12 +769,15 @@ const INSERTABLE_TABLES = [
   'demands', 'clues', 'exposures', 'reports', 'applications',
   'products', 'articles', 'banners', 'users', 'sources',
   'notifications', 'warrantyApplications', 'warrantyClaims',
-  'salesStaff', 'vehicleValuations', 'financeCirclePosts'
+  'salesStaff', 'vehicleValuations', 'financeCirclePosts',
+  'knowledge', 'tips', 'cases', 'cars', 'channels'
 ]
 
 const TABLE_NAME_MAP = {
   products: 'products',
   articles: 'articles',
+  knowledge: 'articles',
+  tips: 'articles',
   demands: 'demands',
   clues: 'clues',
   exposures: 'exposures',
@@ -617,7 +792,10 @@ const TABLE_NAME_MAP = {
   warrantyClaims: 'warranty_claims',
   salesStaff: 'sales_staff',
   vehicleValuations: 'vehicle_valuations',
-  financeCirclePosts: 'finance_circle_posts'
+  financeCirclePosts: 'finance_circle_posts',
+  cases: 'success_cases',
+  cars: 'cars_listings',
+  channels: 'channel_partners'
 }
 
 router.post('/:resource', (req, res) => {
@@ -627,6 +805,17 @@ router.post('/:resource', (req, res) => {
   if (!table) return fail(res, '资源不存在', 404)
 
   const body = req.body || {}
+  // 产品新增时默认已发布
+  if (resource === 'products' && !body.status) body.status = 'published'
+  // 知识库/避坑指南自动设置 type 字段
+  if (resource === 'knowledge' || resource === 'tips') {
+    if (!body.type) body.type = resource
+    if (!body.status) body.status = 'draft'
+  }
+  // 案例/车辆/渠道默认状态
+  if (resource === 'cases' && !body.status) body.status = 'published'
+  if (resource === 'cars' && !body.status) body.status = 'active'
+  if (resource === 'channels' && !body.status) body.status = 'active'
   const keys = Object.keys(body).filter(k => /^[a-zA-Z_]+$/.test(k) && k !== 'id' && !k.startsWith('created_at'))
   if (!keys.length) return fail(res, '没有可新增字段')
 
@@ -650,6 +839,8 @@ router.patch('/:resource/:id', async (req, res, next) => {
       applications: 'finance_applications',
       products: 'products',
       articles: 'articles',
+      knowledge: 'articles',
+      tips: 'articles',
       exposures: 'exposures',
       warrantyApplications: 'warranty_applications',
       warrantyClaims: 'warranty_claims',
@@ -660,7 +851,10 @@ router.patch('/:resource/:id', async (req, res, next) => {
       sources: 'data_sources',
       notifications: 'notifications',
       settings: 'system_settings',
-      vehicleValuations: 'vehicle_valuations'
+      vehicleValuations: 'vehicle_valuations',
+      cases: 'success_cases',
+      cars: 'cars_listings',
+      channels: 'channel_partners'
     }
     const table = map[req.params.resource]
     if (!table) return fail(res, '资源不支持更新', 404)

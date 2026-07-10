@@ -1,5 +1,5 @@
 <view class="onboarding-page page-shell">
-  <view class="onboarding-hero premium-hero">
+  <view class="onboarding-hero premium-hero fadeInUp">
     <safe-image className="premium-hero-bg" src="/images/banner3.webp" mode="aspectFill" />
     <view class="premium-hero-body">
       <text class="premium-badge">安全合规</text>
@@ -53,4 +53,5 @@
       {{step === 3 ? '进入首页' : '下一步'}}
     </button>
   </view>
+  <view class="page-safe"></view>
 </view>

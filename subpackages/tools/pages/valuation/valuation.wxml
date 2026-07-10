@@ -1,5 +1,5 @@
-<view class="tool-page page-shell">
-  <view class="tool-hero premium-hero">
+<view class="page-shell tool-page">
+  <view class="premium-hero fadeInUp">
     <view class="premium-hero-body">
       <text class="premium-badge">车主工具</text>
       <text class="premium-hero-title">车辆估值</text>
@@ -7,42 +7,43 @@
     </view>
   </view>
 
-  <view class="tip-card glass-card">
+  <view class="card fadeInUp" style="animation-delay:0.1s">
     <text class="tip-text">照片要求：四角完整露出、无反光、文字清晰。默认需上传行驶证正反面及登记证书。</text>
   </view>
 
-  <view class="form-card glass-card">
+  <view class="card fadeInUp" style="animation-delay:0.15s">
     <text class="card-title">证件照片</text>
     <view class="photo-grid">
-      <block wx:for="{{photoSlots}}" wx:key="key">
+      <block wx:for="{{photoSlots || []}}" wx:key="key">
         <view class="photo-slot" data-key="{{item.key}}" bindtap="choosePhoto">
-          <image wx:if="{{photos[item.key]}}" src="{{photos[item.key]}}" mode="aspectFill" class="photo-preview" lazy-load="{{true}}" />
-          <text wx:else class="photo-placeholder">+ {{item.label}}</text>
+          <safe-image wx:if="{{photos[item.key]}}" src="{{photos[item.key] || ''}}" className="photo-preview" mode="aspectFill" />
+          <text wx:else class="photo-placeholder">+ {{item.label || ''}}</text>
         </view>
       </block>
     </view>
   </view>
 
-  <view class="form-card glass-card">
+  <view class="card fadeInUp" style="animation-delay:0.2s">
     <text class="card-title">车辆与联系信息</text>
-    <view class="field"><text class="label">手机号</text><input type="number" maxlength="11" value="{{form.phone}}" data-field="phone" bindinput="handleInput" placeholder="必填" /></view>
-    <picker bindchange="handleBrandChange" value="{{brandIndex}}" range="{{brands}}" range-key="brand">
-      <view class="field"><text class="label">品牌</text><text class="value">{{form.brand}} ›</text></view>
+    <view class="field"><text class="label">手机号</text><input type="number" maxlength="11" value="{{form.phone || ''}}" data-field="phone" bindinput="handleInput" placeholder="必填" /></view>
+    <picker bindchange="handleBrandChange" value="{{brandIndex}}" range="{{brands || []}}" range-key="brand">
+      <view class="field"><text class="label">品牌</text><text class="value">{{form.brand || ''}} ›</text></view>
     </picker>
-    <view class="field"><text class="label">具体车型</text><input value="{{form.model}}" data-field="model" bindinput="handleInput" placeholder="如 汉EV 尊贵型" /></view>
-    <view class="field"><text class="label">上牌城市</text><input value="{{form.registerCity}}" data-field="registerCity" bindinput="handleInput" /></view>
-    <view class="field"><text class="label">车架号VIN</text><input value="{{form.vin}}" data-field="vin" bindinput="handleInput" placeholder="上传行驶证后自动识别" /></view>
-    <view class="field"><text class="label">购车价(元)</text><input type="number" value="{{form.purchasePrice}}" data-field="purchasePrice" bindinput="handleInput" /></view>
-    <view class="field"><text class="label">上牌年份</text><input type="number" value="{{form.year}}" data-field="year" bindinput="handleInput" /></view>
-    <view class="field"><text class="label">里程(万公里)</text><input type="digit" value="{{form.mileage}}" data-field="mileage" bindinput="handleInput" /></view>
-    <button class="submit-btn btn-gold" loading="{{submitting}}" bindtap="handleEstimate">估值并同步</button>
+    <view class="field"><text class="label">具体车型</text><input value="{{form.model || ''}}" data-field="model" bindinput="handleInput" placeholder="如 汉EV 尊贵型" /></view>
+    <view class="field"><text class="label">上牌城市</text><input value="{{form.registerCity || ''}}" data-field="registerCity" bindinput="handleInput" /></view>
+    <view class="field"><text class="label">车架号VIN</text><input value="{{form.vin || ''}}" data-field="vin" bindinput="handleInput" placeholder="上传行驶证后自动识别" /></view>
+    <view class="field"><text class="label">购车价(元)</text><input type="number" value="{{form.purchasePrice || ''}}" data-field="purchasePrice" bindinput="handleInput" /></view>
+    <view class="field"><text class="label">上牌年份</text><input type="number" value="{{form.year || ''}}" data-field="year" bindinput="handleInput" /></view>
+    <view class="field"><text class="label">里程(万公里)</text><input type="digit" value="{{form.mileage || ''}}" data-field="mileage" bindinput="handleInput" /></view>
+    <button class="submit-btn btn-gold" loading="{{submitting || false}}" bindtap="handleEstimate">估值并同步</button>
   </view>
 
-  <view class="result-card glass-card" wx:if="{{result}}">
+  <view class="card fadeInUp" style="animation-delay:0.25s;text-align:center" wx:if="{{result}}">
     <text class="result-label">参考估值区间</text>
-    <text class="result-value">{{result.range}}</text>
-    <text class="result-sub">约 {{result.estimate}} 元</text>
-    <text class="compliance">{{result.complianceNote}}</text>
-    <button class="btn-outline" bindtap="goIntake">关联进件咨询</button>
+    <text class="result-value">{{result.range || ''}}</text>
+    <text class="result-sub">约 {{result.estimate || 0}} 元</text>
+    <text class="compliance">{{result.complianceNote || ''}}</text>
+    <button class="btn-outline" style="width:70%;margin:0 auto;border-radius:999rpx" bindtap="goIntake">关联进件咨询</button>
   </view>
+  <view class="page-safe"></view>
 </view>

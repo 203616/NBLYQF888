@@ -2,21 +2,108 @@
   position: relative;
   min-height: 100vh;
   overflow: hidden;
+  background: linear-gradient(160deg, #0a2e1f 0%, #0F3D2E 30%, #1a5c42 60%, #0d3524 100%);
+  background-size: 400% 400%;
+  animation: gradient-shift 12s ease-in-out infinite;
 }
 
-.welcome-bg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  filter: brightness(0.55);
-}
-
+/* 遮罩层 - 光晕效果 */
 .welcome-mask {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(15, 61, 46, 0.75) 0%, rgba(15, 61, 46, 0.92) 100%);
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(212, 168, 75, 0.1) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(212, 168, 75, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 20% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 40%);
+  pointer-events: none;
 }
 
+/* ===== 装饰性粒子 ===== */
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.particle-1 {
+  width: 6rpx;
+  height: 6rpx;
+  top: 20%;
+  left: 15%;
+  background: rgba(212, 168, 75, 0.6);
+  animation: particle-float 6s ease-in-out infinite;
+  animation-delay: 0s;
+}
+
+.particle-2 {
+  width: 4rpx;
+  height: 4rpx;
+  top: 35%;
+  left: 75%;
+  background: rgba(255, 255, 255, 0.5);
+  animation: particle-float 8s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+.particle-3 {
+  width: 8rpx;
+  height: 8rpx;
+  top: 55%;
+  left: 25%;
+  background: rgba(212, 168, 75, 0.4);
+  animation: particle-float 7s ease-in-out infinite;
+  animation-delay: 3s;
+}
+
+.particle-4 {
+  width: 3rpx;
+  height: 3rpx;
+  top: 70%;
+  left: 65%;
+  background: rgba(255, 255, 255, 0.4);
+  animation: particle-float 9s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.particle-5 {
+  width: 5rpx;
+  height: 5rpx;
+  top: 15%;
+  left: 55%;
+  background: rgba(212, 168, 75, 0.5);
+  animation: particle-float 7.5s ease-in-out infinite;
+  animation-delay: 4.5s;
+}
+
+/* 装饰性菱形 */
+.deco-gem {
+  position: absolute;
+  width: 20rpx;
+  height: 20rpx;
+  pointer-events: none;
+  opacity: 0.15;
+}
+
+.deco-gem-1 {
+  top: 28%;
+  right: 18%;
+  background: rgba(212, 168, 75, 0.3);
+  transform: rotate(45deg);
+  animation: gem-spin 20s linear infinite;
+}
+
+.deco-gem-2 {
+  bottom: 30%;
+  left: 12%;
+  width: 14rpx;
+  height: 14rpx;
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(45deg);
+  animation: gem-spin 25s linear infinite reverse;
+}
+
+/* 内容容器 */
 .welcome-content {
   position: relative;
   z-index: 1;
@@ -24,157 +111,350 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 60rpx 48rpx 48rpx;
+  align-items: center;
+  padding: 120rpx 48rpx 60rpx;
   box-sizing: border-box;
 }
 
+/* ===== 顶部 ===== */
 .welcome-top {
-  text-align: center;
   flex-shrink: 0;
+  animation: fadeInDown 0.8s ease-out;
 }
 
-.welcome-page .premium-badge {
+.premium-badge {
   display: inline-block;
   font-size: 22rpx;
-  color: var(--color-primary);
-  background: rgba(212, 168, 75, 0.9);
-  padding: 8rpx 24rpx;
+  color: #D4A84B;
+  background: rgba(212, 168, 75, 0.12);
+  padding: 10rpx 36rpx;
   border-radius: 999rpx;
   letter-spacing: 2rpx;
-  font-weight: 600;
+  font-weight: 500;
+  border: 1rpx solid rgba(212, 168, 75, 0.25);
+  backdrop-filter: blur(4rpx);
+  -webkit-backdrop-filter: blur(4rpx);
+  animation: badge-glow 3s ease-in-out infinite;
 }
 
+/* ===== 中间品牌区 ===== */
 .welcome-middle {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   flex: 1;
+  justify-content: center;
+  padding: 40rpx 0;
+  animation: fadeInUp 1s ease-out 0.3s both;
 }
 
 .logo-wrap {
   position: relative;
-  margin-bottom: 32rpx;
+  margin-bottom: 44rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .logo {
-  width: 160rpx;
-  height: 160rpx;
-  border-radius: 32rpx;
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 40rpx;
   position: relative;
+  z-index: 2;
+  box-shadow: 0 16rpx 60rpx rgba(0, 0, 0, 0.35);
+  animation: logo-float 4s ease-in-out infinite;
+}
+
+/* Logo 光晕 */
+.logo-glow-spot {
+  position: absolute;
+  width: 240rpx;
+  height: 240rpx;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(212, 168, 75, 0.12) 0%, transparent 60%);
+  border-radius: 50%;
+  z-index: 0;
+  animation: glow-spot-pulse 3s ease-in-out infinite;
+}
+
+/* Logo 外圈光晕 */
+.logo-ring {
+  position: absolute;
+  border-radius: 48rpx;
+  border: 2rpx solid rgba(212, 168, 75, 0.3);
   z-index: 1;
 }
 
-.logo-ring {
-  position: absolute;
-  inset: -12rpx;
-  border: 3rpx solid rgba(212, 168, 75, 0.5);
-  border-radius: 40rpx;
-  animation: pulse 2s ease-in-out infinite;
+.ring-outer {
+  inset: -16rpx;
+  animation: ring-expand 3s ease-in-out infinite;
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.03); }
+.ring-inner {
+  inset: -6rpx;
+  border-color: rgba(212, 168, 75, 0.15);
+  border-width: 1.5rpx;
+  animation: ring-expand 3s ease-in-out infinite 0.5s reverse;
 }
 
 .brand-title {
   display: block;
-  font-size: 48rpx;
+  font-size: 52rpx;
   font-weight: 700;
   color: #fff;
-  letter-spacing: 6rpx;
-  margin-bottom: 16rpx;
-  text-align: center;
+  letter-spacing: 8rpx;
+  margin-bottom: 20rpx;
+  text-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.25);
+  background: linear-gradient(90deg, #fff 0%, #D4A84B 50%, #fff 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer-text 4s ease-in-out infinite;
 }
 
 .divider-gold {
-  width: 60rpx;
+  width: 80rpx;
   height: 4rpx;
-  background: linear-gradient(90deg, #D4A84B, #F5D97E);
+  background: linear-gradient(90deg, #D4A84B, #F5D97E, #D4A84B);
+  background-size: 200% 100%;
   border-radius: 2rpx;
-  margin: 0 auto 16rpx;
+  margin: 0 auto 24rpx;
+  animation: shimmer-divider 3s ease-in-out infinite;
+}
+
+.slogan-wrap {
+  padding: 0 20rpx;
 }
 
 .slogan {
   display: block;
-  font-size: 24rpx;
-  color: rgba(255, 255, 255, 0.9);
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.85);
   line-height: 1.6;
   text-align: center;
-  margin-bottom: 32rpx;
+  letter-spacing: 2rpx;
 }
 
-.welcome-features {
-  width: 100%;
-  max-width: 500rpx;
+/* 品牌价值观标签 */
+.values-row {
+  display: flex;
+  align-items: center;
+  margin-top: 28rpx;
+  gap: 0;
 }
 
-.feature-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12rpx;
-}
-
-.welcome-features .feature-item {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1rpx solid rgba(255, 255, 255, 0.18);
-  border-radius: 16rpx;
-  padding: 20rpx 12rpx;
-  text-align: center;
-}
-
-.feat-icon {
-  display: block;
-  font-size: 36rpx;
-  margin-bottom: 6rpx;
-}
-
-.welcome-features .feat-title {
-  display: block;
+.value-tag {
   font-size: 22rpx;
-  color: #fff;
+  color: rgba(212, 168, 75, 0.7);
+  letter-spacing: 3rpx;
   font-weight: 500;
-  margin-bottom: 4rpx;
+  padding: 6rpx 8rpx;
+  border-radius: 6rpx;
+  transition: all 0.3s ease;
 }
 
-.welcome-features .feat-desc {
-  display: block;
-  font-size: 20rpx;
-  color: rgba(255, 255, 255, 0.7);
+.value-tag-dot {
+  font-size: 22rpx;
+  color: rgba(212, 168, 75, 0.3);
+  margin: 0 12rpx;
 }
 
+/* ===== 底部操作区 ===== */
 .welcome-bottom {
   flex-shrink: 0;
   text-align: center;
+  width: 100%;
+  animation: fadeInUp 1s ease-out 0.6s both;
 }
 
 .countdown-box {
-  margin-bottom: 16rpx;
+  margin-bottom: 28rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 倒计时圆形 */
+.countdown-ring-wrap {
+  position: relative;
+  width: 88rpx;
+  height: 88rpx;
+  margin-bottom: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.countdown-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3rpx solid rgba(255, 255, 255, 0.1);
+}
+
+.countdown-ring::before {
+  content: '';
+  position: absolute;
+  inset: -1rpx;
+  border-radius: 50%;
+  border: 3rpx solid transparent;
+  border-top-color: #D4A84B;
+  border-right-color: #D4A84B;
+  animation: countdown-spin 3s linear infinite;
 }
 
 .countdown-text {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #D4A84B;
+  letter-spacing: 1rpx;
+}
+
+.countdown-label {
   display: block;
-  font-size: 24rpx;
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 16rpx;
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 24rpx;
+  letter-spacing: 2rpx;
 }
 
 .skip-btn {
-  width: 280rpx;
-  height: 80rpx;
-  line-height: 80rpx;
+  width: 320rpx;
+  height: 92rpx;
+  line-height: 92rpx;
   border-radius: 999rpx;
-  font-size: 28rpx;
-  background: linear-gradient(135deg, #D4A84B, #C49A3E);
+  font-size: 30rpx;
+  font-weight: 600;
+  background: linear-gradient(135deg, #D4A84B, #c49a3e, #D4A84B);
+  background-size: 200% 100%;
   color: #fff;
   border: none;
   margin: 0 auto;
+  box-shadow: 0 8rpx 36rpx rgba(212, 168, 75, 0.35);
+  transition: all 0.3s ease;
+  letter-spacing: 4rpx;
+  animation: btn-gradient 3s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.skip-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.skip-btn:active::after {
+  left: 100%;
+}
+
+.skip-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 4rpx 16rpx rgba(212, 168, 75, 0.25);
 }
 
 .compliance-mini {
   display: block;
-  font-size: 20rpx;
-  color: rgba(255, 255, 255, 0.5);
-  line-height: 1.5;
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.35);
+  line-height: 1.6;
+  letter-spacing: 1rpx;
+}
+
+/* ===== 关键帧动画 ===== */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes particle-float {
+  0%, 100% {
+    opacity: 0;
+    transform: translateY(0) scale(1);
+  }
+  20% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-80rpx) scale(1.5);
+  }
+  80% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes gem-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes logo-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10rpx); }
+}
+
+@keyframes glow-spot-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+  50% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.8; }
+}
+
+@keyframes ring-expand {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+
+@keyframes shimmer-text {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes shimmer-divider {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes badge-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 168, 75, 0); }
+  50% { box-shadow: 0 0 20rpx 4rpx rgba(212, 168, 75, 0.15); }
+}
+
+@keyframes countdown-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes btn-gradient {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }

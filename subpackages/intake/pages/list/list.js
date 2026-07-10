@@ -12,15 +12,22 @@ Page({
     filteredList: [],
     loading: true,
     stats: [],
-    filterStatus: 'all'
+    filterStatus: 'all',
+    sensitiveDisplay: true
   },
 
   onLoad() {
     this.loadList()
+    this.setData({
+      sensitiveDisplay: wx.getStorageSync('sensitiveDisplay') !== false
+    })
   },
 
   onShow() {
     this.loadList()
+    this.setData({
+      sensitiveDisplay: wx.getStorageSync('sensitiveDisplay') !== false
+    })
   },
 
   onPullDownRefresh() {
@@ -110,5 +117,16 @@ Page({
 
   formatType(type) {
     return TYPE_LABEL[type] || type || '综合'
+  },
+
+  /** 切换敏感信息显示 */
+  toggleSensitiveDisplay() {
+    const val = !this.data.sensitiveDisplay
+    wx.setStorageSync('sensitiveDisplay', val)
+    this.setData({ sensitiveDisplay: val })
+    wx.showToast({
+      title: val ? '敏感信息已显示' : '敏感信息已隐藏',
+      icon: 'none'
+    })
   }
 })

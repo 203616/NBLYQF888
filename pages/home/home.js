@@ -171,12 +171,27 @@ Page({
   },
 
   navigateToCase(e) {
+    const id = e.currentTarget.dataset.id
     const path = e.currentTarget.dataset.path
-    if (!path) return
-    if (path.startsWith('/pages/')) {
-      wx.switchTab({ url: path })
-    } else {
-      wx.navigateTo({ url: path })
+    if (id) {
+      wx.navigateTo({ url: `/subpackages/cases/pages/detail/detail?id=${id}` })
+    } else if (path) {
+      if (path.startsWith('/pages/')) {
+        wx.switchTab({ url: path })
+      } else {
+        wx.navigateTo({ url: path })
+      }
+    }
+  },
+
+  navigateToCaseList() {
+    wx.switchTab({ url: '/pages/products/products' })
+  },
+
+  navigateToNewsDetail2(e) {
+    const id = e.currentTarget.dataset.id
+    if (id) {
+      wx.navigateTo({ url: `/subpackages/news/pages/detail/detail?id=${id}` })
     }
   },
 
@@ -194,5 +209,19 @@ Page({
     const url = map[name] || '/pages/products/products'
     if (url.startsWith('/pages/')) wx.switchTab({ url })
     else wx.navigateTo({ url })
+  },
+
+  onShareAppMessage() {
+    return {
+      title: '亮叶企服 - 汽车金融与企服一体化平台',
+      path: '/pages/home/home',
+      desc: '宁波本地金融信息咨询与居间撮合服务平台，提供汽车金融、企业经营贷、消费贷等一站式服务。'
+    }
+  },
+
+  onShareTimeline() {
+    return {
+      title: '亮叶企服 - 汽车金融与企服一体化平台'
+    }
   }
 })

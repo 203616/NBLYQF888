@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }))
 // Gzip 压缩（无外部依赖，纯 Node.js 实现）
 app.use((req, res, next) => {
   const accept = req.headers['accept-encoding'] || ''
-  if (!accept.includes('gzip') || req.path.startsWith('/api/v1/')) return next()
+  if (!accept.includes('gzip') || req.path.startsWith('/api/v1/') || /\.(webp|png|jpe?g|svg)$/i.test(req.path)) return next()
   const originalSend = res.send
   res.send = function (body) {
     if (typeof body === 'string' || Buffer.isBuffer(body)) {
@@ -36,24 +36,31 @@ app.use((req, res, next) => {
 })
 
 // 占位图片服务：为缺失的图片生成内联SVG占位图
-app.get('/images/:name', (req, res) => {
-  const name = req.params.name.replace(/\.(webp|png|jpg|jpeg)$/i, '')
-  const size = req.query.size || 200
-  const bg = req.query.bg || '#e8f0e8'
-  const fg = req.query.fg || '#0F3D2E'
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
-    <rect width="${size}" height="${size}" fill="${bg}"/>
-    <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="${fg}" font-size="${Math.round(size/8)}" font-family="sans-serif">${name}</text>
-  </svg>`
-  const webp = /\.webp$/i.test(req.params.name)
-  if (webp) {
-    res.set('Content-Type', 'image/webp')
-    // 转SVG为PNG再转WebP比较复杂，直接返回SVG并设置Content-Type
-    // 微信小程序支持SVG
+app.all('/images/:name', (req, res) => {
+  try {
+    const name = req.params.name.replace(/\.(webp|png|jpg|jpeg)$/i, '')
+    const size = parseInt(req.query.size) || 200
+    const bg = req.query.bg || '#e8f0e8'
+    const fg = req.query.fg || '#0F3D2E'
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+      <rect width="${size}" height="${size}" fill="${bg}"/>
+      <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="${fg}" font-size="${Math.round(size/8)}" font-family="sans-serif">${name}</text>
+    </svg>`
+    res.set('Content-Type', 'image/svg+xml')
+    res.set('Cache-Control', 'public, max-age=86400')
+    res.send(svg)
+  } catch (err) {
+    console.error('[Image Placeholder] error:', err.message)
+    res.status(200).set('Content-Type', 'image/svg+xml').send(
+      `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="200" height="200" fill="#e8f0e8"/><text x="100" y="100" text-anchor="middle" fill="#0F3D2E" font-size="16" font-family="sans-serif">image</text></svg>`
+    )
   }
-  res.set('Content-Type', 'image/svg+xml')
-  res.send(svg)
 })
+
+// 确保上传目录存在
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true })
+}
 
 if (fs.existsSync(uploadsDir)) {
   app.use('/uploads', express.static(uploadsDir))
@@ -92,6 +99,24 @@ if (fs.existsSync(indexHtml)) {
     console.log(`Admin panel available at ${adminBase}/`)
   }
 }
+
+// 图片文件兜底：未找到的图片资源返回SVG占位图（避免 404/500）
+const IMAGE_EXT_RE = /\.(webp|png|jpe?g)$/i
+app.use((req, res, next) => {
+  if (!IMAGE_EXT_RE.test(req.path)) return next()
+  try {
+    const name = path.basename(req.path).replace(IMAGE_EXT_RE, '')
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+      <rect width="200" height="200" fill="#e8f0e8"/>
+      <text x="100" y="100" text-anchor="middle" fill="#0F3D2E" font-size="16" font-family="sans-serif">${name}</text>
+    </svg>`
+    res.set('Content-Type', 'image/svg+xml')
+    res.set('Cache-Control', 'public, max-age=86400')
+    res.send(svg)
+  } catch (err) {
+    next()
+  }
+})
 
 app.use(notFound)
 app.use(errorHandler)

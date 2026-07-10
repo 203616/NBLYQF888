@@ -42,6 +42,16 @@
           <el-option v-for="c in categoryOptions" :key="c" :label="c" :value="c" />
         </el-select>
       </template>
+      <template v-else-if="resource === 'knowledge'">
+        <el-select v-model="categoryFilter" placeholder="分类筛选" clearable style="width:130px;margin-left:8px" @change="applyFilter">
+          <el-option v-for="c in categoryOptions" :key="c" :label="c" :value="c" />
+        </el-select>
+      </template>
+      <template v-else-if="resource === 'tips'">
+        <el-select v-model="categoryFilter" placeholder="分类筛选" clearable style="width:130px;margin-left:8px" @change="applyFilter">
+          <el-option v-for="c in categoryOptions" :key="c" :label="c" :value="c" />
+        </el-select>
+      </template>
     </div>
 
     <el-alert v-if="resource === 'financeCirclePosts' && moderationRules" class="moderation-hint" type="info" :closable="false" show-icon title="自动审核规则">
@@ -289,6 +299,54 @@ function getResourceMeta(res) {
       { key: 'source_url', label: '链接' },
       { key: 'description', label: '描述', type: 'textarea' },
       { key: 'status', label: '状态', type: 'select', options: ['active', 'disabled'] }
+    ],
+    knowledge: [
+      { key: 'title', label: '标题', required: true },
+      { key: 'category', label: '分类', type: 'category' },
+      { key: 'level', label: '难度', type: 'select', options: ['入门', '进阶', '高级'] },
+      { key: 'summary', label: '摘要', type: 'textarea' },
+      { key: 'content', label: '内容', type: 'textarea' },
+      { key: 'cover', label: '封面图URL' },
+      { key: 'source', label: '来源' },
+      { key: 'status', label: '状态', type: 'select', options: ['published', 'draft', 'archived'] }
+    ],
+    tips: [
+      { key: 'title', label: '标题', required: true },
+      { key: 'category', label: '分类', type: 'category' },
+      { key: 'level', label: '风险等级', type: 'select', options: ['high', 'medium', 'low'] },
+      { key: 'summary', label: '摘要', type: 'textarea' },
+      { key: 'content', label: '内容', type: 'textarea' },
+      { key: 'source', label: '来源' },
+      { key: 'status', label: '状态', type: 'select', options: ['published', 'draft', 'archived'] }
+    ],
+    cases: [
+      { key: 'title', label: '标题', required: true },
+      { key: 'result', label: '结果' },
+      { key: 'desc', label: '描述', type: 'textarea' },
+      { key: 'cover', label: '封面图URL' },
+      { key: 'detail', label: '详情(JSON)', type: 'textarea' },
+      { key: 'sort', label: '排序', type: 'number' },
+      { key: 'status', label: '状态', type: 'select', options: ['published', 'draft'] }
+    ],
+    cars: [
+      { key: 'brand', label: '品牌', required: true },
+      { key: 'model', label: '车型', required: true },
+      { key: 'price', label: '价格' },
+      { key: 'year', label: '年份', type: 'number' },
+      { key: 'mileage', label: '里程' },
+      { key: 'city', label: '城市' },
+      { key: 'color', label: '颜色' },
+      { key: 'description', label: '描述', type: 'textarea' },
+      { key: 'status', label: '状态', type: 'select', options: ['active', 'sold', 'inactive'] }
+    ],
+    channels: [
+      { key: 'name', label: '名称', required: true },
+      { key: 'phone', label: '手机号' },
+      { key: 'company', label: '公司' },
+      { key: 'city', label: '城市' },
+      { key: 'level', label: '等级', type: 'select', options: ['partner', 'senior', 'vip'] },
+      { key: 'desc', label: '描述', type: 'textarea' },
+      { key: 'status', label: '状态', type: 'select', options: ['active', 'disabled'] }
     ]
   }
   return map[res] || common
@@ -351,7 +409,7 @@ function applyFilter() {
     list = list.filter(row => String(row.review_status || 'approved') === reviewFilter.value)
   }
   // 分类筛选
-  if (categoryFilter.value && ['products', 'articles'].includes(resource.value)) {
+  if (categoryFilter.value && ['products', 'articles', 'knowledge', 'tips'].includes(resource.value)) {
     list = list.filter(row => row.category === categoryFilter.value)
   }
   if (q) {
@@ -377,10 +435,10 @@ async function loadData() {
 }
 
 async function loadCategoryOptions() {
-  if (!['products', 'articles'].includes(resource.value)) return
+  if (!['products', 'articles', 'knowledge', 'tips'].includes(resource.value)) return
   try {
-    const type = resource.value === 'products' ? 'product-categories' : 'article-categories'
-    categoryOptions.value = await getMeta(type) || []
+    const typeMap = { products: 'product-categories', articles: 'article-categories', knowledge: 'knowledge-categories', tips: 'tips-categories' }
+    categoryOptions.value = await getMeta(typeMap[resource.value]) || []
   } catch { categoryOptions.value = [] }
 }
 

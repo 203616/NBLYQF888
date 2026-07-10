@@ -1,81 +1,82 @@
-<view class="page demand-detail" wx:if="{{demand}}">
-  <view class="detail-hero premium-hero">
-    <safe-image wx:if="{{demand.cover}}" className="hero-cover" src="{{demand.cover}}" mode="aspectFill" />
+<view class="page-shell demand-detail" wx:if="{{demand}}">
+  <view class="premium-hero fadeInUp">
+    <safe-image wx:if="{{demand.cover}}" className="premium-hero-bg" src="{{demand.cover || ''}}" mode="aspectFill" />
     <view class="premium-hero-body">
       <text class="premium-badge">{{demand.type === 'funding' ? '找资金' : '供资金'}}</text>
-      <text class="status-tag">{{demand.status}}</text>
-      <text class="premium-hero-title">{{demand.title}}</text>
+      <text class="status-tag">{{demand.status || ''}}</text>
+      <text class="premium-hero-title">{{demand.title || ''}}</text>
       <text class="premium-hero-sub">{{demand.city || ''}} · {{demand.purpose || '融资需求'}}</text>
-      <view class="tag-row" wx:if="{{demand.tags.length}}">
+      <view class="tag-row" wx:if="{{demand.tags && demand.tags.length}}">
         <block wx:for="{{demand.tags}}" wx:key="*this">
-          <text class="tag">{{item}}</text>
+          <text class="tag">{{item || ''}}</text>
         </block>
       </view>
     </view>
   </view>
 
-  <view class="meta-row">
-    <view class="meta-card glass-card">
+  <view class="meta-row fadeInUp" style="animation-delay:0.1s">
+    <view class="meta-card card">
       <text class="meta-label">金额</text>
-      <text class="meta-value">{{demand.amount}}</text>
+      <text class="meta-value">{{demand.amount || ''}}</text>
     </view>
-    <view class="meta-card glass-card">
+    <view class="meta-card card">
       <text class="meta-label">期限</text>
-      <text class="meta-value">{{demand.period}}</text>
+      <text class="meta-value">{{demand.period || ''}}</text>
     </view>
   </view>
 
-  <view class="section glass-card">
-    <text class="section-title">匹配进度 {{demand.progress}}%</text>
-    <view class="progress"><view class="progress-inner" style="width: {{demand.progress}}%;"></view></view>
-    <block wx:for="{{demand.steps}}" wx:key="title">
+  <view class="card fadeInUp" style="animation-delay:0.15s">
+    <text class="section-title">匹配进度 {{demand.progress || 0}}%</text>
+    <view class="progress"><view class="progress-inner" style="width: {{demand.progress || 0}}%;"></view></view>
+    <block wx:for="{{demand.steps || []}}" wx:key="title">
       <view class="step {{item.done ? 'done' : ''}}">
         <text class="dot"></text>
         <view>
-          <text class="step-title">{{item.title}}</text>
-          <text class="step-desc">{{item.desc}}</text>
+          <text class="step-title">{{item.title || ''}}</text>
+          <text class="step-desc">{{item.desc || ''}}</text>
         </view>
       </view>
     </block>
   </view>
 
-  <view class="section glass-card">
+  <view class="card fadeInUp" style="animation-delay:0.2s">
     <text class="section-title">联系方式</text>
-    <text class="paragraph">{{demand.contact}}</text>
+    <text class="paragraph">{{demand.contact || ''}}</text>
     <text class="paragraph muted">发布时间：{{demand.createdAt || '-'}}</text>
   </view>
 
-  <view class="section glass-card" wx:if="{{demand.materials.length}}">
+  <view class="card fadeInUp" style="animation-delay:0.25s" wx:if="{{demand.materials && demand.materials.length}}">
     <text class="section-title">建议材料清单</text>
     <block wx:for="{{demand.materials}}" wx:key="*this">
-      <view class="material-item"><text class="material-dot">·</text><text>{{item}}</text></view>
+      <view class="material-item"><text class="material-dot">·</text><text>{{item || ''}}</text></view>
     </block>
   </view>
 
-  <view class="compliance glass-card" wx:if="{{demand.complianceNote}}">
-    <text>{{demand.complianceNote}}</text>
+  <view class="compliance fadeInUp" style="animation-delay:0.3s" wx:if="{{demand.complianceNote}}">
+    <text>{{demand.complianceNote || ''}}</text>
   </view>
 
-  <view class="section glass-card" wx:if="{{demand.recommendedProducts.length}}">
+  <view class="card fadeInUp" style="animation-delay:0.35s" wx:if="{{demand.recommendedProducts && demand.recommendedProducts.length}}">
     <text class="section-title">推荐方案</text>
     <block wx:for="{{demand.recommendedProducts}}" wx:key="id">
       <view class="product-row" bindtap="goProduct" data-id="{{item.id}}">
         <view>
-          <text class="product-title">{{item.name}}</text>
-          <text class="product-desc">{{item.desc}}</text>
+          <text class="product-title">{{item.name || ''}}</text>
+          <text class="product-desc">{{item.desc || ''}}</text>
         </view>
-        <text class="rate">{{item.rate}}</text>
+        <text class="rate">{{item.rate || ''}}</text>
       </view>
     </block>
   </view>
 
-  <view class="section glass-card" wx:if="{{demand.linked_application_no || demand.linkedApplicationNo}}">
+  <view class="card fadeInUp" style="animation-delay:0.4s" wx:if="{{demand.linked_application_no || demand.linkedApplicationNo}}">
     <text class="section-title">关联进件</text>
-    <text class="paragraph">已关联进件编号：{{demand.linked_application_no || demand.linkedApplicationNo}}</text>
+    <text class="paragraph">已关联进件编号：{{demand.linked_application_no || demand.linkedApplicationNo || ''}}</text>
   </view>
 
   <view class="action-bar">
     <button class="btn-outline" bindtap="goIntake">一键提交进件</button>
     <button class="btn-gold" bindtap="contact">联系需求方</button>
   </view>
+  <view class="page-safe"></view>
 </view>

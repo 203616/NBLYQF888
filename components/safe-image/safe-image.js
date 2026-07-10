@@ -45,12 +45,16 @@ Component({
     },
 
     onError() {
+      // 对本地路径直接显示占位符，避免fallback重复触发渲染层错误
+      if (!this.data.currentSrc.startsWith('http')) {
+        this.setData({ showPlaceholder: true })
+        return
+      }
       const { currentSrc, fallbackSrc } = this.data
       if (fallbackSrc && currentSrc !== fallbackSrc) {
         this.setData({ currentSrc: fallbackSrc })
         return
       }
-      // fallback 也失败则显示占位符
       this.setData({ showPlaceholder: true })
     },
 

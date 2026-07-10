@@ -56,5 +56,21 @@ Page({
     } else {
       wx.navigateTo({ url: path })
     }
+  },
+
+  onShareAppMessage() {
+    const detail = this.data.newsDetail || {}
+    return {
+      title: detail.title || '亮叶资讯',
+      path: `/subpackages/news/pages/detail/detail?id=${detail.id || ''}`,
+      desc: detail.summary || '亮叶企服资讯详情'
+    }
+  },
+
+  onShareTimeline() {
+    const detail = this.data.newsDetail || {}
+    return {
+      title: detail.title || '亮叶资讯'
+    }
   }
 })

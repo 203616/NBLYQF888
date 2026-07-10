@@ -1,5 +1,5 @@
-<view class="tips-page page-shell">
-  <view class="tips-hero premium-hero">
+<view class="page-shell tips-page">
+  <view class="premium-hero fadeInUp">
     <safe-image className="premium-hero-bg" src="/images/banner1.webp" mode="aspectFill" />
     <view class="premium-hero-body">
       <text class="premium-badge">合规提示</text>
@@ -8,44 +8,45 @@
     </view>
   </view>
 
-  <view class="stat-row">
-    <view class="stat-item glass-card" wx:for="{{statList}}" wx:key="label">
-      <text class="stat-num">{{item.value}}</text>
-      <text class="stat-label">{{item.label}}</text>
+  <view class="stat-row fadeInUp" style="animation-delay:0.1s">
+    <view class="stat-item card" wx:for="{{statList || []}}" wx:key="label">
+      <text class="stat-num">{{item.value || ''}}</text>
+      <text class="stat-label">{{item.label || ''}}</text>
     </view>
   </view>
 
-  <view class="action-bar glass-card">
-    <button class="action-btn outline" bindtap="goExposure">曝光台</button>
-    <button class="action-btn primary" bindtap="goReport">我要举报</button>
+  <view class="action-bar fadeInUp" style="animation-delay:0.15s">
+    <button class="action-btn btn-outline" bindtap="goExposure">曝光台</button>
+    <button class="action-btn btn-gold" bindtap="goReport">我要举报</button>
   </view>
 
-  <scroll-view class="filter-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+  <scroll-view class="filter-scroll fadeInUp" style="animation-delay:0.2s" scroll-x enhanced show-scrollbar="{{false}}">
     <view class="filter-pill {{riskLevel == 0 ? 'active' : ''}}" data-level="0" bindtap="filterByRisk">全部</view>
     <view class="filter-pill {{riskLevel == 1 ? 'active' : ''}}" data-level="1" bindtap="filterByRisk">高风险</view>
     <view class="filter-pill {{riskLevel == 2 ? 'active' : ''}}" data-level="2" bindtap="filterByRisk">中风险</view>
     <view class="filter-pill {{riskLevel == 3 ? 'active' : ''}}" data-level="3" bindtap="filterByRisk">低风险</view>
   </scroll-view>
 
-  <block wx:for="{{filteredList}}" wx:key="id">
-    <view class="tip-card glass-card" bindtap="navigateToDetail" data-id="{{item.id}}">
+  <block wx:for="{{filteredList || []}}" wx:key="id">
+    <view class="tip-card card fadeInUp" style="animation-delay:{{0.2 + index * 0.05}}s" bindtap="navigateToDetail" data-id="{{item.id}}">
       <safe-image className="cover-thumb" src="{{item.cover || ''}}" mode="aspectFill" />
       <view class="tip-body">
         <view class="tip-head">
-          <text class="category">{{item.category}}</text>
-          <view class="risk-badge risk-{{item.level}}">{{item.levelText}}</view>
+          <text class="category">{{item.category || ''}}</text>
+          <view class="risk-badge risk-{{item.level || 'low'}}">{{item.levelText || ''}}</view>
         </view>
-        <text class="title">{{item.title}}</text>
-        <text class="summary">{{item.summary}}</text>
+        <text class="title">{{item.title || ''}}</text>
+        <text class="summary">{{item.summary || ''}}</text>
         <view class="tip-footer">
-          <text>{{item.date}}</text>
-          <text>阅读 {{item.views}}</text>
+          <text>{{item.date || ''}}</text>
+          <text>阅读 {{item.views || 0}}</text>
         </view>
       </view>
     </view>
   </block>
 
-  <view class="empty-state glass-card" wx:if="{{!filteredList.length}}">
-    <text>暂无匹配的避坑指南</text>
+  <view class="empty-state" wx:if="{{!filteredList || !filteredList.length}}">
+    暂无匹配的避坑指南
   </view>
+  <view class="page-safe"></view>
 </view>

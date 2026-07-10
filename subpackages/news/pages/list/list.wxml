@@ -1,5 +1,5 @@
-<view class="news-page page-shell">
-  <view class="news-hero premium-hero">
+<view class="page-shell news-page">
+  <view class="premium-hero fadeInUp">
     <safe-image className="premium-hero-bg" src="/images/banner2.webp" mode="aspectFill" />
     <view class="premium-hero-body">
       <text class="premium-badge">资讯动态</text>
@@ -8,25 +8,26 @@
     </view>
   </view>
 
-  <view class="search-bar glass-card">
+  <view class="search-bar fadeInUp" style="animation-delay:0.1s">
     <icon type="search" size="16" color="#999" />
-    <input placeholder="搜索行业新闻" value="{{keyword}}" bindinput="onSearchInput" bindconfirm="onSearch" />
+    <input placeholder="搜索行业新闻" value="{{keyword || ''}}" bindinput="onSearchInput" bindconfirm="onSearch" />
   </view>
 
-  <block wx:for="{{filteredList}}" wx:key="id">
-    <view class="news-card glass-card" bindtap="navigateToDetail" data-id="{{item.id}}">
+  <block wx:for="{{filteredList || []}}" wx:key="id">
+    <view class="news-card card fadeInUp" style="animation-delay:{{0.1 + index * 0.05}}s" bindtap="navigateToDetail" data-id="{{item.id}}">
       <safe-image src="{{item.cover || ''}}" className="cover" mode="aspectFill" />
       <view class="news-body">
-        <text class="category">{{item.category}}</text>
-        <text class="title">{{item.title}}</text>
-        <text class="summary">{{item.summary}}</text>
+        <text class="category">{{item.category || ''}}</text>
+        <text class="title">{{item.title || ''}}</text>
+        <text class="summary">{{item.summary || ''}}</text>
         <view class="news-footer">
-          <text>{{item.source}}</text>
-          <text>阅读 {{item.views}}</text>
+          <text>{{item.source || ''}}</text>
+          <text>阅读 {{item.views || 0}}</text>
         </view>
       </view>
     </view>
   </block>
 
-  <view class="empty-state glass-card" wx:if="{{!filteredList.length}}">暂无相关资讯</view>
+  <view class="empty-state" wx:if="{{!filteredList || !filteredList.length}}">暂无相关资讯</view>
+  <view class="page-safe"></view>
 </view>

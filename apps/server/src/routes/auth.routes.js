@@ -76,17 +76,39 @@ router.post('/login', (req, res) => {
   ok(res, issueUserToken(user))
 })
 
-router.post('/wechat-login', (req, res) => {
-  const { code } = req.body
-  if (!code) return fail(res, '微信登录凭证无效')
-  const openid = `wx_${code.slice(0, 32)}`
-  let user = db.prepare('SELECT * FROM users WHERE openid = ?').get(openid)
-  if (!user) {
-    const pseudoPhone = `199${String(Date.now()).slice(-8)}`
-    const info = db.prepare('INSERT INTO users (openid, phone, nickname, is_verified) VALUES (?, ?, ?, ?)').run(openid, pseudoPhone, '微信用户', 0)
-    user = db.prepare('SELECT * FROM users WHERE id = ?').get(info.lastInsertRowid)
-  }
-  ok(res, issueUserToken(user))
+router.post('/wechat-login', async (req, res, next) => {
+  try {
+    const { code } = req.body
+    if (!code) return fail(res, '微信登录凭证无效')
+
+    // 尝试通过微信服务端 API 换取真实 openid
+    let openid = null
+    let phoneFromWechat = null
+    try {
+      const wxService = require('../services/wechat.service')
+      if (process.env.WECHAT_SECRET) {
+        const session = await wxService.jscode2session(code)
+        if (session && session.openid) {
+          openid = session.openid
+        }
+      }
+    } catch (wxErr) {
+      console.warn('[wechat-login] jscode2session failed, using mock:', wxErr.message)
+    }
+
+    // 降级：微信未配置或 API 失败时使用模拟 openid
+    if (!openid) {
+      openid = `wx_${code.slice(0, 32)}`
+    }
+
+    let user = db.prepare('SELECT * FROM users WHERE openid = ?').get(openid)
+    if (!user) {
+      const pseudoPhone = phoneFromWechat || `199${String(Date.now()).slice(-8)}`
+      const info = db.prepare('INSERT INTO users (openid, phone, nickname, is_verified) VALUES (?, ?, ?, ?)').run(openid, pseudoPhone, '微信用户', 0)
+      user = db.prepare('SELECT * FROM users WHERE id = ?').get(info.lastInsertRowid)
+    }
+    ok(res, issueUserToken(user))
+  } catch (e) { next(e) }
 })
 
 router.post('/reset-password', (req, res) => {

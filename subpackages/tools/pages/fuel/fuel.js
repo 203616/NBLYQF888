@@ -32,5 +32,19 @@ Page({
       this.setData({ location })
       this.loadFuel(location.city)
     })
+  },
+
+  onShareAppMessage() {
+    return {
+      title: '宁波油价查询',
+      path: '/subpackages/tools/pages/fuel/fuel',
+      desc: '查询宁波地区最新汽油、柴油价格信息。'
+    }
+  },
+
+  onShareTimeline() {
+    return {
+      title: '宁波油价查询'
+    }
   }
 })

@@ -4,15 +4,31 @@ const { submitApplication, syncToServer, pullFromServer, prepareWorkflowData, ex
 const { getDemandDetail } = require('../../../../api/demand')
 const { requestIntakeSubscribe } = require('../../../../utils/subscribe')
 
+const MODULE_ICONS = {
+  creditAuth: '🔏', credit: '🔏', basic: '📋', identity: '👤', personal: '👤',
+  vehicle: '🚗', finance: '💰', loanPurpose: '🎯', income: '📊',
+  contact: '📞', uploads: '📎', bankFlow: '🏦', idCard: '🪪',
+  contract: '📝', audit: '🔍', status: '📈', disbursement: '💵',
+  repay: '💳', guarantee: '🛡️', work: '💼', contacts: '👥'
+}
+
 Page({
   data: {
     meta: {},
     modules: [],
     progress: 0,
+    doneCount: 0,
     productType: 'newCar',
     systemMeta: {},
     fillModules: [],
-    viewModules: []
+    viewModules: [],
+    nextModule: null,
+    intakeTypes: [
+      { id: 'newCar', title: '新车按揭', icon: '🚗', desc: '新车贷款申请' },
+      { id: 'usedCar', title: '二手车融资', icon: '🔄', desc: '二手车贷款申请' },
+      { id: 'carMortgage', title: '车抵贷', icon: '🔑', desc: '车辆抵押贷款' },
+      { id: 'lease', title: '以租代购', icon: '📋', desc: '租赁购车方案' }
+    ]
   },
 
   onLoad(options) {
@@ -78,6 +94,43 @@ Page({
     syncChain.then(() => this.refresh()).catch(() => this.refresh())
   },
 
+  /** 获取当前产品的所有可填模块列表 */
+  getFillModuleList(productType) {
+    rebuildSectionMap(productType)
+    const visibleModules = filterModulesByProduct(productType)
+    return visibleModules.filter(m => m.type === 'form' || m.type === 'upload')
+  },
+
+  /** 判断模块是否已填写完成 */
+  isModuleFilled(moduleId, data, productType) {
+    const mods = this.getFillModuleList(productType)
+    const mod = mods.find(m => m.id === moduleId)
+    if (!mod) return false
+
+    if (mod.type === 'upload') {
+      const required = ['idCardFront', 'idCardBack', 'bankFlow', 'creditAuth']
+      const uploads = data.uploads || {}
+      const done = required.filter(k => (uploads[k] || {}).count > 0).length
+      return done >= required.length
+    }
+
+    const section = data[moduleId] || {}
+    const requiredKeys = (mod.fields || []).filter(f => f.required).map(f => f.key)
+    if (requiredKeys.length === 0) return true
+    return requiredKeys.every(k => section[k] && String(section[k]).trim())
+  },
+
+  /** 查找下一个未完成的模块 */
+  findNextModule(data, productType, fillModules) {
+    const allFillIds = ['credit', 'basic', 'personal', 'vehicle', 'finance', 'work', 'income', 'uploads', 'contacts']
+    for (const id of allFillIds) {
+      const mod = fillModules.find(m => m.id === id)
+      if (!mod) continue
+      if (!this.isModuleFilled(id, data, productType)) return mod
+    }
+    return null
+  },
+
   refresh() {
     const data = store.getData()
     const productType = data.meta.productType || this.data.productType
@@ -107,18 +160,37 @@ Page({
       const statusText = (mod.viewOnly || mod.type === 'status-view' || mod.type === 'contract-view')
         ? (VIEW_STATUS_TEXT[status] || '查看')
         : (status === 'done' ? '已完成' : status === 'processing' ? '进行中' : '待完善')
-      return { ...mod, status, statusText }
+      return {
+        ...mod,
+        status,
+        statusText,
+        iconEmoji: MODULE_ICONS[mod.id] || '📄'
+      }
     })
 
     const fillModules = modules.filter(m => m.type === 'form' || m.type === 'upload')
     const viewModules = modules.filter(m => m.viewOnly || m.type === 'status-view' || m.type === 'contract-view')
+
+    // 计算已完成数和下一个待填模块
+    const doneCount = fillModules.filter(m => m.status === 'done').length
+    const nextModule = this.findNextModule(data, productType, fillModules)
+
+    const progress = Math.min(
+      fillModules.length > 0
+        ? Math.round((doneCount / fillModules.length) * 100)
+        : 0,
+      100
+    )
+    store.saveMeta({ progress })
 
     this.setData({
       meta: data.meta,
       modules,
       fillModules,
       viewModules,
-      progress: data.meta.progress || 0,
+      nextModule,
+      progress,
+      doneCount,
       productType
     })
   },
@@ -126,6 +198,32 @@ Page({
   navigateModule(e) {
     const path = e.currentTarget.dataset.path
     if (path) wx.navigateTo({ url: path })
+  },
+
+  goIntakeType(e) {
+    const productType = e.currentTarget.dataset.id || 'newCar'
+    // 快速进件 → 直接进入征信查询模块，启动自动化流程
+    wx.navigateTo({
+      url: `/subpackages/intake/pages/form/form?section=credit&productType=${productType}&autoNext=true`
+    })
+  },
+
+  /** 继续进件：跳转到下一个未完成的模块 */
+  resumeIntake() {
+    const next = this.data.nextModule
+    if (!next) return
+    const targetPage = next.type === 'upload'
+      ? `/subpackages/intake/pages/upload/upload?autoNext=true&productType=${this.data.productType}`
+      : `/subpackages/intake/pages/form/form?section=${next.id}&autoNext=true&productType=${this.data.productType}`
+    wx.navigateTo({ url: targetPage })
+  },
+
+  goStatus() {
+    wx.navigateTo({ url: '/subpackages/intake/pages/status/status?section=audit' })
+  },
+
+  contactService() {
+    wx.navigateTo({ url: '/subpackages/service/pages/chat/chat' })
   },
 
   handleSubmit() {
@@ -169,5 +267,19 @@ Page({
       })
       .catch(err => wx.showToast({ title: err.message || '导出失败', icon: 'none' }))
       .finally(() => wx.hideLoading())
+  },
+
+  onShareAppMessage() {
+    return {
+      title: '亮叶进件系统',
+      path: '/subpackages/intake/pages/index/index',
+      desc: '在线提交贷款申请材料，全程进度追踪可视化。'
+    }
+  },
+
+  onShareTimeline() {
+    return {
+      title: '亮叶进件系统'
+    }
   }
 })

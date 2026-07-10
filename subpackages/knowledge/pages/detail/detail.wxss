@@ -1,13 +1,100 @@
-.knowledge-detail { padding-bottom: 40rpx; }
-.detail-hero { margin-bottom: 20rpx; min-height: 220rpx; }
-.section { padding: 24rpx 28rpx; margin-bottom: 20rpx; }
-.section-title { display: block; font-size: 30rpx; font-weight: 700; color: var(--color-primary); margin-bottom: 16rpx; padding-left: 14rpx; border-left: 6rpx solid #D4A84B; }
-.rich-content { font-size: 28rpx; line-height: 1.8; color: var(--color-text-primary); }
-.q-text { display: block; font-size: 28rpx; font-weight: 600; margin-bottom: 16rpx; color: var(--color-text-primary); }
-.option { padding: 20rpx; background: #f7f9fc; border-radius: 12rpx; margin-bottom: 12rpx; border: 1rpx solid #eee; font-size: 26rpx; }
-.option.correct { border-color: #52c41a; background: #f6ffed; }
-.option.wrong { border-color: #f5222d; background: #fff1f0; }
-.quiz-tip { display: block; margin-top: 12rpx; font-size: 24rpx; color: var(--color-primary); }
-.related-card { background: #f7f9fc; border-radius: 14rpx; padding: 20rpx; margin-bottom: 14rpx; }
-.related-title { display: block; font-size: 28rpx; font-weight: 600; color: var(--color-primary); }
-.related-meta, .related-desc { display: block; font-size: 24rpx; color: var(--color-text-muted); margin-top: 6rpx; }
+.knowledge-detail {
+  padding-bottom: 40rpx;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fadeInUp {
+  animation: fadeInUp 0.5s ease both;
+}
+
+/* ===== Section Title ===== */
+.section-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 16rpx;
+  padding-left: 14rpx;
+  border-left: 6rpx solid var(--color-gold);
+}
+
+/* ===== Rich Content ===== */
+.rich-content {
+  font-size: 28rpx;
+  line-height: 1.8;
+  color: var(--color-text-primary);
+}
+
+/* ===== Quiz ===== */
+.q-text {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 600;
+  margin-bottom: 16rpx;
+  color: var(--color-text-primary);
+}
+
+.option {
+  padding: 20rpx;
+  background: var(--color-bg-page);
+  border-radius: 12rpx;
+  margin-bottom: 12rpx;
+  border: 1rpx solid #eee;
+  font-size: 26rpx;
+  color: var(--color-text-primary);
+  transition: all 0.2s;
+}
+
+.option.correct {
+  border-color: var(--color-success);
+  background: #f6ffed;
+}
+
+.option.wrong {
+  border-color: var(--color-danger);
+  background: #fff1f0;
+}
+
+.quiz-tip {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* ===== Related Cards ===== */
+.related-card {
+  background: var(--color-bg-page);
+  border-radius: 14rpx;
+  padding: 20rpx;
+  margin-bottom: 14rpx;
+}
+
+.related-card:last-child {
+  margin-bottom: 0;
+}
+
+.related-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.related-meta,
+.related-desc {
+  display: block;
+  font-size: 24rpx;
+  color: var(--color-text-muted);
+  margin-top: 6rpx;
+}
+
+.knowledge-detail .card {
+  margin-bottom: 20rpx;
+}

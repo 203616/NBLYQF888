@@ -32,7 +32,11 @@ function seed() {
     'service_sessions',
     'intake_workflow_events',
     'intake_documents',
-    'intake_applications'
+    'intake_applications',
+    'commission_records',
+    'commission_rules',
+    'cars_listings',
+    'channel_partners'
   ].forEach(clearTable)
 
   const adminHash = bcrypt.hashSync('admin123', 10)
@@ -48,7 +52,7 @@ function seed() {
   const insertScene = db.prepare('INSERT INTO service_scenes (scene_id, title, desc, icon, path, sort) VALUES (?, ?, ?, ?, ?, ?)')
   mock.serviceScenes.forEach((item, index) => insertScene.run(item.id, item.title, item.desc, item.icon, item.path, index))
 
-  const insertCase = db.prepare('INSERT INTO success_cases (id, title, result, desc, cover, detail, sort) VALUES (?, ?, ?, ?, ?, ?, ?)')
+  const insertCase = db.prepare('INSERT INTO success_cases (id, title, result, desc, cover, detail, sort, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
   mock.cases.forEach((item, index) => {
     const detailMap = {
       1: { client: '鄞州某连锁餐饮', industry: '餐饮', city: '宁波市鄞州区', duration: '3天', amount: '80万元', institution: '宁波银行容易贷', challenge: '门店扩张需备货资金，但材料分散在多家门店，重复提交效率低。', solution: '亮叶专员统一整理近12个月流水、租赁合同与纳税记录，通过容易贷线上授权测额，3个工作日内完成预审反馈。', outcome: '客户获得80万经营周转额度意向，减少2轮材料补交。', timeline: ['Day1 需求对接与材料清单', 'Day2 纳税数据授权与流水整理', 'Day3 预审反馈与方案确认'], relatedPath: '/subpackages/product/pages/detail/detail?id=11', cover: '/subpackages/cases/images/cases/case-1.webp', tag: '企业经营' },
@@ -59,13 +63,13 @@ function seed() {
       6: { client: '慈溪某制造企业', industry: '制造业', city: '宁波市慈溪市', duration: '4天', amount: '按团购规模', institution: '工行+延保服务商', challenge: '50名员工团购新能源，需同时办理车贷与三电延保，流程繁琐。', solution: '批量收集员工材料，统一对接工行汽车分期与延保套餐，进件系统批量填报减少重复录入。', outcome: '4天内完成首批20名员工材料预审与延保套餐选择。', timeline: ['Day1 团购方案说明', 'Day2-3 批量进件', 'Day4 延保套餐确认'], relatedPath: '/subpackages/autoFinance/pages/warranty/warranty?type=ev', cover: '/subpackages/cases/images/cases/case-6.webp', tag: '团购服务' }
     }
     const detail = detailMap[item.id] || {}
-    insertCase.run(item.id, item.title, item.result, item.desc, detail.cover || '', JSON.stringify(detail), index)
+    insertCase.run(item.id, item.title, item.result, item.desc, detail.cover || '', JSON.stringify(detail), index, 'published')
   })
 
-  const insertProduct = db.prepare('INSERT INTO products (id, category, name, rate, desc, amount, term, suitable, path, cover, compliance_note, source_name, source_url, sort) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+  const insertProduct = db.prepare('INSERT INTO products (id, category, name, rate, desc, amount, term, suitable, path, cover, compliance_note, source_name, source_url, sort, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
   const insertTag = db.prepare('INSERT INTO product_tags (product_id, tag) VALUES (?, ?)')
   mock.products.forEach((item, index) => {
-    insertProduct.run(item.id, item.category, item.name, item.rate, item.desc, item.amount, item.term, item.suitable, item.path, item.cover || `/subpackages/product/images/products/product-${item.id}.webp`, item.complianceNote || '本平台仅提供金融信息咨询与居间撮合服务，具体产品条件以持牌机构审核结果和正式合同为准。', item.sourceName || '亮叶企服产品库', item.sourceUrl || 'https://data.stats.gov.cn/', index)
+    insertProduct.run(item.id, item.category, item.name, item.rate, item.desc, item.amount, item.term, item.suitable, item.path, item.cover || `/subpackages/product/images/products/product-${item.id}.webp`, item.complianceNote || '本平台仅提供金融信息咨询与居间撮合服务，具体产品条件以持牌机构审核结果和正式合同为准。', item.sourceName || '亮叶企服产品库', item.sourceUrl || 'https://data.stats.gov.cn/', index, 'published')
     ;(item.tags || []).forEach(tag => insertTag.run(item.id, tag))
   })
 

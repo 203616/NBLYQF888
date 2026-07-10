@@ -1,5 +1,5 @@
-<view class="cars-page page-shell">
-  <view class="cars-hero premium-hero">
+<view class="page-shell cars-page">
+  <view class="premium-hero fadeInUp">
     <safe-image className="premium-hero-bg" src="/images/banner3.webp" mode="aspectFill" />
     <view class="premium-hero-body">
       <text class="premium-badge">车源精选</text>
@@ -8,35 +8,35 @@
     </view>
   </view>
 
-  <view class="location-bar glass-card" bindtap="handleChooseCity">
-        <text class="iconfont icon-location loc-icon"></text>
+  <view class="location-bar fadeInUp" style="animation-delay:0.1s" bindtap="handleChooseCity">
+    <text class="iconfont icon-location"></text>
     <text>{{location.city || '定位中'}} · 本地好车</text>
-    <text class="loc-arrow">›</text>
+    <text class="icon-right loc-arrow"></text>
   </view>
 
-  <view class="search-bar glass-card">
+  <view class="search-bar fadeInUp" style="animation-delay:0.15s">
     <icon type="search" size="14" color="#999" />
-    <input placeholder="搜索品牌/车型" value="{{keyword}}" bindinput="handleSearchInput" confirm-type="search" bindconfirm="handleSearch" />
+    <input placeholder="搜索品牌/车型" value="{{keyword || ''}}" bindinput="handleSearchInput" confirm-type="search" bindconfirm="handleSearch" />
     <text class="search-btn" bindtap="handleSearch">搜索</text>
   </view>
 
-  <view class="stat-row">
-    <view class="stat-item glass-card" wx:for="{{stats}}" wx:key="label">
-      <text class="stat-num">{{item.value}}</text>
-      <text class="stat-label">{{item.label}}</text>
+  <view class="stat-row fadeInUp" style="animation-delay:0.2s">
+    <view class="stat-item card" wx:for="{{stats || []}}" wx:key="label">
+      <text class="stat-num">{{item.value || ''}}</text>
+      <text class="stat-label">{{item.label || ''}}</text>
     </view>
   </view>
 
-  <block wx:for="{{cars}}" wx:key="id">
-    <view class="car-card glass-card" data-id="{{item.id}}" bindtap="navigateToDetail">
+  <block wx:for="{{cars || []}}" wx:key="id">
+    <view class="car-card card fadeInUp" style="animation-delay:{{0.2 + index * 0.05}}s" data-id="{{item.id}}" bindtap="navigateToDetail">
       <safe-image src="{{item.cover || ''}}" className="cover" mode="aspectFill" />
       <view class="info">
-        <text class="title">{{item.brand}} {{item.model}}</text>
-        <text class="meta">{{item.year}}年 · {{item.mileage}} · {{item.city}}</text>
-        <text class="dealer">{{item.dealer}}</text>
-        <text class="price">{{item.price}}</text>
+        <text class="title">{{item.brand || ''}} {{item.model || ''}}</text>
+        <text class="meta">{{item.year || ''}}年 · {{item.mileage || ''}} · {{item.city || ''}}</text>
+        <text class="dealer">{{item.dealer || ''}}</text>
+        <text class="price">{{item.price || ''}}</text>
         <view class="tags">
-          <block wx:for="{{item.tags}}" wx:key="*this" wx:for-item="tag">
+          <block wx:for="{{item.tags || []}}" wx:key="*this" wx:for-item="tag">
             <text class="tag">{{tag}}</text>
           </block>
         </view>
@@ -44,5 +44,6 @@
     </view>
   </block>
 
-  <view class="empty-state glass-card" wx:if="{{!loading && !cars.length}}">暂无匹配车源，请切换城市或关键词</view>
+  <view class="empty-state" wx:if="{{!loading && !cars.length}}">暂无匹配车源，请切换城市或关键词</view>
+  <view class="page-safe"></view>
 </view>

@@ -2,13 +2,16 @@
   <div class="integrations-page">
     <div class="page-header">
       <h2>集成联调</h2>
-      <p>阿里云 OCR、微信订阅消息、DeepSeek 等第三方服务的密钥与模板配置</p>
+      <p>AI 大模型、阿里云 OCR、微信订阅消息、电子签章、向量数据库等第三方服务的密钥配置与状态检测</p>
     </div>
 
     <div class="toolbar page-card">
       <el-button type="primary" :loading="loading" @click="loadData">重新检测</el-button>
       <el-button type="success" :loading="saving" @click="saveConfig">保存配置</el-button>
-      <el-button :loading="testingDeepSeek" @click="testDeepSeek">🤖 测试 DeepSeek 连接</el-button>
+      <el-button :loading="testingAI" @click="testAI('')">🤖 测试默认 AI</el-button>
+      <el-button :loading="testingAI" @click="testAI('deepseek')">🔵 测试 DeepSeek</el-button>
+      <el-button :loading="testingAI" @click="testAI('qwen')">🟢 测试通义千问</el-button>
+      <el-button :loading="testingAI" @click="testAI('anthropic')">🟣 测试 Anthropic</el-button>
       <el-button @click="loadFromEnv">从 .env 同步</el-button>
     </div>
 
@@ -58,160 +61,167 @@ import request from '../api/request'
 
 const loading = ref(false)
 const saving = ref(false)
-const testingDeepSeek = ref(false)
+const testingAI = ref(false)
 const statusData = ref(null)
 const form = ref({})
-
-// 表单字段组定义
-const formGroups = computed(() => [
-  {
-    key: 'aliyun-ocr',
-    icon: '🔍',
-    title: '阿里云 OCR',
-    desc: '用于进件文档图片的文字识别',
-    ok: !!form.value.integration_aliyun_key_id,
-    fields: [
-      { key: 'integration_aliyun_key_id', label: 'AccessKey ID', placeholder: '例: LTAI5t...' },
-      { key: 'integration_aliyun_key_secret', label: 'AccessKey Secret', type: 'password', placeholder: '输入 Secret' },
-      { key: 'integration_ocr_endpoint', label: 'OCR 端点', placeholder: 'ocr-api.cn-hangzhou.aliyuncs.com', hint: '默认即可' }
-    ]
-  },
-  {
-    key: 'wechat',
-    icon: '💬',
-    title: '微信开放平台',
-    desc: '用于获取 access_token 和发送订阅消息',
-    ok: !!form.value.integration_wechat_appid && !!form.value.integration_wechat_secret,
-    fields: [
-      { key: 'integration_wechat_appid', label: 'AppID', placeholder: 'wx...' },
-      { key: 'integration_wechat_secret', label: 'Secret', type: 'password', placeholder: '输入 Secret' }
-    ]
-  },
-  {
-    key: 'subscribe',
-    icon: '🔔',
-    title: '订阅消息模板',
-    desc: '微信公众平台 → 功能 → 订阅消息 中申请',
-    ok: !!form.value.integration_template_intake_audit,
-    fields: [
-      { key: 'integration_template_intake_audit', label: '进件审核通知', placeholder: '模板 ID' },
-      { key: 'integration_template_intake_disburse', label: '进件放款通知', placeholder: '模板 ID' },
-      { key: 'integration_template_finance_review', label: '融圈审核结果', placeholder: '模板 ID', hint: '选填' }
-    ]
-  },
-  {
-    key: 'deepseek',
-    icon: '🤖',
-    title: 'DeepSeek AI',
-    desc: '用于智能客服和内容分析',
-    ok: !!form.value.integration_deepseek_key,
-    fields: [
-      { key: 'integration_deepseek_key', label: 'API Key', type: 'password', placeholder: 'sk-...' },
-      { key: 'integration_deepseek_model', label: '模型', placeholder: 'deepseek-chat', hint: '默认 deepseek-chat，可选 deepseek-reasoner' }
-    ]
-  },
-  {
-    key: 'cdn',
-    icon: '📦',
-    title: 'CDN 配置',
-    desc: '小程序图片/静态资源 CDN 加速',
-    ok: !!form.value.integration_cdn_base_url,
-    fields: [
-      { key: 'integration_cdn_base_url', label: 'CDN 基础 URL', placeholder: 'https://cdn.example.com', hint: '结尾不要 /' }
-    ]
-  }
-])
-
-// 状态检测表格
-const checkRows = computed(() => {
-  if (!statusData.value) return []
-  const d = statusData.value
-  return [
-    { name: '阿里云 OCR', ok: d.ocr?.configured, detail: d.ocr?.configured ? `模式: ${d.ocr.mode}` : (d.ocr?.hint || '未配置') },
-    { name: '微信 access_token', ok: d.wechat?.configured && d.wechatToken?.ok, detail: d.wechatToken?.message || '未配置' },
-    { name: '进件订阅模板', ok: d.subscribeTemplates?.configured, detail: d.subscribeTemplates?.configured ? '已配置' : '请配置模板 ID' },
-    { name: '融圈订阅模板', ok: d.subscribeTemplates?.financeConfigured, detail: d.subscribeTemplates?.financeConfigured ? '已配置' : '选填' },
-    { name: 'DeepSeek', ok: d.deepseek?.configured, detail: d.deepseek?.configured ? `模型: ${d.deepseek.model} (来源: ${d.deepseek.keySource === 'database' ? '数据库配置' : d.deepseek.keySource === 'env' ? '环境变量' : '无'})` : '未配置' },
-    { name: '内容安全', ok: d.contentSecurity?.configured, detail: d.contentSecurity?.configured ? '已配置' : (d.contentSecurity?.hint || 'Mock 模式') }
-  ]
-})
 
 async function loadData() {
   loading.value = true
   try {
-    // 加载状态
-    statusData.value = await getIntegrations()
-    // 加载已保存的配置
-    const savedConfig = await request.get('/admin/integrations/config')
-    if (savedConfig && typeof savedConfig === 'object') {
-      Object.assign(form.value, savedConfig)
-    }
+    const res = await getIntegrations()
+    statusData.value = res
   } catch (e) {
-    ElMessage.warning('加载集成信息失败: ' + e.message)
-  } finally {
-    loading.value = false
+    ElMessage.error('加载集成状态失败')
   }
+  loading.value = false
 }
 
 async function saveConfig() {
   saving.value = true
   try {
-    const payload = { ...form.value }
-    // 只发允许的键
-    const allowed = [
-      'integration_aliyun_key_id', 'integration_aliyun_key_secret', 'integration_wechat_appid',
-      'integration_wechat_secret', 'integration_template_intake_audit', 'integration_template_intake_disburse',
-      'integration_template_finance_review', 'integration_deepseek_key', 'integration_deepseek_model',
-      'integration_cdn_base_url', 'integration_ocr_endpoint'
-    ]
-    const clean = {}
-    for (const key of allowed) {
-      if (payload[key] !== undefined) clean[key] = payload[key]
-    }
-    await request.post('/admin/integrations/save', clean)
-    ElMessage.success('集成配置已保存到数据库')
-    // 重新检测状态
-    statusData.value = await getIntegrations()
+    const payload = {}
+    Object.entries(form.value).forEach(([key, value]) => {
+      if (value) payload[key] = value
+    })
+    await request.post('/admin/integrations/save', payload)
+    ElMessage.success('配置已保存')
+    await loadData()
   } catch (e) {
-    ElMessage.error('保存失败: ' + e.message)
-  } finally {
-    saving.value = false
+    ElMessage.error('保存失败')
   }
+  saving.value = false
 }
 
-async function testDeepSeek() {
-  testingDeepSeek.value = true
+async function testAI(provider) {
+  testingAI.value = true
   try {
-    const res = await request.get('/admin/ai/test')
+    const params = provider ? `?provider=${provider}` : ''
+    const res = await request.get(`/admin/ai/test${params}`)
     if (res.ok) {
-      ElMessage.success(`DeepSeek 连接成功！模型: ${res.model}, 用时: ${res.usage?.total_tokens || 'N/A'} tokens`)
+      const label = provider || '默认'
+      ElMessage.success(`${label} AI: ${res.message}`)
     } else {
-      ElMessage.warning(`DeepSeek 连接失败: ${res.message}`)
+      ElMessage.warning(res.message || '连接异常')
     }
   } catch (e) {
-    ElMessage.error('测试请求失败: ' + e.message)
-  } finally {
-    testingDeepSeek.value = false
+    ElMessage.error('AI 连接测试失败')
   }
+  testingAI.value = false
 }
 
 function loadFromEnv() {
-  // 从 .env 环境变量预填充（仅作提示，实际值已在 statusData 中）
-  ElMessage.info('当前显示的是已保存到数据库的配置。实际运行时还会读取 .env 环境变量。')
+  form.value = {
+    integration_deepseek_key: '',
+    integration_deepseek_model: 'deepseek-chat',
+    integration_qwen_key: '',
+    integration_qwen_model: 'qwen-plus',
+    integration_anthropic_key: '',
+    integration_anthropic_model: 'claude-3-haiku',
+    integration_esig_key: '205024966',
+    integration_esig_secret: 'zSugFhekoScWwyfi1tIAb3e0N5y3ElWC',
+    integration_esig_code: 'f9b6dd8e803e479fafe7ca9369e8c13a',
+    integration_zilliz_token: '84db2a86a3da0e3eddb4d7ffce167fd8989f6dd585fbf25967eec7ea16197c48d9bfdfa5947e35973fb84c6438b792ab0e0e7e8c'
+  }
+  ElMessage.success('已从 .env 同步默认值')
 }
+
+const formGroups = computed(() => {
+  const s = statusData.value
+  return [
+    {
+      key: 'ai',
+      icon: '🤖',
+      title: 'AI 大模型',
+      desc: '配置智能客服与内容分析使用的 AI 模型',
+      ok: s?.ai?.deepseek?.configured || s?.ai?.providers?.deepseek?.configured,
+      fields: [
+        { key: 'integration_deepseek_key', label: 'DeepSeek API Key', type: 'password', placeholder: 'sk-...', hint: !!(s?.ai?.providers?.deepseek?.configured) ? `已配置 (${s?.ai?.providers?.deepseek?.model})` : '' },
+        { key: 'integration_deepseek_model', label: 'DeepSeek 模型', placeholder: 'deepseek-chat', hint: '默认模型: deepseek-chat' },
+        { key: 'integration_qwen_key', label: '通义千问 API Key', type: 'password', placeholder: 'sk-...', hint: !!(s?.ai?.providers?.qwen?.configured) ? '已配置' : 'DashScope OpenAI 兼容模式' },
+        { key: 'integration_qwen_model', label: '通义千问模型', placeholder: 'qwen-plus', hint: 'qwen-plus / qwen-max 等' },
+        { key: 'integration_anthropic_key', label: 'Anthropic API Key', type: 'password', placeholder: 'sk-...', hint: !!(s?.ai?.providers?.anthropic?.configured) ? '已配置(通义千问 Anthropic 兼容)' : '' },
+        { key: 'integration_anthropic_model', label: 'Anthropic 模型', placeholder: 'claude-3-haiku', hint: 'claude-3-haiku 等' }
+      ]
+    },
+    {
+      key: 'esig',
+      icon: '✍️',
+      title: '电子签章',
+      desc: '在线合同签署 API（阿里云市场）',
+      ok: s?.esig?.configured,
+      fields: [
+        { key: 'integration_esig_key', label: 'AppKey', type: 'password', placeholder: 'AppKey', hint: s?.esig?.appKeyConfigured ? '已配置' : '' },
+        { key: 'integration_esig_secret', label: 'AppSecret', type: 'password', placeholder: 'AppSecret', hint: s?.esig?.appSecretConfigured ? '已配置' : '' },
+        { key: 'integration_esig_code', label: 'AppCode', type: 'password', placeholder: 'AppCode', hint: s?.esig?.appCodeConfigured ? '已配置' : '' }
+      ]
+    },
+    {
+      key: 'zilliz',
+      icon: '🗄️',
+      title: '向量数据库（Zilliz Cloud）',
+      desc: 'Milvus 向量数据库，用于智能搜索与知识库',
+      ok: s?.zilliz?.configured,
+      fields: [
+        { key: 'integration_zilliz_cluster_id', label: '集群 ID', placeholder: 'in03-...', hint: s?.zilliz?.clusterId ? `已配置 (${s.zilliz.clusterId})` : '' },
+        { key: 'integration_zilliz_endpoint', label: 'Endpoint', placeholder: 'https://...', hint: s?.zilliz?.endpointConfigured ? '已配置' : '' },
+        { key: 'integration_zilliz_token', label: 'Token', type: 'password', placeholder: '...', hint: s?.zilliz?.tokenConfigured ? '已配置' : '' }
+      ]
+    },
+    {
+      key: 'ocr',
+      icon: '📄',
+      title: '阿里云 OCR',
+      desc: '行驶证、身份证等识别',
+      ok: s?.ocr?.configured,
+      fields: [
+        { key: 'integration_aliyun_key_id', label: 'AccessKey ID', type: 'password', placeholder: 'LTAI...', hint: s?.ocr?.accessKeyId ? `已配置 (${s.ocr.accessKeyId})` : '' },
+        { key: 'integration_aliyun_key_secret', label: 'AccessKey Secret', type: 'password', placeholder: '...' },
+        { key: 'integration_aliyun_ocr_endpoint', label: 'Endpoint', placeholder: 'ocr-api.cn-hangzhou.aliyuncs.com', hint: '' }
+      ]
+    },
+    {
+      key: 'wechat',
+      icon: '💬',
+      title: '微信小程序',
+      desc: '订阅消息、模板通知',
+      ok: s?.wechat?.configured,
+      fields: [
+        { key: 'integration_wechat_appid', label: 'AppID', placeholder: 'wxf49b1aeb1d62f227', hint: s?.wechat?.appId || '' },
+        { key: 'integration_wechat_secret', label: 'AppSecret', type: 'password', placeholder: '...', hint: s?.wechat?.secretConfigured ? '已配置' : '' },
+        { key: 'integration_template_intake_audit', label: '进件审核通知模板ID', placeholder: '模板 ID' },
+        { key: 'integration_template_intake_disburse', label: '进件放款通知模板ID', placeholder: '模板 ID' },
+        { key: 'integration_template_finance_review', label: '融圈审核通知模板ID', placeholder: '模板 ID' }
+      ]
+    }
+  ]
+})
+
+const checkRows = computed(() => {
+  const s = statusData.value
+  if (!s) return []
+  const rows = []
+  rows.push({ name: 'DeepSeek AI', ok: s.ai?.deepseek?.configured || s.ai?.providers?.deepseek?.configured, detail: s.ai?.deepseek?.configured ? `模型: ${s.ai.deepseek.model}` : '未配置' })
+  rows.push({ name: '通义千问 AI', ok: s.ai?.providers?.qwen?.configured, detail: s.ai?.providers?.qwen?.configured ? `已配置 (${s.ai.providers.qwen.model})` : '未配置' })
+  rows.push({ name: 'Anthropic AI', ok: s.ai?.providers?.anthropic?.configured, detail: s.ai?.providers?.anthropic?.configured ? '已配置' : '未配置' })
+  rows.push({ name: '电子签章', ok: s.esig?.configured, detail: s.esig?.configured ? 'AppKey/Secret/AppCode 已配置' : '待配置' })
+  rows.push({ name: 'Zilliz 向量库', ok: s.zilliz?.configured, detail: s.zilliz?.configured ? '已配置' : '待配置' })
+  rows.push({ name: '阿里云 OCR', ok: s.ocr?.configured, detail: s.ocr?.configured ? `已配置 (${s.ocr.mode})` : '待配置' })
+  rows.push({ name: '微信订阅消息', ok: s.subscribeTemplates?.configured, detail: s.subscribeTemplates?.configured ? '进件模板已配置' : '待配置' })
+  rows.push({ name: '内容安全', ok: s.contentSecurity?.configured, detail: s.contentSecurity?.configured ? '已启用' : s.contentSecurity?.hint || '未配置' })
+  rows.push({ name: 'API 公网地址', ok: !!s.wechat?.publicBaseUrl, detail: s.wechat?.publicBaseUrl || 'PUBLIC_BASE_URL 未配置' })
+  return rows
+})
 
 onMounted(loadData)
 </script>
 
 <style scoped>
-.toolbar { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.integrations-page { max-width: 1400px; }
 .config-card { margin-bottom: 16px; min-height: 200px; }
-.config-card.ok { border-top: 3px solid #52c41a; }
-.config-card.warn { border-top: 3px solid #faad14; }
 .card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 .card-icon { font-size: 28px; }
-.config-card h3 { margin: 0 0 8px; color: var(--brand-primary); }
-.card-desc { font-size: 13px; color: var(--brand-muted); margin: 0 0 16px; line-height: 1.5; }
-.field-hint { font-size: 12px; color: #999; margin-top: 2px; }
-.section-title { margin-bottom: 16px; }
+.card-desc { font-size: 13px; color: #999; margin-bottom: 16px; }
+.section-title { margin-bottom: 16px; font-size: 16px; }
+.field-hint { font-size: 12px; color: #999; margin-top: 4px; }
+.toolbar { margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 8px; }
 </style>

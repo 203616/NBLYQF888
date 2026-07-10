@@ -62,5 +62,21 @@ Page({
   navigateToTip(e) {
     const id = e.currentTarget.dataset.id
     wx.navigateTo({ url: `/subpackages/tips/pages/detail/detail?id=${id}` })
+  },
+
+  onShareAppMessage() {
+    const knowledge = this.data.knowledge || {}
+    return {
+      title: knowledge.title || '亮叶金融知识',
+      path: `/subpackages/knowledge/pages/detail/detail?id=${knowledge.id || ''}`,
+      desc: knowledge.summary || '亮叶企服金融知识详情'
+    }
+  },
+
+  onShareTimeline() {
+    const knowledge = this.data.knowledge || {}
+    return {
+      title: knowledge.title || '亮叶金融知识'
+    }
   }
 })

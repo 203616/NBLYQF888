@@ -29,5 +29,21 @@ Page({
   goIntake() {
     const { goIntake } = require('../../../../utils/intakeNav')
     goIntake({ productType: 'workflow', productName: '案例关联进件' })
+  },
+
+  onShareAppMessage() {
+    const detail = this.data.caseDetail || {}
+    return {
+      title: detail.title || '亮叶服务案例',
+      path: `/subpackages/cases/pages/detail/detail?id=${detail.id || ''}`,
+      desc: detail.result || '亮叶企服服务案例详情'
+    }
+  },
+
+  onShareTimeline() {
+    const detail = this.data.caseDetail || {}
+    return {
+      title: detail.title || '亮叶服务案例'
+    }
   }
 })

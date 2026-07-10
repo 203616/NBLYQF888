@@ -48,6 +48,11 @@ Page({
     this.loadDeviceInfo()
   },
 
+  onShow() {
+    this.loadUnreadCount()
+    this.refreshRuntimeSummary()
+  },
+
   loadDeviceInfo() {
     try {
       const { getDeviceProfile } = require('../../../../utils/device')
@@ -133,11 +138,6 @@ Page({
     wx.showToast({ title: '已恢复自动', icon: 'success' })
   },
 
-  onShow() {
-    this.loadUnreadCount()
-    this.refreshRuntimeSummary()
-  },
-
   loadUserInfo() {
     const userInfo = wx.getStorageSync('userInfo') || {}
     const phone = wx.getStorageSync('userPhone') || userInfo.phone || ''
@@ -218,19 +218,11 @@ Page({
   },
 
   openPrivacy() {
-    wx.showModal({
-      title: '隐私政策',
-      content: '我们仅在提供服务所必需范围内收集位置、相册、联系方式等信息，用于需求撮合、材料审核与合规提醒。您可随时在设置中撤回授权。',
-      showCancel: false
-    })
+    wx.navigateTo({ url: '/subpackages/auth/privacy/privacy?type=privacy' })
   },
 
   openAgreement() {
-    wx.showModal({
-      title: '服务协议',
-      content: '亮叶企服提供金融信息咨询与居间撮合服务，不直接发放贷款。具体审批、额度与费用以持牌机构审核及正式合同为准。',
-      showCancel: false
-    })
+    wx.navigateTo({ url: '/subpackages/auth/privacy/privacy?type=service' })
   },
 
   logout() {

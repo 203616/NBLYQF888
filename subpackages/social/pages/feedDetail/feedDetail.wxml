@@ -1,5 +1,5 @@
 <view class="feed-detail page-shell" wx:if="{{post}}">
-  <view class="feed-card glass-card">
+  <view class="feed-card glass-card fade-in-up">
     <view class="feed-head">
       <safe-image className="feed-avatar" src="{{post.avatar || ''}}" mode="aspectFill" />
       <view class="feed-meta">
@@ -8,7 +8,7 @@
       </view>
     </view>
     <text class="feed-content">{{post.content}}</text>
-    <view class="feed-images" wx:if="{{post.images.length}}">
+    <view class="feed-images" wx:if="{{post.images && post.images.length}}">
       <safe-image wx:for="{{post.images}}" wx:key="*this" src="{{item || ''}}" previewUrl="{{item}}" previewUrls="{{post.images}}" className="feed-img" bind:tap="previewImage" />
     </view>
     <view class="feed-actions">
@@ -17,16 +17,16 @@
     </view>
   </view>
 
-  <view class="intake-panel glass-card" wx:if="{{post.intakeProduct}}">
+  <view class="intake-panel glass-card fade-in-up" wx:if="{{post.intakeProduct}}">
     <text class="panel-title">关联进件</text>
     <text class="panel-desc">该动态关联 {{post.intakeProductName || '融资进件'}}，可一键带入进件系统填写材料。</text>
     <button class="btn-gold" bindtap="goIntake">立即进件</button>
   </view>
 
-  <view class="comment-panel glass-card">
+  <view class="comment-panel glass-card fade-in-up">
     <text class="panel-title">全部评论</text>
     <block wx:if="{{post.commentList && post.commentList.length}}">
-      <view class="comment-item" wx:for="{{post.commentList}}" wx:key="id">
+      <view class="comment-item fade-in-up" wx:for="{{post.commentList}}" wx:key="id" style="animation-delay: {{index * 0.06}}s">
         <text class="comment-user">{{item.user}}</text>
         <text class="comment-content">{{item.content}}</text>
         <text class="comment-time">{{item.time}}</text>
@@ -39,14 +39,15 @@
     </view>
   </view>
 
-  <view class="quick-links">
+  <view class="quick-links fade-in-up">
     <button class="btn-outline" bindtap="goServiceChat">咨询客服</button>
     <button class="btn-outline" bindtap="goIntake" wx:if="{{!post.intakeProduct}}">发起进件</button>
   </view>
 
-  <view class="compliance-panel">
+  <view class="compliance-panel fade-in-up">
     <text>温馨提示：易融圈内容为用户分享，不构成投资建议。亮叶企服仅提供信息咨询与居间撮合服务。</text>
   </view>
+  <view class="page-safe"></view>
 </view>
 
 <view class="loading-wrap" wx:if="{{loading}}">

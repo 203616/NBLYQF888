@@ -1,5 +1,5 @@
-<view class="claim-page page-shell">
-  <view class="claim-hero premium-hero">
+<view class="page-shell claim-page">
+  <view class="premium-hero fadeInUp" style="min-height:200rpx">
     <view class="premium-hero-body">
       <text class="premium-badge">理赔服务</text>
       <text class="premium-hero-title">延保理赔申请</text>
@@ -7,68 +7,69 @@
     </view>
   </view>
 
-  <view class="flow-card glass-card">
+  <view class="card fadeInUp" style="animation-delay:0.1s">
     <text class="block-title">理赔流程</text>
-    <block wx:for="{{claimFlow}}" wx:key="title">
+    <block wx:for="{{claimFlow || []}}" wx:key="title">
       <view class="flow-item">
         <text class="flow-num">{{index + 1}}</text>
         <view>
-          <text class="flow-title">{{item.title}}</text>
-          <text class="flow-desc">{{item.desc}}</text>
+          <text class="flow-title">{{item.title || ''}}</text>
+          <text class="flow-desc">{{item.desc || ''}}</text>
         </view>
       </view>
     </block>
   </view>
 
-  <view class="form-card glass-card">
+  <view class="card fadeInUp" style="animation-delay:0.15s">
     <text class="block-title">提交理赔</text>
     <view class="field-row">
       <text class="label">手机号</text>
-      <input class="input" type="number" maxlength="11" value="{{form.phone}}" data-field="phone" bindinput="onInput" />
+      <input class="input" type="number" maxlength="11" value="{{form.phone || ''}}" data-field="phone" bindinput="onInput" />
     </view>
     <view class="field-row">
       <text class="label">车牌号</text>
-      <input class="input" placeholder="如：浙B·A12345" value="{{form.plateNo}}" data-field="plateNo" bindinput="onInput" />
+      <input class="input" placeholder="如：浙B·A12345" value="{{form.plateNo || ''}}" data-field="plateNo" bindinput="onInput" />
     </view>
     <view class="field-row">
       <text class="label">关联延保申请</text>
-      <picker wx:if="{{applications.length}}" range="{{applications}}" range-key="contract_no" bindchange="onAppPick">
+      <picker wx:if="{{applications && applications.length}}" range="{{applications}}" range-key="contract_no" bindchange="onAppPick">
         <view class="picker-val">{{form.applicationId ? '申请 #' + form.applicationId : '选择延保申请'}} ›</view>
       </picker>
       <text wx:else class="picker-val muted">暂无延保申请记录，可直接提交理赔</text>
     </view>
     <view class="field-row column">
       <text class="label">故障描述</text>
-      <textarea class="textarea" placeholder="请描述故障现象、发生时间、行驶里程等" value="{{form.faultDesc}}" data-field="faultDesc" bindinput="onInput" />
+      <textarea class="textarea" placeholder="请描述故障现象、发生时间、行驶里程等" value="{{form.faultDesc || ''}}" data-field="faultDesc" bindinput="onInput" />
     </view>
     <view class="field-row column">
       <text class="label">故障照片</text>
       <view class="photo-grid">
-        <block wx:for="{{photos}}" wx:key="*this">
+        <block wx:for="{{photos || []}}" wx:key="*this">
           <view class="photo-item">
-            <image src="{{item}}" mode="aspectFill" lazy-load="{{true}}" />
+            <safe-image src="{{item || ''}}" mode="aspectFill" />
             <text class="remove" data-idx="{{index}}" catchtap="removePhoto">×</text>
           </view>
         </block>
-        <view class="photo-add" bindtap="choosePhoto" wx:if="{{photos.length < 6}}">+</view>
+        <view class="photo-add" bindtap="choosePhoto" wx:if="{{canAddPhoto}}">+</view>
       </view>
     </view>
     <view class="actions">
       <button class="btn-outline" bindtap="callService">咨询客服</button>
-      <button class="btn-gold" loading="{{submitting}}" bindtap="submitClaim">提交理赔</button>
+      <button class="btn-gold" loading="{{submitting || false}}" bindtap="submitClaim">提交理赔</button>
     </view>
   </view>
 
-  <view class="history-card glass-card" wx:if="{{claims.length}}">
+  <view class="card fadeInUp" style="animation-delay:0.2s" wx:if="{{claims && claims.length}}">
     <text class="block-title">我的理赔记录</text>
     <block wx:for="{{claims}}" wx:key="id">
       <view class="claim-row">
         <view>
-          <text class="claim-desc">{{item.fault_desc || item.faultDesc}}</text>
+          <text class="claim-desc">{{item.fault_desc || item.faultDesc || ''}}</text>
           <text class="claim-meta">{{item.plate_no || item.plateNo || '-'}} · {{item.created_at || item.createdAt || ''}}</text>
         </view>
-        <text class="claim-status">{{item.status}}</text>
+        <text class="claim-status {{item.status === '已完成' ? 'risk-low' : item.status === '处理中' ? 'risk-medium' : ''}}">{{item.status || ''}}</text>
       </view>
     </block>
   </view>
+  <view class="page-safe"></view>
 </view>

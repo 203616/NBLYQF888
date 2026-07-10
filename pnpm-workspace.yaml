@@ -1,5 +1,12 @@
 packages:
   - "apps/*"
+allowBuilds:
+  '@parcel/watcher': true
+  '@swc/core': true
+  core-js: true
+  esbuild: true
+  less: true
+  protobufjs: true
 onlyBuiltDependencies:
   - esbuild
   - better-sqlite3
@@ -9,4 +16,3 @@ onlyBuiltDependencies:
   - less
   - protobufjs
   - vue-demi
-onlyBuiltDependenciesFile: ''

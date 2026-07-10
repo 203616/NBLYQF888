@@ -1,10 +1,49 @@
-.auto-service {
-  padding-bottom: 40rpx;
+/* ===== 页面微动效 ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
+.fade-in-up {
+  animation: fadeInUp 0.45s ease-out both;
+}
+
+/* ===== 布局 ===== */
+.auto-service {
+  padding-bottom: 60rpx;
+  background: var(--color-bg-page);
+  min-height: 100vh;
+}
+
+/* ===== 英雄区 ===== */
 .as-hero {
-  margin-bottom: 20rpx;
-  min-height: 220rpx;
+  margin-bottom: var(--space-md);
+  min-height: 240rpx;
+}
+
+/* ===== 定位栏 ===== */
+.location-bar {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  padding: 22rpx var(--space-md);
+  margin: 0 var(--space-md) var(--space-md);
+  border-radius: var(--radius-md);
+  font-size: 26rpx;
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.loc-icon {
+  width: 28rpx;
+  height: 28rpx;
+  flex-shrink: 0;
 }
 
 .loc-arrow {
@@ -13,21 +52,23 @@
   font-size: 32rpx;
 }
 
+/* ===== 数据统计 ===== */
 .stat-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12rpx;
-  margin-bottom: 20rpx;
+  gap: var(--space-sm);
+  margin: 0 var(--space-md) var(--space-md);
 }
 
 .stat-item {
   text-align: center;
-  padding: 20rpx 8rpx;
+  padding: 22rpx 8rpx;
+  border-radius: var(--radius-md);
 }
 
 .stat-num {
   display: block;
-  font-size: 32rpx;
+  font-size: 34rpx;
   font-weight: 700;
   color: var(--color-primary);
 }
@@ -36,12 +77,14 @@
   display: block;
   font-size: 22rpx;
   color: var(--color-text-muted);
-  margin-top: 4rpx;
+  margin-top: 6rpx;
 }
 
+/* ===== Section 卡片 ===== */
 .section {
-  padding: 24rpx 28rpx;
-  margin-bottom: 20rpx;
+  padding: var(--space-md) var(--space-lg);
+  margin: 0 var(--space-md) var(--space-md);
+  border-radius: var(--radius-md);
 }
 
 .section-title {
@@ -49,99 +92,119 @@
   font-size: 30rpx;
   font-weight: 700;
   color: var(--color-primary);
-  margin-bottom: 16rpx;
+  margin-bottom: 18rpx;
   padding-left: 14rpx;
-  border-left: 6rpx solid #D4A84B;
+  border-left: 6rpx solid var(--color-gold);
 }
 
-.product-grid {
+/* ===== 特色网格 ===== */
+.feature-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12rpx;
+  gap: var(--space-sm);
 }
 
-.product-card {
+.feature-item {
   text-align: center;
-  padding: 20rpx 12rpx;
-  background: #f7f9fc;
-  border-radius: 16rpx;
+  padding: 24rpx 12rpx;
+  background: var(--color-bg-page);
+  border-radius: var(--radius-md);
+  transition: transform 0.2s;
 }
 
-.product-card .icon {
-  width: 72rpx;
-  height: 72rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 12rpx;
+.feature-item:active {
+  transform: scale(0.94);
+}
+
+.fi-icon {
+  display: block;
   font-size: 56rpx;
+  margin-bottom: 12rpx;
+  line-height: 1.2;
 }
 
-.p-title {
+.fi-title {
   display: block;
   font-size: 26rpx;
   font-weight: 600;
   color: var(--color-text-primary);
 }
 
-.p-desc {
+.fi-desc {
   display: block;
   font-size: 20rpx;
   color: var(--color-text-muted);
   margin-top: 6rpx;
+  line-height: 1.4;
 }
 
+/* ===== 更多行 ===== */
 .more-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 16rpx;
-  padding-top: 16rpx;
+  margin-top: 18rpx;
+  padding-top: 18rpx;
   border-top: 1rpx solid var(--color-border);
   font-size: 24rpx;
   color: var(--color-primary);
 }
 
+.arrow {
+  color: var(--color-text-muted);
+}
+
+/* ===== 工具网格 ===== */
 .tool-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12rpx;
+  gap: var(--space-sm);
 }
 
 .tool-item {
   text-align: center;
-  padding: 16rpx 8rpx;
-  background: #f7f9fc;
-  border-radius: 14rpx;
+  padding: 18rpx 8rpx;
+  background: var(--color-bg-page);
+  border-radius: var(--radius-md);
+  transition: transform 0.2s;
 }
 
-.tool-icon {
-  width: 48rpx;
-  height: 48rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 8rpx;
-  font-size: 40rpx;
+.tool-item:active {
+  transform: scale(0.94);
+}
+
+.tool-icon-text {
+  display: block;
+  font-size: 44rpx;
+  margin-bottom: 8rpx;
+  line-height: 1.2;
 }
 
 .tool-title {
+  display: block;
   font-size: 22rpx;
   color: var(--color-primary);
+  font-weight: 500;
 }
 
+/* ===== Chips ===== */
 .chip-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 12rpx;
+  gap: var(--space-sm);
 }
 
 .chip {
-  padding: 14rpx 28rpx;
-  border-radius: 999rpx;
-  background: var(--color-primary-bg);
+  padding: 14rpx 32rpx;
+  border-radius: var(--radius-pill);
+  background: rgba(15, 61, 46, 0.06);
   color: var(--color-primary);
   font-size: 26rpx;
+  transition: all 0.2s;
+}
+
+.chip:active {
+  transform: scale(0.94);
 }
 
 .chip.outline {
@@ -149,37 +212,49 @@
   border: 1rpx solid var(--color-primary);
 }
 
+/* ===== 快捷入口 ===== */
 .quick-links {
   display: flex;
-  gap: 12rpx;
-  padding: 20rpx;
-  margin-bottom: 20rpx;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  margin: 0 var(--space-md) var(--space-md);
+  border-radius: var(--radius-md);
 }
 
 .ql-item {
   flex: 1;
   text-align: center;
-  padding: 16rpx 8rpx;
-  background: #f7f9fc;
-  border-radius: 14rpx;
-  font-size: 22rpx;
-  color: var(--color-primary);
+  padding: 20rpx 8rpx;
+  background: var(--color-bg-page);
+  border-radius: var(--radius-md);
+  transition: transform 0.2s;
 }
 
-.ql-icon {
+.ql-item:active {
+  transform: scale(0.94);
+}
+
+.ql-icon-text {
   display: block;
-  font-size: 32rpx;
+  font-size: 36rpx;
   margin-bottom: 6rpx;
 }
 
-.compliance {
-  padding: 20rpx 24rpx;
+.ql-title {
+  display: block;
+  font-size: 22rpx;
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+/* ===== 合规提示 ===== */
+.compliance-tip {
+  padding: 20rpx var(--space-md);
+  margin: 0 var(--space-md);
   font-size: 22rpx;
   color: var(--color-text-muted);
   line-height: 1.6;
   text-align: center;
-}
-
-.arrow {
-  color: var(--color-text-muted);
+  background: var(--color-bg-card);
+  border-radius: var(--radius-md);
 }

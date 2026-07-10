@@ -113,3 +113,29 @@ export function createResource(resource, data) {
 export function getMeta(type) {
   return request.get(`/admin/meta/${type}`)
 }
+
+// =============================================
+// 分润规则 API
+// =============================================
+export function getCommissionRules() {
+  return request.get('/admin/commission-rules')
+}
+
+export function saveCommissionRule(data) {
+  return request.post('/admin/commission-rules', data)
+}
+
+export function deleteCommissionRule(id) {
+  return request.delete(`/admin/commission-rules/${id}`)
+}
+
+export function getCommissionReports(params) {
+  return request.get('/admin/commission-reports', { params })
+}
+
+// =============================================
+// OA工作台 API
+// =============================================
+export function getOAWorkbench() {
+  return request.get('/admin/oa-workbench')
+}

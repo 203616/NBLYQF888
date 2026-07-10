@@ -1,37 +1,38 @@
-<view class="news-detail page-shell" wx:if="{{!loading && newsDetail}}">
-  <view class="detail-hero premium-hero">
-    <safe-image className="premium-hero-bg" src="{{newsDetail.cover}}" mode="aspectFill" wx:if="{{newsDetail.cover}}" />
+<view class="page-shell news-detail" wx:if="{{!loading && newsDetail}}">
+  <view class="premium-hero fadeInUp">
+    <safe-image className="premium-hero-bg" src="{{newsDetail.cover || ''}}" mode="aspectFill" wx:if="{{newsDetail.cover}}" />
     <view class="premium-hero-body">
-      <text class="premium-badge">{{newsDetail.source}}</text>
-      <text class="premium-hero-title">{{newsDetail.title}}</text>
-      <text class="premium-hero-sub">{{newsDetail.date}} · 阅读 {{newsDetail.views}}</text>
+      <text class="premium-badge">{{newsDetail.source || ''}}</text>
+      <text class="premium-hero-title">{{newsDetail.title || ''}}</text>
+      <text class="premium-hero-sub">{{newsDetail.date || ''}} · 阅读 {{newsDetail.views || 0}}</text>
     </view>
   </view>
 
-  <view class="section glass-card">
+  <view class="card fadeInUp" style="animation-delay:0.1s">
     <view class="rich-content">
-      <rich-text nodes="{{newsDetail.content}}"></rich-text>
+      <rich-text nodes="{{newsDetail.content || ''}}"></rich-text>
     </view>
   </view>
 
-  <view class="section glass-card" wx:if="{{relatedNews.length}}">
+  <view class="card fadeInUp" style="animation-delay:0.15s" wx:if="{{relatedNews && relatedNews.length}}">
     <text class="section-title">相关推荐</text>
     <block wx:for="{{relatedNews}}" wx:key="id">
       <view class="related-item" bindtap="navigateToRelated" data-id="{{item.id}}">
-        <text>{{item.title}}</text>
-        <text class="arrow">›</text>
+        <text>{{item.title || ''}}</text>
+        <text class="icon-right arrow"></text>
       </view>
     </block>
   </view>
 
-  <view class="section glass-card" wx:if="{{relatedLinks.length}}">
+  <view class="card fadeInUp" style="animation-delay:0.2s" wx:if="{{relatedLinks && relatedLinks.length}}">
     <text class="section-title">关联服务</text>
     <block wx:for="{{relatedLinks}}" wx:key="title">
-      <view class="link-card" data-path="{{item.path}}" bindtap="navigateToLink">
-        <text class="link-type">{{item.type}}</text>
-        <text class="link-title">{{item.title}}</text>
-        <text class="link-desc">{{item.desc}}</text>
+      <view class="link-card" data-path="{{item.path || ''}}" bindtap="navigateToLink">
+        <text class="link-type">{{item.type || ''}}</text>
+        <text class="link-title">{{item.title || ''}}</text>
+        <text class="link-desc">{{item.desc || ''}}</text>
       </view>
     </block>
   </view>
+  <view class="page-safe"></view>
 </view>

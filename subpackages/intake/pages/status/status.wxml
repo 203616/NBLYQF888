@@ -1,10 +1,10 @@
 <view class="page-shell status-page" wx:if="{{module}}">
-  <view class="view-only-banner glass-card" wx:if="{{viewOnly}}">
+  <view class="view-only-banner glass-card fadeInUp" wx:if="{{viewOnly}}">
     <text class="banner-icon">👁️</text>
     <text>本模块仅支持查看进度，审核、放款等操作由机构专员处理</text>
   </view>
 
-  <view class="status-hero premium-hero">
+  <view class="status-hero premium-hero fadeInUp" style="animation-delay:0.05s">
     <safe-image className="premium-hero-bg status-cover" src="{{module.icon || ''}}" mode="aspectFill" />
     <view class="premium-hero-body">
       <text class="premium-badge">{{sectionLabel}}</text>
@@ -64,7 +64,8 @@
   </view>
 
   <view class="action-row">
-    <button class="action-btn outline" bindtap="contactService">联系专员</button>
-    <button class="action-btn primary" bindtap="goIntakeHome">返回进件首页</button>
+    <button class="btn-outline" bindtap="contactService">联系专员</button>
+    <button class="btn-gold" bindtap="goIntakeHome">返回进件首页</button>
   </view>
+  <view class="page-safe"></view>
 </view>

@@ -1,5 +1,5 @@
-<view class="report-page page-shell">
-  <view class="report-hero premium-hero">
+<view class="page-shell report-page">
+  <view class="premium-hero fadeInUp" style="background:linear-gradient(135deg, #5C1A1A, #8B2635)">
     <view class="premium-hero-body">
       <text class="premium-badge">风险举报</text>
       <text class="premium-hero-title">举报曝光</text>
@@ -7,38 +7,38 @@
     </view>
   </view>
 
-  <view class="tips glass-card">
+  <view class="card fadeInUp" style="animation-delay:0.1s">
     <text class="tips-title">举报须知</text>
-    <text>· 请提供真实有效的举报信息</text>
-    <text>· 可上传截图、合同等证据材料</text>
-    <text>· 平台不收取任何举报费用</text>
+    <text class="tip-line">· 请提供真实有效的举报信息</text>
+    <text class="tip-line">· 可上传截图、合同等证据材料</text>
+    <text class="tip-line">· 平台不收取任何举报费用</text>
   </view>
 
-  <form class="form-card glass-card" bindsubmit="submitReport">
+  <form class="card fadeInUp" style="animation-delay:0.15s" bindsubmit="submitReport">
     <view class="field">
       <text class="label">举报类型 *</text>
-      <picker bindchange="changeReportType" value="{{reportType}}" range="{{reportTypes}}">
+      <picker bindchange="changeReportType" value="{{reportType}}" range="{{reportTypes || []}}">
         <view class="picker">{{reportType !== '' ? reportTypes[reportType] : '请选择举报类型'}} ›</view>
       </picker>
     </view>
     <view class="field">
       <text class="label">举报标题 *</text>
-      <input name="title" placeholder="简要描述举报内容" value="{{formData.title}}" bindinput="onTitleInput" />
+      <input class="field-input" name="title" placeholder="简要描述举报内容" value="{{formData.title || ''}}" bindinput="onTitleInput" />
     </view>
     <view class="field column">
       <text class="label">详细描述 *</text>
-      <textarea name="content" placeholder="请详细描述事件经过(时间、地点、涉及人员等)" value="{{formData.content}}" bindinput="onContentInput" />
+      <textarea class="field-textarea" name="content" placeholder="请详细描述事件经过(时间、地点、涉及人员等)" value="{{formData.content || ''}}" bindinput="onContentInput" />
     </view>
     <view class="field column">
       <text class="label">上传证据</text>
       <view class="upload-area">
-        <block wx:for="{{evidence}}" wx:key="index">
+        <block wx:for="{{evidence || []}}" wx:key="index">
           <view class="upload-item">
-            <image src="{{item}}" class="preview" mode="aspectFill" lazy-load="{{true}}" />
+            <safe-image src="{{item || ''}}" className="preview" mode="aspectFill" />
             <text class="remove" data-index="{{index}}" bindtap="removeImage">×</text>
           </view>
         </block>
-        <view class="upload-btn" bindtap="chooseImage" wx:if="{{evidence.length < 6}}">
+        <view class="upload-btn" bindtap="chooseImage" wx:if="{{canUploadMore}}">
           <text class="add-icon">+</text>
           <text>添加图片</text>
         </view>
@@ -46,8 +46,9 @@
     </view>
     <view class="field">
       <text class="label">联系方式</text>
-      <input name="contact" placeholder="手机/微信(选填)" value="{{formData.contact}}" bindinput="onContactInput" />
+      <input class="field-input" name="contact" placeholder="手机/微信(选填)" value="{{formData.contact || ''}}" bindinput="onContactInput" />
     </view>
-    <button form-type="submit" class="submit-btn btn-gold" loading="{{submitting}}">提交举报</button>
+    <button form-type="submit" class="submit-btn btn-gold" loading="{{submitting || false}}">提交举报</button>
   </form>
+  <view class="page-safe"></view>
 </view>

@@ -4,6 +4,17 @@
   padding-bottom: 160rpx;
 }
 
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fadeInUp {
+  animation: fadeInUp 0.5s ease both;
+}
+
+/* ===== Rate Tag ===== */
 .rate-tag {
   background: var(--color-primary-bg);
   color: var(--color-primary);
@@ -14,6 +25,7 @@
   margin-bottom: 16rpx;
 }
 
+/* ===== Subtitle ===== */
 .subtitle {
   font-size: 30rpx;
   font-weight: 700;
@@ -21,10 +33,12 @@
   display: block;
   margin: 24rpx 0 16rpx;
   padding-left: 16rpx;
-  border-left: 6rpx solid #D4A84B;
+  border-left: 6rpx solid var(--color-gold);
 }
 
-.feature-item, .material-item {
+/* ===== Feature/Material Items ===== */
+.feature-item,
+.material-item {
   font-size: 28rpx;
   color: var(--color-text-secondary);
   margin-bottom: 12rpx;
@@ -39,10 +53,11 @@
   margin-right: 12rpx;
 }
 
+/* ===== Calculator Card ===== */
 .calculator-card {
   background: var(--gradient-hero);
   border-radius: var(--radius-lg);
-  margin: 0 24rpx 24rpx;
+  margin: 0 var(--space-md) var(--space-md);
   padding: 32rpx 28rpx;
   color: #fff;
   box-shadow: var(--shadow-hero);
@@ -77,16 +92,17 @@
   align-items: center;
   margin-top: 16rpx;
   padding-top: 16rpx;
-  border-top: 1rpx solid rgba(255,255,255,0.2);
+  border-top: 1rpx solid rgba(255, 255, 255, 0.2);
   font-size: 30rpx;
 }
 
 .amount {
   font-size: 44rpx;
   font-weight: 700;
-  color: #D4A84B;
+  color: var(--color-gold);
 }
 
+/* ===== Related Tools ===== */
 .related-tools {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

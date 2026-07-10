@@ -138,5 +138,19 @@ Page({
   goIntake() {
     const { goIntake } = require('../../../../utils/intakeNav')
     goIntake({ productType: 'autoFinance', productName: '车辆估值进件' })
+  },
+
+  onShareAppMessage() {
+    return {
+      title: '亮叶车辆估值',
+      path: '/subpackages/tools/pages/valuation/valuation',
+      desc: '上传行驶证、登记证书，快速获取车辆市场估值参考。'
+    }
+  },
+
+  onShareTimeline() {
+    return {
+      title: '亮叶车辆估值'
+    }
   }
 })

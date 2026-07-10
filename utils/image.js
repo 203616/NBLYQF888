@@ -60,12 +60,17 @@ function getImageUrl(localPath) {
   if (localPath == null || localPath === '') return ''
   if (typeof localPath !== 'string') return ''
   if (localPath.startsWith('http://') || localPath.startsWith('https://')) return localPath
-  const { cdnBaseUrl, useCdnImages } = getConfig()
+  const { cdnBaseUrl, useCdnImages, localServerBaseUrl, env } = getConfig()
   const resolved = resolveLocalImagePath(localPath)
   const normalized = preferWebp(resolved.startsWith('/') ? resolved : `/${resolved}`)
   if (useCdnImages && cdnBaseUrl) {
     const base = cdnBaseUrl.replace(/\/$/, '')
     return `${base}${normalized}`
+  }
+  // 开发/本地模式：使用本地服务器提供图片和SVG占位图
+  if (env === 'development' || env === 'local') {
+    const base = (localServerBaseUrl || '').replace(/\/$/, '')
+    if (base) return `${base}${normalized}`
   }
   return normalized
 }

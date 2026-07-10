@@ -1,5 +1,5 @@
 <view class="page-shell intake-list-page">
-  <view class="premium-hero list-hero">
+  <view class="premium-hero list-hero fadeInUp">
     <safe-image className="premium-hero-bg" src="/subpackages/intake/images/intake/basic.webp" mode="aspectFill" />
     <view class="premium-hero-body">
       <text class="premium-badge">材料管理</text>
@@ -9,7 +9,7 @@
   </view>
 
   <view class="stat-row">
-    <view class="stat-item glass-card" wx:for="{{stats}}" wx:key="label">
+    <view class="stat-item glass-card fadeInUp" wx:for="{{stats}}" wx:key="label" style="animation-delay:{{index * 0.08}}s">
       <text class="stat-num">{{item.value}}</text>
       <text class="stat-label">{{item.label}}</text>
     </view>
@@ -28,7 +28,7 @@
         <text class="card-title">{{item.productName}}</text>
         <text class="status-tag status-{{item.status}}">{{item.statusText}}</text>
       </view>
-      <text class="card-no">进件编号 {{item.applicationNo}}</text>
+      <text class="card-no sensitive-data {{sensitiveDisplay ? 'active' : ''}}">进件编号 {{item.applicationNo}}</text>
       <view class="meta-row">
         <text>类型：{{item.productType === 'newCar' ? '新车' : item.productType === 'business' ? '经营贷' : item.productType === 'personal' ? '个人贷' : item.productType === 'warranty' ? '延保' : item.productType === 'mortgage' ? '车抵' : '综合'}}</text>
         <text wx:if="{{item.isLocal}}">本地</text>
@@ -46,7 +46,17 @@
     <text class="empty-desc">点击下方按钮创建第一份进件材料</text>
   </view>
 
-  <view class="action-row">
-    <button class="action-btn primary" bindtap="createIntake">新建进件</button>
+    <view class="action-row">
+    <button class="btn-gold" bindtap="createIntake">新建进件</button>
   </view>
+
+  <!-- 敏感信息开关 -->
+  <view class="sensitive-toggle card" bindtap="toggleSensitiveDisplay">
+    <text class="toggle-label">敏感信息显示</text>
+    <view class="toggle-switch {{sensitiveDisplay ? 'on' : ''}}">
+      <view class="toggle-knob"></view>
+    </view>
+  </view>
+
+  <view class="page-safe"></view>
 </view>

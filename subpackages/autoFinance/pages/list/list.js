@@ -1,5 +1,17 @@
 const catalog = require('../../../../data/auto-finance-catalog')
 
+const BADGE_MAP = {
+  newCar: { text: '热门', class: 'badge-hot' },
+  usedCar: { text: '实惠', class: 'badge-value' },
+  mortgage: { text: '速批', class: 'badge-fast' }
+}
+
+const ICON_BG = {
+  newCar: '#E3F2FD',
+  usedCar: '#FFF3E0',
+  mortgage: '#E8F5E9'
+}
+
 Page({
   data: {
     stats: [
@@ -12,9 +24,9 @@ Page({
     filterType: 'all',
     filterTypes: [
       { id: 'all', name: '全部' },
-      { id: 'newCar', name: '新车按揭' },
-      { id: 'usedCar', name: '二手车' },
-      { id: 'mortgage', name: '车抵咨询' }
+      { id: 'newCar', name: '🚗 新车按揭' },
+      { id: 'usedCar', name: '🔄 二手车' },
+      { id: 'mortgage', name: '🔑 车抵咨询' }
     ],
     filteredProducts: [],
     advantages: [
@@ -60,7 +72,12 @@ Page({
     const filtered = filterType === 'all'
       ? products
       : products.filter(p => p.intakeType === intakeMap[filterType])
-    this.setData({ filteredProducts: filtered })
+    const enriched = filtered.map(p => ({
+      ...p,
+      _badge: BADGE_MAP[p.intakeType] || null,
+      _iconBg: ICON_BG[p.intakeType] || '#E6F2EC'
+    }))
+    this.setData({ filteredProducts: enriched })
   },
 
   navigateToPage(e) {
@@ -77,5 +94,19 @@ Page({
       productName: item.title,
       productId: item.id
     })
+  },
+
+  onShareAppMessage() {
+    return {
+      title: '亮叶汽车金融',
+      path: '/subpackages/autoFinance/pages/list/list',
+      desc: '新车按揭、二手车贷、车辆抵押咨询等汽车金融产品信息。'
+    }
+  },
+
+  onShareTimeline() {
+    return {
+      title: '亮叶汽车金融'
+    }
   }
 })

@@ -1,31 +1,55 @@
 <view class="welcome-page">
-  
-  <view class="welcome-mask" style="position: absolute; left: -10rpx; top: 87rpx"></view>
+  <view class="welcome-mask"></view>
 
-  <view class="welcome-content" style="height: 1241rpx; display: flex; box-sizing: border-box; left: 349rpx; top: 316rpx; position: relative">
+  <!-- 装饰性浮动元素 -->
+  <view class="particle particle-1"></view>
+  <view class="particle particle-2"></view>
+  <view class="particle particle-3"></view>
+  <view class="particle particle-4"></view>
+  <view class="particle particle-5"></view>
+  <view class="deco-gem deco-gem-1"></view>
+  <view class="deco-gem deco-gem-2"></view>
+
+  <view class="welcome-content fadeInUp">
+    <!-- 顶部徽章 -->
     <view class="welcome-top">
-      <view class="premium-badge" style="position: relative; left: -333rpx; top: -49rpx">金融信息服务平台</view>
+      <view class="premium-badge">金融信息服务平台</view>
     </view>
 
-    <view class="welcome-middle" style="position: relative; left: -356rpx; top: -200rpx">
+    <!-- 中间品牌区 -->
+    <view class="welcome-middle">
       <view class="logo-wrap">
-        <image src="/images/logo.webp" class="logo" mode="aspectFit" lazy-load="{{true}}" />
-        <view class="logo-ring"></view>
+        <image src="/images/logo.webp" class="logo" mode="aspectFit" />
+        <view class="logo-ring ring-outer"></view>
+        <view class="logo-ring ring-inner"></view>
+        <view class="logo-glow-spot"></view>
       </view>
-
       <text class="brand-title">亮叶企服</text>
       <view class="divider-gold"></view>
-      <text class="slogan">立足甬江畔 · 专注企业与个人资金方案适配</text>
-
-      
+      <view class="slogan-wrap">
+        <text class="slogan">立足甬江畔 · 专注企业与个人资金方案适配</text>
+      </view>
+      <view class="values-row">
+        <text class="value-tag">专业</text>
+        <text class="value-tag-dot">·</text>
+        <text class="value-tag">高效</text>
+        <text class="value-tag-dot">·</text>
+        <text class="value-tag">诚信</text>
+      </view>
     </view>
 
-    <view class="welcome-bottom" style="position: relative; left: -27rpx; top: -200rpx">
-      <view class="countdown-box" style="position: relative; left: -329rpx; top: -402rpx">
-        <text class="countdown-text">{{countdown}} 秒后进入</text>
+    <!-- 底部操作区 -->
+    <view class="welcome-bottom fadeInUp" style="animation-delay:0.2s">
+      <view class="countdown-box">
+        <view class="countdown-ring-wrap">
+          <view class="countdown-ring"></view>
+          <text class="countdown-text">{{countdown}}s</text>
+        </view>
+        <text class="countdown-label">自动进入</text>
         <button class="skip-btn" loading="{{entering}}" bindtap="handleSkip">立即进入</button>
       </view>
-      <text class="compliance-mini" style="position: relative; left: -329rpx; top: -291rpx">居间撮合服务 · 不从事放贷业务</text>
+      <text class="compliance-mini">居间撮合服务 · 不从事放贷业务</text>
     </view>
   </view>
+  <view class="page-safe"></view>
 </view>

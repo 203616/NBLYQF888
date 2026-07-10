@@ -1,5 +1,5 @@
-<view class="channel-page page-shell">
-  <view class="channel-hero premium-hero">
+<view class="page-shell channel-page">
+  <view class="premium-hero fadeInUp">
     <safe-image className="premium-hero-bg" src="/images/banner3.webp" mode="aspectFill" />
     <view class="premium-hero-body">
       <text class="premium-badge">渠道协作</text>
@@ -9,46 +9,46 @@
     </view>
   </view>
 
-  <view class="location-bar glass-card" bindtap="handleChooseCity">
-        <text class="iconfont icon-location loc-icon"></text>
+  <view class="location-bar fadeInUp" style="animation-delay:0.1s" bindtap="handleChooseCity">
+    <text class="iconfont icon-location"></text>
     <text>{{location.city || '定位中'}} · 附近渠道</text>
-    <text class="loc-arrow">›</text>
+    <text class="icon-right loc-arrow"></text>
   </view>
 
-  <view class="stat-row">
-    <view class="stat-item glass-card" wx:for="{{stats}}" wx:key="label">
-      <text class="stat-num">{{item.value}}</text>
-      <text class="stat-label">{{item.label}}</text>
+  <view class="stat-row fadeInUp" style="animation-delay:0.15s">
+    <view class="stat-item card" wx:for="{{stats || []}}" wx:key="label">
+      <text class="stat-num">{{item.value || ''}}</text>
+      <text class="stat-label">{{item.label || ''}}</text>
     </view>
   </view>
 
-  <view class="filter-tabs">
+  <view class="filter-tabs fadeInUp" style="animation-delay:0.2s">
     <text class="filter-tab {{activeTag === 'all' ? 'active' : ''}}" data-tag="all" bindtap="switchTag">全部</text>
     <text class="filter-tab {{activeTag === '汽车金融' ? 'active' : ''}}" data-tag="汽车金融" bindtap="switchTag">汽车金融</text>
     <text class="filter-tab {{activeTag === '企业贷' ? 'active' : ''}}" data-tag="企业贷" bindtap="switchTag">企业贷</text>
     <text class="filter-tab {{activeTag === '官方' ? 'active' : ''}}" data-tag="官方" bindtap="switchTag">官方</text>
   </view>
 
-  <block wx:for="{{filteredPartners}}" wx:key="id">
-    <view class="partner-card glass-card">
+  <block wx:for="{{filteredPartners || []}}" wx:key="id">
+    <view class="partner-card card fadeInUp" style="animation-delay:{{0.2 + index * 0.05}}s">
       <view class="partner-top">
         <safe-image className="avatar" src="{{item.avatar || ''}}" mode="aspectFill" />
         <view class="partner-body">
           <view class="head">
-            <text class="name">{{item.name}}</text>
+            <text class="name">{{item.name || ''}}</text>
             <text class="verified" wx:if="{{item.verified}}">已认证</text>
           </view>
           <view class="score-row">
-            <text class="score">⭐ {{item.score}}</text>
-            <text class="cases">案例 {{item.cases}}</text>
+            <text class="score">⭐ {{item.score || ''}}</text>
+            <text class="cases">案例 {{item.cases || 0}}</text>
           </view>
-          <text class="meta">{{item.city}} · {{item.contact}}</text>
+          <text class="meta">{{item.city || ''}} · {{item.contact || ''}}</text>
         </view>
       </view>
-      <text class="desc">{{item.desc}}</text>
+      <text class="desc">{{item.desc || ''}}</text>
       <view class="tags">
-        <block wx:for="{{item.tags}}" wx:key="*this" wx:for-item="tag">
-          <text class="tag">{{tag}}</text>
+        <block wx:for="{{item.tags || []}}" wx:key="*this" wx:for-item="tag">
+          <text class="tag">{{tag || ''}}</text>
         </block>
       </view>
       <view class="partner-actions">
@@ -58,9 +58,10 @@
     </view>
   </block>
 
-  <view class="empty glass-card" wx:if="{{!loading && filteredPartners.length === 0}}">
-    <text>当前城市暂无匹配渠道，可切换城市或联系官方客服</text>
+  <view class="empty-state" wx:if="{{!loading && filteredPartners && filteredPartners.length === 0}}">
+    当前城市暂无匹配渠道，可切换城市或联系官方客服
   </view>
 
   <button class="service-btn btn-gold" bindtap="navigateToService">联系官方智能客服</button>
+  <view class="page-safe"></view>
 </view>

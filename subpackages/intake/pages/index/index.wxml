@@ -1,72 +1,135 @@
 <view class="page-shell intake-index">
-  <view class="premium-hero">
+  <view class="premium-hero fadeInUp" style="animation-delay:0s">
     <safe-image className="premium-hero-bg" src="{{systemMeta.heroImage || ''}}" mode="aspectFill" />
     <view class="premium-hero-body">
-      <text class="premium-badge">{{systemMeta.badge}}</text>
-      <text class="premium-hero-title">{{systemMeta.title}}</text>
-      <text class="premium-hero-sub">{{systemMeta.subtitle}}</text>
-      <text class="app-no">进件编号：{{meta.applicationNo}}</text>
+      <text class="premium-badge">{{systemMeta.badge || '📋 进件系统'}}</text>
+      <text class="premium-hero-title">{{systemMeta.title || '进件管理中心'}}</text>
+      <text class="premium-hero-sub">{{systemMeta.subtitle || '在线提交贷款申请材料，全程进度追踪可视化'}}</text>
+      <text class="app-no">进件编号：{{meta.applicationNo || ''}}</text>
     </view>
   </view>
 
-  <view class="stat-row">
-    <view class="stat-item"><text class="stat-num">{{progress}}%</text><text class="stat-label">完成进度</text></view>
-    <view class="stat-item"><text class="stat-num">{{fillModules.length}}</text><text class="stat-label">填报模块</text></view>
-    <view class="stat-item"><text class="stat-num">{{viewModules.length}}</text><text class="stat-label">查看模块</text></view>
+  <view class="stat-row fadeInUp" style="animation-delay:0.1s">
+    <view class="stat-item card"><text class="stat-num">{{progress || 0}}%</text><text class="stat-label">完成进度</text></view>
+    <view class="stat-item card"><text class="stat-num">{{fillModules.length || 0}}</text><text class="stat-label">待填模块</text></view>
+    <view class="stat-item card"><text class="stat-num">{{doneCount || 0}}</text><text class="stat-label">已完成</text></view>
   </view>
 
-  <view class="progress-card glass-card">
+  <view class="progress-card glass-card fadeInUp" style="animation-delay:0.15s">
     <view class="progress-bar">
-      <view class="progress-fill" style="width: {{progress}}%"></view>
+      <view class="progress-fill" style="width: {{progress || 0}}%"></view>
     </view>
     <text class="progress-tip">{{meta.lastSyncedAt ? '已同步云端 · 支持消息通知' : '联网后将自动同步至后台'}}</text>
     <text class="demand-link-tip" wx:if="{{meta.demandId}}">关联易融圈需求：{{meta.demandTitle || meta.demandId}}</text>
   </view>
 
-  <view class="intro-card">
-    <text class="intro-title">填报指引</text>
-    <text class="intro-line">① 完成征信查询授权（01模块）</text>
-    <text class="intro-line">② 完善基本信息、个人信息与必传资料</text>
-    <text class="intro-line">③ 提交审核并跟踪机构独立审批进度</text>
-  </view>
-
-  <view class="module-section-title">材料填报</view>
-  <view class="module-list">
-    <block wx:for="{{fillModules}}" wx:key="id">
-      <view class="module-card" data-path="{{item.path}}" bindtap="navigateModule">
-        <image class="module-icon" src="{{item.icon}}" mode="aspectFit" lazy-load="{{true}}" />
-        <view class="module-body">
-          <view class="module-head">
-            <text class="module-title">{{item.title}}</text>
-            <text class="status-tag status-{{item.status}}">{{item.status === 'done' ? '已完成' : item.status === 'processing' ? '进行中' : '待完善'}}</text>
+  <!-- ===== 快速进件（一体化入口） ===== -->
+  <view class="section-block fadeInUp" style="animation-delay:0.2s">
+    <view class="section-header">
+      <text class="title">🚀 快速进件</text>
+      <text class="section-sub">选择产品后自动引导您完成全流程</text>
+    </view>
+    <view class="feature-grid">
+      <block wx:for="{{intakeTypes || []}}" wx:key="id">
+        <view class="feature-item glass-card" data-id="{{item.id}}" bindtap="goIntakeType">
+          <view class="feat-icon-circle">
+            <text class="feat-icon">{{item.icon || '📋'}}</text>
           </view>
-          <text class="module-desc">{{item.desc}}</text>
+          <text class="feat-title">{{item.title || ''}}</text>
+          <text class="feat-desc">{{item.desc || ''}}</text>
         </view>
-        <text class="arrow">›</text>
-      </view>
-    </block>
+      </block>
+    </view>
   </view>
 
-  <view class="module-section-title">进度查看（仅查看）</view>
-  <view class="module-list">
+  <!-- ===== 进件流程跟踪 ===== -->
+  <view class="section-block fadeInUp" style="animation-delay:0.25s" wx:if="{{fillModules.length > 0}}">
+    <view class="section-header">
+      <text class="title">📋 进件进度</text>
+    </view>
+
+    <!-- 继续进件按钮 -->
+    <view class="resume-card glass-card" wx:if="{{nextModule}}" bindtap="resumeIntake">
+      <view class="resume-icon-wrap">
+        <text class="resume-icon">{{nextModule.iconEmoji || '📝'}}</text>
+      </view>
+      <view class="resume-body">
+        <text class="resume-title">继续进件</text>
+        <text class="resume-desc">下一步：{{nextModule.title}} · {{nextModule.desc}}</text>
+      </view>
+      <text class="resume-arrow">›</text>
+    </view>
+
+    <!-- 模块列表 -->
+    <view class="module-list">
+      <block wx:for="{{fillModules}}" wx:key="id">
+        <view class="module-card glass-card" data-path="{{item.path}}" bindtap="navigateModule">
+          <view class="module-icon-circle status-{{item.status}}">
+            <text class="module-icon-emoji">{{item.iconEmoji || '📄'}}</text>
+          </view>
+          <view class="module-body">
+            <view class="module-head">
+              <text class="module-title">{{item.title || ''}}</text>
+              <text class="status-tag status-{{item.status}}">{{item.statusText}}</text>
+            </view>
+            <text class="module-desc">{{item.desc || ''}}</text>
+          </view>
+          <text class="arrow">›</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- ===== 进度查看模块 ===== -->
+  <view class="module-section-title fadeInUp" style="animation-delay:0.3s">👁️ 进度查看</view>
+  <view class="module-list fadeInUp" style="animation-delay:0.3s">
     <block wx:for="{{viewModules}}" wx:key="id">
-      <view class="module-card view-card" data-path="{{item.path}}" bindtap="navigateModule">
-        <image class="module-icon" src="{{item.icon}}" mode="aspectFit" lazy-load="{{true}}" />
+      <view class="module-card view-card glass-card" data-path="{{item.path}}" bindtap="navigateModule">
+        <view class="module-icon-circle">
+          <text class="module-icon-emoji">{{item.iconEmoji || '📊'}}</text>
+        </view>
         <view class="module-body">
           <view class="module-head">
-            <text class="module-title">{{item.title}}</text>
-            <text class="status-tag status-{{item.status}}">{{item.statusText}}</text>
+            <text class="module-title">{{item.title || ''}}</text>
+            <text class="status-tag status-{{item.status || 'pending'}}">{{item.statusText || ''}}</text>
           </view>
-          <text class="module-desc">{{item.desc}}</text>
+          <text class="module-desc">{{item.desc || ''}}</text>
         </view>
         <text class="arrow">›</text>
       </view>
     </block>
   </view>
 
-  <view class="action-row">
-    <button class="export-btn btn-outline" bindtap="handleExportPdf">导出进件 PDF</button>
-    <button class="submit-btn btn-gold" bindtap="handleSubmit">提交审核 · 订阅进度通知</button>
+  <view class="quick-actions glass-card fadeInUp" style="animation-delay:0.4s">
+    <view class="quick-actions-title">🔧 快速操作</view>
+    <view class="quick-actions-row">
+      <view class="quick-action-item" bindtap="handleExportPdf">
+        <view class="qa-icon-circle">
+          <text class="qa-icon">📄</text>
+        </view>
+        <text class="qa-label">导出PDF</text>
+      </view>
+      <view class="quick-action-item" bindtap="handleSubmit">
+        <view class="qa-icon-circle gold">
+          <text class="qa-icon">🚀</text>
+        </view>
+        <text class="qa-label">提交审核</text>
+      </view>
+      <view class="quick-action-item" bindtap="goStatus">
+        <view class="qa-icon-circle">
+          <text class="qa-icon">📊</text>
+        </view>
+        <text class="qa-label">审核进度</text>
+      </view>
+      <view class="quick-action-item" bindtap="contactService">
+        <view class="qa-icon-circle">
+          <text class="qa-icon">💬</text>
+        </view>
+        <text class="qa-label">联系顾问</text>
+      </view>
+    </view>
   </view>
-  <view class="compliance-tip">本平台仅提供材料管理与信息撮合，不承诺审批结果</view>
+
+  <view class="compliance-tip fadeInUp" style="animation-delay:0.45s">本平台仅提供材料管理与信息撮合，不承诺审批结果</view>
+  <view class="page-safe"></view>
 </view>

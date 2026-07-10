@@ -1,6 +1,46 @@
-.tool-page { padding-bottom: 40rpx; }
-.tool-hero { margin-bottom: 20rpx; min-height: 160rpx; background: var(--gradient-hero); border-radius: var(--radius-lg); }
-.calc-wrap { padding: 20rpx; margin-bottom: 20rpx; }
-.tips { padding: 20rpx 24rpx; margin-bottom: 20rpx; font-size: 24rpx; color: var(--color-text-muted); line-height: 1.8; }
-.tips-title { display: block; font-size: 28rpx; font-weight: 600; color: var(--color-primary); margin-bottom: 10rpx; }
-.compliance { padding: 20rpx 24rpx; font-size: 22rpx; color: var(--color-text-muted); line-height: 1.6; text-align: center; }
+.tool-page {
+  padding-bottom: 40rpx;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fadeInUp {
+  animation: fadeInUp 0.5s ease both;
+}
+
+/* ===== Tips ===== */
+.tips-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 10rpx;
+}
+
+.tip-line {
+  display: block;
+  font-size: 24rpx;
+  color: var(--color-text-muted);
+  line-height: 1.8;
+}
+
+/* ===== Compliance ===== */
+.compliance {
+  padding: 20rpx var(--space-md);
+  font-size: 22rpx;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  text-align: center;
+  background: var(--color-bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  margin-bottom: 20rpx;
+}
+
+.tool-page .card {
+  margin-bottom: 20rpx;
+}

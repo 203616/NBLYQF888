@@ -1,53 +1,95 @@
 <view class="login-page">
-  <!-- 顶部品牌区 -->
-  <view class="login-header">
-    <view class="brand-logo">亮</view>
-    <text class="brand-name">亮叶企服</text>
-    <text class="brand-tag">汽车金融与企服一体化平台</text>
-  </view>
+  <!-- 背景遮罩 - 光晕效果（与欢迎页一致） -->
+  <view class="login-mask"></view>
 
-  <!-- 登录卡片 -->
-  <view class="login-card">
-    <view class="auth-type">
-      <view class="auth-tab {{authType=='wechat' ? 'active' : ''}}" data-type="wechat" bindtap="switchAuthType">微信登录</view>
-      <view class="auth-tab {{authType=='phone' ? 'active' : ''}}" data-type="phone" bindtap="switchAuthType">手机登录</view>
+  <!-- 装饰性浮动粒子（与欢迎页一致） -->
+  <view class="particle particle-1"></view>
+  <view class="particle particle-2"></view>
+  <view class="particle particle-3"></view>
+  <view class="particle particle-4"></view>
+  <view class="particle particle-5"></view>
+  <view class="deco-gem deco-gem-1"></view>
+  <view class="deco-gem deco-gem-2"></view>
+
+  <view class="login-content fadeInUp">
+    <!-- 顶部徽章 -->
+    <view class="login-top">
+      <view class="premium-badge">{{authType === 'wechat' ? '一键安全登录' : '手机验证登录'}}</view>
     </view>
 
-    <block wx:if="{{authType === 'wechat'}}">
-      <button class="auth-btn wechat-btn" loading="{{loggingIn}}" disabled="{{loggingIn}}" bindtap="handleWechatAuth">
-        <text class="btn-icon">💬</text>
-        <text>微信一键登录</text>
-      </button>
-    </block>
-
-    <block wx:else>
-      <input class="field-input" type="number" maxlength="11" placeholder="请输入手机号" value="{{phone}}" bindinput="onPhoneInput" />
-      <view class="code-row">
-        <input class="field-input code" type="number" maxlength="6" placeholder="验证码" value="{{smsCode}}" bindinput="onCodeInput" />
-        <button class="code-btn" size="mini" disabled="{{codeSending}}" bindtap="sendSmsCode">{{codeText}}</button>
+    <!-- 中间品牌区（与欢迎页比例一致） -->
+    <view class="login-middle">
+      <view class="brand-logo-wrap">
+        <view class="brand-logo">亮</view>
+        <view class="logo-ring ring-outer"></view>
+        <view class="logo-ring ring-inner"></view>
+        <view class="logo-glow-spot"></view>
       </view>
-      <button class="auth-btn primary-btn" loading="{{loggingIn}}" disabled="{{loggingIn}}" bindtap="handlePhoneLogin">
-        <text class="btn-icon">📱</text>
-        <text>登录</text>
-      </button>
-    </block>
+      <text class="brand-title">亮叶企服</text>
+      <view class="divider-gold"></view>
+      <text class="brand-slogan">汽车金融与企服一体化平台</text>
+    </view>
 
-    <!-- 协议勾选 -->
-    <view class="agree-section">
-      <view class="agree-row" bindtap="togglePrivacy">
-        <text class="checkbox {{agreedPrivacy ? 'on' : ''}}">{{agreedPrivacy ? '✓' : ''}}</text>
-        <text>已阅读并同意 <text class="link" catchtap="viewPrivacy">《隐私政策》</text></text>
+    <!-- 底部登录卡片 -->
+    <view class="login-bottom">
+      <view class="auth-type">
+        <view class="auth-tab {{authType=='wechat' ? 'active' : ''}}" data-type="wechat" bindtap="switchAuthType" hover-class="tab-hover">微信登录</view>
+        <view class="auth-tab {{authType=='phone' ? 'active' : ''}}" data-type="phone" bindtap="switchAuthType" hover-class="tab-hover">手机登录</view>
       </view>
-      <view class="agree-row" bindtap="toggleService">
-        <text class="checkbox {{agreedService ? 'on' : ''}}">{{agreedService ? '✓' : ''}}</text>
-        <text>已阅读并同意 <text class="link" catchtap="viewService">《用户服务协议》</text></text>
+
+      <block wx:if="{{authType === 'wechat'}}">
+        <view class="wechat-info">
+          <view class="wechat-icon-wrap">
+            <text class="wechat-icon">💬</text>
+          </view>
+          <text class="wechat-desc">点击下方按钮，快速安全登录</text>
+        </view>
+        <button class="auth-btn wechat-btn" loading="{{loggingIn}}" disabled="{{loggingIn}}" bindtap="handleWechatAuth">
+          <text>微信一键登录</text>
+        </button>
+      </block>
+
+      <block wx:else>
+        <view class="field-group">
+          <input class="field-input" type="number" maxlength="11" placeholder="请输入手机号" value="{{phone}}" bindinput="onPhoneInput" />
+        </view>
+        <view class="code-row">
+          <view class="field-group code-field">
+            <input class="field-input code" type="number" maxlength="6" placeholder="输入验证码" value="{{smsCode}}" bindinput="onCodeInput" />
+          </view>
+          <button class="code-btn" disabled="{{codeSending}}" bindtap="sendSmsCode">{{codeText}}</button>
+        </view>
+        <button class="auth-btn primary-btn" loading="{{loggingIn}}" disabled="{{loggingIn}}" bindtap="handlePhoneLogin">
+          <text>登录</text>
+        </button>
+      </block>
+
+      <view class="agree-section">
+        <view class="agree-row" bindtap="togglePrivacy">
+          <view class="checkbox {{agreedPrivacy ? 'on' : ''}}">
+            <text wx:if="{{agreedPrivacy}}" class="checkmark">✓</text>
+          </view>
+          <text class="agree-text">已阅读并同意 <text class="link" catchtap="viewPrivacy">《隐私政策》</text></text>
+        </view>
+        <view class="agree-row" bindtap="toggleService">
+          <view class="checkbox {{agreedService ? 'on' : ''}}">
+            <text wx:if="{{agreedService}}" class="checkmark">✓</text>
+          </view>
+          <text class="agree-text">已阅读并同意 <text class="link" catchtap="viewService">《用户服务协议》</text></text>
+        </view>
+        <view class="agree-row" bindtap="toggleContract">
+          <view class="checkbox {{agreedContract ? 'on' : ''}}">
+            <text wx:if="{{agreedContract}}" class="checkmark">✓</text>
+          </view>
+          <text class="agree-text">已阅读并同意 <text class="link" catchtap="viewContract">《金融信息居间服务合同》</text></text>
+        </view>
+      </view>
+
+      <view class="login-footer-links">
+        <text class="guest-link" bindtap="guestEnter">暂不登录，先逛逛 →</text>
+        <text class="compliance-mini">本平台不从事放贷业务，不承诺任何机构审批结果</text>
       </view>
     </view>
   </view>
-
-  <!-- 底部 -->
-  <view class="login-footer">
-    <text class="guest-link" bindtap="guestEnter">暂不登录，先逛逛 →</text>
-    <text class="compliance-tip">本平台不从事放贷业务，不承诺任何机构审批结果</text>
-  </view>
+  <view class="page-safe"></view>
 </view>

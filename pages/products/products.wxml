@@ -1,47 +1,61 @@
 <view class="products-page page-shell">
+  <!-- 顶部英雄区 -->
   <view class="hero-card premium-hero">
     <safe-image className="premium-hero-bg" src="/images/banner2.webp" mode="aspectFill" />
     <view class="premium-hero-body">
-      <text class="premium-badge">产品中心</text>
+      <text class="premium-badge">📋 产品中心</text>
       <text class="premium-hero-title">产品与服务大全</text>
       <text class="premium-hero-sub">信息咨询与居间撮合 · 以持牌机构审核为准</text>
     </view>
   </view>
 
+  <!-- 分类头部 -->
   <view class="category-section glass-card">
     <view class="section-head-row">
-      <text class="section-head-title">{{activeCategoryName}}</text>
+      <text class="section-head-title">{{categoryIcons[activeCategory] || '📋'}} {{activeCategoryName}}</text>
       <text class="section-head-count">{{productList.length}} 款产品</text>
     </view>
   </view>
 
-  <view class="category-grid">
+  <!-- 分类 Pills -->
+  <view class="filter-tabs">
     <block wx:for="{{categories}}" wx:key="id">
       <view
-        class="category-grid-item {{activeCategory === item.id ? 'active' : ''}}"
+        class="filter-pill {{activeCategory === item.id ? 'active' : ''}}"
         data-id="{{item.id}}"
         bindtap="handleCategoryTap"
       >
-        <text class="grid-icon">{{item.icon}}</text>
-        <text class="grid-name">{{item.name}}</text>
+        <text class="pill-icon">{{item.icon}}</text>
+        <text class="pill-name">{{item.name}}</text>
       </view>
     </block>
   </view>
 
+  <!-- 产品网格 -->
   <view class="product-grid" wx:if="{{!loading && productList.length}}">
     <block wx:for="{{productList}}" wx:key="id">
-      <view class="grid-product glass-card {{tappingId === item.id ? 'tap-active' : ''}}" data-id="{{item.id}}" bindtap="handleProductTap">
+      <view class="grid-product glass-card fade-in-up {{tappingId === item.id ? 'tap-active' : ''}}" data-id="{{item.id}}" bindtap="handleProductTap" style="animation-delay: {{index * 0.06}}s">
         <view class="grid-cover-wrap" wx:if="{{item.cover}}">
           <safe-image className="cover-slot" src="{{item.cover || ''}}" mode="aspectFill" />
         </view>
-        <text class="grid-title">{{item.name}}</text>
-        <text class="grid-rate">{{item.rate}}</text>
+        <view class="grid-body">
+          <text class="grid-icon" wx:if="{{item.icon}}">{{item.icon}}</text>
+          <text class="grid-title">{{item.name}}</text>
+          <text class="grid-rate">{{item.rate}}</text>
+          <text class="grid-desc" wx:if="{{item.desc}}">{{item.desc}}</text>
+          <view class="grid-tags" wx:if="{{item.tags && item.tags.length}}">
+            <text class="tag" wx:for="{{item.tags}}" wx:key="*this" wx:for-item="tag">{{tag}}</text>
+          </view>
+        </view>
       </view>
     </block>
   </view>
 
+  <!-- 空状态 -->
   <view class="empty-state" wx:if="{{!loading && productList.length === 0}}">
+    <text class="empty-icon">📭</text>
     <text>当前「{{activeCategoryName}}」暂无产品</text>
     <button class="btn-outline empty-btn" bindtap="goIntake">进入进件系统</button>
   </view>
+  <view class="page-safe"></view>
 </view>

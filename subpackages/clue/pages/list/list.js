@@ -1,19 +1,28 @@
 const { getClueList } = require('../../api/clue')
 const { getAppLocation, chooseLocation, requestLocation } = require('../../../../utils/location')
 
+const STATUS_MAP = {
+  '跟进中': { color: '#22c55e', bg: '#E8F5E9', icon: '🔄' },
+  '材料待补': { color: '#f59e0b', bg: '#FFF8E1', icon: '📋' },
+  '待评估': { color: '#3b82f6', bg: '#E3F2FD', icon: '📊' },
+  '已完成': { color: '#6b7280', bg: '#F3F4F6', icon: '✅' },
+  '已关闭': { color: '#ef4444', bg: '#FEE2E2', icon: '🚫' },
+  '待联系': { color: '#8b5cf6', bg: '#F3E8FF', icon: '📞' }
+}
+
 Page({
   data: {
     activeType: 'all',
     types: [
       { id: 'all', name: '全部' },
-      { id: 'new', name: '新车' },
-      { id: 'used', name: '二手车' },
-      { id: 'mortgage', name: '车抵' },
-      { id: 'lease', name: '以租代购' },
-      { id: 'business', name: '企业贷' },
-      { id: 'personal', name: '个人贷' },
-      { id: 'mortgage_house', name: '房贷' },
-      { id: 'other', name: '其它贷款' }
+      { id: 'new', name: '🚗 新车' },
+      { id: 'used', name: '🔄 二手车' },
+      { id: 'mortgage', name: '🔑 车抵' },
+      { id: 'lease', name: '📋 以租代购' },
+      { id: 'business', name: '🏢 企业贷' },
+      { id: 'personal', name: '👤 个人贷' },
+      { id: 'mortgage_house', name: '🏠 房贷' },
+      { id: 'other', name: '💼 其它贷款' }
     ],
     entryCards: [
       { id: 'lease', title: '以租代购', icon: '📋', path: '/subpackages/clue/pages/list/list?type=lease' },
@@ -49,10 +58,21 @@ Page({
     })
   },
 
+  getStatusStyle(status) {
+    return STATUS_MAP[status] || { color: '#666', bg: '#F5F5F5', icon: '📌' }
+  },
+
+  enrichClues(clues) {
+    return clues.map(c => ({
+      ...c,
+      _statusStyle: this.getStatusStyle(c.status)
+    }))
+  },
+
   loadClues() {
     this.setData({ loading: true })
     getClueList({ type: this.data.activeType, city: this.data.location?.city }).then(clues => {
-      this.setData({ clues, loading: false })
+      this.setData({ clues: this.enrichClues(clues), loading: false })
       this.updateStats(clues)
     })
   },

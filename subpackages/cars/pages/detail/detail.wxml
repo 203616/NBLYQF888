@@ -1,24 +1,24 @@
-<view class="car-detail page-shell" wx:if="{{car}}">
-  <view class="cover-wrap">
+<view class="page-shell car-detail" wx:if="{{car}}">
+  <view class="cover-wrap fadeInUp">
     <safe-image src="{{car.cover || ''}}" className="hero-img" mode="aspectFill" />
     <view class="cover-overlay">
-      <text class="premium-hero-title">{{car.brand}} {{car.model}}</text>
-      <text class="price">{{car.price}}</text>
-      <text class="meta">{{car.year}}年 · {{car.mileage}} · {{car.city}}</text>
+      <text class="premium-hero-title">{{car.brand || ''}} {{car.model || ''}}</text>
+      <text class="price">{{car.price || ''}}</text>
+      <text class="meta">{{car.year || ''}}年 · {{car.mileage || ''}} · {{car.city || ''}}</text>
     </view>
   </view>
 
-  <view class="section glass-card">
-    <text class="dealer">车商：{{car.dealer}}</text>
-    <text class="desc">{{car.desc}}</text>
+  <view class="card fadeInUp" style="animation-delay:0.1s">
+    <text class="dealer">车商：{{car.dealer || ''}}</text>
+    <text class="desc">{{car.desc || ''}}</text>
     <view class="tags">
-      <block wx:for="{{car.tags}}" wx:key="*this">
-        <text class="tag">{{item}}</text>
+      <block wx:for="{{car.tags || []}}" wx:key="*this">
+        <text class="tag">{{item || ''}}</text>
       </block>
     </view>
   </view>
 
-  <view class="section glass-card">
+  <view class="card fadeInUp" style="animation-delay:0.15s">
     <text class="section-title">快捷工具</text>
     <view class="tool-row">
       <button class="btn-outline" size="mini" bindtap="navigateToCalculator">按揭计算器</button>
@@ -27,10 +27,11 @@
     </view>
   </view>
 
-  <view class="section glass-card">
+  <view class="card fadeInUp" style="animation-delay:0.2s">
     <text class="section-title">预约咨询</text>
-    <input class="contact-input" placeholder="请输入手机号/微信号" value="{{contact}}" bindinput="handleInput" />
-    <button class="submit-btn btn-gold" loading="{{submitting}}" bindtap="handleApply">提交咨询</button>
+    <input class="contact-input" placeholder="请输入手机号/微信号" value="{{contact || ''}}" bindinput="handleInput" />
+    <button class="submit-btn btn-gold" loading="{{submitting || false}}" bindtap="handleApply">提交咨询</button>
     <text class="compliance">亮叶企服仅提供信息咨询与撮合服务，不收取前置保证金。</text>
   </view>
+  <view class="page-safe"></view>
 </view>

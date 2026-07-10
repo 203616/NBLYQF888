@@ -13,24 +13,37 @@ const CATEGORY_NAMES = {
   workflow: '进件系统'
 }
 
+const CATEGORY_ICONS = {
+  all: '📋',
+  auto: '🚗',
+  business: '🏢',
+  personal: '👤',
+  property: '🏠',
+  lease: '📄',
+  private: '⚠️',
+  warranty: '🛡️',
+  workflow: '⚙️'
+}
+
 Page({
   data: {
     activeCategory: 'all',
     activeCategoryName: '全部产品',
     categories: [
-      { id: 'all', name: '全部', icon: '全' },
-      { id: 'auto', name: '汽车金融', icon: '车' },
-      { id: 'business', name: '企业贷款', icon: '企' },
-      { id: 'personal', name: '个人贷款', icon: '人' },
-      { id: 'property', name: '抵押咨询', icon: '押' },
-      { id: 'lease', name: '融资租赁', icon: '租' },
-      { id: 'private', name: '民间风险', icon: '险' },
-      { id: 'warranty', name: '汽车延保', icon: '保' },
-      { id: 'workflow', name: '进件系统', icon: '件' }
+      { id: 'all', name: '全部', icon: '📋' },
+      { id: 'auto', name: '汽车金融', icon: '🚗' },
+      { id: 'business', name: '企业贷款', icon: '🏢' },
+      { id: 'personal', name: '个人贷款', icon: '👤' },
+      { id: 'property', name: '抵押咨询', icon: '🏠' },
+      { id: 'lease', name: '融资租赁', icon: '📄' },
+      { id: 'private', name: '民间风险', icon: '⚠️' },
+      { id: 'warranty', name: '汽车延保', icon: '🛡️' },
+      { id: 'workflow', name: '进件系统', icon: '⚙️' }
     ],
     productList: [],
     loading: true,
-    tappingId: ''
+    tappingId: '',
+    categoryIcons: CATEGORY_ICONS
   },
 
   onLoad(options) {

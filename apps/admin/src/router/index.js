@@ -16,6 +16,8 @@ import RoleManage from '../views/RoleManage.vue'
 import AdminUsers from '../views/AdminUsers.vue'
 import SystemSettings from '../views/SystemSettings.vue'
 import ChatSessions from '../views/ChatSessions.vue'
+import CommissionRules from '../views/CommissionRules.vue'
+import OAWorkbench from '../views/OAWorkbench.vue'
 
 /** 扁平菜单（兼容旧引用） */
 export const menus = [
@@ -28,11 +30,16 @@ export const menus = [
   { path: '/operations/banners', title: '轮播图管理', icon: '🖼️', resource: 'banners', group: 'ops' },
   { path: '/products', title: '产品管理', icon: '📦', resource: 'products', group: 'ops' },
   { path: '/content/articles', title: '内容中心', icon: '📝', resource: 'articles', group: 'ops' },
+  { path: '/content/knowledge', title: '知识库管理', icon: '📖', resource: 'knowledge', group: 'ops' },
+  { path: '/content/tips', title: '避坑指南', icon: '💡', resource: 'tips', group: 'ops' },
+  { path: '/operations/cases', title: '成功案例', icon: '🏆', resource: 'cases', group: 'ops' },
   { path: '/exposure/list', title: '曝光案例', icon: '📢', resource: 'exposures', group: 'ops' },
   { path: '/exposure/reports', title: '举报审核', icon: '⚠️', resource: 'reports', group: 'ops' },
   { path: '/demands', title: '易融圈需求', icon: '🤝', resource: 'demands', group: 'business' },
   { path: '/clues', title: '汽车线索', icon: '🚗', resource: 'clues', group: 'business' },
   { path: '/intake', title: '进件管理', icon: '📋', resource: '', group: 'business' },
+  { path: '/operations/cars', title: '车辆列表', icon: '🚗', resource: 'cars', group: 'business' },
+  { path: '/operations/channels', title: '渠道合伙人', icon: '🤝', resource: 'channels', group: 'business' },
   { path: '/operations/warranty', title: '延保申请', icon: '🛡️', resource: 'warrantyApplications', group: 'business' },
   { path: '/operations/warranty-claims', title: '延保理赔', icon: '📋', resource: 'warrantyClaims', group: 'business' },
   { path: '/operations/valuations', title: '估值记录', icon: '📊', resource: 'vehicleValuations', group: 'business' },
@@ -43,6 +50,8 @@ export const menus = [
   { path: '/social/finance-moderation', title: '融圈审核规则', icon: '🛡️', resource: '', group: 'business' },
   { path: '/system/settings', title: '系统设置', icon: '⚙️', resource: '', group: 'system' },
   { path: '/system/integrations', title: '集成联调', icon: '🔗', resource: '', group: 'system' },
+  { path: '/system/commission-rules', title: '分润规则', icon: '💰', resource: '', group: 'system' },
+  { path: '/system/oa-workbench', title: 'OA工作台', icon: '📋', resource: '', group: 'system' },
   { path: '/system/deploy', title: '发布部署', icon: '🚀', resource: '', group: 'system' },
   { path: '/system/release-checklist', title: '正式版清单', icon: '✅', resource: '', group: 'system' },
   { path: '/system/audit-logs', title: '审计日志', icon: '📋', resource: '', group: 'system' },
@@ -99,6 +108,8 @@ const routes = [
       { path: 'system/roles', component: RoleManage, meta: { title: '角色权限' } },
       { path: 'system/admin-users', component: AdminUsers, meta: { title: '管理员管理' } },
       { path: 'system/settings', component: SystemSettings, meta: { title: '系统设置' } },
+      { path: 'system/commission-rules', component: CommissionRules, meta: { title: '分润规则' } },
+      { path: 'system/oa-workbench', component: OAWorkbench, meta: { title: 'OA工作台' } },
       { path: 'service/sessions', component: ChatSessions, meta: { title: '客服会话' } },
       { path: 'ai/analysis', component: ChatSessions, meta: { title: 'AI 分析' } },
       ...menus.filter(item => item.resource && item.resource !== 'chatSessions').map(item => ({

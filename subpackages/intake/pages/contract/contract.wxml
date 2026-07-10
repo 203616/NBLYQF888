@@ -1,10 +1,10 @@
 <view class="page-shell contract-page" wx:if="{{contract}}">
-  <view class="view-only-banner glass-card">
+  <view class="view-only-banner glass-card fadeInUp">
     <text class="banner-icon">📄</text>
     <text>本页面仅支持查看合同信息，正式签署需在机构审批通过后完成</text>
   </view>
 
-  <view class="contract-hero premium-hero">
+  <view class="contract-hero premium-hero fadeInUp" style="animation-delay:0.05s">
     <view class="premium-hero-body contract-hero-body">
       <text class="premium-badge">合同查看</text>
       <text class="contract-no">{{contract.contractNo}}</text>
@@ -66,4 +66,5 @@
     <button class="btn-outline" bindtap="contactService">咨询专员</button>
     <button class="btn-gold" bindtap="goBack">返回进件</button>
   </view>
+  <view class="page-safe"></view>
 </view>

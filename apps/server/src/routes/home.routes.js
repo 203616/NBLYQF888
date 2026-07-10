@@ -32,12 +32,11 @@ router.get('/', (req, res) => {
   const products = db.prepare('SELECT * FROM products WHERE status = ? ORDER BY sort ASC, id ASC LIMIT 8').all('published').map(mapRow)
   const demands = db.prepare('SELECT * FROM demands ORDER BY created_at DESC, id DESC LIMIT 3').all().map(mapRow)
   const cases = db.prepare('SELECT * FROM success_cases WHERE status = ? ORDER BY sort ASC, id ASC').all('published').map(mapRow)
-  const categoryProducts = {
-    business: mock.products.filter(p => p.category === 'business').slice(0, 3),
-    personal: mock.products.filter(p => p.category === 'personal').slice(0, 3),
-    property: mock.products.filter(p => p.category === 'property').slice(0, 3),
-    auto: mock.products.filter(p => p.category === 'auto').slice(0, 3)
-  }
+  const categoryProducts = {};
+  ['business', 'personal', 'property', 'auto'].forEach(cat => {
+    const rows = db.prepare('SELECT * FROM products WHERE status = ? AND category = ? ORDER BY sort ASC, id ASC LIMIT 3').all('published', cat).map(mapRow);
+    categoryProducts[cat] = rows;
+  });
   ok(res, {
     banners,
     stats,

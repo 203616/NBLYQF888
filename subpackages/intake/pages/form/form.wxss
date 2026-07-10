@@ -1,10 +1,23 @@
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.form-hero,
+.guide-card,
+.checklist-card,
+.form-card,
+.save-btn {
+  animation: fadeInUp 0.5s ease both;
+}
+
 .form-hero {
   position: relative;
   height: 220rpx;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  margin-bottom: 24rpx;
-  box-shadow: var(--shadow-hero);
+  margin: 0 var(--space-md) var(--space-md);
+  box-shadow: var(--shadow-card);
 }
 
 .form-cover {
@@ -17,7 +30,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 20rpx 24rpx;
+  padding: 20rpx var(--space-md);
   background: linear-gradient(transparent, rgba(15, 61, 46, 0.9));
   color: #fff;
 }
@@ -35,11 +48,21 @@
   opacity: 0.9;
 }
 
+.step-badge {
+  display: inline-block;
+  margin-top: 10rpx;
+  padding: 4rpx 16rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 999rpx;
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.95);
+}
+
 .guide-card {
-  background: var(--color-primary-bg);
+  background: #e8f0eb;
   border-radius: var(--radius-md);
-  padding: 24rpx;
-  margin-bottom: 20rpx;
+  padding: var(--space-md);
+  margin: 0 var(--space-md) 20rpx;
 }
 
 .guide-title {
@@ -58,15 +81,15 @@
 }
 
 .progress-mini {
-  margin-top: 16rpx;
+  margin-top: var(--space-sm);
   font-size: 24rpx;
   color: var(--color-primary);
   font-weight: bold;
 }
 
 .checklist-card {
-  padding: 20rpx 24rpx;
-  margin-bottom: 20rpx;
+  padding: 20rpx var(--space-md);
+  margin: 0 var(--space-md) 20rpx;
 }
 
 .checklist-title {
@@ -74,6 +97,7 @@
   font-weight: bold;
   margin-bottom: 12rpx;
   display: block;
+  color: var(--color-text-primary);
 }
 
 .checklist-tags {
@@ -104,11 +128,12 @@
 }
 
 .form-card {
-  padding: 8rpx 24rpx;
+  padding: 8rpx var(--space-md);
+  margin: 0 var(--space-md);
 }
 
 .form-item {
-  padding: 24rpx 0;
+  padding: var(--space-md) 0;
   border-bottom: 1rpx solid #f0f0f0;
 }
 
@@ -127,6 +152,7 @@
   font-size: 26rpx;
   color: var(--color-text-secondary);
   margin-bottom: 12rpx;
+  white-space: nowrap;
 }
 
 .form-item.row .label {
@@ -137,14 +163,24 @@
   color: var(--color-danger);
 }
 
-.input, .textarea, .picker-value {
+.input {
+  width: 100%;
   font-size: 30rpx;
   color: var(--color-text-primary);
+  box-sizing: border-box;
 }
 
 .textarea {
   width: 100%;
   min-height: 120rpx;
+  font-size: 30rpx;
+  color: var(--color-text-primary);
+  box-sizing: border-box;
+}
+
+.picker-value {
+  font-size: 30rpx;
+  color: var(--color-text-primary);
 }
 
 .picker-value {
@@ -152,8 +188,11 @@
 }
 
 .save-btn {
-  margin-top: 32rpx;
-  width: 100%;
+  margin: 32rpx var(--space-md) 0;
+  width: auto;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 999rpx;
 }
 
 .image-upload {
@@ -201,13 +240,13 @@
 
 .add-icon {
   font-size: 48rpx;
-  color: #999;
+  color: var(--color-text-muted);
   line-height: 1;
 }
 
 .add-text {
   font-size: 22rpx;
-  color: #999;
+  color: var(--color-text-muted);
   margin-top: 8rpx;
 }
 
@@ -216,4 +255,8 @@
   font-size: 22rpx;
   color: var(--color-primary);
   margin-top: 8rpx;
+}
+
+.page-safe {
+  height: calc(env(safe-area-inset-bottom) + 40rpx);
 }

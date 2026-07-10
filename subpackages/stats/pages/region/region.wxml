@@ -1,5 +1,5 @@
 <view class="region-page page-shell">
-  <view class="region-hero premium-hero">
+  <view class="region-hero premium-hero fadeInUp">
     <safe-image className="premium-hero-bg" src="/images/banner2.webp" mode="aspectFill" />
     <view class="premium-hero-body">
       <text class="premium-badge">数据看板</text>
@@ -92,4 +92,5 @@
       </view>
     </block>
   </view>
+  <view class="page-safe"></view>
 </view>

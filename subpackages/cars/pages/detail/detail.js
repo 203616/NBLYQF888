@@ -41,5 +41,21 @@ Page({
   goIntake() {
     const { goIntake } = require('../../../../utils/intakeNav')
     goIntake({ productType: 'autoFinance', productName: '好车进件' })
+  },
+
+  onShareAppMessage() {
+    const car = this.data.car || {}
+    return {
+      title: car.brand || car.model ? `${car.brand || ''} ${car.model || ''} - 亮叶好车` : '亮叶好车',
+      path: `/subpackages/cars/pages/detail/detail?id=${car.id || ''}`,
+      desc: (car.price ? `${car.price} ` : '') + (car.desc || '') || '亮叶企服精选车源详情'
+    }
+  },
+
+  onShareTimeline() {
+    const car = this.data.car || {}
+    return {
+      title: car.brand || car.model ? `${car.brand || ''} ${car.model || ''} - 亮叶好车` : '亮叶好车'
+    }
   }
 })

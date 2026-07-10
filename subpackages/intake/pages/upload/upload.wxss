@@ -1,3 +1,13 @@
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
 .upload-page {
   padding-bottom: 40rpx;
 }
@@ -7,9 +17,17 @@
   min-height: 240rpx;
 }
 
+.upload-hero,
+.progress-card,
+.ocr-summary,
+.upload-card,
+.tips-card {
+  animation: fadeInUp 0.5s ease both;
+}
+
 .progress-card {
-  margin-bottom: 20rpx;
-  padding: 24rpx;
+  margin: 0 var(--space-md) 20rpx;
+  padding: var(--space-md);
 }
 
 .progress-head {
@@ -32,16 +50,16 @@
 }
 
 .progress-bar {
-  height: 14rpx;
-  background: var(--color-primary-bg);
-  border-radius: 7rpx;
+  height: 12rpx;
+  background: #edf2ef;
+  border-radius: 999rpx;
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
   background: var(--gradient-hero);
-  border-radius: 7rpx;
+  border-radius: 999rpx;
   transition: width 0.3s;
 }
 
@@ -55,11 +73,11 @@
 }
 
 .sync-row.done {
-  color: var(--color-success, #1F6B4B);
+  color: var(--color-success);
 }
 
 .sync-row.warn {
-  color: var(--color-warning, #D4A84B);
+  color: var(--color-warning);
 }
 
 .sync-dot {
@@ -70,14 +88,9 @@
   animation: pulse 1s infinite;
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
-}
-
 .ocr-summary {
-  margin-bottom: 20rpx;
-  padding: 24rpx;
+  margin: 0 var(--space-md) 20rpx;
+  padding: var(--space-md);
 }
 
 .ocr-summary-title {
@@ -85,7 +98,9 @@
   font-size: 28rpx;
   font-weight: 700;
   color: var(--color-primary);
-  margin-bottom: 16rpx;
+  margin-bottom: var(--space-sm);
+  padding-left: 14rpx;
+  border-left: 6rpx solid var(--color-gold);
 }
 
 .ocr-summary-row {
@@ -123,7 +138,7 @@
 
 .ocr-status-tag.status-none {
   background: #f0f0f0;
-  color: #999;
+  color: var(--color-text-muted);
 }
 
 .ocr-fields {
@@ -135,18 +150,25 @@
 }
 
 .fill-btn {
-  margin-top: 16rpx;
+  margin-top: var(--space-sm);
   width: 100%;
+  height: 76rpx;
+  line-height: 76rpx;
+  border-radius: 999rpx;
+}
+
+.upload-list {
+  padding: 0 var(--space-md);
 }
 
 .upload-card {
-  padding: 24rpx;
-  margin-bottom: 16rpx;
+  padding: var(--space-md);
+  margin-bottom: var(--space-sm);
   border-left: 6rpx solid transparent;
 }
 
 .upload-card.required {
-  border-left-color: #D4A84B;
+  border-left-color: var(--color-gold);
 }
 
 .upload-head {
@@ -165,13 +187,14 @@
 .upload-name {
   font-size: 28rpx;
   font-weight: bold;
+  color: var(--color-text-primary);
 }
 
 .ocr-badge {
   font-size: 20rpx;
   padding: 2rpx 10rpx;
   border-radius: 6rpx;
-  background: linear-gradient(135deg, #0F3D2E, #1F6B4B);
+  background: var(--gradient-hero);
   color: #fff;
 }
 
@@ -185,11 +208,11 @@
 }
 
 .upload-status.status-done {
-  color: var(--color-success, #1F6B4B);
+  color: var(--color-success);
 }
 
 .upload-status.status-pending {
-  color: var(--color-warning, #D4A84B);
+  color: var(--color-warning);
 }
 
 .upload-desc {
@@ -206,8 +229,8 @@
 }
 
 .ocr-panel {
-  margin-top: 16rpx;
-  padding: 16rpx;
+  margin-top: var(--space-sm);
+  padding: var(--space-sm);
   border-radius: 12rpx;
   background: #e6f2ec;
 }
@@ -238,7 +261,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 12rpx;
-  margin-top: 16rpx;
+  margin-top: var(--space-sm);
 }
 
 .preview-item {
@@ -251,6 +274,7 @@
   width: 140rpx;
   height: 140rpx;
   border-radius: 12rpx;
+  background: #f0f0f0;
 }
 
 .preview-add {
@@ -282,13 +306,14 @@
 .action-row {
   display: flex;
   gap: 12rpx;
-  margin-top: 16rpx;
+  margin-top: var(--space-sm);
 }
 
 .upload-btn {
   background: var(--color-primary) !important;
   color: #fff !important;
   border-radius: 999rpx !important;
+  border: none !important;
 }
 
 .ocr-btn {
@@ -299,7 +324,8 @@
 }
 
 .tips-card {
-  padding: 24rpx;
+  padding: var(--space-md);
+  margin: 0 var(--space-md);
 }
 
 .tips-title {
@@ -315,4 +341,27 @@
   font-size: 24rpx;
   color: var(--color-text-secondary);
   line-height: 1.8;
+}
+
+.page-safe {
+  height: calc(env(safe-area-inset-bottom) + 20rpx);
+}
+
+.flow-next-btn {
+  width: calc(100% - 48rpx);
+  margin: 24rpx 24rpx 0;
+  height: 84rpx;
+  line-height: 84rpx;
+  border-radius: 999rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.flow-skip-btn {
+  width: calc(100% - 48rpx);
+  margin: 16rpx 24rpx 0;
+  height: 72rpx;
+  line-height: 72rpx;
+  border-radius: 999rpx;
+  font-size: 26rpx;
 }

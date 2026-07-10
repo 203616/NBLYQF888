@@ -31,7 +31,17 @@ Page({
     cloudSynced: false,
     ocrSummary: [],
     canFillPersonal: false,
-    pendingPersonalFields: {}
+    pendingPersonalFields: {},
+    autoNext: false,
+    productType: '',
+    allRequiredDone: false
+  },
+
+  onLoad(options) {
+    this.setData({
+      autoNext: options.autoNext === 'true',
+      productType: options.productType || ''
+    })
   },
 
   onShow() {
@@ -90,6 +100,8 @@ Page({
         preview: i.ocrPreview
       }))
 
+    const allRequiredDone = requiredDone >= requiredItems.length && requiredItems.length > 0
+
     this.setData({
       items,
       requiredDone,
@@ -98,7 +110,8 @@ Page({
       cloudSynced: !!meta.lastSyncedAt,
       ocrSummary,
       canFillPersonal,
-      pendingPersonalFields: personalFields
+      pendingPersonalFields: personalFields,
+      allRequiredDone
     })
   },
 
@@ -260,5 +273,45 @@ Page({
       store.saveUploadMeta(key, { ocrStatus: 'none', ocrPreview: '', ocrResult: null, serverFiles: [] })
     }
     syncToServer().finally(() => this.refreshList())
+  },
+
+  /** 自动流转：资料上传完成 -> 继续下一步 */
+  handleFlowNext() {
+    if (!this.data.autoNext) return
+    const { filterModulesByProduct } = require('../../utils/modules')
+    const allFill = filterModulesByProduct(this.data.productType || store.getData().meta.productType)
+      .filter(m => m.type === 'form' || m.type === 'upload')
+    const uploadIdx = allFill.findIndex(m => m.id === 'uploads')
+    for (let i = uploadIdx + 1; i < allFill.length; i++) {
+      const nextMod = allFill[i]
+      if (!this.isModuleFilled(nextMod.id, nextMod)) {
+        wx.showToast({ title: `进入 ${nextMod.title}`, icon: 'none', duration: 1500 })
+        setTimeout(() => {
+          const url = nextMod.type === 'upload'
+            ? `/subpackages/intake/pages/upload/upload?autoNext=true&productType=${this.data.productType}`
+            : `/subpackages/intake/pages/form/form?section=${nextMod.id}&autoNext=true&productType=${this.data.productType}`
+          wx.redirectTo({ url })
+        }, 1200)
+        return
+      }
+    }
+    // 所有模块完成
+    store.saveMeta({ progress: 100 })
+    wx.showToast({ title: '🎉 所有进件信息已填写完成！', icon: 'none', duration: 2000 })
+    setTimeout(() => wx.navigateBack(), 2200)
+  },
+
+  isModuleFilled(moduleId, mod) {
+    const data = store.getData()
+    if (mod.type === 'upload') {
+      const required = ['idCardFront', 'idCardBack', 'bankFlow', 'creditAuth']
+      const uploads = data.uploads || {}
+      const done = required.filter(k => (uploads[k] || {}).count > 0).length
+      return done >= required.length
+    }
+    const section = data[moduleId] || {}
+    const requiredKeys = (mod.fields || []).filter(f => f.required).map(f => f.key)
+    if (requiredKeys.length === 0) return true
+    return requiredKeys.every(k => section[k] && String(section[k]).trim())
   }
 })

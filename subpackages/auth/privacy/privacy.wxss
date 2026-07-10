@@ -1,8 +1,68 @@
-.privacy-page { padding: 24rpx 32rpx 48rpx; }
-.privacy-header { padding: 32rpx; margin-bottom: 20rpx; }
-.privacy-title { display: block; font-size: 36rpx; font-weight: bold; }
-.privacy-update { display: block; font-size: 24rpx; color: var(--color-text-muted); margin-top: 12rpx; }
-.section { padding: 28rpx; margin-bottom: 16rpx; }
-.section-heading { display: block; font-size: 28rpx; font-weight: bold; margin-bottom: 12rpx; }
-.section-body { font-size: 26rpx; color: var(--color-text-secondary); line-height: 1.8; }
-.footer-note { text-align: center; font-size: 22rpx; color: var(--color-text-muted); margin-top: 32rpx; }
+/* ===== 入场动画 ===== */
+.fade-in-up {
+  animation: fadeInUp 0.5s ease both;
+}
+
+.privacy-page {
+  padding: var(--space-md) 32rpx 48rpx;
+}
+
+/* ===== 标题卡片 ===== */
+.privacy-header {
+  padding: 32rpx;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+.privacy-title {
+  display: block;
+  font-size: 38rpx;
+  font-weight: bold;
+  color: var(--color-primary);
+}
+
+.privacy-update {
+  display: block;
+  font-size: 24rpx;
+  color: var(--color-text-muted);
+  margin-top: 12rpx;
+}
+
+/* ===== 条款卡片 ===== */
+.section-card {
+  padding: 30rpx;
+  margin-bottom: var(--space-sm);
+}
+
+.section-header {
+  margin-bottom: 16rpx;
+}
+
+.section-header .heading {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  padding-left: 16rpx;
+  border-left: 6rpx solid var(--color-gold);
+  line-height: 1.4;
+}
+
+.section-body {
+  display: block;
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+}
+
+/* ===== 底部 ===== */
+.footer-note {
+  text-align: center;
+  font-size: 22rpx;
+  color: var(--color-text-muted);
+  margin-top: 32rpx;
+}
+
+.page-safe {
+  height: calc(env(safe-area-inset-bottom) + 20rpx);
+}

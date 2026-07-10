@@ -1,16 +1,17 @@
+/* ===== 入场动画 ===== */
+.fade-in-up {
+  animation: fadeInUp 0.5s ease both;
+}
+
 .settings-page {
   padding-bottom: 48rpx;
 }
 
-.settings-hero {
-  margin-bottom: 20rpx;
-  min-height: 200rpx;
-}
-
+/* ===== 账号卡片 ===== */
 .account-card {
   display: flex;
   align-items: center;
-  gap: 24rpx;
+  gap: var(--space-md);
   padding: 28rpx;
   margin-bottom: 20rpx;
 }
@@ -50,6 +51,7 @@
   line-height: 1.5;
 }
 
+/* ===== 快捷状态统计 ===== */
 .stat-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -57,9 +59,12 @@
   margin-bottom: 20rpx;
 }
 
-.stat-item {
-  text-align: center;
+.stat-row .stat-item {
+  background: var(--color-bg-card);
+  border-radius: var(--radius-md);
   padding: 20rpx 8rpx;
+  text-align: center;
+  box-shadow: var(--shadow-card);
 }
 
 .stat-icon {
@@ -82,28 +87,34 @@
   margin-top: 4rpx;
 }
 
-.section {
-  padding: 24rpx 28rpx;
+/* ===== 偏好/服务分组卡片 ===== */
+.glass-card {
+  padding: var(--space-md) 28rpx;
   margin-bottom: 20rpx;
 }
 
-.section-title {
-  display: block;
+.section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+
+.section-header .title {
   font-size: 30rpx;
   font-weight: 700;
   color: var(--color-primary);
-  margin-bottom: 8rpx;
   padding-left: 14rpx;
-  border-left: 6rpx solid #D4A84B;
+  border-left: 6rpx solid var(--color-gold);
 }
 
+/* ===== 设置行 & 操作行 ===== */
 .setting-row,
 .action-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 22rpx 0;
-  border-bottom: 1rpx solid #f5f5f5;
+  border-bottom: 1rpx solid var(--color-border);
 }
 
 .setting-row:last-child,
@@ -115,7 +126,7 @@
 .action-left {
   display: flex;
   align-items: center;
-  gap: 16rpx;
+  gap: var(--space-sm);
   flex: 1;
   min-width: 0;
 }
@@ -124,6 +135,8 @@
 .action-icon {
   font-size: 32rpx;
   flex-shrink: 0;
+  width: 48rpx;
+  text-align: center;
 }
 
 .setting-title,
@@ -147,8 +160,15 @@
   color: var(--color-text-muted);
   font-size: 36rpx;
   margin-left: 12rpx;
+  flex-shrink: 0;
 }
 
+.right-tag {
+  margin-right: 6rpx;
+  flex-shrink: 0;
+}
+
+/* ===== 开发面板 ===== */
 .dev-panel {
   border: 1rpx dashed rgba(15, 61, 46, 0.25);
 }
@@ -157,23 +177,23 @@
   display: block;
   font-size: 22rpx;
   color: var(--color-text-muted);
-  margin-bottom: 16rpx;
+  margin-bottom: var(--space-sm);
   line-height: 1.5;
 }
 
 .runtime-summary {
   font-size: 22rpx;
   color: var(--color-text-muted);
-  background: rgba(15, 61, 46, 0.06);
+  background: var(--color-primary-bg);
   border-radius: 12rpx;
-  padding: 16rpx 20rpx;
+  padding: var(--space-sm) 20rpx;
   margin-top: 8rpx;
   white-space: pre-wrap;
   line-height: 1.6;
 }
 
 .reset-env-btn {
-  margin-top: 16rpx;
+  margin-top: var(--space-sm);
   font-size: 26rpx;
   color: var(--color-primary);
   background: transparent;
@@ -183,6 +203,7 @@
   line-height: 72rpx;
 }
 
+/* ===== 体验版 ===== */
 .trial-panel .trial-version {
   display: block;
   font-size: 40rpx;
@@ -207,18 +228,25 @@
   margin-top: 6rpx;
 }
 
+/* ===== 底部 ===== */
 .version-tip {
   text-align: center;
   font-size: 22rpx;
   color: var(--color-text-muted);
-  margin: 24rpx 0 16rpx;
+  margin: var(--space-md) var(--space-md) var(--space-sm);
 }
 
 .logout-btn {
-  color: #fff;
-  background: var(--gradient-hero);
+  color: var(--color-primary);
+  background: var(--color-bg-card);
   border-radius: 999rpx;
   height: 88rpx;
   line-height: 88rpx;
-  margin: 0;
+  margin: 0 var(--space-md);
+  font-weight: 600;
+  border: 2rpx solid var(--color-primary);
+}
+
+.page-safe {
+  height: calc(env(safe-area-inset-bottom) + 20rpx);
 }

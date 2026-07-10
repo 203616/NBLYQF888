@@ -1,4 +1,5 @@
 <view class="auto-service page-shell">
+  <!-- 顶部英雄区 -->
   <view class="as-hero premium-hero">
     <safe-image className="premium-hero-bg" src="/images/banner2.webp" mode="aspectFill" />
     <view class="premium-hero-body">
@@ -8,27 +9,30 @@
     </view>
   </view>
 
-  <view class="location-bar glass-card" bindtap="handleChooseCity">
+  <!-- 定位栏 -->
+  <view class="location-bar glass-card fade-in-up" bindtap="handleChooseCity">
     <text class="iconfont icon-location loc-icon"></text>
     <text>{{location.city || '定位中'}} · 本地汽车企服</text>
     <text class="loc-arrow">›</text>
   </view>
 
+  <!-- 数据统计 -->
   <view class="stat-row">
-    <view class="stat-item glass-card" wx:for="{{stats}}" wx:key="label">
+    <view class="stat-item glass-card fade-in-up" wx:for="{{stats}}" wx:key="label" style="animation-delay: {{index * 0.08}}s">
       <text class="stat-num">{{item.value}}</text>
       <text class="stat-label">{{item.label}}</text>
     </view>
   </view>
 
-  <view class="section glass-card">
+  <!-- 汽车融资 -->
+  <view class="section glass-card fade-in-up">
     <text class="section-title">汽车融资</text>
-    <view class="product-grid">
+    <view class="feature-grid">
       <block wx:for="{{products}}" wx:key="id">
-        <view class="product-card" data-id="{{item.id}}" bindtap="handleProductTap">
-          <text class="iconfont icon">{{item.icon}}</text>
-          <text class="p-title">{{item.title}}</text>
-          <text class="p-desc">{{item.desc}}</text>
+        <view class="feature-item" data-id="{{item.id}}" bindtap="handleProductTap">
+          <text class="fi-icon">{{item.icon}}</text>
+          <text class="fi-title">{{item.title}}</text>
+          <text class="fi-desc">{{item.desc}}</text>
         </view>
       </block>
     </view>
@@ -38,19 +42,21 @@
     </view>
   </view>
 
-  <view class="section glass-card">
+  <!-- 车主工具 -->
+  <view class="section glass-card fade-in-up">
     <text class="section-title">车主工具</text>
     <view class="tool-grid">
       <block wx:for="{{tools}}" wx:key="id">
         <view class="tool-item" data-url="{{item.url}}" bindtap="handleToolTap">
-          <text class="iconfont tool-icon">{{item.icon}}</text>
+          <text class="tool-icon-text">{{item.icon}}</text>
           <text class="tool-title">{{item.title}}</text>
         </view>
       </block>
     </view>
   </view>
 
-  <view class="section glass-card">
+  <!-- 汽车线索 -->
+  <view class="section glass-card fade-in-up">
     <text class="section-title">汽车线索</text>
     <view class="chip-row">
       <view class="chip" bindtap="handleServiceTap" data-type="clue" data-index="0">新车线索</view>
@@ -59,7 +65,8 @@
     </view>
   </view>
 
-  <view class="section glass-card">
+  <!-- 汽车延保 -->
+  <view class="section glass-card fade-in-up">
     <text class="section-title">汽车延保</text>
     <view class="chip-row">
       <view class="chip" bindtap="handleServiceTap" data-type="warranty" data-index="0">基础保障</view>
@@ -68,22 +75,23 @@
     </view>
   </view>
 
-  <view class="quick-links glass-card">
+  <!-- 快捷入口 -->
+  <view class="quick-links glass-card fade-in-up">
     <view class="ql-item" bindtap="navigateToPrepayment">
-      <text class="ql-icon">💰</text>
-      <text>提前还款计算</text>
+      <text class="ql-icon-text">💰</text>
+      <text class="ql-title">提前还款计算</text>
     </view>
     <view class="ql-item" bindtap="goIntake">
-      <text class="ql-icon">📋</text>
-      <text>汽车进件</text>
+      <text class="ql-icon-text">📋</text>
+      <text class="ql-title">汽车进件</text>
     </view>
     <view class="ql-item" bindtap="goChat">
-      <text class="ql-icon">💬</text>
-      <text>智能客服</text>
+      <text class="ql-icon-text">💬</text>
+      <text class="ql-title">智能客服</text>
     </view>
   </view>
 
-  <view class="compliance glass-card">
-    <text>本平台仅提供信息撮合服务，具体方案由持牌金融机构提供，不收取任何前置保证金。</text>
-  </view>
+  <!-- 合规提示 -->
+  <view class="compliance-tip">本平台仅提供信息撮合服务，具体方案由持牌金融机构提供，不收取任何前置保证金。</view>
+  <view class="page-safe"></view>
 </view>

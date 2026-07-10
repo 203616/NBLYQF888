@@ -1,0 +1,31 @@
+{
+  "envId": "prod-2g0e58nv8af29b4b",
+  "region": "ap-shanghai",
+  "framework": {
+    "name": "liangye-cloudrun",
+    "plugins": {
+      "server": {
+        "use": "@cloudbase/framework-plugin-container",
+        "version": "latest",
+        "inputs": {
+          "serviceName": "express-gfke",
+          "localPath": "./Dockerfile",
+          "cpu": 1,
+          "mem": 1024,
+          "minNum": 0,
+          "maxNum": 5,
+          "containerPort": 80,
+          "envParams": {
+            "NODE_ENV": "production",
+            "ADMIN_BASE_PATH": "/ly-admin"
+          },
+          "customDomains": [],
+          "serviceConfig": {
+            "name": "亮叶企服 Express 后台",
+            "desc": "亮叶企服全栈后端服务 - 提供 API、管理后台、H5 移动端"
+          }
+        }
+      }
+    }
+  }
+}

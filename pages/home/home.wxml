@@ -1,4 +1,5 @@
 <view class="home-container page-shell">
+  <!-- 顶部：定位 + 品牌 -->
   <view class="home-top glass-card">
     <view class="top-row">
       <view class="location-chip" bindtap="handleChooseCity">
@@ -19,14 +20,24 @@
     </view>
   </view>
 
+  <!-- Banner 轮播 -->
+  <swiper wx:if="{{banners.length}}" class="banner-swiper" autoplay interval="5000" circular indicator-dots indicator-color="rgba(255,255,255,0.4)" indicator-active-color="#D4A84B">
+    <block wx:for="{{banners}}" wx:key="id">
+      <swiper-item>
+        <safe-image className="banner-slide" src="{{item.img || ''}}" mode="aspectFill" lazyLoad="{{true}}" dataIndex="{{index}}" bind:tap="handleBannerTap" />
+      </swiper-item>
+    </block>
+  </swiper>
+
+  <!-- 全部服务 -->
   <view class="section section-grid">
     <view class="section-header">
       <text class="title">全部服务</text>
-      <text class="more" bindtap="navigateToProducts">产品大全 ></text>
+      <text class="more" bindtap="navigateToProducts">产品大全 ›</text>
     </view>
     <view class="grid-4x4">
       <block wx:for="{{serviceGrid}}" wx:key="title">
-        <view class="grid-cell glass-card" data-path="{{item.path}}" bindtap="navigateGrid">
+        <view class="grid-cell glass-card fade-in-up" data-path="{{item.path}}" bindtap="navigateGrid" style="animation-delay: {{index * 0.05}}s">
           <text class="grid-icon">{{item.icon}}</text>
           <text class="grid-title">{{item.title}}</text>
         </view>
@@ -34,6 +45,7 @@
     </view>
   </view>
 
+  <!-- 数据统计 -->
   <view class="stats-card glass-card" wx:if="{{stats.length}}">
     <block wx:for="{{stats}}" wx:key="label">
       <view class="stat-item">
@@ -43,22 +55,15 @@
     </block>
   </view>
 
-  <swiper wx:if="{{banners.length}}" class="banner-swiper" autoplay interval="5000" circular indicator-dots indicator-color="rgba(255,255,255,0.4)" indicator-active-color="#D4A84B">
-    <block wx:for="{{banners}}" wx:key="id">
-      <swiper-item>
-        <safe-image className="banner-slide" src="{{item.img || ''}}" mode="aspectFill" lazyLoad="{{true}}" dataIndex="{{index}}" bind:tap="handleBannerTap" />
-      </swiper-item>
-    </block>
-  </swiper>
-
+  <!-- 精选产品 -->
   <view class="section" wx:if="{{productList.length}}">
     <view class="section-header">
       <text class="title">精选产品</text>
-      <text class="more" bindtap="navigateToProducts">全部 ></text>
+      <text class="more" bindtap="navigateToProducts">全部 ›</text>
     </view>
     <view class="product-grid-4">
       <block wx:for="{{productList}}" wx:key="id">
-        <view class="product-cell glass-card" data-path="{{item.path}}" bindtap="navigateToProduct">
+        <view class="product-cell glass-card fade-in-up" data-path="{{item.path}}" bindtap="navigateToProduct" style="animation-delay: {{index * 0.06}}s">
           <view class="product-cell-cover" wx:if="{{item.cover}}">
             <safe-image className="cover-slot" src="{{item.cover || ''}}" mode="aspectFill" />
           </view>
@@ -71,13 +76,14 @@
     </view>
   </view>
 
+  <!-- 合作金融机构 -->
   <view class="section" wx:if="{{institutions.length}}">
     <view class="section-header">
       <text class="title">合作金融机构</text>
     </view>
     <view class="institution-list">
       <block wx:for="{{institutions}}" wx:key="name">
-        <view class="institution-card glass-card" data-name="{{item.name}}" bindtap="navigateToInstitutionProduct">
+        <view class="institution-card glass-card fade-in-up" data-name="{{item.name}}" bindtap="navigateToInstitutionProduct" style="animation-delay: {{index * 0.08}}s">
           <view class="inst-head">
             <text class="inst-name">{{item.name}}</text>
             <text class="inst-hot" wx:if="{{item.hot}}">热门</text>
@@ -89,13 +95,15 @@
     </view>
   </view>
 
+  <!-- 服务案例 -->
   <view class="section" wx:if="{{cases.length}}">
     <view class="section-header">
       <text class="title">服务案例</text>
+      <text class="more" bindtap="navigateToCaseList">查看更多 ›</text>
     </view>
     <view class="waterfall-list">
       <block wx:for="{{cases}}" wx:key="id">
-        <view class="waterfall-card glass-card" data-path="{{item.path}}" bindtap="navigateToCase">
+        <view class="waterfall-card glass-card fade-in-up" data-id="{{item.id}}" data-path="{{item.path}}" bindtap="navigateToCase" style="animation-delay: {{index * 0.08}}s">
           <view class="waterfall-card-cover" wx:if="{{item.cover}}">
             <safe-image className="wfall-cover" src="{{item.cover || ''}}" mode="aspectFill" />
           </view>
@@ -103,40 +111,50 @@
             <text class="wfall-tag">{{item.tag}}</text>
             <text class="wfall-title">{{item.title}}</text>
             <text class="wfall-desc">{{item.result}}</text>
+            <view class="wfall-tags" wx:if="{{item.tags && item.tags.length}}">
+              <text class="tag" wx:for="{{item.tags}}" wx:for-item="t" wx:key="t">{{t}}</text>
+            </view>
           </view>
         </view>
       </block>
     </view>
   </view>
 
+  <!-- 最新资讯 -->
   <view class="section" wx:if="{{newsList.length}}">
     <view class="section-header">
       <text class="title">最新资讯</text>
-      <text class="more" bindtap="navigateToNews">更多 ></text>
+      <text class="more" bindtap="navigateToNews">查看更多 ›</text>
     </view>
     <view class="waterfall-list">
       <block wx:for="{{newsList}}" wx:key="id">
-        <news-card
-          id="{{item.id}}"
-          category="{{item.category}}"
-          title="{{item.title}}"
-          cover="{{item.cover || ''}}"
-          date="{{item.date}}"
-          views="{{item.views}}"
-          bind:cardtap="navigateToNewsDetail"
-        />
+        <view class="waterfall-card glass-card fade-in-up" data-id="{{item.id}}" bindtap="navigateToNewsDetail2" style="animation-delay: {{index * 0.08}}s">
+          <view class="waterfall-card-cover" wx:if="{{item.cover}}">
+            <safe-image className="wfall-cover" src="{{item.cover || ''}}" mode="aspectFill" />
+          </view>
+          <view class="waterfall-card-body">
+            <view class="wfall-meta-row">
+              <text class="tag" wx:if="{{item.category}}">{{item.category}}</text>
+              <text class="wfall-date">{{item.date}}</text>
+              <text class="wfall-views">{{item.views}} 阅读</text>
+            </view>
+            <text class="wfall-title">{{item.title}}</text>
+            <text class="wfall-desc" wx:if="{{item.summary}}">{{item.summary}}</text>
+          </view>
+        </view>
       </block>
     </view>
   </view>
 
+  <!-- 精选需求 -->
   <view class="section" wx:if="{{demandList.length}}">
     <view class="section-header">
       <text class="title">精选需求</text>
-      <text class="more" bindtap="navigateToDemand">去发布 ></text>
+      <text class="more" bindtap="navigateToDemand">去发布 ›</text>
     </view>
     <view class="waterfall-list">
       <block wx:for="{{demandList}}" wx:key="id">
-        <view class="waterfall-card glass-card" data-id="{{item.id}}" bindtap="navigateToDemandDetail">
+        <view class="waterfall-card glass-card fade-in-up" data-id="{{item.id}}" bindtap="navigateToDemandDetail" style="animation-delay: {{index * 0.08}}s">
           <view class="waterfall-card-cover" wx:if="{{item.cover}}">
             <safe-image className="wfall-cover" src="{{item.cover || ''}}" mode="aspectFill" />
           </view>
@@ -150,5 +168,7 @@
     </view>
   </view>
 
+  <!-- 合规提示 -->
   <view class="compliance-tip">本平台仅提供金融信息咨询与居间撮合服务，不发放贷款</view>
+  <view class="page-safe"></view>
 </view>

@@ -2,22 +2,24 @@
   padding-bottom: 40rpx;
 }
 
-.channel-hero {
-  margin-bottom: 20rpx;
-  min-height: 260rpx;
-  position: relative;
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30rpx); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.hero-btn {
-  margin-top: 20rpx;
+.fadeInUp {
+  animation: fadeInUp 0.5s ease both;
 }
 
+/* ===== Location ===== */
 .loc-arrow {
   margin-left: auto;
   color: var(--color-text-muted);
   font-size: 32rpx;
 }
 
+/* ===== Stat Row ===== */
 .stat-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -44,6 +46,7 @@
   margin-top: 4rpx;
 }
 
+/* ===== Filter Tabs ===== */
 .filter-tabs {
   display: flex;
   gap: 12rpx;
@@ -51,8 +54,9 @@
   flex-wrap: wrap;
 }
 
+/* ===== Partner Card ===== */
 .partner-card {
-  padding: 24rpx;
+  padding: var(--space-md);
   margin-bottom: 16rpx;
 }
 
@@ -101,13 +105,15 @@
   margin-top: 8rpx;
 }
 
-.score, .cases {
+.score,
+.cases {
   font-size: 24rpx;
   color: var(--color-primary);
   font-weight: 600;
 }
 
-.meta, .desc {
+.meta,
+.desc {
   display: block;
   font-size: 24rpx;
   color: var(--color-text-muted);
@@ -129,7 +135,7 @@
   margin-top: 12rpx;
 }
 
-.tag {
+.tags .tag {
   background: var(--color-primary-bg);
   color: var(--color-primary);
   font-size: 22rpx;
@@ -137,6 +143,7 @@
   border-radius: 999rpx;
 }
 
+/* ===== Partner Actions ===== */
 .partner-actions {
   display: flex;
   gap: 16rpx;
@@ -148,20 +155,17 @@
   margin: 0;
   border-radius: 999rpx;
   font-size: 24rpx;
+  height: 68rpx;
+  line-height: 68rpx;
+  padding: 0 24rpx;
 }
 
-.empty {
-  text-align: center;
-  padding: 48rpx 32rpx;
-  font-size: 26rpx;
-  color: var(--color-text-muted);
-  margin-bottom: 20rpx;
-}
-
+/* ===== Service Button ===== */
 .service-btn {
   width: 100%;
   margin-top: 12rpx;
   border-radius: 999rpx;
   height: 88rpx;
   line-height: 88rpx;
+  border: none;
 }

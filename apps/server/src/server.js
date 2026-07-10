@@ -14,9 +14,10 @@ process.on('unhandledRejection', (reason) => {
   console.error('[FATAL] unhandledRejection:', reason?.message || reason)
 })
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`\n━━━ 亮叶企服后台服务已启动 ━━━`)
-  console.log(`  API 地址:    http://localhost:${port}/api/v1`)
+  console.log(`  API 地址:    http://0.0.0.0:${port}/api/v1`)
+  console.log(`  运行模式:    ${nodeEnv}`)
 
   const indexHtml = path.join(adminDist, 'index.html')
   if (fs.existsSync(indexHtml)) {

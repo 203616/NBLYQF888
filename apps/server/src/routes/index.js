@@ -19,6 +19,7 @@ const warrantyRoutes = require('./warranty.routes')
 const adminRoutes = require('./admin.routes')
 const financeCircleRoutes = require('./financeCircle.routes')
 const casesRoutes = require('./cases.routes')
+const wechatRoutes = require('./wechat.routes')
 
 const router = express.Router()
 
@@ -58,5 +59,6 @@ router.use('/warranty', warrantyRoutes)
 router.use('/finance-circle', financeCircleRoutes)
 router.use('/cases', casesRoutes)
 router.use('/admin', adminRoutes)
+router.use('/wechat', wechatRoutes)
 
 module.exports = router

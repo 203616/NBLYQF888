@@ -4,12 +4,25 @@
   padding-bottom: 40rpx;
 }
 
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fadeInUp {
+  animation: fadeInUp 0.5s ease both;
+}
+
+/* ===== Product Card ===== */
 .product-card {
   display: flex;
+  flex-wrap: wrap;
   align-items: stretch;
   margin-bottom: 20rpx;
   overflow: hidden;
   padding: 0;
+  position: relative;
 }
 
 .product-cover {
@@ -31,24 +44,61 @@
   gap: 12rpx;
 }
 
-.product-card .icon,
-.product-card .product-icon {
-  width: 56rpx;
-  height: 56rpx;
+/* ===== Icon Wrapper ===== */
+.product-icon-wrap {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 16rpx;
   flex-shrink: 0;
-  font-size: 48rpx;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.product-icon {
+  font-size: 32rpx;
+}
+
 .info { flex: 1; min-width: 0; }
 
-.title {
+/* ===== Title Row with Badge ===== */
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.product-body .title {
   font-size: 30rpx;
   font-weight: bold;
   color: var(--color-text-primary);
   display: block;
+  flex: 1;
+}
+
+/* ===== Badge Styles ===== */
+.badge {
+  display: inline-block;
+  padding: 4rpx 14rpx;
+  border-radius: 999rpx;
+  font-size: 20rpx;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.badge-hot {
+  background: linear-gradient(135deg, #FF6B6B, #EE4444);
+  color: #fff;
+}
+
+.badge-value {
+  background: linear-gradient(135deg, #FFB74D, #FF9800);
+  color: #fff;
+}
+
+.badge-fast {
+  background: linear-gradient(135deg, #66BB6A, #43A047);
+  color: #fff;
 }
 
 .desc {
@@ -77,13 +127,7 @@
   display: block;
 }
 
-.arrow {
-  align-self: center;
-  color: var(--color-text-muted);
-  font-size: 36rpx;
-  padding-right: 16rpx;
-}
-
+/* ===== Tool Grid ===== */
 .tool-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -95,15 +139,19 @@
   padding: 28rpx 20rpx;
 }
 
-.tool-card .icon,
-.tool-card .tool-icon {
-  width: 64rpx;
-  height: 64rpx;
+.tool-icon-wrap {
+  width: 72rpx;
+  height: 72rpx;
   margin: 0 auto 12rpx;
-  font-size: 52rpx;
+  border-radius: 20rpx;
+  background: var(--color-primary-bg);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.tool-icon {
+  font-size: 36rpx;
 }
 
 .tool-card .title {
@@ -115,6 +163,23 @@
   margin-top: 6rpx;
 }
 
+/* ===== Feat Icon Wrapper ===== */
+.feat-icon-wrap {
+  width: 72rpx;
+  height: 72rpx;
+  margin: 0 auto 16rpx;
+  border-radius: 20rpx;
+  background: var(--color-primary-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feat-icon {
+  font-size: 36rpx;
+}
+
+/* ===== Filters ===== */
 .filter-tabs {
   white-space: nowrap;
   margin-bottom: 20rpx;
@@ -135,6 +200,7 @@
   color: #fff;
 }
 
+/* ===== Institution ===== */
 .institution {
   display: block;
   font-size: 22rpx;
@@ -142,12 +208,14 @@
   margin: 4rpx 0;
 }
 
+/* ===== Apply Button ===== */
 .apply-mini {
   font-size: 24rpx !important;
   height: 64rpx !important;
   line-height: 64rpx !important;
   padding: 0 24rpx !important;
-  margin-top: 12rpx;
+  margin: 12rpx 20rpx 20rpx;
   width: auto !important;
   display: inline-block;
+  border: none;
 }

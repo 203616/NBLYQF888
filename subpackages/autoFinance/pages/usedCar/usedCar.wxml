@@ -1,75 +1,80 @@
-<view class="finance-page loan-detail">
-  <view class="finance-hero">
-    <safe-image src="/subpackages/product/images/products/product-2.webp" className="finance-hero-img" mode="aspectFill"/>
-    <view class="finance-hero-mask"></view>
-    <view class="finance-hero-body">
-      <text class="finance-badge">二手车按揭</text>
-      <text class="finance-hero-title">{{productDetail.title}}</text>
-      <text class="finance-hero-sub">{{productDetail.amountRange}} · {{productDetail.term}}</text>
+<view class="page-shell loan-detail">
+  <view class="premium-hero fadeInUp">
+    <safe-image className="premium-hero-bg" src="/subpackages/product/images/products/product-2.webp" mode="aspectFill" />
+    <view class="premium-hero-body">
+      <text class="premium-badge">二手车按揭</text>
+      <text class="premium-hero-title">{{productDetail.title || ''}}</text>
+      <text class="premium-hero-sub">{{productDetail.amountRange || ''}} · {{productDetail.term || ''}}</text>
     </view>
   </view>
 
-  <view class="stat-strip">
-    <view class="stat-chip glass-card" wx:for="{{stats}}" wx:key="label">
-      <text class="stat-chip-num">{{item.value}}</text>
-      <text class="stat-chip-label">{{item.label}}</text>
+  <view class="stat-row fadeInUp" style="animation-delay:0.1s">
+    <view class="stat-item" wx:for="{{stats}}" wx:key="label">
+      <text class="stat-num">{{item.value || ''}}</text>
+      <text class="stat-label">{{item.label || ''}}</text>
     </view>
   </view>
 
-  <view class="section-block">
-    <view class="info-card glass-card">
-      <view class="rate-tag"><text>{{productDetail.rate}}</text></view>
+  <view class="section-block fadeInUp" style="animation-delay:0.15s">
+    <view class="card">
+      <view class="rate-tag"><text>{{productDetail.rate || ''}}</text></view>
       <view class="tag-row">
-        <text class="mini-tag" wx:for="{{productDetail.tags}}" wx:key="*this">{{item}}</text>
+        <text class="tag" wx:for="{{productDetail.tags || []}}" wx:key="*this">{{item}}</text>
       </view>
       <text class="subtitle">产品亮点</text>
-      <block wx:for="{{productDetail.features}}" wx:key="*this">
-        <view class="feature-item"><text class="feature-check">✓</text><text>{{item}}</text></view>
+      <block wx:for="{{productDetail.features || []}}" wx:key="*this">
+        <view class="feature-item"><text class="feature-check">✓</text><text>{{item || ''}}</text></view>
       </block>
     </view>
   </view>
 
-  <view class="calculator-card">
+  <view class="calculator-card fadeInUp" style="animation-delay:0.2s">
     <text class="calc-title">月供计算器</text>
     <text class="calc-tip">以下为参考测算，实际以机构审批定价为准</text>
     <view class="slider-group">
-      <text>贷款金额: {{loanAmount}}元</text>
-      <slider value="{{loanAmount}}" min="30000" max="300000" step="5000" activeColor="#D4A84B" bindchange="handleAmountChange"/>
+      <text>贷款金额: {{loanAmount || 0}}元</text>
+      <slider value="{{loanAmount}}" min="30000" max="300000" step="5000" activeColor="#D4A84B" bindchange="handleAmountChange" />
     </view>
     <view class="slider-group">
-      <text>贷款期限: {{loanTerm}}个月</text>
-      <slider value="{{loanTerm}}" min="12" max="36" step="6" activeColor="#D4A84B" bindchange="handleTermChange"/>
+      <text>贷款期限: {{loanTerm || 0}}个月</text>
+      <slider value="{{loanTerm}}" min="12" max="36" step="6" activeColor="#D4A84B" bindchange="handleTermChange" />
     </view>
-    <view class="result"><text>预估月供</text><text class="amount">¥{{monthlyPayment}}</text></view>
+    <view class="result">
+      <text>预估月供</text>
+      <text class="amount">¥{{monthlyPayment || 0}}</text>
+    </view>
   </view>
 
-  <view class="section-block">
-    <view class="info-card glass-card">
+  <view class="section-block fadeInUp" style="animation-delay:0.25s">
+    <view class="card">
       <text class="subtitle">申请材料</text>
-      <block wx:for="{{productDetail.materials}}" wx:key="*this">
-        <view class="material-item"><text>• {{item}}</text></view>
+      <block wx:for="{{productDetail.materials || []}}" wx:key="*this">
+        <view class="material-item"><text>• {{item || ''}}</text></view>
       </block>
     </view>
   </view>
 
-  <view class="section-block">
-    <view class="info-card glass-card">
+  <view class="section-block fadeInUp" style="animation-delay:0.3s">
+    <view class="card">
       <text class="subtitle">办理流程</text>
       <view class="process-timeline">
-        <block wx:for="{{productDetail.process}}" wx:key="*this">
-          <view class="process-node">
+        <block wx:for="{{productDetail.process || []}}" wx:key="*this">
+          <view class="process-node fadeInUp" style="animation-delay:{{0.3 + index * 0.05}}s">
             <text class="process-dot">{{index + 1}}</text>
-            <view class="process-content"><text class="process-title">{{item}}</text></view>
+            <view class="process-content"><text class="process-title">{{item || ''}}</text></view>
           </view>
         </block>
       </view>
     </view>
   </view>
 
-  <view class="compliance-banner"><text>{{productDetail.complianceNote}}</text></view>
+  <view class="compliance-banner fadeInUp" style="animation-delay:0.35s">
+    <text>{{productDetail.complianceNote || ''}}</text>
+  </view>
 
   <view class="action-bar">
     <button class="btn-secondary" bindtap="contactService">咨询客服</button>
     <button class="btn-primary" bindtap="handleApply">立即申请</button>
   </view>
+  <view class="page-safe"></view>
 </view>

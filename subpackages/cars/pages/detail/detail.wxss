@@ -1,17 +1,141 @@
-.car-detail { padding-bottom: 40rpx; }
-.cover-wrap { position: relative; margin-bottom: 20rpx; border-radius: var(--radius-lg); overflow: hidden; }
-.hero-img { width: 100%; height: 400rpx; display: block; }
-.cover-overlay { position: absolute; left: 0; right: 0; bottom: 0; padding: 28rpx; background: linear-gradient(transparent, rgba(15,61,46,0.9)); color: #fff; }
-.cover-overlay .price { display: block; font-size: 40rpx; font-weight: 700; color: #D4A84B; margin-top: 8rpx; }
-.cover-overlay .meta { display: block; font-size: 24rpx; opacity: 0.9; margin-top: 6rpx; }
-.section { padding: 24rpx 28rpx; margin-bottom: 20rpx; }
-.section-title { display: block; font-size: 30rpx; font-weight: 700; color: var(--color-primary); margin-bottom: 16rpx; padding-left: 14rpx; border-left: 6rpx solid #D4A84B; }
-.dealer { display: block; font-size: 26rpx; color: var(--color-text-muted); margin-bottom: 10rpx; }
-.desc { display: block; font-size: 26rpx; color: var(--color-text-primary); line-height: 1.7; }
-.tags { display: flex; flex-wrap: wrap; gap: 10rpx; margin-top: 14rpx; }
-.tag { background: var(--color-primary-bg); color: var(--color-primary); font-size: 22rpx; padding: 6rpx 14rpx; border-radius: 999rpx; }
-.tool-row { display: flex; gap: 12rpx; flex-wrap: wrap; }
-.tool-row button { margin: 0; border-radius: 999rpx; }
-.contact-input { width: 100%; padding: 20rpx; background: #f7f9fc; border-radius: 12rpx; margin-bottom: 16rpx; box-sizing: border-box; font-size: 28rpx; }
-.submit-btn { width: 100%; height: 88rpx; line-height: 88rpx; border-radius: 999rpx; margin: 0; }
-.compliance { display: block; margin-top: 14rpx; font-size: 22rpx; color: var(--color-text-muted); line-height: 1.6; text-align: center; }
+.car-detail {
+  padding-bottom: 40rpx;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fadeInUp {
+  animation: fadeInUp 0.5s ease both;
+}
+
+/* ===== Cover ===== */
+.cover-wrap {
+  position: relative;
+  margin-bottom: 20rpx;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.hero-img {
+  width: 100%;
+  height: 400rpx;
+  display: block;
+}
+
+.cover-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 28rpx;
+  background: linear-gradient(transparent, rgba(15, 61, 46, 0.9));
+  color: #fff;
+}
+
+.cover-overlay .price {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 700;
+  color: var(--color-gold);
+  margin-top: 8rpx;
+}
+
+.cover-overlay .meta {
+  display: block;
+  font-size: 24rpx;
+  opacity: 0.9;
+  margin-top: 6rpx;
+}
+
+/* ===== Sections ===== */
+.card {
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 16rpx;
+  padding-left: 14rpx;
+  border-left: 6rpx solid var(--color-gold);
+}
+
+.dealer {
+  display: block;
+  font-size: 26rpx;
+  color: var(--color-text-muted);
+  margin-bottom: 10rpx;
+}
+
+.desc {
+  display: block;
+  font-size: 26rpx;
+  color: var(--color-text-primary);
+  line-height: 1.7;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+  margin-top: 14rpx;
+}
+
+.tags .tag {
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+  font-size: 22rpx;
+  padding: 6rpx 14rpx;
+  border-radius: 999rpx;
+}
+
+/* ===== Tool Row ===== */
+.tool-row {
+  display: flex;
+  gap: 12rpx;
+  flex-wrap: wrap;
+}
+
+.tool-row button {
+  margin: 0;
+  border-radius: 999rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  font-size: 26rpx;
+  padding: 0 24rpx;
+}
+
+/* ===== Contact ===== */
+.contact-input {
+  width: 100%;
+  padding: 20rpx;
+  background: var(--color-bg-page);
+  border-radius: 12rpx;
+  margin-bottom: 16rpx;
+  box-sizing: border-box;
+  font-size: 28rpx;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 999rpx;
+  margin: 0;
+  border: none;
+}
+
+.compliance {
+  display: block;
+  margin-top: 14rpx;
+  font-size: 22rpx;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  text-align: center;
+}

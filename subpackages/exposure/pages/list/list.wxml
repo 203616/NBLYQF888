@@ -1,5 +1,5 @@
-<view class="exposure-page page-shell">
-  <view class="exp-hero premium-hero">
+<view class="page-shell exposure-page">
+  <view class="premium-hero fadeInUp">
     <safe-image className="premium-hero-bg" src="/images/banner1.webp" mode="aspectFill" />
     <view class="premium-hero-body">
       <text class="premium-badge">风险曝光</text>
@@ -9,36 +9,37 @@
     </view>
   </view>
 
-  <view class="stat-row">
-    <view class="stat-item glass-card" wx:for="{{statList}}" wx:key="label">
-      <text class="stat-num">{{item.value}}</text>
-      <text class="stat-label">{{item.label}}</text>
+  <view class="stat-row fadeInUp" style="animation-delay:0.1s">
+    <view class="stat-item card" wx:for="{{statList || []}}" wx:key="label">
+      <text class="stat-num">{{item.value || ''}}</text>
+      <text class="stat-label">{{item.label || ''}}</text>
     </view>
   </view>
 
-  <scroll-view class="filter-scroll" scroll-x enhanced show-scrollbar="{{false}}">
-    <block wx:for="{{filters}}" wx:key="id">
-      <view class="filter-pill {{activeFilter === item.id ? 'active' : ''}}" data-id="{{item.id}}" bindtap="switchFilter">{{item.name}}</view>
+  <scroll-view class="filter-scroll fadeInUp" style="animation-delay:0.15s" scroll-x enhanced show-scrollbar="{{false}}">
+    <block wx:for="{{filters || []}}" wx:key="id">
+      <view class="filter-pill {{activeFilter === item.id ? 'active' : ''}}" data-id="{{item.id}}" bindtap="switchFilter">{{item.name || ''}}</view>
     </block>
   </scroll-view>
 
-  <block wx:for="{{exposureList}}" wx:key="id">
-    <view class="exposure-card glass-card" bindtap="navigateToDetail" data-id="{{item.id}}">
+  <block wx:for="{{exposureList || []}}" wx:key="id">
+    <view class="exposure-card card fadeInUp" style="animation-delay:{{0.15 + index * 0.05}}s" bindtap="navigateToDetail" data-id="{{item.id}}">
       <safe-image className="cover-thumb" src="{{item.cover || ''}}" mode="aspectFill" />
       <view class="card-body">
         <view class="card-header">
-          <text class="type-tag">{{item.typeName}}</text>
-          <text class="status" style="color:{{item.statusColor}}">{{item.status}}</text>
+          <text class="type-tag">{{item.typeName || ''}}</text>
+          <text class="status" style="color:{{item.statusColor || '#999'}}">{{item.status || ''}}</text>
         </view>
-        <text class="title">{{item.title}}</text>
-        <text class="content">{{item.content}}</text>
+        <text class="title">{{item.title || ''}}</text>
+        <text class="content">{{item.content || ''}}</text>
         <view class="card-footer">
-          <text>{{item.count}}</text>
-          <text>{{item.date}}</text>
+          <text>{{item.count || ''}}</text>
+          <text>{{item.date || ''}}</text>
         </view>
       </view>
     </view>
   </block>
 
-  <view class="empty-state glass-card" wx:if="{{!exposureList.length && !isLoading}}">暂无曝光信息</view>
+  <view class="empty-state" wx:if="{{!exposureList.length && !isLoading}}">暂无曝光信息</view>
+  <view class="page-safe"></view>
 </view>

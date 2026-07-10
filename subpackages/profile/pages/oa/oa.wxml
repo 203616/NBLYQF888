@@ -1,82 +1,1048 @@
 <view class="oa-page page-shell">
-  <view class="oa-hero premium-hero">
-    <safe-image className="premium-hero-bg" src="/images/banner1.webp" mode="aspectFill" />
-    <view class="premium-hero-body">
-      <text class="premium-badge">工作台</text>
-      <text class="premium-hero-title">OA工作台</text>
-      <text class="premium-hero-sub">客户跟进 · 材料审核 · 会议提醒 · 审批事项</text>
+  <!-- ====== Tab 顶部导航 ====== -->
+  <view class="oa-tab-bar glass-card">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="id"
+      class="oa-tab-item {{currentTab === index ? 'active' : ''}}"
+      data-index="{{index}}"
+      bindtap="switchTab"
+    >
+      <text class="oa-tab-icon">{{item.icon || ''}}</text>
+      <text class="oa-tab-name">{{item.name || ''}}</text>
     </view>
   </view>
 
-  <view class="stats-grid">
-    <block wx:for="{{stats}}" wx:key="name">
-      <view class="stat-card glass-card" bindtap="onStatTap" data-name="{{item.name}}">
-        <text class="stat-icon">{{item.icon || '📌'}}</text>
-        <text class="stat-count">{{item.count}}</text>
-        <text class="stat-name">{{item.name}}</text>
-      </view>
-    </block>
-  </view>
-
-  <view class="quick-actions glass-card">
-    <view class="quick-item" bindtap="goIntake">
-      <text class="qi-icon">📋</text>
-      <text>进件管理</text>
-    </view>
-    <view class="quick-item" bindtap="goFinanceCircle">
-      <text class="qi-icon">🤝</text>
-      <text>易融圈</text>
-    </view>
-    <view class="quick-item" bindtap="goDocs">
-      <text class="qi-icon">📁</text>
-      <text>文档中心</text>
-    </view>
-    <view class="quick-item" bindtap="goChat">
-      <text class="qi-icon">💬</text>
-      <text>智能客服</text>
-    </view>
-  </view>
-
-  <view class="section glass-card">
-    <view class="section-head">
-      <text class="section-title">待办任务</text>
-      <text class="task-filter" bindtap="toggleTaskFilter">{{taskFilterLabel}}</text>
-    </view>
-    <block wx:for="{{filteredTasks}}" wx:key="id">
-      <view class="task-card" bindtap="handleTaskTap" data-id="{{item.id}}">
-        <view class="task-head">
-          <text class="task-title">{{item.title}}</text>
-          <text class="priority priority-{{item.priorityKey}}">{{item.priority}}</text>
-        </view>
-        <text class="task-desc">{{item.desc}}</text>
-        <view class="task-meta">
-          <text class="meta-tag">{{item.type}}</text>
-          <text>{{item.due}}</text>
-          <text class="status-tag">{{item.status}}</text>
-        </view>
-        <text class="task-assignee" wx:if="{{item.assignee}}">负责人：{{item.assignee}}</text>
-      </view>
-    </block>
-    <view class="empty-tip" wx:if="{{!filteredTasks.length}}">暂无待办任务</view>
-  </view>
-
-  <view class="section glass-card">
-    <view class="section-head">
-      <text class="section-title">会议通知</text>
-      <text class="meeting-count">{{meetings.length}} 场</text>
-    </view>
-    <block wx:for="{{meetings}}" wx:key="id">
-      <view class="meeting-card" bindtap="handleMeetingTap" data-id="{{item.id}}">
-        <view class="meeting-time-badge">
-          <text class="mt-day">{{item.dayLabel}}</text>
-          <text class="mt-time">{{item.timeShort}}</text>
-        </view>
-        <view class="meeting-body">
-          <text class="meeting-title">{{item.title}}</text>
-          <text class="meeting-desc">{{item.place}} · {{item.host}}</text>
-          <text class="meeting-agenda" wx:if="{{item.agenda}}">{{item.agenda}}</text>
+  <!-- ============================================================ -->
+  <!-- TAB 0: 工作台 -->
+  <!-- ============================================================ -->
+  <view wx:if="{{currentTab === 0}}" class="fade-in-up">
+    <view class="oa-hero premium-hero">
+      <safe-image className="premium-hero-bg" src="/images/banner1.webp" mode="aspectFill" />
+      <view class="premium-hero-body">
+        <text class="premium-badge">工作台</text>
+        <text class="premium-hero-title" bindlongpress="onTitleLongPress">OA工作台</text>
+        <text class="premium-hero-sub">客户跟进 · 材料审核 · 会议提醒 · 审批事项</text>
+        <!-- 角色标识 -->
+        <view class="role-badge">
+          <text class="role-badge-icon">👤</text>
+          <text class="role-badge-text">{{currentAccountProfile.name || ''}}</text>
+          <text class="role-badge-type tag">{{ACCOUNT_TYPE_LABELS[userAccountType] || '业务员'}}</text>
         </view>
       </view>
-    </block>
+    </view>
+
+    <view class="stats-grid">
+      <block wx:for="{{stats}}" wx:key="name">
+        <view class="stat-card glass-card" bindtap="onStatTap" data-name="{{item.name || ''}}">
+          <text class="stat-icon">{{item.icon || '📌'}}</text>
+          <text class="stat-count">{{item.count || 0}}</text>
+          <text class="stat-name">{{item.name || ''}}</text>
+        </view>
+      </block>
+    </view>
+
+    <view class="quick-actions glass-card">
+      <view class="quick-item" bindtap="goIntake">
+        <text class="qi-icon">📋</text>
+        <text>进件管理</text>
+      </view>
+      <view class="quick-item" bindtap="goFinanceCircle">
+        <text class="qi-icon">🤝</text>
+        <text>易融圈</text>
+      </view>
+      <view class="quick-item" bindtap="goDocs">
+        <text class="qi-icon">📁</text>
+        <text>文档中心</text>
+      </view>
+      <view class="quick-item" bindtap="goChat">
+        <text class="qi-icon">💬</text>
+        <text>智能客服</text>
+      </view>
+    </view>
+
+    <view class="section glass-card">
+      <view class="section-head">
+        <text class="section-title">待办任务</text>
+        <text class="task-filter" bindtap="toggleTaskFilter">{{taskFilterLabel || ''}}</text>
+      </view>
+      <block wx:for="{{filteredTasks}}" wx:key="id">
+        <view class="task-card" bindtap="handleTaskTap" data-id="{{item.id || ''}}">
+          <view class="task-head">
+            <text class="task-title">{{item.title || ''}}</text>
+            <text class="priority priority-{{item.priorityKey || 'medium'}}">{{item.priority || ''}}</text>
+          </view>
+          <text class="task-desc">{{item.desc || ''}}</text>
+          <view class="task-meta">
+            <text class="meta-tag">{{item.type || ''}}</text>
+            <text>{{item.due || ''}}</text>
+            <text class="status-tag">{{item.status || ''}}</text>
+          </view>
+          <text class="task-assignee" wx:if="{{item.assignee}}">负责人：{{item.assignee || ''}}</text>
+        </view>
+      </block>
+      <view class="empty-tip" wx:if="{{!filteredTasks.length}}">暂无待办任务</view>
+    </view>
+
+    <view class="section glass-card">
+      <view class="section-head">
+        <text class="section-title">会议通知</text>
+        <text class="meeting-count">{{meetings.length || 0}} 场</text>
+      </view>
+      <block wx:for="{{meetings}}" wx:key="id">
+        <view class="meeting-card" bindtap="handleMeetingTap" data-id="{{item.id || ''}}">
+          <view class="meeting-time-badge">
+            <text class="mt-day">{{item.dayLabel || ''}}</text>
+            <text class="mt-time">{{item.timeShort || ''}}</text>
+          </view>
+          <view class="meeting-body">
+            <text class="meeting-title">{{item.title || ''}}</text>
+            <text class="meeting-desc">{{item.place || ''}} · {{item.host || ''}}</text>
+            <text class="meeting-agenda" wx:if="{{item.agenda}}">{{item.agenda || ''}}</text>
+          </view>
+        </view>
+      </block>
+    </view>
   </view>
+
+  <!-- ============================================================ -->
+  <!-- TAB 1: 税务报税 -->
+  <!-- ============================================================ -->
+  <view wx:if="{{currentTab === 1}}" class="fade-in-up">
+    <view class="tax-tip-banner glass-card">
+      <text class="tax-tip-icon">💡</text>
+      <text class="tax-tip-text">本月申报截止日期：07月15日，请及时完成增值税及附加税申报</text>
+    </view>
+
+    <view class="tax-quick-actions">
+      <view class="tax-qua-item" bindtap="resetTaxWizard">
+        <text class="tqa-icon">📝</text>
+        <text class="tqa-name">开始报税</text>
+      </view>
+      <view class="tax-qua-item" data-filter="all" bindtap="onTaxHistoryFilter">
+        <text class="tqa-icon">📋</text>
+        <text class="tqa-name">报税记录</text>
+      </view>
+      <view class="tax-qua-item" data-filter="已缴款" bindtap="onTaxHistoryFilter">
+        <text class="tqa-icon">✅</text>
+        <text class="tqa-name">已缴款</text>
+      </view>
+      <view class="tax-qua-item" data-filter="已申报" bindtap="onTaxHistoryFilter">
+        <text class="tqa-icon">⏳</text>
+        <text class="tqa-name">已申报</text>
+      </view>
+    </view>
+
+    <view class="section-header">
+      <text class="title">报税日历</text>
+    </view>
+    <view class="tax-calendar glass-card">
+      <block wx:for="{{taxCalendar}}" wx:key="month">
+        <view class="tax-cal-month">
+          <text class="tcm-label">{{item.month || ''}}</text>
+          <view class="tcm-items">
+            <view class="tcm-item" wx:for="{{item.items || []}}" wx:key="name">
+              <text class="tcm-name">{{item.name || ''}}</text>
+              <text class="tcm-deadline">截止 {{item.deadline || ''}}</text>
+              <text class="tcm-status tcm-{{item.status === '已截止' ? 'overdue' : 'pending'}}">{{item.status || ''}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <view class="section-header">
+      <text class="title">简易税额计算器</text>
+    </view>
+    <view class="tax-calculator glass-card">
+      <view class="calc-row">
+        <text class="calc-label">收入金额（元）</text>
+        <input class="calc-input" type="digit" placeholder="请输入收入" value="{{taxCalcInput.income || ''}}" data-field="income" bindinput="taxCalcInputChange" />
+      </view>
+      <view class="calc-row">
+        <text class="calc-label">扣除金额（元）</text>
+        <input class="calc-input" type="digit" placeholder="请输入扣除项（可空）" value="{{taxCalcInput.deductions || ''}}" data-field="deductions" bindinput="taxCalcInputChange" />
+      </view>
+      <view class="calc-row">
+        <text class="calc-label">税率（%）</text>
+        <input class="calc-input" type="digit" placeholder="如 3, 6, 13, 25" value="{{taxCalcInput.taxRate || ''}}" data-field="taxRate" bindinput="taxCalcInputChange" />
+      </view>
+      <view class="calc-actions">
+        <view class="btn-gold calc-btn" bindtap="calculateTax">🧮 计算税额</view>
+        <view class="btn-outline calc-btn" bindtap="clearTaxCalc">清空</view>
+      </view>
+      <view wx:if="{{taxCalcResult}}" class="calc-result">
+        <text class="cr-title">计算结果</text>
+        <view class="cr-row"><text>应纳税所得额</text><text class="cr-val">{{taxCalcResult.taxableAmount || '0.00'}} 元</text></view>
+        <view class="cr-row"><text>适用税率</text><text class="cr-val">{{taxCalcResult.taxRate || ''}}</text></view>
+        <view class="cr-row cr-total"><text>应缴税额</text><text class="cr-val gold">{{taxCalcResult.taxDue || '0.00'}} 元</text></view>
+      </view>
+    </view>
+
+    <view class="section-header">
+      <text class="title">报税向导</text>
+    </view>
+    <view class="tax-wizard glass-card">
+      <text class="wizard-progress-text">{{wizardProgressText || ''}}</text>
+      <view class="wizard-steps">
+        <view
+          wx:for="{{wizardSteps}}"
+          wx:key="*this"
+          class="ws-item {{taxCurrentStep > index + 1 ? 'done' : ''}} {{taxCurrentStep === index + 1 ? 'current' : ''}}"
+        >
+          <view class="ws-circle">{{taxCurrentStep > index + 1 ? '✓' : index + 1}}</view>
+          <text class="ws-label">{{item || ''}}</text>
+        </view>
+      </view>
+
+      <view wx:if="{{taxCurrentStep === 5}}" class="wizard-success">
+        <text class="ws-big-icon">✅</text>
+        <text class="ws-msg">申报提交成功！</text>
+        <text class="ws-sub">您已成功完成报税，请关注审核状态</text>
+        <view class="btn-gold" catchtap="resetTaxWizard">继续报税</view>
+      </view>
+
+      <view wx:elif="{{taxCurrentStep === 1}}" class="wizard-body">
+        <text class="wb-title">请选择纳税人类型</text>
+        <view class="taxpayer-options">
+          <view
+            class="tpo-card {{selectedTaxpayerType && selectedTaxpayerType.id === item.id ? 'selected' : ''}}"
+            wx:for="{{taxpayerTypes}}"
+            wx:key="id"
+            data-id="{{item.id || ''}}"
+            bindtap="selectTaxpayerType"
+          >
+            <text class="tpo-icon">{{item.icon || ''}}</text>
+            <text class="tpo-name">{{item.name || ''}}</text>
+            <text class="tpo-desc">{{item.label || ''}}</text>
+            <text class="tpo-rate">税率 {{item.taxRates || ''}}</text>
+          </view>
+        </view>
+        <view class="wb-actions">
+          <view class="btn-outline wb-btn" catchtap="resetTaxWizard">取消</view>
+          <view class="btn-gold wb-btn {{selectedTaxpayerType ? '' : 'disabled'}}" catchtap="taxNextStep">下一步</view>
+        </view>
+      </view>
+
+      <view wx:elif="{{taxCurrentStep === 2}}" class="wizard-body">
+        <text class="wb-title">选择报税周期 &amp; 税种</text>
+        <text class="wb-label">申报类型</text>
+        <view class="decltype-options">
+          <view
+            class="dto-item {{selectDeclareType && selectDeclareType.id === item.id ? 'selected' : ''}}"
+            wx:for="{{declareTypeOptions}}"
+            wx:key="id"
+            data-id="{{item.id || ''}}"
+            bindtap="selectDeclareType"
+          >
+            <text class="dto-name">{{item.name || ''}}</text>
+            <text class="dto-desc">{{item.desc || ''}}</text>
+          </view>
+        </view>
+        <text class="wb-label">报税周期</text>
+        <view class="period-options">
+          <view
+            class="po-item {{selectedTaxPeriod && selectedTaxPeriod.id === item.id ? 'selected' : ''}}"
+            wx:for="{{taxPeriods}}"
+            wx:key="id"
+            data-id="{{item.id || ''}}"
+            bindtap="selectTaxPeriod"
+          >
+            <text class="po-name">{{item.name || ''}}</text>
+            <text class="po-desc">{{item.desc || ''}}（{{item.freq || 0}}次/年）</text>
+          </view>
+        </view>
+        <text class="wb-label">税种</text>
+        <view class="category-options">
+          <view
+            class="co-item {{selectedTaxCategory && selectedTaxCategory.id === item.id ? 'selected' : ''}}"
+            wx:for="{{taxCategories}}"
+            wx:key="id"
+            data-id="{{item.id || ''}}"
+            bindtap="selectTaxCategory"
+          >
+            <text class="co-icon">{{item.icon || ''}}</text>
+            <view class="co-body">
+              <text class="co-name">{{item.name || ''}}</text>
+              <text class="co-desc">{{item.desc || ''}}</text>
+              <text class="co-rate">税率 {{item.baseRate || ''}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="wb-actions">
+          <view class="btn-outline wb-btn" catchtap="taxPrevStep">上一步</view>
+          <view class="btn-gold wb-btn {{selectedTaxPeriod && selectedTaxCategory && selectDeclareType ? '' : 'disabled'}}" catchtap="taxNextStep">下一步</view>
+        </view>
+      </view>
+
+      <view wx:elif="{{taxCurrentStep === 3}}" class="wizard-body">
+        <text class="wb-title">填写报税数据</text>
+        <view wx:if="{{selectDeclareType && selectDeclareType.id === 'zero'}}" class="zero-declare-hint">
+          <text class="zdh-icon">ℹ️</text>
+          <text class="zdh-text">您选择的是0申报，无需填写收入数据，系统将自动生成零申报表。</text>
+        </view>
+        <block wx:if="{{!selectDeclareType || selectDeclareType.id === 'normal'}}">
+          <view class="form-row">
+            <text class="form-label">本期收入（元）</text>
+            <input class="form-input" type="digit" placeholder="请输入收入金额" value="{{taxFormData.taxableIncome || ''}}" data-field="taxableIncome" bindinput="taxInputChange" />
+          </view>
+          <view class="form-row">
+            <text class="form-label">成本/扣除项（元）</text>
+            <input class="form-input" type="digit" placeholder="请输入可扣除金额" value="{{taxFormData.deductions || ''}}" data-field="deductions" bindinput="taxInputChange" />
+          </view>
+        </block>
+        <view class="form-row">
+          <text class="form-label">备注</text>
+          <input class="form-input" placeholder="选填" value="{{taxFormData.remarks || ''}}" data-field="remarks" bindinput="taxInputChange" />
+        </view>
+        <view class="wb-actions">
+          <view class="btn-outline wb-btn" catchtap="taxPrevStep">上一步</view>
+          <view class="btn-gold wb-btn" catchtap="taxNextStep">预览</view>
+        </view>
+      </view>
+
+      <view wx:elif="{{taxCurrentStep === 4}}" class="wizard-body">
+        <text class="wb-title">预览确认</text>
+        <view class="preview-card" wx:if="{{taxPreview}}">
+          <view class="pv-row"><text class="pv-label">纳税人类型</text><text class="pv-val">{{taxPreview.taxpayerType || ''}}</text></view>
+          <view class="pv-row"><text class="pv-label">申报类型</text><text class="pv-val">{{taxPreview.declareType || ''}}</text></view>
+          <view class="pv-row"><text class="pv-label">税种</text><text class="pv-val">{{taxPreview.taxCategory || ''}}</text></view>
+          <view class="pv-row"><text class="pv-label">报税周期</text><text class="pv-val">{{taxPreview.period || ''}}</text></view>
+          <view class="pv-divider"></view>
+          <view class="pv-row"><text class="pv-label">收入金额</text><text class="pv-val">{{taxPreview.taxableIncome || '0.00'}} 元</text></view>
+          <view class="pv-row"><text class="pv-label">扣除金额</text><text class="pv-val">{{taxPreview.deductions || '0.00'}} 元</text></view>
+          <view class="pv-row"><text class="pv-label">应纳税所得额</text><text class="pv-val">{{taxPreview.taxableAmount || '0.00'}} 元</text></view>
+          <view class="pv-row"><text class="pv-label">适用税率</text><text class="pv-val">{{taxPreview.taxRate || ''}}</text></view>
+          <view class="pv-divider"></view>
+          <view class="pv-row pv-total"><text class="pv-label">应缴税额</text><text class="pv-val gold">{{taxPreview.taxDue || '0.00'}} 元</text></view>
+          <view class="pv-row"><text class="pv-label">备注</text><text class="pv-val">{{taxPreview.remarks || '无'}}</text></view>
+        </view>
+        <view class="wb-actions">
+          <view class="btn-outline wb-btn" catchtap="taxPrevStep">修改</view>
+          <view class="btn-gold wb-btn" catchtap="submitTax">确认提交</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="section-header">
+      <text class="title">报税记录</text>
+    </view>
+    <view class="tax-history glass-card">
+      <view class="th-filters">
+        <view class="thf-item {{taxHistoryFilter === 'all' ? 'active' : ''}}" data-filter="all" bindtap="onTaxHistoryFilter">全部</view>
+        <view class="thf-item {{taxHistoryFilter === '已申报' ? 'active' : ''}}" data-filter="已申报" bindtap="onTaxHistoryFilter">已申报</view>
+        <view class="thf-item {{taxHistoryFilter === '已缴款' ? 'active' : ''}}" data-filter="已缴款" bindtap="onTaxHistoryFilter">已缴款</view>
+        <view class="thf-item {{taxHistoryFilter === '已完结' ? 'active' : ''}}" data-filter="已完结" bindtap="onTaxHistoryFilter">已完结</view>
+      </view>
+      <block wx:for="{{filteredTaxHistory}}" wx:key="id">
+        <view class="th-item" bindtap="showTaxDetail" data-id="{{item.id || ''}}">
+          <view class="th-head">
+            <text class="th-name">{{item.taxCategory || ''}} · {{item.period || ''}}</text>
+            <text class="th-status ths-{{item.status === '已缴款' || item.status === '已完结' ? 'done' : item.status === '已申报' ? 'filing' : item.status === '草稿' ? 'draft' : 'pending'}}">{{item.status || ''}}</text>
+          </view>
+          <text class="th-meta">{{item.taxpayerType || ''}} · {{item.declareType || ''}} · {{item.date || ''}}</text>
+          <text class="th-amount" wx:if="{{item.amountPositive}}">¥{{item.amount || '0.00'}}</text>
+          <text class="th-amount zero" wx:else>¥0.00（零申报）</text>
+        </view>
+      </block>
+      <view class="empty-tip" wx:if="{{!filteredTaxHistory.length}}">暂无报税记录</view>
+    </view>
+
+    <view wx:if="{{selectedHistoryItem}}" class="modal-overlay" catchtap="closeTaxDetail">
+      <view class="modal-content glass-card" catchtap="noop">
+        <text class="modal-title">报税详情</text>
+        <view class="modal-body">
+          <view class="md-row"><text>税种</text><text>{{selectedHistoryItem.taxCategory || ''}}</text></view>
+          <view class="md-row"><text>纳税人类型</text><text>{{selectedHistoryItem.taxpayerType || ''}}</text></view>
+          <view class="md-row"><text>所属周期</text><text>{{selectedHistoryItem.period || ''}}</text></view>
+          <view class="md-row"><text>申报类型</text><text>{{selectedHistoryItem.declareType || ''}}</text></view>
+          <view class="md-row"><text>申报日期</text><text>{{selectedHistoryItem.date || ''}}</text></view>
+          <view class="md-divider"></view>
+          <view class="md-row" wx:if="{{selectedHistoryItem.detail.taxableIncome}}"><text>收入金额</text><text>{{selectedHistoryItem.detail.taxableIncome || '0.00'}} 元</text></view>
+          <view class="md-row" wx:if="{{selectedHistoryItem.detail.deductions}}"><text>扣除金额</text><text>{{selectedHistoryItem.detail.deductions || '0.00'}} 元</text></view>
+          <view class="md-row" wx:if="{{selectedHistoryItem.detail.taxRate}}"><text>适用税率</text><text>{{selectedHistoryItem.detail.taxRate || ''}}</text></view>
+          <view class="md-row" wx:if="{{selectedHistoryItem.detail.taxDue}}"><text>应纳税额</text><text>¥{{selectedHistoryItem.detail.taxDue || '0.00'}}</text></view>
+          <view class="md-divider"></view>
+          <view class="md-row md-total"><text>应缴税额</text><text class="gold">¥{{selectedHistoryItem.amount || '0.00'}}</text></view>
+          <view class="md-row" wx:if="{{selectedHistoryItem.detail.paid && selectedHistoryItem.detail.paid !== '-'}}"><text>已缴税额</text><text>¥{{selectedHistoryItem.detail.paid || ''}}</text></view>
+          <view class="md-row" wx:if="{{selectedHistoryItem.certificateNo}}"><text>完税凭证号</text><text>{{selectedHistoryItem.certificateNo || ''}}</text></view>
+          <view class="md-row" wx:if="{{selectedHistoryItem.detail.remarks}}"><text>备注</text><text>{{selectedHistoryItem.detail.remarks || ''}}</text></view>
+        </view>
+        <view class="modal-btn-group">
+          <view class="btn-danger modal-btn" data-id="{{selectedHistoryItem.id || ''}}" catchtap="deleteTaxRecord">🗑 删除</view>
+          <view class="btn-gold modal-btn" catchtap="closeTaxDetail">关闭</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ============================================================ -->
+  <!-- TAB 2: 代理商 -->
+  <!-- ============================================================ -->
+  <view wx:if="{{currentTab === 2}}" class="fade-in-up">
+    <view class="sub-tab-bar glass-card">
+      <view
+        class="sub-tab-item {{agentCurrentTab === item.id ? 'active' : ''}}"
+        wx:for="{{agentTabs}}"
+        wx:key="id"
+        data-tab="{{item.id || ''}}"
+        bindtap="switchAgentTab"
+      >
+        <text class="sti-icon">{{item.icon || ''}}</text>
+        <text class="sti-name">{{item.name || ''}}</text>
+      </view>
+    </view>
+
+    <view wx:if="{{agentCurrentTab === 'apply'}}" class="agent-form glass-card">
+      <text class="mp-title">📝 代理商入驻申请</text>
+      <view class="form-row">
+        <text class="form-label">企业名称 *</text>
+        <input class="form-input" placeholder="请输入企业全称" value="{{agentForm.company || ''}}" data-field="company" bindinput="agentFormInput" />
+      </view>
+      <view class="form-row">
+        <text class="form-label">联系人 *</text>
+        <input class="form-input" placeholder="请输入联系人姓名" value="{{agentForm.contact || ''}}" data-field="contact" bindinput="agentFormInput" />
+      </view>
+      <view class="form-row">
+        <text class="form-label">手机号 *</text>
+        <input class="form-input" type="number" placeholder="请输入手机号" value="{{agentForm.phone || ''}}" data-field="phone" bindinput="agentFormInput" />
+      </view>
+      <view class="form-row">
+        <text class="form-label">所在区域</text>
+        <input class="form-input" placeholder="省/市/区" value="{{agentForm.region || ''}}" data-field="region" bindinput="agentFormInput" />
+      </view>
+      <view class="form-row">
+        <text class="form-label">资质说明</text>
+        <input class="form-input" placeholder="营业执照、许可证等" value="{{agentForm.qualification || ''}}" data-field="qualification" bindinput="agentFormInput" />
+      </view>
+      <view class="form-row">
+        <text class="form-label">备注</text>
+        <input class="form-input" placeholder="选填" value="{{agentForm.remark || ''}}" data-field="remark" bindinput="agentFormInput" />
+      </view>
+      <view class="btn-gold submit-btn" catchtap="submitAgentForm">提交入驻申请</view>
+    </view>
+
+    <view wx:elif="{{agentCurrentTab === 'list'}}" class="module-panel">
+      <view class="section-header">
+        <text class="title">代理商列表</text>
+      </view>
+      <view class="status-filters">
+        <view class="sf-item {{agentStatusFilter === 'all' ? 'active' : ''}}" data-filter="all" bindtap="setAgentStatusFilter">全部</view>
+        <view class="sf-item {{agentStatusFilter === '待审核' ? 'active' : ''}}" data-filter="待审核" bindtap="setAgentStatusFilter">待审核</view>
+        <view class="sf-item {{agentStatusFilter === '已通过' ? 'active' : ''}}" data-filter="已通过" bindtap="setAgentStatusFilter">已通过</view>
+        <view class="sf-item {{agentStatusFilter === '已驳回' ? 'active' : ''}}" data-filter="已驳回" bindtap="setAgentStatusFilter">已驳回</view>
+      </view>
+      <block wx:for="{{filteredAgents}}" wx:key="id">
+        <view class="agent-card glass-card" bindtap="showAgentDetail" data-id="{{item.id || ''}}">
+          <view class="ac-head">
+            <text class="ac-name">{{item.company || ''}}</text>
+            <text class="ac-status acs-{{item.status === '已通过' ? 'pass' : item.status === '待审核' ? 'pending' : 'reject'}}">{{item.status || ''}}</text>
+          </view>
+          <view class="ac-meta">
+            <text>📞 {{item.contact || ''}} {{item.phone || ''}}</text>
+            <text>📍 {{item.region || ''}}</text>
+            <text wx:if="{{item.qualification}}">📄 {{item.qualification || ''}}</text>
+            <text>📅 {{item.applyDate || ''}}</text>
+            <text wx:if="{{item.remark}}">💬 {{item.remark || ''}}</text>
+          </view>
+          <view class="ac-actions" wx:if="{{item.status === '待审核'}}" catchtap="noop">
+            <view class="btn-gold ac-btn" data-id="{{item.id || ''}}" catchtap="confirmApproveAgent">通过</view>
+            <view class="btn-outline ac-btn" data-id="{{item.id || ''}}" catchtap="confirmRejectAgent">驳回</view>
+          </view>
+        </view>
+      </block>
+      <view class="empty-state" wx:if="{{!filteredAgents.length}}">
+        <text class="empty-icon">🤝</text>
+        <text class="empty-text">暂无代理商数据</text>
+      </view>
+    </view>
+
+    <view wx:elif="{{agentCurrentTab === 'commission'}}" class="module-panel">
+      <view class="section-header">
+        <text class="title">分润规则配置</text>
+      </view>
+      <block wx:for="{{commissionRules}}" wx:key="id">
+        <view class="cr-card glass-card">
+          <text class="cr-name">{{item.productType || ''}}</text>
+          <text class="cr-desc">{{item.desc || ''}}</text>
+          <view class="cr-tiers">
+            <view class="cr-tier"><text class="crt-label">基础</text><text class="crt-val">{{item.baseRate || ''}}</text></view>
+            <view class="cr-tier"><text class="crt-label">进阶</text><text class="crt-val">{{item.tier1Rate || ''}}</text></view>
+            <view class="cr-tier"><text class="crt-label">高级</text><text class="crt-val">{{item.tier2Rate || ''}}</text></view>
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <view wx:elif="{{agentCurrentTab === 'report'}}" class="module-panel">
+      <view class="section-header">
+        <text class="title">分润报表</text>
+        <text class="filtered-hint" wx:if="{{userAccountType !== 'admin'}}">{{ACCOUNT_TYPE_LABELS[userAccountType] || ''}}视图</text>
+      </view>
+      <block wx:for="{{filteredCommissionReports}}" wx:key="period">
+        <view class="report-card glass-card" bindtap="showCommissionReport" data-period="{{item.period || ''}}">
+          <view class="rc-head">
+            <text class="rc-period">{{item.period || ''}}</text>
+            <text class="rc-count">{{item.orderCount || 0}} 单</text>
+          </view>
+          <text class="rc-amount">总佣金 ¥{{item.totalCommission || '0.00'}}</text>
+          <view class="rc-agents">
+            <view class="rca-item" wx:for="{{item.details || []}}" wx:key="agent">
+              <text class="rca-name">{{item.agent || ''}}</text>
+              <text class="rca-val">¥{{item.amount || '0.00'}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+      <view class="empty-state" wx:if="{{!commissionReports.length}}">
+        <text class="empty-icon">📈</text>
+        <text class="empty-text">暂无分润数据</text>
+      </view>
+    </view>
+
+    <view wx:if="{{agentSelectedReport}}" class="modal-overlay" catchtap="closeCommissionReport">
+      <view class="modal-content glass-card" catchtap="noop">
+        <text class="modal-title">{{agentSelectedReport.period || ''}} 分润明细</text>
+        <view class="modal-body">
+          <view class="md-row"><text>总佣金</text><text class="gold">¥{{agentSelectedReport.totalCommission || '0.00'}}</text></view>
+          <view class="md-row"><text>总订单数</text><text>{{agentSelectedReport.orderCount || 0}} 单</text></view>
+          <view class="md-divider"></view>
+          <view class="md-row" wx:for="{{agentSelectedReport.details || []}}" wx:key="agent">
+            <text>{{item.agent || ''}}（{{item.orders || 0}}单）</text>
+            <text>¥{{item.amount || '0.00'}}</text>
+          </view>
+        </view>
+        <view class="modal-btn-group">
+          <view class="btn-outline modal-btn" catchtap="copyCommissionReport">📋 导出</view>
+          <view class="btn-gold modal-btn" catchtap="closeCommissionReport">关闭</view>
+        </view>
+      </view>
+    </view>
+
+    <view wx:elif="{{agentCurrentTab === 'performance'}}" class="module-panel">
+      <view class="section-header">
+        <text class="title">{{userAccountType === 'staff' ? '我的业绩' : '代理商业绩统计'}}</text>
+        <text class="header-sub">{{userAccountType !== 'admin' ? '（已按角色过滤）' : '放款金额（元）'}}</text>
+      </view>
+      <view class="chart-container glass-card" wx:if="{{filteredPerformanceReports.length}}">
+        <view class="chart-bar-group" wx:for="{{filteredPerformanceReports}}" wx:key="agent">
+          <view class="chart-bar" style="height: {{(item.amount / (maxPerformanceAmount || 1)) * 300 + 20}}rpx; background: {{item.color || '#0F3D2E'}};">
+            <text class="chart-bar-value">{{item.chartLabel || item.amount}}</text>
+          </view>
+          <text class="chart-bar-label">{{item.agent || ''}}</text>
+        </view>
+      </view>
+      <view class="stat-summary glass-card">
+        <view class="ss-item"><text class="ss-val">{{filteredPerformanceReports.length || 0}}</text><text class="ss-label">{{userAccountType === 'staff' ? '我的产品' : '代理商数'}}</text></view>
+        <view class="ss-item"><text class="ss-val">{{totalAgentFormatted}}</text><text class="ss-label">总放款</text></view>
+        <view class="ss-item"><text class="ss-val">{{latestOrderCount || 0}}</text><text class="ss-label">月订单</text></view>
+      </view>
+      <view class="empty-state" wx:if="{{!filteredPerformanceReports.length}}">
+        <text class="empty-icon">📊</text>
+        <text class="empty-text">暂无业绩数据</text>
+      </view>
+    </view>
+  </view>
+
+    <view wx:if="{{agentDetailItem}}" class="modal-overlay" catchtap="closeAgentDetail">
+      <view class="modal-content glass-card" catchtap="noop">
+        <text class="modal-title">代理商详情</text>
+        <view class="modal-body">
+          <view class="md-row"><text>企业名称</text><text>{{agentDetailItem.company || ''}}</text></view>
+          <view class="md-row"><text>联系人</text><text>{{agentDetailItem.contact || ''}}</text></view>
+          <view class="md-row"><text>手机号</text><text>{{agentDetailItem.phone || ''}}</text></view>
+          <view class="md-row"><text>所在区域</text><text>{{agentDetailItem.region || ''}}</text></view>
+          <view class="md-row"><text>资质说明</text><text>{{agentDetailItem.qualification || ''}}</text></view>
+          <view class="md-row"><text>申请时间</text><text>{{agentDetailItem.applyDate || ''}}</text></view>
+          <view class="md-row"><text>审核状态</text><text class="ac-status acs-{{agentDetailItem.status === '已通过' ? 'pass' : agentDetailItem.status === '待审核' ? 'pending' : 'reject'}}">{{agentDetailItem.status || ''}}</text></view>
+          <view class="md-row" wx:if="{{agentDetailItem.remark}}"><text>审核备注</text><text>{{agentDetailItem.remark || ''}}</text></view>
+        </view>
+        <view class="btn-gold modal-close" catchtap="closeAgentDetail">关闭</view>
+    </view>
+  </view>
+
+  <!-- ============================================================ -->
+  <!-- TAB 3: 财务管理 -->
+  <!-- ============================================================ -->
+  <view wx:if="{{currentTab === 3}}" class="fade-in-up">
+    <view class="sub-tab-bar glass-card">
+      <view
+        class="sub-tab-item {{financeCurrentTab === item.id ? 'active' : ''}}"
+        wx:for="{{financeTabs}}"
+        wx:key="id"
+        data-tab="{{item.id || ''}}"
+        bindtap="switchFinanceTab"
+      >
+        <text class="sti-icon">{{item.icon || ''}}</text>
+        <text class="sti-name">{{item.name || ''}}</text>
+      </view>
+    </view>
+
+    <view wx:if="{{financeCurrentTab === 'overview'}}" class="module-panel">
+      <view class="finance-overview glass-card">
+        <text class="fo-month">{{financeOverviewData.month || ''}} 财务概览</text>
+        <view class="fo-grid">
+          <view class="fo-item income"><text class="foi-val">{{financeOverviewData.totalIncome_str}}</text><text class="foi-label">总收入</text></view>
+          <view class="fo-item expense"><text class="foi-val">{{financeOverviewData.totalExpense_str}}</text><text class="foi-label">总支出</text></view>
+          <view class="fo-item {{financeOverviewData.balanceClass || 'balance'}}" wx:if="{{(financeOverviewData.balance || 0) < 0}}" bindtap="handleFinanceAlarmTap">
+            <text class="foi-val alarm-pulse">{{financeOverviewData.balance_str}}</text>
+            <text class="foi-label">赤字 ‣ 去处理</text>
+          </view>
+          <view class="fo-item balance" wx:else>
+            <text class="foi-val">{{financeOverviewData.balance_str}}</text>
+            <text class="foi-label">结余</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="fo-stat-row">
+        <view class="fo-stat-item"><text class="fo-stat-val">{{filteredFinanceRecords.length || 0}}</text><text class="fo-stat-label">本月记录</text></view>
+        <view class="fo-stat-item"><text class="fo-stat-val">{{financeOverviewData.incomeItems.length || 0}}</text><text class="fo-stat-label">收入项数</text></view>
+        <view class="fo-stat-item"><text class="fo-stat-val">{{financeOverviewData.expenseItems.length || 0}}</text><text class="fo-stat-label">支出项数</text></view>
+      </view>
+
+      <view class="fo-detail-grid">
+        <view class="fo-section glass-card">
+          <text class="fos-title">📈 收入构成</text>
+          <view class="fos-item" wx:for="{{financeOverviewData.incomeItems || []}}" wx:key="category">
+            <text class="fosi-name">{{item.category || ''}}</text>
+            <view class="fosi-bar-bg"><view class="fosi-bar inc" style="width: {{(item.amount / (financeOverviewData.totalIncome || 1)) * 100}}%"></view></view>
+            <text class="fosi-val">{{item.amount_str}}</text>
+          </view>
+          <view class="empty-tip" wx:if="{{!financeOverviewData.incomeItems || !financeOverviewData.incomeItems.length}}">暂无收入数据</view>
+        </view>
+        <view class="fo-section glass-card">
+          <text class="fos-title">📉 支出构成</text>
+          <view class="fos-item" wx:for="{{financeOverviewData.expenseItems || []}}" wx:key="category">
+            <text class="fosi-name">{{item.category || ''}}</text>
+            <view class="fosi-bar-bg"><view class="fosi-bar exp" style="width: {{(item.amount / (financeOverviewData.totalExpense || 1)) * 100}}%"></view></view>
+            <text class="fosi-val">{{item.amount_str}}</text>
+          </view>
+          <view class="empty-tip" wx:if="{{!financeOverviewData.expenseItems || !financeOverviewData.expenseItems.length}}">暂无支出数据</view>
+        </view>
+      </view>
+    </view>
+
+    <view wx:elif="{{financeCurrentTab === 'records'}}" class="module-panel">
+      <view class="section-head-actions">
+        <view class="section-header">
+          <text class="title">收支记录</text>
+        </view>
+        <view class="btn-outline add-btn" catchtap="toggleFinanceForm">+ 添加</view>
+      </view>
+
+      <view class="month-picker">
+        <picker mode="selector" range="{{financeMonths}}" bindchange="onFinanceMonthChange">
+          <view class="picker-btn">{{financeMonthLabels[financeFilterMonth] || financeFilterMonth || '选择月份'}} ▾</view>
+        </picker>
+      </view>
+
+      <view wx:if="{{financeShowForm}}" class="finance-form glass-card">
+        <text class="ff-title">新增收支记录</text>
+        <view class="ff-type-switch">
+          <view class="ffts-item {{financeForm.type === 'income' ? 'active' : ''}}" data-value="income" bindtap="setFinanceType">收入</view>
+          <view class="ffts-item {{financeForm.type === 'expense' ? 'active' : ''}}" data-value="expense" bindtap="setFinanceType">支出</view>
+        </view>
+        <view class="form-row"><text class="form-label">分类</text><input class="form-input" placeholder="如：渠道分润、工资、办公" value="{{financeForm.category || ''}}" data-field="category" bindinput="financeInputChange" /></view>
+        <view class="form-row"><text class="form-label">金额（元）</text><input class="form-input" type="digit" placeholder="请输入金额" value="{{financeForm.amount || ''}}" data-field="amount" bindinput="financeInputChange" /></view>
+        <view class="form-row"><text class="form-label">日期</text><input class="form-input" placeholder="{{today}}" value="{{financeForm.date || ''}}" data-field="date" bindinput="financeInputChange" /></view>
+        <view class="form-row"><text class="form-label">备注</text><input class="form-input" placeholder="选填" value="{{financeForm.note || ''}}" data-field="note" bindinput="financeInputChange" /></view>
+        <view class="btn-gold" catchtap="submitFinanceRecord">保存</view>
+      </view>
+
+      <block wx:for="{{filteredFinanceRecords}}" wx:key="id">
+        <view class="finance-record glass-card">
+          <view class="fr-icon">{{item.type === 'income' ? '💚' : '🔴'}}</view>
+          <view class="fr-body">
+            <text class="fr-category">{{item.category || ''}}</text>
+            <text class="fr-note">{{item.note || ''}} · {{item.date || ''}}</text>
+          </view>
+          <text class="fr-amount {{item.type === 'income' ? 'in' : 'out'}}">{{item.amount_str}}</text>
+          <view class="fr-delete" data-id="{{item.id || ''}}" catchtap="deleteFinanceRecord">✕</view>
+        </view>
+      </block>
+      <view class="empty-state" wx:if="{{!filteredFinanceRecords.length}}">
+        <text class="empty-icon">📋</text>
+        <text class="empty-text">暂无收支记录</text>
+      </view>
+    </view>
+
+    <view wx:elif="{{financeCurrentTab === 'reports'}}" class="module-panel">
+      <view class="section-head-actions">
+        <view class="section-header">
+          <text class="title">财务报表</text>
+        </view>
+        <view class="btn-outline add-btn" catchtap="exportFinanceReport">📋 导出</view>
+      </view>
+      <view class="month-picker">
+        <picker mode="selector" range="{{financeMonths}}" bindchange="onFinanceMonthChange">
+          <view class="picker-btn">{{financeMonthLabels[financeFilterMonth] || financeFilterMonth || '选择月份'}} ▾</view>
+        </picker>
+      </view>
+      <view class="report-summary glass-card">
+        <text class="rs-title">{{financeFilterMonth || '选择月份'}} 财务摘要</text>
+        <view class="rs-grid">
+          <view class="rs-item"><text class="rs-val in">{{financeOverviewData.totalIncome_str}}</text><text class="rs-label">收入</text></view>
+          <view class="rs-item"><text class="rs-val out">{{financeOverviewData.totalExpense_str}}</text><text class="rs-label">支出</text></view>
+          <view class="rs-item"><text class="rs-val {{financeOverviewData.balanceClass || 'in'}}">{{financeOverviewData.balance_str}}</text><text class="rs-label">结余</text></view>
+        </view>
+      </view>
+      <view class="report-detail glass-card">
+        <text class="rd-title">收支明细</text>
+        <view class="rd-item" wx:for="{{financeOverviewData.incomeItems || []}}" wx:key="category">
+          <text class="rdi-name">💚 {{item.category || ''}}</text>
+          <text class="rdi-val">{{item.amount_str}}</text>
+        </view>
+        <view class="rd-divider"></view>
+        <view class="rd-item" wx:for="{{financeOverviewData.expenseItems || []}}" wx:key="category">
+          <text class="rdi-name">🔴 {{item.category || ''}}</text>
+          <text class="rdi-val">{{item.amount_str}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view wx:elif="{{financeCurrentTab === 'reminders'}}" class="module-panel">
+      <view class="section-header">
+        <text class="title">收付款提醒</text>
+      </view>
+      <view class="sub-section-title">待处理</view>
+      <block wx:for="{{financeReminders}}" wx:key="id">
+        <view class="reminder-card glass-card">
+          <view class="rm-head">
+            <text class="rm-title">{{item.title || ''}}</text>
+            <text class="rm-status rms-pending">{{item.status || ''}}</text>
+          </view>
+          <view class="rm-meta">
+            <text class="rm-type">{{item.type || ''}}</text>
+            <text class="rm-amount">{{item.amount_str}}</text>
+            <text class="rm-due">截止 {{item.dueDate || ''}}</text>
+          </view>
+          <view class="btn-gold rm-btn" data-id="{{item.id || ''}}" catchtap="completeReminder">标记完成</view>
+        </view>
+      </block>
+      <view class="empty-tip" wx:if="{{!financeReminders.length}}">暂无待处理提醒</view>
+
+      <view class="sub-section-title" wx:if="{{financeCompletedReminders.length}}">已完成</view>
+      <block wx:for="{{financeCompletedReminders}}" wx:key="id">
+        <view class="reminder-card glass-card done">
+          <view class="rm-head">
+            <text class="rm-title">{{item.title || ''}}</text>
+            <text class="rm-status rms-done">{{item.status || ''}}</text>
+          </view>
+          <view class="rm-meta">
+            <text class="rm-type">{{item.type || ''}}</text>
+            <text class="rm-amount">{{item.amount_str}}</text>
+            <text class="rm-due">截止 {{item.dueDate || ''}}</text>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- ============================================================ -->
+  <!-- TAB 4: 产品准入 -->
+  <!-- ============================================================ -->
+  <view wx:if="{{currentTab === 4}}" class="fade-in-up">
+    <view class="sub-tab-bar glass-card">
+      <view
+        class="sub-tab-item {{productCurrentTab === item.id ? 'active' : ''}}"
+        wx:for="{{productTabs}}"
+        wx:key="id"
+        data-tab="{{item.id || ''}}"
+        bindtap="switchProductTab"
+      >
+        <text class="sti-icon">{{item.icon || ''}}</text>
+        <text class="sti-name">{{item.name || ''}}</text>
+      </view>
+    </view>
+
+    <view wx:if="{{productCurrentTab === 'list'}}" class="module-panel">
+      <view class="section-header">
+        <text class="title">产品列表</text>
+        <text class="header-sub">共 {{products.length || 0}} 个产品</text>
+      </view>
+      <view class="product-stats-bar" wx:if="{{products.length}}">
+        <view class="ps-item"><text class="ps-count">{{productStats.online}}</text><text class="ps-label">已上架</text></view>
+        <view class="ps-item"><text class="ps-count">{{productStats.reviewing}}</text><text class="ps-label">审核中</text></view>
+        <view class="ps-item"><text class="ps-count">{{productStats.draft}}</text><text class="ps-label">草稿</text></view>
+        <view class="ps-item"><text class="ps-count">{{productStats.offline}}</text><text class="ps-label">已下架</text></view>
+      </view>
+      <view class="status-filters">
+        <view class="sf-item {{productStatusFilter === 'all' ? 'active' : ''}}" data-filter="all" bindtap="setProductStatusFilter">全部</view>
+        <view class="sf-item {{productStatusFilter === '已上架' ? 'active' : ''}}" data-filter="已上架" bindtap="setProductStatusFilter">已上架</view>
+        <view class="sf-item {{productStatusFilter === '审核中' ? 'active' : ''}}" data-filter="审核中" bindtap="setProductStatusFilter">审核中</view>
+        <view class="sf-item {{productStatusFilter === '草稿' ? 'active' : ''}}" data-filter="草稿" bindtap="setProductStatusFilter">草稿</view>
+        <view class="sf-item {{productStatusFilter === '已下架' ? 'active' : ''}}" data-filter="已下架" bindtap="setProductStatusFilter">已下架</view>
+      </view>
+      <block wx:for="{{filteredProducts}}" wx:key="id">
+        <view class="product-card glass-card" bindtap="showProductDetail" data-id="{{item.id || ''}}">
+          <view class="pc-head">
+            <text class="pc-name">{{item.name || ''}}</text>
+            <text class="pc-status pcs-{{item.status === '已上架' ? 'online' : item.status === '审核中' ? 'review' : item.status === '草稿' ? 'draft' : 'offline'}}">{{item.status || ''}}</text>
+          </view>
+          <view class="pc-meta">
+            <text class="tag">{{item.type || ''}}</text>
+            <text>利率 {{item.rateRange || ''}}</text>
+            <text>{{item.partner || ''}}</text>
+          </view>
+          <text class="pc-desc" wx:if="{{item.desc}}">{{item.desc || ''}}</text>
+          <text class="pc-date">上架申请：{{item.applyDate || ''}}</text>
+        </view>
+      </block>
+      <view class="empty-state" wx:if="{{!filteredProducts.length}}">
+        <text class="empty-icon">📦</text>
+        <text class="empty-text">暂无产品数据</text>
+      </view>
+
+      <view wx:if="{{productDetailItem}}" class="modal-overlay" catchtap="closeProductDetail">
+        <view class="modal-content glass-card" catchtap="noop">
+          <text class="modal-title">{{productDetailItem.name || ''}}</text>
+          <view class="modal-body">
+            <view class="md-row"><text>产品名称</text><text>{{productDetailItem.name || ''}}</text></view>
+            <view class="md-row"><text>产品类型</text><text>{{productDetailItem.type || ''}}</text></view>
+            <view class="md-row"><text>利率范围</text><text>{{productDetailItem.rateRange || ''}}</text></view>
+            <view class="md-row"><text>合作机构</text><text>{{productDetailItem.partner || ''}}</text></view>
+            <view class="md-row"><text>当前状态</text><text class="pc-status pcs-{{productDetailItem.status === '已上架' ? 'online' : productDetailItem.status === '审核中' ? 'review' : productDetailItem.status === '草稿' ? 'draft' : 'offline'}}">{{productDetailItem.status || ''}}</text></view>
+            <view class="md-divider"></view>
+            <view class="md-row"><text>申请日期</text><text>{{productDetailItem.applyDate || ''}}</text></view>
+            <view class="md-row" wx:if="{{productDetailItem.contactPerson}}"><text>联系人</text><text>{{productDetailItem.contactPerson || ''}}</text></view>
+            <view class="md-row" wx:if="{{productDetailItem.termRange}}"><text>期限范围</text><text>{{productDetailItem.termRange || ''}}</text></view>
+            <view class="md-row" wx:if="{{productDetailItem.targetCustomer}}"><text>目标客户</text><text>{{productDetailItem.targetCustomer || ''}}</text></view>
+            <view class="md-divider"></view>
+            <view class="md-row" wx:if="{{productDetailItem.desc}}"><text>产品描述</text><text>{{productDetailItem.desc || ''}}</text></view>
+          </view>
+          <view class="btn-gold modal-close" catchtap="closeProductDetail">关闭</view>
+        </view>
+      </view>
+    </view>
+
+    <view wx:elif="{{productCurrentTab === 'apply'}}" class="product-form glass-card">
+      <text class="mp-title">📝 产品上架申请</text>
+      <view class="form-row">
+        <text class="form-label">产品名称 *</text>
+        <input class="form-input" placeholder="请输入产品名称" value="{{productForm.name || ''}}" data-field="name" bindinput="productFormInput" />
+      </view>
+      <view class="form-row">
+        <text class="form-label">产品类型 *</text>
+        <view class="type-picker-options">
+          <view
+            class="tpo-item {{productForm.type === item ? 'selected' : ''}}"
+            wx:for="{{productTypeOptions}}"
+            wx:key="*this"
+            data-type="{{item || ''}}"
+            bindtap="setProductType"
+          >{{item || ''}}</view>
+        </view>
+      </view>
+      <view class="form-row">
+        <text class="form-label">利率范围</text>
+        <input class="form-input" placeholder="如 3.5%~6.0%" value="{{productForm.rateRange || ''}}" data-field="rateRange" bindinput="productFormInput" />
+      </view>
+      <view class="form-row">
+        <text class="form-label">合作机构 *</text>
+        <input class="form-input" placeholder="请输入合作银行/机构" value="{{productForm.partner || ''}}" data-field="partner" bindinput="productFormInput" />
+      </view>
+      <view class="form-row">
+        <text class="form-label">合作机构联系人</text>
+        <input class="form-input" placeholder="机构对接人姓名及联系方式" value="{{productFormExtra.contactPerson || ''}}" data-field="contactPerson" bindinput="productFormExtraInput" />
+      </view>
+      <view class="form-row">
+        <text class="form-label">产品期限范围</text>
+        <input class="form-input" placeholder="如 12~60期" value="{{productFormExtra.termRange || ''}}" data-field="termRange" bindinput="productFormExtraInput" />
+      </view>
+      <view class="form-row">
+        <text class="form-label">目标客户群体</text>
+        <input class="form-input" placeholder="如 个人车主、小微企业" value="{{productFormExtra.targetCustomer || ''}}" data-field="targetCustomer" bindinput="productFormExtraInput" />
+      </view>
+      <view class="form-row">
+        <text class="form-label">产品描述</text>
+        <input class="form-input" placeholder="选填，产品主要特点" value="{{productForm.desc || ''}}" data-field="desc" bindinput="productFormInput" />
+      </view>
+      <view class="btn-gold submit-btn" catchtap="submitProductForm">提交审核</view>
+    </view>
+
+    <view wx:elif="{{productCurrentTab === 'authorize'}}" class="module-panel">
+      <view class="section-header">
+        <text class="title">代理商产品授权</text>
+      </view>
+      <block wx:for="{{agentProductAuth}}" wx:key="id">
+        <view class="auth-card glass-card">
+          <text class="auth-name">{{item.name || ''}}</text>
+          <view class="ac-products">
+            <view
+              class="acp-item {{item.authorizedProducts && item.authorizedProducts.includes(product.id) ? 'active' : ''}}"
+              wx:for="{{products}}"
+              wx:key="id"
+              data-agent-id="{{item.id || ''}}"
+              data-product-id="{{product.id || ''}}"
+              bindtap="toggleProductAuth"
+            >{{product.name || ''}}</view>
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <view wx:elif="{{productCurrentTab === 'review'}}" class="module-panel">
+      <view class="section-header">
+        <text class="title">准入审核流程</text>
+      </view>
+      <block wx:for="{{reviewRecords}}" wx:key="id">
+        <view class="review-card glass-card" bindtap="showReviewDetail" data-id="{{item.id || ''}}">
+          <view class="rvc-head">
+            <text class="rvc-name">{{item.productName || ''}}</text>
+            <text class="rvc-status rvcs-{{item.status === '终审通过' ? 'done' : item.status === '初审通过' ? 'first' : item.status === '待初审' ? 'pending' : 'draft'}}">{{item.status || ''}}</text>
+          </view>
+          <view class="rvc-meta">
+            <text>申请人：{{item.applicant || ''}}</text>
+            <text>申请日期：{{item.applyDate || ''}}</text>
+          </view>
+          <view class="rvc-progress">
+            <view class="rvcp-step {{item.history.length >= 1 ? 'done' : ''}}"><text class="rvcp-dot">{{item.history.length >= 1 ? '✓' : '1'}}</text><text class="rvcp-label">提交</text></view>
+            <view class="rvcp-line {{item.history.length >= 2 ? 'done' : ''}}"></view>
+            <view class="rvcp-step {{item.history.length >= 2 ? 'done' : ''}}"><text class="rvcp-dot">{{item.history.length >= 2 ? '✓' : '2'}}</text><text class="rvcp-label">初审</text></view>
+            <view class="rvcp-line {{item.history.length >= 3 ? 'done' : ''}}"></view>
+            <view class="rvcp-step {{item.history.length >= 3 ? 'done' : ''}}"><text class="rvcp-dot">{{item.history.length >= 3 ? '✓' : '3'}}</text><text class="rvcp-label">终审</text></view>
+          </view>
+          <view class="rvc-action" wx:if="{{item.currentStep === '待初审' || item.currentStep === '待终审'}}">
+            <view class="action-row">
+              <view class="btn-outline action-btn" data-id="{{item.id || ''}}" catchtap="rejectReview">驳回</view>
+              <view class="btn-gold action-btn" data-id="{{item.id || ''}}" catchtap="approveReview">{{item.currentStep === '待初审' ? '通过初审' : '通过终审'}}</view>
+            </view>
+          </view>
+        </view>
+      </block>
+      <view class="empty-state" wx:if="{{!reviewRecords.length}}">
+        <text class="empty-icon">✅</text>
+        <text class="empty-text">暂无审核记录</text>
+      </view>
+    </view>
+
+    <view wx:if="{{selectedReview}}" class="modal-overlay" catchtap="closeReviewDetail">
+      <view class="modal-content glass-card" catchtap="noop">
+        <text class="modal-title">审核详情 - {{selectedReview.productName || ''}}</text>
+        <view class="modal-body">
+          <view class="md-row"><text>当前状态</text><text class="rvc-status rvcs-{{selectedReview.status === '终审通过' ? 'done' : selectedReview.status === '初审通过' ? 'first' : 'pending'}}">{{selectedReview.status || ''}}</text></view>
+          <view class="md-divider"></view>
+          <view class="md-row" wx:for="{{selectedReview.history || []}}" wx:key="step">
+            <view class="md-step">
+              <text class="mds-index">{{index + 1}}.</text>
+              <view class="mds-body">
+                <text class="mds-step">{{item.step || ''}}</text>
+                <text class="mds-time">{{item.time || ''}} {{item.operator || ''}}</text>
+                <text class="mds-comment" wx:if="{{item.comment}}">{{item.comment || ''}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="btn-gold modal-close" catchtap="closeReviewDetail">关闭</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ============================================================ -->
+  <!-- TAB 5: 模板中心 -->
+  <!-- ============================================================ -->
+  <view wx:if="{{currentTab === 5}}" class="fade-in-up">
+    <view class="oa-hero premium-hero">
+      <safe-image className="premium-hero-bg" src="/images/banner1.webp" mode="aspectFill" />
+      <view class="premium-hero-body">
+        <text class="premium-badge">模板中心</text>
+        <text class="premium-hero-title">文档 &amp; 合同模板</text>
+        <text class="premium-hero-sub">合同模板 · 表单模板 · 文档模板</text>
+      </view>
+    </view>
+
+    <view class="template-search-box glass-card">
+      <text class="search-icon">🔍</text>
+      <input class="search-input" placeholder="搜索模板名称或描述..." value="{{templateSearchKeyword || ''}}" bindinput="onTemplateSearchInput" />
+    </view>
+
+    <view class="sub-tab-bar glass-card">
+      <view
+        class="sub-tab-item {{templateCurrentCategory === item.id ? 'active' : ''}}"
+        wx:for="{{templateCategories}}"
+        wx:key="id"
+        data-category="{{item.id || ''}}"
+        bindtap="switchTemplateCategory"
+      >
+        <text class="sti-name">{{item.name || ''}}</text>
+      </view>
+      <view
+        class="sub-tab-item {{templateCurrentCategory === 'favorites' ? 'active' : ''}}"
+        data-category="favorites"
+        bindtap="switchTemplateCategory"
+      >
+        <text class="sti-name">⭐ 收藏 ({{templateFavorites.length || 0}})</text>
+      </view>
+    </view>
+
+    <block wx:for="{{filteredTemplates}}" wx:key="id">
+      <view class="template-card glass-card fade-in-up">
+        <view class="tc-head">
+          <text class="tc-icon">{{item.icon || '📄'}}</text>
+          <view class="tc-head-body">
+            <text class="tc-title">{{item.title || ''}}</text>
+            <view class="tc-tags">
+              <text class="tc-category" wx:if="{{item.category === 'contract'}}">合同模板</text>
+              <text class="tc-category" wx:elif="{{item.category === 'form'}}">表单模板</text>
+              <text class="tc-category" wx:elif="{{item.category === 'document'}}">文档模板</text>
+              <text class="tc-fav {{templateFavorites.indexOf(item.id) !== -1 ? 'active' : ''}}" data-id="{{item.id || ''}}" catchtap="toggleFavorite">{{templateFavorites.indexOf(item.id) !== -1 ? '⭐' : '☆'}}</text>
+            </view>
+          </view>
+        </view>
+        <text class="tc-desc">{{item.desc || ''}}</text>
+        <view class="tc-meta-info">
+          <text class="tc-meta-item" wx:if="{{item.templateNo}}">编号：{{item.templateNo || ''}}</text>
+          <text class="tc-meta-item" wx:if="{{item.version}}">版本：{{item.version || ''}}</text>
+          <text class="tc-meta-item" wx:if="{{item.updateDate}}">更新：{{item.updateDate || ''}}</text>
+        </view>
+        <view class="tc-actions">
+          <view class="btn-outline tc-btn" data-id="{{item.id || ''}}" catchtap="previewTemplate">预览</view>
+          <view class="btn-gold tc-btn" data-id="{{item.id || ''}}" catchtap="copyTemplateContent">📋 复制内容</view>
+        </view>
+      </view>
+    </block>
+    <view class="empty-state" wx:if="{{!filteredTemplates.length}}">
+      <text class="empty-icon">📋</text>
+      <text class="empty-text">暂无模板</text>
+    </view>
+
+    <view wx:if="{{templatePreview}}" class="modal-overlay" catchtap="closeTemplatePreview">
+      <view class="modal-content glass-card" catchtap="noop">
+        <text class="modal-title">{{templatePreview.icon || '📄'}} {{templatePreview.title || ''}}</text>
+        <view class="tpl-meta-bar">
+          <text class="tpl-meta-item" wx:if="{{templatePreview.templateNo}}">编号：{{templatePreview.templateNo || ''}}</text>
+          <text class="tpl-meta-item" wx:if="{{templatePreview.version}}">版本：{{templatePreview.version || ''}}</text>
+          <text class="tpl-meta-item" wx:if="{{templatePreview.updateDate}}">更新：{{templatePreview.updateDate || ''}}</text>
+        </view>
+        <view class="modal-body">
+          <view class="tpl-preview-content">{{templatePreview.content || ''}}</view>
+        </view>
+        <view class="modal-actions">
+          <view class="btn-gold modal-close" catchtap="copyTemplateContent" data-id="{{templatePreview.id || ''}}">📋 复制内容</view>
+          <view class="btn-outline modal-close" catchtap="closeTemplatePreview">关闭</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 调试面板：账号类型切换 -->
+  <view class="debug-panel glass-card" wx:if="{{showDebugPanel}}">
+    <view class="dp-header">
+      <text class="dp-title">🔧 调试面板</text>
+      <text class="dp-close" catchtap="toggleDebugPanel">✕</text>
+    </view>
+    <view class="dp-body">
+      <text class="dp-label">账号类型切换</text>
+      <view class="dp-role-options">
+        <view class="dp-role-item {{userAccountType === 'admin' ? 'active' : ''}}" data-type="admin" catchtap="switchAccountType">管理员</view>
+        <view class="dp-role-item {{userAccountType === 'agent' ? 'active' : ''}}" data-type="agent" catchtap="switchAccountType">代理商</view>
+        <view class="dp-role-item {{userAccountType === 'staff' ? 'active' : ''}}" data-type="staff" catchtap="switchAccountType">业务员</view>
+      </view>
+      <text class="dp-hint">当前：{{ACCOUNT_TYPE_LABELS[userAccountType] || '业务员'}}（{{currentAccountProfile.name || ''}}）</text>
+      <text class="dp-hint">长按工作台标题也可快速切换</text>
+    </view>
+  </view>
+
+  <view class="page-safe"></view>
 </view>

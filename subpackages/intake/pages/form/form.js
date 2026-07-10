@@ -1,7 +1,10 @@
 const store = require('../../utils/store')
-const { SECTION_MAP, rebuildSectionMap } = require('../../utils/modules')
+const { SECTION_MAP, rebuildSectionMap, filterModulesByProduct } = require('../../utils/modules')
 const { syncToServer } = require('../../../../api/intake')
 const { uploadIntakeFile, runIdCardOcr } = require('../../utils/intakeUpload')
+
+/** 汽车金融进件模块填写顺序（自动化流转用） */
+const AUTO_NEXT_ORDER = ['credit', 'basic', 'personal', 'vehicle', 'finance', 'work', 'income', 'uploads', 'contacts']
 
 Page({
   data: {
@@ -11,19 +14,52 @@ Page({
     pickerIndex: {},
     filledCount: 0,
     totalRequired: 0,
-    ocrLoading: ''
+    ocrLoading: '',
+    productType: '',
+    autoNext: false,
+    showFlowNav: false,
+    currentStep: 1,
+    totalSteps: 1
   },
 
   onLoad(options) {
     const section = options.section || 'basic'
+    const productType = options.productType || ''
+    const autoNext = options.autoNext === 'true'
+
+    // 如果传入了productType，先初始化进件数据
+    if (productType && autoNext) {
+      const current = store.getData()
+      if (current.meta.productType !== productType) {
+        const { getSystemMeta, getPresets } = require('../../utils/modules')
+        const systemMeta = getSystemMeta(productType)
+        const presets = getPresets(productType)
+        const preset = presets[productType] || Object.values(presets)[0] || {}
+        store.initWithProduct({
+          productType,
+          productName: preset.productName || systemMeta.title,
+          productId: '',
+          systemKey: systemMeta.key
+        })
+        Object.keys(preset).forEach(key => {
+          if (key !== 'productName' && typeof preset[key] === 'object') {
+            store.saveSection(key, preset[key])
+          }
+        })
+        if (preset.loanPurpose) store.saveSection('basic', { loanPurpose: preset.loanPurpose })
+      }
+    }
+
     const data = store.getData()
-    const productType = data.meta.productType || 'newCar'
-    rebuildSectionMap(productType)
+    const finalProductType = productType || data.meta.productType || 'newCar'
+    rebuildSectionMap(finalProductType)
+
     const module = SECTION_MAP[section]
     if (!module) {
       wx.showToast({ title: '模块不存在', icon: 'none' })
       return setTimeout(() => wx.navigateBack(), 1500)
     }
+
     const formData = { ...(data[section] || {}) }
     if (section === 'personal' && !formData.mobile) {
       const phone = wx.getStorageSync('userPhone')
@@ -36,9 +72,53 @@ Page({
       }
       if (!formData.realName && data.personal?.realName) formData.realName = data.personal.realName
     }
+
+    // 检查是否有下一个模块，决定是否显示流程导航提示
+    const allFill = this.getFillModules(finalProductType)
+    const currentIdx = allFill.findIndex(m => m.id === section)
+    const showFlowNav = autoNext && currentIdx >= 0 && currentIdx < allFill.length - 1
+
     wx.setNavigationBarTitle({ title: module.title })
-    this.setData({ section, module, formData })
+    this.setData({ section, module, formData, productType: finalProductType, autoNext, showFlowNav, currentStep: currentIdx + 1, totalSteps: allFill.length })
     this.updateProgress()
+  },
+
+  /** 获取当前产品的所有可填模块列表 */
+  getFillModules(productType) {
+    const mods = filterModulesByProduct(productType || this.data.productType)
+    return mods.filter(m => m.type === 'form' || m.type === 'upload')
+  },
+
+  /** 判断模块是否已完整填写 */
+  isModuleFilled(moduleId) {
+    const data = store.getData()
+    const mods = this.getFillModules()
+    const mod = mods.find(m => m.id === moduleId) || SECTION_MAP[moduleId]
+    if (!mod) return false
+
+    if (mod.type === 'upload') {
+      const required = ['idCardFront', 'idCardBack', 'bankFlow', 'creditAuth']
+      const uploads = data.uploads || {}
+      const done = required.filter(k => (uploads[k] || {}).count > 0).length
+      return done === required.length
+    }
+
+    const section = data[moduleId] || {}
+    const requiredKeys = (mod.fields || []).filter(f => f.required).map(f => f.key)
+    if (requiredKeys.length === 0) return true
+    return requiredKeys.every(k => section[k] && String(section[k]).trim())
+  },
+
+  /** 查找下一个未完成的模块id */
+  findNextUnfilled() {
+    const allFill = this.getFillModules()
+    const currentIdx = allFill.findIndex(m => m.id === this.data.section)
+    for (let i = currentIdx + 1; i < allFill.length; i++) {
+      if (!this.isModuleFilled(allFill[i].id)) {
+        return allFill[i]
+      }
+    }
+    return null
   },
 
   updateProgress() {
@@ -166,12 +246,14 @@ Page({
   },
 
   handleSave() {
-    const { section, formData, module } = this.data
+    const { section, formData, module, autoNext } = this.data
+
+    // 必填校验
     for (const field of module.fields) {
       if (!field.required) continue
       if (field.type === 'switch') {
         if (!formData[field.key]) {
-          return wx.showToast({ title: `请开启${field.label}`, icon: 'none' })
+          return wx.showToast({ title: `请确认${field.label}`, icon: 'none' })
         }
         continue
       }
@@ -185,6 +267,8 @@ Page({
         return wx.showToast({ title: `请填写${field.label}`, icon: 'none' })
       }
     }
+
+    // 特定校验
     if (section === 'credit' || section === 'personal') {
       if (formData.mobile && !this.validateMobile(formData.mobile)) {
         return wx.showToast({ title: '手机号格式不正确', icon: 'none' })
@@ -201,9 +285,44 @@ Page({
         store.saveSection('personal', { realName: formData.realName, mobile: formData.mobile })
       }
     }
+
+    // 保存当前模块数据
     store.saveSection(section, formData)
     syncToServer().catch(() => null)
-    wx.showToast({ title: '已保存', icon: 'success' })
-    setTimeout(() => wx.navigateBack(), 800)
+
+    // 检查更新后的总进度
+    const totalModules = this.getFillModules()
+    const completed = totalModules.filter(m => {
+      if (m.id === section) return true // 当前刚刚保存
+      return this.isModuleFilled(m.id)
+    }).length
+    const progress = Math.round((completed / totalModules.length) * 100)
+    store.saveMeta({ progress })
+
+    // 自动流转：查找下一个未完成的模块
+    if (autoNext) {
+      const nextMod = this.findNextUnfilled()
+      if (nextMod) {
+        wx.showToast({ title: `✅ ${module.title} 已保存，进入 ${nextMod.title}`, icon: 'none', duration: 1500 })
+        setTimeout(() => {
+          const targetPage = nextMod.type === 'upload'
+            ? `/subpackages/intake/pages/upload/upload?autoNext=true&productType=${this.data.productType}`
+            : `/subpackages/intake/pages/form/form?section=${nextMod.id}&autoNext=true&productType=${this.data.productType}`
+          wx.redirectTo({ url: targetPage })
+        }, 1200)
+        return
+      }
+    }
+
+    // 所有模块完成 或 非自动模式
+    if (autoNext) {
+      wx.showToast({ title: '🎉 所有进件信息已填写完成！', icon: 'none', duration: 2000 })
+      setTimeout(() => {
+        wx.navigateBack()
+      }, 2200)
+    } else {
+      wx.showToast({ title: '已保存', icon: 'success' })
+      setTimeout(() => wx.navigateBack(), 800)
+    }
   }
 })

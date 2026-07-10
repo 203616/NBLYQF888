@@ -19,6 +19,21 @@ App({
     } catch (e) {
       this.globalData.systemInfo = getSystemInfoCompat()
     }
+
+    // 初始化微信云开发/云托管环境
+    try {
+      if (typeof wx.cloud === 'function') {
+        wx.cloud.init({
+          env: 'prod-2g0e58nv8af29b4b',
+          traceUser: true
+        })
+        this.globalData.cloudReady = true
+      }
+    } catch (e) {
+      console.warn('[cloud] init failed:', e.message)
+      this.globalData.cloudReady = false
+    }
+
     const token = wx.getStorageSync('authToken')
     this.globalData.authStatus = !!token
     this.globalData._bootstrapDone = false
@@ -53,7 +68,8 @@ App({
     unreadCount: 0,
     _bootstrapDone: false,
     systemInfo: null,
-    deviceProfile: null
+    deviceProfile: null,
+    cloudReady: false
   },
 
   checkUserAuthStatus() {

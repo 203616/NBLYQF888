@@ -37,86 +37,90 @@
   "packOptions": {
     "ignore": [
       {
-        "type": "file",
-        "value": "build.js"
+        "value": "build.js",
+        "type": "file"
       },
       {
-        "type": "file",
-        "value": "checkFonts.js"
+        "value": "checkFonts.js",
+        "type": "file"
       },
       {
-        "type": "file",
-        "value": "fix-fonts.js"
+        "value": "fix-fonts.js",
+        "type": "file"
       },
       {
-        "type": "file",
-        "value": "fix-path-conflict.js"
+        "value": "fix-path-conflict.js",
+        "type": "file"
       },
       {
-        "type": "file",
-        "value": "forceRefresh.js"
+        "value": "forceRefresh.js",
+        "type": "file"
       },
       {
-        "type": "file",
-        "value": "refresh.js"
+        "value": "refresh.js",
+        "type": "file"
       },
       {
-        "type": "file",
-        "value": "verifyFonts.js"
+        "value": "verifyFonts.js",
+        "type": "file"
+      },
+      {
+        "value": "cloudfunctions",
+        "type": "folder"
+      },
+      {
+        "value": "apps",
+        "type": "folder"
+      },
+      {
+        "value": "node_modules",
+        "type": "folder"
+      },
+      {
+        "value": "scripts",
+        "type": "folder"
+      },
+      {
+        "value": "deploy",
+        "type": "folder"
+      },
+      {
+        "value": "models",
+        "type": "folder"
+      },
+      {
+        "value": "pnpm-lock.yaml",
+        "type": "file"
+      },
+      {
+        "value": "pnpm-workspace.yaml",
+        "type": "file"
+      },
+      {
+        "value": "README.md",
+        "type": "file"
+      },
+      {
+        "value": ".env.example",
+        "type": "file"
+      },
+      {
+        "value": ".env",
+        "type": "file"
+      },
+      {
+        "value": "package.json",
+        "type": "file"
       },
       {
         "type": "folder",
-        "value": "cloudfunctions"
-      },
-      {
-        "type": "folder",
-        "value": "apps"
-      },
-      {
-        "type": "folder",
-        "value": "node_modules"
-      },
-      {
-        "type": "folder",
-        "value": "scripts"
-      },
-      {
-        "type": "folder",
-        "value": "deploy"
-      },
-      {
-        "type": "folder",
-        "value": "models"
-      },
-      {
-        "type": "file",
-        "value": "pnpm-lock.yaml"
-      },
-      {
-        "type": "file",
-        "value": "pnpm-workspace.yaml"
-      },
-      {
-        "type": "file",
-        "value": "README.md"
-      },
-      {
-        "type": "file",
-        "value": ".env.example"
-      },
-      {
-        "type": "file",
-        "value": ".env"
-      },
-      {
-        "type": "file",
-        "value": "package.json"
+        "value": "minitest/"
       }
     ],
     "include": [
       {
-        "type": "folder",
-        "value": "images"
+        "value": "images",
+        "type": "folder"
       }
     ]
   },

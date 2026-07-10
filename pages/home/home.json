@@ -3,7 +3,6 @@
   "enablePullDownRefresh": true,
   "backgroundTextStyle": "dark",
   "usingComponents": {
-    "safe-image": "/components/safe-image/safe-image",
-    "news-card": "/components/card/news-card/news-card"
+    "safe-image": "/components/safe-image/safe-image"
   }
 }

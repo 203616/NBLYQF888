@@ -1,69 +1,369 @@
-<view class="docs-page page-shell">
-  <view class="docs-hero premium-hero">
-    <safe-image className="premium-hero-bg" src="/images/banner2.webp" mode="aspectFill" />
-    <view class="premium-hero-body">
-      <text class="premium-badge">材料管理</text>
-      <text class="premium-hero-title">文档中心</text>
-      <text class="premium-hero-sub">融资材料 · 合同档案 · 验证视频 · 审核进度一站式管理</text>
-    </view>
-  </view>
+<view class="page-shell">
+  <block wx:if="{{tab === 'contract'}}">
+    <!-- ========== 居间服务合同 ========== -->
+    <view class="contract-page">
+      <!-- 合同头部 -->
+      <view class="contract-hero">
+        <view class="hero-overlay"></view>
+        <view class="hero-content">
+          <text class="hero-badge">法定合同</text>
+          <text class="hero-title">金融信息居间服务合同</text>
+          <text class="hero-sub">Contract for Financial Information Intermediary Services</text>
+        </view>
+      </view>
 
-  <view class="stat-row">
-    <view class="stat-item glass-card" wx:for="{{summary}}" wx:key="label">
-      <text class="stat-num">{{item.value}}</text>
-      <text class="stat-label">{{item.label}}</text>
-    </view>
-  </view>
+      <!-- 协议提示 -->
+      <view class="contract-notice card fadeInUp">
+        <text class="notice-icon">⚖️</text>
+        <text class="notice-text">本合同依据《中华人民共和国民法典》合同编第二十七章及相关金融法律法规制定，请您仔细阅读并充分理解全部条款后再进行确认签署。</text>
+      </view>
 
-  <view class="action-bar glass-card">
-    <button class="action-btn primary" bindtap="goIntakeUpload">进入进件上传</button>
-    <button class="action-btn outline" bindtap="goIntakeHome">查看进件进度</button>
-  </view>
-
-  <view class="filter-tabs">
-    <text class="filter-tab {{filterStatus === 'all' ? 'active' : ''}}" data-status="all" bindtap="switchStatus">全部</text>
-    <text class="filter-tab {{filterStatus === '待补充' ? 'active' : ''}}" data-status="待补充" bindtap="switchStatus">待补充</text>
-    <text class="filter-tab {{filterStatus === '审核中' ? 'active' : ''}}" data-status="审核中" bindtap="switchStatus">审核中</text>
-    <text class="filter-tab {{filterStatus === '已归档' ? 'active' : ''}}" data-status="已归档" bindtap="switchStatus">已归档</text>
-  </view>
-
-  <block wx:for="{{filteredDocs}}" wx:key="id">
-    <view class="doc-card glass-card {{activeCategory === item.id ? 'active' : ''}}" bindtap="toggleExpand" data-id="{{item.id}}">
-      <view class="doc-head">
-        <view class="doc-left">
-          <text class="doc-icon">{{item.icon || '📁'}}</text>
-          <view>
-            <text class="doc-title">{{item.name}}</text>
-            <text class="doc-desc">{{item.desc}}</text>
+      <!-- 第一条 术语定义 -->
+      <view class="card fadeInUp">
+        <view class="section-header"><text class="section-num">第一条</text><text class="section-title">术语定义</text></view>
+        <view class="section-body">
+          <view class="clause-item">
+            <text class="clause-label">1.1 居间人</text>
+            <text class="clause-text">指为委托人提供金融信息咨询、融资方案推介及协助对接持牌金融机构服务的平台运营主体，即亮叶企服平台（以下简称"本平台"）。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">1.2 委托人</text>
+            <text class="clause-text">指通过本平台提交融资需求，寻求金融信息服务的自然人、法人或其他组织（以下简称"您"或"委托人"）。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">1.3 金融信息服务</text>
+            <text class="clause-text">指居间人向委托人提供的包括但不限于金融产品信息展示、融资方案介绍、持牌金融机构推介、申请材料整理、审批进度跟踪等居间撮合服务。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">1.4 居间服务与直接贷款的区别</text>
+            <text class="clause-text">居间人仅提供金融信息咨询与撮合服务，并不直接向委托人发放任何形式的贷款。委托人与持牌金融机构之间的借贷关系独立于本居间服务合同。居间人不承担贷款合同项下的任何义务与责任。</text>
           </view>
         </view>
-        <text class="status status-{{item.statusKey}}">{{item.status}}</text>
       </view>
-      <view class="progress-wrap">
-        <view class="progress"><view class="progress-inner" style="width: {{item.progress}}%;"></view></view>
-        <text class="progress-text">{{item.progress}}% · 已归档 {{item.count}} 份</text>
+
+      <!-- 第二条 服务内容 -->
+      <view class="card fadeInUp">
+        <view class="section-header"><text class="section-num">第二条</text><text class="section-title">服务内容</text></view>
+        <view class="section-body">
+          <view class="clause-item">
+            <text class="clause-label">2.1 信息咨询</text>
+            <text class="clause-text">居间人通过本平台向委托人展示各类金融产品信息，包括但不限于合作持牌金融机构的贷款产品、利率范围、期限、还款方式等，并根据委托人提供的基本信息进行初步方案介绍与推荐。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">2.2 撮合服务</text>
+            <text class="clause-text">居间人根据委托人提交的融资需求和资质情况，利用专业经验协助匹配合适的持牌金融机构，并向该机构推荐委托人，促成委托人与金融机构之间的融资合作。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">2.3 材料整理</text>
+            <text class="clause-text">居间人协助委托人整理、完善申请融资所需的各类材料，包括但不限于身份证明、经营流水、资产证明、征信授权等，以提高审批效率。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">2.4 进度跟踪</text>
+            <text class="clause-text">居间人持续跟踪委托人在持牌金融机构的审批、签约及放款进度，并及时向委托人反馈进展情况。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">2.5 特别声明</text>
+            <text class="clause-text highlight">居间人不直接发放贷款，不从事非法吸收公众存款、非法放贷等违法违规金融活动。委托人与任何金融机构之间的贷款合同由双方独立签订并履行，居间人不承担贷款合同项下的任何义务与责任。</text>
+          </view>
+        </view>
       </view>
-      <view class="required-list" wx:if="{{expandedId === item.id && item.required}}">
-        <text class="required-title">材料清单</text>
-        <block wx:for="{{item.required}}" wx:key="*this" wx:for-item="req">
-          <text class="required-item">· {{req}}</text>
-        </block>
+
+      <!-- 第三条 双方权利义务 -->
+      <view class="card fadeInUp">
+        <view class="section-header"><text class="section-num">第三条</text><text class="section-title">双方权利义务</text></view>
+        <view class="section-body">
+          <view class="sub-section">
+            <text class="sub-title">（一）委托人权利与义务</text>
+            <view class="clause-item">
+              <text class="clause-label">3.1.1</text>
+              <text class="clause-text">委托人有权了解居间人提供的金融信息服务内容、收费标准及合作持牌金融机构的基本情况。</text>
+            </view>
+            <view class="clause-item">
+              <text class="clause-label">3.1.2</text>
+              <text class="clause-text">委托人应如实向居间人提供真实、完整、有效的身份信息、财务状况、融资用途等必要信息，并保证所提供材料的真实性、准确性和完整性。</text>
+            </view>
+            <view class="clause-item">
+              <text class="clause-label">3.1.3</text>
+              <text class="clause-text">委托人应积极配合居间人及持牌金融机构的审核与尽调工作，及时按照要求补充相关材料。</text>
+            </view>
+            <view class="clause-item">
+              <text class="clause-label">3.1.4</text>
+              <text class="clause-text">委托人在与持牌金融机构达成贷款合同后，应按约定全面履行贷款合同项下的全部义务，包括但不限于按时还本付息。</text>
+            </view>
+          </view>
+          <view class="sub-section">
+            <text class="sub-title">（二）居间人权利与义务</text>
+            <view class="clause-item">
+              <text class="clause-label">3.2.1</text>
+              <text class="clause-text">居间人应如实向委托人告知所知晓的与融资相关的信息，不得故意隐瞒重要事实或提供虚假信息。</text>
+            </view>
+            <view class="clause-item">
+              <text class="clause-label">3.2.2</text>
+              <text class="clause-text">居间人对在服务过程中获取的委托人个人信息及商业秘密负有严格保密义务，未经委托人书面同意，不得向任何第三方披露，法律法规另有规定或为完成撮合服务所必需的除外。</text>
+            </view>
+            <view class="clause-item">
+              <text class="clause-label">3.2.3</text>
+              <text class="clause-text">居间人应根据委托人的实际情况提供专业、合理的融资方案推荐，但不得向委托人做出任何关于贷款审批额度、利率或审批结果的承诺。</text>
+            </view>
+            <view class="clause-item">
+              <text class="clause-label">3.2.4</text>
+              <text class="clause-text">居间人应妥善管理委托人提交的各类材料，采取必要措施防止信息泄露、损毁或丢失。</text>
+            </view>
+          </view>
+        </view>
       </view>
-      <view class="doc-foot">
-        <button class="mini-btn outline" size="mini" catchtap="showExample" data-id="{{item.id}}">查看示例</button>
-        <button class="mini-btn" size="mini" catchtap="handleUpload" data-id="{{item.id}}">上传/查看</button>
+
+      <!-- 第四条 服务费用 -->
+      <view class="card fadeInUp">
+        <view class="section-header"><text class="section-num">第四条</text><text class="section-title">服务费用</text></view>
+        <view class="section-body">
+          <view class="clause-item">
+            <text class="clause-label">4.1 收费标准</text>
+            <text class="clause-text">居间人提供的金融信息居间服务，委托人应在成功获得持牌金融机构发放的贷款后，按照实际放款金额的一定比例向居间人支付居间服务费。具体费率及计算方式以双方另行签署的《服务费用确认函》或本平台展示的费率为准。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">4.2 支付方式</text>
+            <text class="clause-text">委托人应在收到持牌金融机构放款后的约定工作日内，将居间服务费一次性支付至居间人指定账户。具体支付期限以《服务费用确认函》约定为准。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">4.3 发票开具</text>
+            <text class="clause-text">居间人在收到委托人支付的服务费后，可根据委托人要求开具合法合规的增值税普通发票或专用发票。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">4.4 服务未成功</text>
+            <text class="clause-text">若委托人最终未能成功获得持牌金融机构的贷款（无论何种原因），除双方另有书面约定外，委托人无需向居间人支付居间服务费。</text>
+          </view>
+        </view>
       </view>
+
+      <!-- 第五条 免责条款 -->
+      <view class="card fadeInUp">
+        <view class="section-header"><text class="section-num">第五条</text><text class="section-title">免责条款</text></view>
+        <view class="section-body">
+          <view class="clause-item">
+            <text class="clause-label">5.1 不可抗力</text>
+            <text class="clause-text">因不可抗力（包括但不限于自然灾害、战争、政府行为、网络攻击、系统故障等）导致本合同无法履行或部分无法履行的，受影响方不承担违约责任，但应及时通知对方并提供相关证明文件。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">5.2 审批权归属</text>
+            <text class="clause-text">居间人不承担贷款审批结果的任何责任。贷款的最终审批权完全归属于持牌金融机构，审批结果（包括但不限于审批额度、利率、期限、是否批准等）由该机构依据其独立的信贷政策和风险评估标准决定，居间人不对审批结果做出任何形式的承诺或保证。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">5.3 信息真实性</text>
+            <text class="clause-text">因委托人提供的个人信息不真实、不准确或不完整导致无法获得贷款、审批额度降低、利率升高或产生其他损失的，由委托人自行承担全部责任。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">5.4 第三方行为</text>
+            <text class="clause-text">居间人仅对居间服务过程的合规性负责，不对委托人通过其他渠道或自行联系的金融机构产生的任何交易结果承担责任。</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 第六条 隐私保护 -->
+      <view class="card fadeInUp">
+        <view class="section-header"><text class="section-num">第六条</text><text class="section-title">隐私保护</text></view>
+        <view class="section-body">
+          <view class="clause-item">
+            <text class="clause-label">6.1 信息收集范围</text>
+            <text class="clause-text">居间人仅收集与融资服务相关的必要个人信息，包括但不限于身份信息、联系方式、财务状况、征信信息等，并仅在提供本合同约定的服务范围内合理使用。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">6.2 数据安全措施</text>
+            <text class="clause-text">居间人采取符合国家标准的加密存储、访问控制、日志审计、权限管理等多层次技术手段保障委托人个人信息安全，防止信息被非法访问、泄露、篡改或损毁。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">6.3 信息共享限制</text>
+            <text class="clause-text">未经委托人单独同意，居间人不得将委托人个人信息向任何第三方提供或共享，但以下情形除外：（1）为完成融资撮合服务，向持牌金融机构提供必要的审核信息；（2）根据法律法规、司法机关或监管部门的要求提供；（3）为保护委托人重大合法权益所必需。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">6.4 信息保存期限</text>
+            <text class="clause-text">委托人个人信息在本合同终止后，居间人将依法保存必要期限，期满后将进行匿名化处理或安全删除。</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 第七条 合同期限与终止 -->
+      <view class="card fadeInUp">
+        <view class="section-header"><text class="section-num">第七条</text><text class="section-title">合同期限与终止</text></view>
+        <view class="section-body">
+          <view class="clause-item">
+            <text class="clause-label">7.1 合同期限</text>
+            <text class="clause-text">本合同自双方确认签署之日起生效，有效期为一年。合同期满前三十日，双方可就续签事宜另行协商。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">7.2 提前终止</text>
+            <text class="clause-text">双方均有权提前三十日书面通知对方解除本合同。通知期满后，本合同自动终止。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">7.3 立即解除</text>
+            <text class="clause-text">委托人故意提供虚假信息、隐瞒重要事实或从事欺诈行为的，居间人有权立即单方解除本合同，并保留追究委托人法律责任的权利。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">7.4 终止效力</text>
+            <text class="clause-text">本合同终止或解除后，双方在本合同项下的权利义务终止，但不影响终止前已产生的权利义务的效力，亦不影响保密条款及争议解决条款的持续有效。</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 第八条 争议解决 -->
+      <view class="card fadeInUp">
+        <view class="section-header"><text class="section-num">第八条</text><text class="section-title">争议解决</text></view>
+        <view class="section-body">
+          <view class="clause-item">
+            <text class="clause-label">8.1 协商</text>
+            <text class="clause-text">因本合同引起的或与本合同有关的任何争议，双方应首先通过友好协商解决。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">8.2 诉讼管辖</text>
+            <text class="clause-text">协商不成的，任何一方均可向居间人所在地有管辖权的人民法院提起诉讼。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">8.3 继续履行</text>
+            <text class="clause-text">争议解决期间，除争议事项外，双方应继续履行本合同其他无争议的条款。</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 第九条 其他 -->
+      <view class="card fadeInUp">
+        <view class="section-header"><text class="section-num">第九条</text><text class="section-title">其他</text></view>
+        <view class="section-body">
+          <view class="clause-item">
+            <text class="clause-label">9.1 合同生效</text>
+            <text class="clause-text">本合同自委托人在本平台在线点击确认同意或双方签署纸质/电子版本之日起生效。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">9.2 补充协议</text>
+            <text class="clause-text">对本合同的任何修改、补充均须以书面形式作出，并经双方确认后作为本合同的组成部分，与本合同具有同等法律效力。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">9.3 可分割性</text>
+            <text class="clause-text">本合同部分条款被认定为无效或不可执行的，不影响其他条款的效力，双方应协商以最接近原条款意图的合法条款替代。</text>
+          </view>
+          <view class="clause-item">
+            <text class="clause-label">9.4 合同文本</text>
+            <text class="clause-text">本合同采用电子文本形式，与纸质合同具有同等法律效力。委托人可在本平台随时查阅本合同。</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 签署记录 -->
+      <view class="card fadeInUp" wx:if="{{signRecord}}">
+        <view class="section-header"><text class="section-title">签署记录</text></view>
+        <view class="section-body">
+          <view class="sign-record-item">
+            <text class="record-label">签署人</text>
+            <text class="record-value">{{signRecord.userName}}</text>
+          </view>
+          <view class="sign-record-item">
+            <text class="record-label">身份证号</text>
+            <text class="record-value">{{signRecord.idCard}}</text>
+          </view>
+          <view class="sign-record-item">
+            <text class="record-label">签署时间</text>
+            <text class="record-value">{{signRecord.signedAt}}</text>
+          </view>
+          <view class="sign-record-item">
+            <text class="record-label">合同编号</text>
+            <text class="record-value">{{signRecord.contractNo}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 底部确认区域 -->
+      <view class="contract-footer">
+        <view class="footer-inner">
+          <view class="agree-row {{contractAgreed ? 'agreed-active' : ''}}" bindtap="toggleContractAgree">
+            <view class="check-box {{contractAgreed ? 'checked' : ''}}">
+              <text wx:if="{{contractAgreed}}" class="check-mark">✓</text>
+            </view>
+            <text class="agree-label">我已阅读并充分理解上述全部条款，同意签署本《金融信息居间服务合同》</text>
+          </view>
+          <button class="btn-gold {{contractAgreed ? '' : 'disabled'}}" disabled="{{!contractAgreed}}" bindtap="handleConfirmSign" loading="{{signing}}">
+            <text>确认签署</text>
+          </button>
+          <button class="btn-outline" bindtap="handleDownloadContract">
+            <text>📄 下载合同文本</text>
+          </button>
+          <text class="footer-tip">签署后可在"我的合同"中查阅</text>
+        </view>
+      </view>
+
+      <view class="page-safe"></view>
     </view>
   </block>
 
-  <view class="tips-card glass-card">
-    <text class="tips-title">材料提交提醒</text>
-    <block wx:for="{{uploadTips}}" wx:key="*this">
-      <text class="tip-line">· {{item}}</text>
-    </block>
-  </view>
+  <block wx:else>
+    <!-- ========== 原文档中心内容 ========== -->
+    <view class="docs-page">
+      <view class="docs-hero premium-hero">
+        <safe-image className="premium-hero-bg" src="/images/banner2.webp" mode="aspectFill" />
+        <view class="premium-hero-body">
+          <text class="premium-badge">材料管理</text>
+          <text class="premium-hero-title">文档中心</text>
+          <text class="premium-hero-sub">融资材料 · 合同档案 · 验证视频 · 审核进度一站式管理</text>
+        </view>
+      </view>
 
-  <view class="compliance-tip">
-    <text>所有材料加密存储，仅用于融资审核，请勿上传无关敏感信息。</text>
-  </view>
+      <view class="stat-row">
+        <view class="stat-item glass-card" wx:for="{{summary}}" wx:key="label">
+          <text class="stat-num">{{item.value}}</text>
+          <text class="stat-label">{{item.label}}</text>
+        </view>
+      </view>
+
+      <view class="action-bar glass-card">
+        <button class="action-btn primary" bindtap="goIntakeUpload">进入进件上传</button>
+        <button class="action-btn outline" bindtap="goIntakeHome">查看进件进度</button>
+      </view>
+
+      <view class="filter-tabs">
+        <text class="filter-tab {{filterStatus === 'all' ? 'active' : ''}}" data-status="all" bindtap="switchStatus">全部</text>
+        <text class="filter-tab {{filterStatus === '待补充' ? 'active' : ''}}" data-status="待补充" bindtap="switchStatus">待补充</text>
+        <text class="filter-tab {{filterStatus === '审核中' ? 'active' : ''}}" data-status="审核中" bindtap="switchStatus">审核中</text>
+        <text class="filter-tab {{filterStatus === '已归档' ? 'active' : ''}}" data-status="已归档" bindtap="switchStatus">已归档</text>
+      </view>
+
+      <block wx:for="{{filteredDocs}}" wx:key="id">
+        <view class="doc-card glass-card {{activeCategory === item.id ? 'active' : ''}}" bindtap="toggleExpand" data-id="{{item.id}}">
+          <view class="doc-head">
+            <view class="doc-left">
+              <text class="doc-icon">{{item.icon || '📁'}}</text>
+              <view>
+                <text class="doc-title">{{item.name}}</text>
+                <text class="doc-desc">{{item.desc}}</text>
+              </view>
+            </view>
+            <text class="status status-{{item.statusKey}}">{{item.status}}</text>
+          </view>
+          <view class="progress-wrap">
+            <view class="progress"><view class="progress-inner" style="width: {{item.progress}}%;"></view></view>
+            <text class="progress-text">{{item.progress}}% · 已归档 {{item.count}} 份</text>
+          </view>
+          <view class="required-list" wx:if="{{expandedId === item.id && item.required}}">
+            <text class="required-title">材料清单</text>
+            <block wx:for="{{item.required}}" wx:key="*this" wx:for-item="req">
+              <text class="required-item">· {{req}}</text>
+            </block>
+          </view>
+          <view class="doc-foot">
+            <button class="mini-btn outline" size="mini" catchtap="showExample" data-id="{{item.id}}">查看示例</button>
+            <button class="mini-btn" size="mini" catchtap="handleUpload" data-id="{{item.id}}">上传/查看</button>
+          </view>
+        </view>
+      </block>
+
+      <view class="tips-card glass-card">
+        <text class="tips-title">材料提交提醒</text>
+        <block wx:for="{{uploadTips}}" wx:key="*this">
+          <text class="tip-line">· {{item}}</text>
+        </block>
+      </view>
+
+      <view class="compliance-tip">
+        <text>所有材料加密存储，仅用于融资审核，请勿上传无关敏感信息。</text>
+      </view>
+      <view class="page-safe"></view>
+    </view>
+  </block>
 </view>

@@ -1,49 +1,50 @@
-<view class="knowledge-detail page-shell" wx:if="{{knowledge}}">
-  <view class="detail-hero premium-hero">
-    <safe-image className="premium-hero-bg" src="{{knowledge.cover}}" mode="aspectFill" wx:if="{{knowledge.cover}}" />
+<view class="page-shell knowledge-detail" wx:if="{{knowledge}}">
+  <view class="premium-hero fadeInUp">
+    <safe-image className="premium-hero-bg" src="{{knowledge.cover || ''}}" mode="aspectFill" wx:if="{{knowledge.cover}}" />
     <view class="premium-hero-body">
-      <text class="premium-badge">{{knowledge.level}}</text>
-      <text class="premium-hero-title">{{knowledge.title}}</text>
-      <text class="premium-hero-sub">{{knowledge.author}} · {{knowledge.readMinutes || 5}}分钟 · {{knowledge.views}}人学习</text>
+      <text class="premium-badge">{{knowledge.level || ''}}</text>
+      <text class="premium-hero-title">{{knowledge.title || ''}}</text>
+      <text class="premium-hero-sub">{{knowledge.author || ''}} · {{knowledge.readMinutes || 5}}分钟 · {{knowledge.views || 0}}人学习</text>
     </view>
   </view>
 
-  <view class="section glass-card">
+  <view class="card fadeInUp" style="animation-delay:0.1s">
     <text class="section-title">课程内容</text>
     <view class="rich-content">
-      <rich-text nodes="{{knowledge.content}}"></rich-text>
+      <rich-text nodes="{{knowledge.content || ''}}"></rich-text>
     </view>
   </view>
 
-  <view class="section glass-card" wx:if="{{testQuestion}}">
+  <view class="card fadeInUp" style="animation-delay:0.15s" wx:if="{{testQuestion}}">
     <text class="section-title">知识测验</text>
-    <text class="q-text">{{testQuestion.question}}</text>
-    <block wx:for="{{testQuestion.options}}" wx:key="index">
+    <text class="q-text">{{testQuestion.question || ''}}</text>
+    <block wx:for="{{testQuestion.options || []}}" wx:key="index">
       <view class="option {{selectedOption === index ? (index === testQuestion.answer ? 'correct' : 'wrong') : ''}}" bindtap="selectOption" data-index="{{index}}">
-        <text>{{item}}</text>
+        <text>{{item || ''}}</text>
       </view>
     </block>
     <text class="quiz-tip" wx:if="{{selectedOption !== null}}">{{selectedOption === testQuestion.answer ? '回答正确！' : '再想想，正确答案已标绿'}}</text>
   </view>
 
-  <view class="section glass-card" wx:if="{{relatedProducts.length}}">
+  <view class="card fadeInUp" style="animation-delay:0.2s" wx:if="{{relatedProducts && relatedProducts.length}}">
     <text class="section-title">相关产品</text>
     <block wx:for="{{relatedProducts}}" wx:key="id">
-      <view class="related-card" data-path="{{item.path}}" bindtap="navigateToProduct">
-        <text class="related-title">{{item.name}}</text>
-        <text class="related-meta">{{item.rate}} · {{item.amount}}</text>
-        <text class="related-desc">{{item.desc}}</text>
+      <view class="related-card" data-path="{{item.path || ''}}" bindtap="navigateToProduct">
+        <text class="related-title">{{item.name || ''}}</text>
+        <text class="related-meta">{{item.rate || ''}} · {{item.amount || ''}}</text>
+        <text class="related-desc">{{item.desc || ''}}</text>
       </view>
     </block>
   </view>
 
-  <view class="section glass-card" wx:if="{{relatedTips.length}}">
+  <view class="card fadeInUp" style="animation-delay:0.25s" wx:if="{{relatedTips && relatedTips.length}}">
     <text class="section-title">延伸避坑</text>
     <block wx:for="{{relatedTips}}" wx:key="id">
       <view class="related-card" data-id="{{item.id}}" bindtap="navigateToTip">
-        <text class="related-title">{{item.title}}</text>
-        <text class="related-desc">{{item.summary}}</text>
+        <text class="related-title">{{item.title || ''}}</text>
+        <text class="related-desc">{{item.summary || ''}}</text>
       </view>
     </block>
   </view>
+  <view class="page-safe"></view>
 </view>

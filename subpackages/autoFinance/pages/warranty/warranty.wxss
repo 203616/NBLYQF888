@@ -1,63 +1,23 @@
 .warranty-page {
   padding-bottom: 40rpx;
-  background: var(--color-bg-page, #f7f9fc);
+  background: var(--color-bg-page);
   min-height: 100vh;
 }
 
-.warranty-hero {
-  position: relative;
-  height: 380rpx;
-  overflow: hidden;
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30rpx); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.warranty-hero-img {
-  width: 100%;
-  height: 100%;
+.fadeInUp {
+  animation: fadeInUp 0.5s ease both;
 }
 
-.warranty-hero-mask {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(15, 61, 46, 0.1) 0%, rgba(15, 61, 46, 0.9) 100%);
-}
-
-.warranty-hero-body {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 32rpx;
-  color: #fff;
-}
-
-.warranty-badge {
-  display: inline-block;
-  padding: 6rpx 18rpx;
-  border-radius: 999rpx;
-  background: rgba(212, 168, 75, 0.95);
-  color: var(--color-primary);
-  font-size: 22rpx;
-  font-weight: 600;
-  margin-bottom: 12rpx;
-}
-
-.warranty-hero-title {
-  display: block;
-  font-size: 42rpx;
-  font-weight: 700;
-}
-
-.warranty-hero-sub {
-  display: block;
-  margin-top: 10rpx;
-  font-size: 26rpx;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.92);
-}
-
+/* ===== Plan Tabs ===== */
 .plan-tabs {
   display: flex;
-  margin: -40rpx 24rpx 20rpx;
+  margin: -40rpx var(--space-md) 20rpx;
   position: relative;
   z-index: 2;
   padding: 8rpx;
@@ -90,11 +50,12 @@
   opacity: 0.85;
 }
 
+/* ===== Stat Row ===== */
 .stat-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12rpx;
-  margin: 0 24rpx 24rpx;
+  margin: 0 var(--space-md) var(--space-md);
 }
 
 .stat-item {
@@ -102,43 +63,32 @@
   padding: 20rpx 8rpx;
 }
 
-.stat-num {
+.stat-item .stat-num {
   display: block;
   font-size: 30rpx;
   font-weight: 700;
   color: var(--color-primary);
 }
 
-.stat-label {
+.stat-item .stat-label {
   display: block;
   font-size: 20rpx;
   color: var(--color-text-muted);
   margin-top: 4rpx;
 }
 
+/* ===== Section Block ===== */
 .section-block {
-  margin: 0 24rpx 24rpx;
-}
-
-.section-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16rpx;
-}
-
-.section-head-title {
-  font-size: 32rpx;
-  font-weight: 700;
-  color: var(--color-primary);
+  margin: 0 var(--space-md) var(--space-md);
 }
 
 .plan-price-tag {
   font-size: 28rpx;
   font-weight: 700;
-  color: #D4A84B;
+  color: var(--color-gold);
 }
 
+/* ===== Plan Card ===== */
 .plan-card {
   padding: 28rpx;
 }
@@ -157,17 +107,41 @@
   margin-bottom: 14rpx;
 }
 
-.benefit-check {
-  color: var(--color-primary);
-  font-weight: 700;
-  margin-right: 12rpx;
+.benefit-check-wrap {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+  margin-right: 12rpx;
+  font-size: 20rpx;
+}
+
+.benefit-check-wrap.inc {
+  background: var(--color-primary-bg);
+}
+
+.benefit-check-wrap.exc {
+  background: #FEE2E2;
+}
+
+.benefit-check {
+  font-size: 20rpx;
+  line-height: 1;
 }
 
 .benefit-text {
   font-size: 26rpx;
   color: var(--color-text-primary);
   line-height: 1.5;
+  flex: 1;
+}
+
+.benefit-text.excluded {
+  color: #999;
+  text-decoration: line-through;
 }
 
 .coverage-tags {
@@ -187,6 +161,7 @@
   color: var(--color-primary);
 }
 
+/* ===== Compare Card ===== */
 .compare-card {
   padding: 0;
   overflow: hidden;
@@ -220,44 +195,47 @@
   font-weight: 500;
 }
 
-.process-card {
+/* ===== Service Cards (feature-grid) ===== */
+.service-card {
   padding: 24rpx;
-}
-
-.flow-item {
-  display: flex;
-  gap: 16rpx;
-  margin-bottom: 20rpx;
-}
-
-.flow-index {
-  width: 44rpx;
-  height: 44rpx;
-  line-height: 44rpx;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.service-icon-wrap {
+  width: 64rpx;
+  height: 64rpx;
+  margin: 0 auto 14rpx;
   border-radius: 50%;
   background: var(--gradient-hero);
-  color: #fff;
-  font-size: 22rpx;
-  font-weight: 700;
-  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 16rpx rgba(15, 61, 46, 0.15);
 }
 
-.flow-title {
+.service-icon {
+  font-size: 30rpx;
+  line-height: 1;
+}
+
+.service-title {
   display: block;
   font-size: 28rpx;
   font-weight: 600;
   color: var(--color-text-primary);
+  margin-bottom: 8rpx;
 }
 
-.flow-desc {
+.service-desc {
   display: block;
   font-size: 24rpx;
   color: var(--color-text-muted);
-  margin-top: 6rpx;
   line-height: 1.5;
 }
 
+/* ===== FAQ ===== */
 .faq-card {
   padding: 8rpx 24rpx;
 }
@@ -267,10 +245,15 @@
   border-bottom: 1rpx solid #f0f0f0;
 }
 
+.faq-item:last-child {
+  border-bottom: none;
+}
+
 .faq-q {
   display: block;
   font-size: 28rpx;
   font-weight: 600;
+  color: var(--color-text-primary);
 }
 
 .faq-a {
@@ -281,9 +264,26 @@
   line-height: 1.6;
 }
 
+/* ===== Apply Card ===== */
 .apply-card {
-  margin: 0 24rpx 24rpx;
+  margin: 0 var(--space-md) var(--space-md);
   padding: 28rpx;
+}
+
+.apply-header {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-start;
+  margin-bottom: 20rpx;
+}
+
+.apply-icon {
+  font-size: 40rpx;
+  flex-shrink: 0;
+}
+
+.apply-header-body {
+  flex: 1;
 }
 
 .apply-title {
@@ -297,25 +297,29 @@
   display: block;
   font-size: 24rpx;
   color: var(--color-text-muted);
-  margin: 10rpx 0 20rpx;
+  margin-top: 6rpx;
   line-height: 1.5;
 }
 
 .apply-input {
-  background: #f7f9fc;
+  background: var(--color-bg-page);
   border-radius: 12rpx;
-  padding: 20rpx 24rpx;
+  padding: 20rpx var(--space-md);
   font-size: 28rpx;
   margin-bottom: 20rpx;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .apply-actions {
   display: flex;
   gap: 16rpx;
+  flex-wrap: wrap;
 }
 
 .apply-actions button {
   flex: 1;
+  min-width: 180rpx;
   height: 80rpx;
   line-height: 80rpx;
   border-radius: 999rpx;
@@ -324,8 +328,9 @@
   padding: 0;
 }
 
+/* ===== Compliance ===== */
 .compliance-tip {
-  margin: 0 24rpx;
+  margin: 0 var(--space-md);
   padding: 20rpx;
   text-align: center;
 }

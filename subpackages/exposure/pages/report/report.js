@@ -18,7 +18,8 @@ Page({
     },
     reportType: '',
     evidence: [],
-    submitting: false
+    submitting: false,
+    canUploadMore: true
   },
   
   onLoad() {
@@ -52,7 +53,8 @@ Page({
       sourceType: ['album', 'camera'],
       success: (res) => {
         const files = res.tempFiles.map(item => item.tempFilePath)
-        this.setData({ evidence: [...this.data.evidence, ...files].slice(0, 6) })
+        const evidence = [...this.data.evidence, ...files].slice(0, 6)
+        this.setData({ evidence, canUploadMore: evidence.length < 6 })
       }
     })
   },
@@ -60,7 +62,7 @@ Page({
   removeImage(e) {
     const index = Number(e.currentTarget.dataset.index)
     const evidence = this.data.evidence.filter((_, itemIndex) => itemIndex !== index)
-    this.setData({ evidence })
+    this.setData({ evidence, canUploadMore: evidence.length < 6 })
   },
 
   submitReport(e) {

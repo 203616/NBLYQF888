@@ -1,5 +1,5 @@
-<view class="knowledge-page page-shell">
-  <view class="kn-hero premium-hero">
+<view class="page-shell knowledge-page">
+  <view class="premium-hero fadeInUp">
     <safe-image className="premium-hero-bg" src="/images/banner3.webp" mode="aspectFill" />
     <view class="premium-hero-body">
       <text class="premium-badge">融资课堂</text>
@@ -8,35 +8,36 @@
     </view>
   </view>
 
-  <view class="stat-row">
-    <view class="stat-item glass-card" wx:for="{{statList}}" wx:key="label">
-      <text class="stat-num">{{item.value}}</text>
-      <text class="stat-label">{{item.label}}</text>
+  <view class="stat-row fadeInUp" style="animation-delay:0.1s">
+    <view class="stat-item card" wx:for="{{statList || []}}" wx:key="label">
+      <text class="stat-num">{{item.value || ''}}</text>
+      <text class="stat-label">{{item.label || ''}}</text>
     </view>
   </view>
 
-  <scroll-view class="filter-scroll" scroll-x enhanced show-scrollbar="{{false}}">
-    <block wx:for="{{categories}}" wx:key="id">
-      <view class="filter-pill {{activeCategory === item.id ? 'active' : ''}}" data-id="{{item.id}}" bindtap="switchCategory">{{item.name}}</view>
+  <scroll-view class="filter-scroll fadeInUp" style="animation-delay:0.15s" scroll-x enhanced show-scrollbar="{{false}}">
+    <block wx:for="{{categories || []}}" wx:key="id">
+      <view class="filter-pill {{activeCategory === item.id ? 'active' : ''}}" data-id="{{item.id}}" bindtap="switchCategory">{{item.name || ''}}</view>
     </block>
   </scroll-view>
 
-  <block wx:for="{{filteredList}}" wx:key="id">
-    <view class="knowledge-card glass-card" bindtap="navigateToDetail" data-id="{{item.id}}">
+  <block wx:for="{{filteredList || []}}" wx:key="id">
+    <view class="knowledge-card card fadeInUp" style="animation-delay:{{0.15 + index * 0.05}}s" bindtap="navigateToDetail" data-id="{{item.id}}">
       <safe-image className="cover-thumb" src="{{item.cover || ''}}" mode="aspectFill" />
       <view class="card-body">
         <view class="card-header">
-          <text class="title">{{item.title}}</text>
-          <text class="level">{{item.level}}</text>
+          <text class="title">{{item.title || ''}}</text>
+          <text class="level">{{item.level || ''}}</text>
         </view>
-        <text class="summary">{{item.summary}}</text>
+        <text class="summary">{{item.summary || ''}}</text>
         <view class="card-footer">
-          <text>{{item.readMinutes || 5}}分钟 · {{item.author}}</text>
-          <text>{{item.views}}人学习</text>
+          <text>{{item.readMinutes || 5}}分钟 · {{item.author || ''}}</text>
+          <text>{{item.views || 0}}人学习</text>
         </view>
       </view>
     </view>
   </block>
 
-  <view class="empty-state glass-card" wx:if="{{!filteredList.length}}">暂无课程内容</view>
+  <view class="empty-state" wx:if="{{!filteredList || !filteredList.length}}">暂无课程内容</view>
+  <view class="page-safe"></view>
 </view>

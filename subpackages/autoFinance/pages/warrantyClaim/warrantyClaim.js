@@ -10,6 +10,7 @@ Page({
       location: ''
     },
     photos: [],
+    canAddPhoto: true,
     claims: [],
     applications: [],
     submitting: false,
@@ -53,7 +54,8 @@ Page({
       mediaType: ['image'],
       success: (res) => {
         const paths = res.tempFiles.map(f => f.tempFilePath)
-        this.setData({ photos: [...this.data.photos, ...paths].slice(0, 6) })
+        const photos = [...this.data.photos, ...paths].slice(0, 6)
+        this.setData({ photos, canAddPhoto: photos.length < 6 })
       }
     })
   },
@@ -62,7 +64,7 @@ Page({
     const idx = e.currentTarget.dataset.idx
     const photos = [...this.data.photos]
     photos.splice(idx, 1)
-    this.setData({ photos })
+    this.setData({ photos, canAddPhoto: photos.length < 6 })
   },
 
   submitClaim() {

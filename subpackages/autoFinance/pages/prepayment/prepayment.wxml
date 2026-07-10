@@ -1,97 +1,96 @@
-<view class="finance-page prepayment-page">
-  <view class="finance-hero">
-    <safe-image className="finance-hero-img" src="/images/banner2.webp" mode="aspectFill" />
-    <view class="finance-hero-mask"></view>
-    <view class="finance-hero-body">
-      <text class="finance-badge">车主工具</text>
-      <text class="finance-hero-title">提前还款计算器</text>
-      <text class="finance-hero-sub">测算剩余本金、违约金、返现与实际年化成本</text>
+<view class="page-shell prepayment-page">
+  <view class="premium-hero fadeInUp">
+    <safe-image className="premium-hero-bg" src="/images/banner2.webp" mode="aspectFill" />
+    <view class="premium-hero-body">
+      <text class="premium-badge">车主工具</text>
+      <text class="premium-hero-title">提前还款计算器</text>
+      <text class="premium-hero-sub">测算剩余本金、违约金、返现与实际年化成本</text>
     </view>
   </view>
 
-  <view class="progress-banner glass-card">
+  <view class="progress-banner card fadeInUp" style="animation-delay:0.1s">
     <view class="progress-info">
       <text class="progress-label">还款进度</text>
-      <text class="progress-value">已还 {{paidMonths}} / {{loanTerm}} 期</text>
+      <text class="progress-value">已还 {{paidMonths || 0}} / {{loanTerm || 0}} 期</text>
     </view>
     <view class="progress-bar-wrap">
-      <view class="progress-bar-fill" style="width: {{progressPercent}}%"></view>
+      <view class="progress-bar-fill" style="width: {{progressPercent || 0}}%"></view>
     </view>
   </view>
 
-  <view class="section-block">
-    <view class="info-card glass-card">
+  <view class="section-block fadeInUp" style="animation-delay:0.15s">
+    <view class="card">
       <text class="block-title">贷款基本信息</text>
       <view class="field-row">
         <text class="field-label">贷款金额（元）</text>
-        <input class="field-input" type="digit" placeholder="请输入" value="{{loanAmount}}" bindinput="handleInputChange" data-field="loanAmount" />
+        <input class="field-input" type="digit" placeholder="请输入" value="{{loanAmount || ''}}" bindinput="handleInputChange" data-field="loanAmount" />
       </view>
       <view class="field-row">
-        <text class="field-label">贷款期数：{{loanTerm}} 个月</text>
-        <slider value="{{loanTerm}}" min="6" max="60" step="6" activeColor="#D4A84B" bindchange="handleSliderChange" data-field="loanTerm" />
+        <text class="field-label">贷款期数：{{loanTerm || 0}} 个月</text>
+        <slider value="{{loanTerm || 12}}" min="6" max="60" step="6" activeColor="#D4A84B" bindchange="handleSliderChange" data-field="loanTerm" />
       </view>
       <view class="field-row">
         <text class="field-label">年费率（%）</text>
-        <input class="field-input" type="digit" placeholder="如 24" value="{{annualRate}}" bindinput="handleInputChange" data-field="annualRate" />
+        <input class="field-input" type="digit" placeholder="如 24" value="{{annualRate || ''}}" bindinput="handleInputChange" data-field="annualRate" />
       </view>
     </view>
   </view>
 
-  <view class="section-block">
-    <view class="info-card glass-card">
+  <view class="section-block fadeInUp" style="animation-delay:0.2s">
+    <view class="card">
       <text class="block-title">提前还款参数</text>
       <view class="field-row">
-        <text class="field-label">已还月份：{{paidMonths}} 个月</text>
-        <slider value="{{paidMonths}}" min="1" max="{{loanTerm - 1}}" activeColor="#D4A84B" bindchange="handleSliderChange" data-field="paidMonths" />
+        <text class="field-label">已还月份：{{paidMonths || 0}} 个月</text>
+        <slider value="{{paidMonths || 1}}" min="1" max="{{loanTerm - 1 || 11}}" activeColor="#D4A84B" bindchange="handleSliderChange" data-field="paidMonths" />
       </view>
       <view class="field-row">
         <text class="field-label">违约金率（%）</text>
-        <input class="field-input" type="digit" value="{{penaltyRate}}" bindinput="handleInputChange" data-field="penaltyRate" />
+        <input class="field-input" type="digit" value="{{penaltyRate || ''}}" bindinput="handleInputChange" data-field="penaltyRate" />
       </view>
       <view class="field-row">
         <text class="field-label">银行返现率（%）</text>
-        <input class="field-input" type="digit" value="{{rebateRate}}" bindinput="handleInputChange" data-field="rebateRate" />
+        <input class="field-input" type="digit" value="{{rebateRate || ''}}" bindinput="handleInputChange" data-field="rebateRate" />
       </view>
       <view class="preset-row">
         <text class="preset-label">快捷场景</text>
         <view class="preset-tags">
-          <text class="preset-tag" wx:for="{{presets}}" wx:key="name" data-preset="{{item}}" bindtap="applyPreset">{{item.name}}</text>
+          <text class="preset-tag" wx:for="{{presets || []}}" wx:key="name" data-preset="{{item}}" bindtap="applyPreset">{{item.name || ''}}</text>
         </view>
       </view>
     </view>
   </view>
 
-  <view class="result-hero">
+  <view class="result-hero fadeInUp" style="animation-delay:0.25s">
     <text class="result-hero-label">实际总支出（含返现抵扣）</text>
-    <text class="result-hero-amount">¥{{results.netCost}}</text>
+    <text class="result-hero-amount">¥{{results.netCost || 0}}</text>
     <view class="result-hero-meta">
-      <text>月均成本 ¥{{results.monthlyCost}}</text>
-      <text>实际年化 {{results.effectiveRate}}%</text>
+      <text>月均成本 ¥{{results.monthlyCost || 0}}</text>
+      <text>实际年化 {{results.effectiveRate || 0}}%</text>
     </view>
   </view>
 
-  <view class="section-block">
-    <view class="info-card glass-card">
+  <view class="section-block fadeInUp" style="animation-delay:0.3s">
+    <view class="card">
       <text class="block-title">详细测算结果</text>
       <view class="result-grid">
-        <view class="result-cell" wx:for="{{resultItems}}" wx:key="label">
-          <text class="cell-label">{{item.label}}</text>
-          <text class="cell-value {{item.highlight ? 'highlight' : ''}}">{{item.prefix}}{{results[item.key]}}{{item.suffix}}</text>
+        <view class="result-cell" wx:for="{{resultItems || []}}" wx:key="label">
+          <text class="cell-label">{{item.label || ''}}</text>
+          <text class="cell-value {{item.highlight ? 'highlight' : ''}}">{{item.prefix || ''}}{{results[item.key] || 0}}{{item.suffix || ''}}</text>
         </view>
       </view>
     </view>
   </view>
 
-  <view class="section-block">
-    <view class="info-card glass-card">
+  <view class="section-block fadeInUp" style="animation-delay:0.35s">
+    <view class="card">
       <text class="block-title">使用说明</text>
-      <block wx:for="{{tips}}" wx:key="*this">
-        <text class="tip-line">· {{item}}</text>
+      <block wx:for="{{tips || []}}" wx:key="*this">
+        <text class="tip-line">· {{item || ''}}</text>
       </block>
     </view>
   </view>
 
-  <view class="compliance-banner">
+  <view class="compliance-banner fadeInUp" style="animation-delay:0.4s">
     <text>计算结果仅供参考，提前还款规则、违约金以贷款合同及机构政策为准。</text>
   </view>
 
@@ -99,4 +98,5 @@
     <button class="btn-secondary" bindtap="goFinanceList">返回汽车金融</button>
     <button class="btn-primary" bindtap="goIntake">咨询融资方案</button>
   </view>
+  <view class="page-safe"></view>
 </view>

@@ -482,3 +482,80 @@ CREATE TABLE IF NOT EXISTS admin_role_assignments (
   FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
   UNIQUE(admin_id, role_id)
 );
+
+-- ============================================
+-- 车辆列表（管理后台车辆管理）
+-- ============================================
+CREATE TABLE IF NOT EXISTS cars_listings (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  brand TEXT NOT NULL,
+  model TEXT NOT NULL,
+  price TEXT,
+  year INTEGER,
+  mileage TEXT,
+  city TEXT,
+  color TEXT,
+  engine TEXT,
+  transmission TEXT,
+  seats INTEGER,
+  description TEXT,
+  images TEXT,
+  tags TEXT,
+  status TEXT DEFAULT 'active',
+  created_at TEXT DEFAULT (datetime('now')),
+  updated_at TEXT DEFAULT (datetime('now'))
+);
+
+-- ============================================
+-- 渠道合伙人表
+-- ============================================
+CREATE TABLE IF NOT EXISTS channel_partners (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  phone TEXT,
+  company TEXT,
+  city TEXT,
+  level TEXT DEFAULT 'partner',
+  desc TEXT,
+  status TEXT DEFAULT 'active',
+  created_at TEXT DEFAULT (datetime('now')),
+  updated_at TEXT DEFAULT (datetime('now'))
+);
+
+-- ============================================
+-- 分润规则表
+-- ============================================
+CREATE TABLE IF NOT EXISTS commission_rules (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  product_type TEXT NOT NULL,
+  role_type TEXT NOT NULL,
+  commission_rate REAL NOT NULL,
+  fixed_amount REAL DEFAULT 0,
+  min_amount REAL DEFAULT 0,
+  max_amount REAL,
+  description TEXT,
+  status TEXT DEFAULT 'active',
+  created_at TEXT DEFAULT (datetime('now')),
+  updated_at TEXT DEFAULT (datetime('now')),
+  UNIQUE(product_type, role_type)
+);
+
+-- ============================================
+-- 分润记录表
+-- ============================================
+CREATE TABLE IF NOT EXISTS commission_records (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  application_id INTEGER,
+  product_type TEXT,
+  role_type TEXT,
+  account_id INTEGER,
+  account_name TEXT,
+  amount REAL NOT NULL,
+  commission REAL NOT NULL,
+  rate REAL NOT NULL,
+  status TEXT DEFAULT 'pending',
+  settled_at TEXT,
+  remark TEXT,
+  created_at TEXT DEFAULT (datetime('now')),
+  updated_at TEXT DEFAULT (datetime('now'))
+);

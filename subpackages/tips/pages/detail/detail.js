@@ -51,5 +51,21 @@ Page({
 
   goChat() {
     wx.navigateTo({ url: '/subpackages/service/pages/chat/chat' })
+  },
+
+  onShareAppMessage() {
+    const tip = this.data.tip || {}
+    return {
+      title: tip.title || '亮叶避坑指南',
+      path: `/subpackages/tips/pages/detail/detail?id=${tip.id || ''}`,
+      desc: tip.summary || '亮叶企服避坑指南详情'
+    }
+  },
+
+  onShareTimeline() {
+    const tip = this.data.tip || {}
+    return {
+      title: tip.title || '亮叶避坑指南'
+    }
   }
 })

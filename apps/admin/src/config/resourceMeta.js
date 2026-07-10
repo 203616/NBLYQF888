@@ -215,6 +215,75 @@ export const resourceConfig = {
       { prop: 'status', label: '状态', width: 90 }
     ]
   },
+  knowledge: {
+    description: '金融知识库文章发布与管理',
+    icon: '📖',
+    searchPlaceholder: '搜索标题',
+    columns: [
+      { prop: 'id', label: 'ID', width: 70 },
+      { prop: 'title', label: '标题', minWidth: 200 },
+      { prop: 'category', label: '分类', width: 100 },
+      { prop: 'level', label: '难度', width: 80 },
+      { prop: 'views', label: '阅读量', width: 90 },
+      { prop: 'status', label: '状态', width: 90 },
+      { prop: 'published_at', label: '发布时间', minWidth: 160 }
+    ]
+  },
+  tips: {
+    description: '避坑指南与风险防范内容',
+    icon: '💡',
+    searchPlaceholder: '搜索标题',
+    columns: [
+      { prop: 'id', label: 'ID', width: 70 },
+      { prop: 'title', label: '标题', minWidth: 200 },
+      { prop: 'category', label: '分类', width: 100 },
+      { prop: 'level', label: '风险等级', width: 100 },
+      { prop: 'views', label: '阅读量', width: 90 },
+      { prop: 'status', label: '状态', width: 90 },
+      { prop: 'published_at', label: '发布时间', minWidth: 160 }
+    ]
+  },
+  cases: {
+    description: '成功案例管理与展示',
+    icon: '🏆',
+    searchPlaceholder: '搜索标题',
+    columns: [
+      { prop: 'id', label: 'ID', width: 70 },
+      { prop: 'title', label: '标题', minWidth: 200 },
+      { prop: 'result', label: '结果', minWidth: 140 },
+      { prop: 'sort', label: '排序', width: 80 },
+      { prop: 'status', label: '状态', width: 90 },
+      { prop: 'created_at', label: '创建时间', minWidth: 160 }
+    ]
+  },
+  cars: {
+    description: '车辆信息列表展示',
+    icon: '🚗',
+    searchPlaceholder: '搜索品牌/车型',
+    columns: [
+      { prop: 'id', label: 'ID', width: 70 },
+      { prop: 'brand', label: '品牌', width: 100 },
+      { prop: 'model', label: '车型', minWidth: 140 },
+      { prop: 'price', label: '价格', width: 100 },
+      { prop: 'city', label: '城市', width: 100 },
+      { prop: 'status', label: '状态', width: 90 },
+      { prop: 'created_at', label: '创建时间', minWidth: 160 }
+    ]
+  },
+  channels: {
+    description: '渠道合伙人信息管理',
+    icon: '🤝',
+    searchPlaceholder: '搜索名称/手机',
+    columns: [
+      { prop: 'id', label: 'ID', width: 70 },
+      { prop: 'name', label: '名称', minWidth: 120 },
+      { prop: 'phone', label: '手机', width: 130 },
+      { prop: 'city', label: '城市', width: 100 },
+      { prop: 'level', label: '等级', width: 80 },
+      { prop: 'status', label: '状态', width: 90 },
+      { prop: 'created_at', label: '入驻时间', minWidth: 160 }
+    ]
+  },
   financeCirclePosts: {
     description: '易融圈动态审核（含用户上传图片）',
     icon: '💬',

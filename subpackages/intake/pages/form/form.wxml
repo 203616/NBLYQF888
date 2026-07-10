@@ -1,9 +1,10 @@
 <view class="page-shell form-page" wx:if="{{module}}">
-  <view class="form-hero">
+  <view class="form-hero fadeInUp">
     <safe-image className="form-cover" src="{{module.icon || ''}}" mode="aspectFill" />
     <view class="form-hero-text">
       <text class="form-title">{{module.title}}</text>
       <text class="form-desc">{{module.desc}}</text>
+      <text class="step-badge" wx:if="{{showFlowNav}}">步骤 {{currentStep}}/{{totalSteps}} · 自动化流程中</text>
     </view>
   </view>
 
@@ -82,7 +83,7 @@
         <text class="hint" wx:if="{{item.hint}}">{{item.hint}}</text>
         <view class="image-upload">
           <view class="image-slot" wx:if="{{formData[item.key]}}" bindtap="handlePreviewImage" data-key="{{item.key}}">
-              <image class="upload-preview" src="{{formData[item.key]}}" mode="aspectFill" lazy-load="{{true}}" />
+              <safe-image className="upload-preview" src="{{formData[item.key] || ''}}" mode="aspectFill" />
             <text class="remove-btn" catchtap="handleRemoveImage" data-key="{{item.key}}">×</text>
           </view>
           <view class="image-add" wx:else bindtap="handleChooseImage" data-key="{{item.key}}">
@@ -95,5 +96,6 @@
     </block>
   </view>
 
-  <button class="save-btn primary-btn" bindtap="handleSave">保存并返回</button>
+  <button class="save-btn btn-gold" bindtap="handleSave">{{showFlowNav ? '✅ 保存并进入下一步' : '保存并返回'}}</button>
+  <view class="page-safe"></view>
 </view>

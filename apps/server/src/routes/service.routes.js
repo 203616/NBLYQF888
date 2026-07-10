@@ -1,7 +1,7 @@
 const express = require('express')
 const db = require('../db')
 const { ok, fail } = require('../utils/response')
-const { askDeepSeek, enrichChatMessage } = require('../services/aiChat.service')
+const { askDeepSeek, enrichChatMessage, testConnection, getActiveConfig } = require('../services/aiChat.service')
 
 const router = express.Router()
 
@@ -10,6 +10,26 @@ const faqs = [
   { q: '是否需要先交保证金？', a: '不建议向个人账户或不明主体支付任何前置费用。如遇"先收费后放款""包过"等宣传，请保留证据并谨慎处理。' },
   { q: '如何准备企业经营贷材料？', a: '通常需要营业执照、法人身份证明、近6个月流水、纳税或开票记录、用途说明等，具体以机构要求为准。' }
 ]
+
+// AI 连接测试
+router.get('/test-ai', async (req, res) => {
+  try {
+    const result = await testConnection(req.query.provider)
+    ok(res, result)
+  } catch (err) {
+    fail(res, err.message)
+  }
+})
+
+// 获取当前 AI 配置状态
+router.get('/ai-config', (req, res) => {
+  const config = getActiveConfig()
+  ok(res, {
+    provider: config.provider,
+    model: config.model,
+    hasApiKey: !!config.apiKey
+  })
+})
 
 // 常见问题列表
 router.get('/faq', (req, res) => {
@@ -51,12 +71,13 @@ router.post('/sessions', (req, res) => {
 // 发送消息（核心客服接口）
 router.post('/chat', async (req, res, next) => {
   try {
-    const { message, sessionId, userId } = req.body
+    const { message, sessionId, userId, source } = req.body
     if (!message || !String(message).trim()) return fail(res, '咨询内容不能为空')
 
     let currentSessionId = sessionId
     if (!currentSessionId) {
-      const info = db.prepare('INSERT INTO service_sessions (user_id, title) VALUES (?, ?)').run(userId || null, '智能客服咨询')
+      const title = source ? `【${source}】智能客服咨询` : '智能客服咨询'
+      const info = db.prepare('INSERT INTO service_sessions (user_id, title) VALUES (?, ?)').run(userId || null, title)
       currentSessionId = info.lastInsertRowid
     }
 

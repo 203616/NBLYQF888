@@ -2,27 +2,51 @@
   padding-bottom: 40rpx;
 }
 
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fadeInUp {
+  animation: fadeInUp 0.5s ease both;
+}
+
+/* ===== Location ===== */
 .loc-arrow {
   margin-left: auto;
   color: var(--color-text-muted);
   font-size: 32rpx;
 }
 
-.clue-hero {
-  margin-bottom: 20rpx;
-  min-height: 200rpx;
+/* ===== Intro Card ===== */
+.intro-card {
+  padding: 24rpx var(--space-md);
+  margin-bottom: var(--space-md);
 }
 
-.intro-panel {
-  padding: 24rpx;
-  margin-bottom: 20rpx;
+.intro-row {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-start;
+}
+
+.intro-icon {
+  font-size: 36rpx;
+  flex-shrink: 0;
+  margin-top: 2rpx;
+}
+
+.intro-body {
+  flex: 1;
 }
 
 .intro-title {
   display: block;
   font-size: 28rpx;
   font-weight: bold;
-  margin-bottom: 10rpx;
+  color: var(--color-primary);
+  margin-bottom: 6rpx;
 }
 
 .intro-desc {
@@ -31,11 +55,12 @@
   line-height: 1.6;
 }
 
+/* ===== Entry Grid ===== */
 .entry-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16rpx;
-  margin-bottom: 24rpx;
+  margin-bottom: var(--space-md);
 }
 
 .entry-card {
@@ -43,16 +68,30 @@
   padding: 24rpx 12rpx;
 }
 
+.entry-icon-circle {
+  width: 64rpx;
+  height: 64rpx;
+  margin: 0 auto 10rpx;
+  border-radius: 50%;
+  background: var(--color-primary-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 12rpx rgba(15, 61, 46, 0.1);
+}
+
 .entry-icon {
-  font-size: 40rpx;
+  font-size: 32rpx;
   display: block;
 }
 
 .entry-title {
   font-size: 24rpx;
-  margin-top: 8rpx;
+  color: var(--color-text-primary);
+  font-weight: 500;
 }
 
+/* ===== Stat Row ===== */
 .stat-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -79,31 +118,16 @@
   margin-top: 4rpx;
 }
 
+/* ===== Tabs ===== */
 .tabs {
   white-space: nowrap;
   margin-bottom: 20rpx;
   display: flex;
 }
 
-.tab {
-  display: inline-block;
-  color: var(--color-text-secondary);
-  background: var(--color-bg-card);
-  border-radius: 999rpx;
-  padding: 12rpx 28rpx;
-  margin-right: 12rpx;
-  font-size: 24rpx;
-  box-shadow: var(--shadow-card);
-  flex-shrink: 0;
-}
-
-.tab.active {
-  color: #fff;
-  background: var(--gradient-hero);
-}
-
+/* ===== Clue Card ===== */
 .clue-card {
-  padding: 24rpx 28rpx;
+  padding: var(--space-md);
   margin-bottom: 16rpx;
 }
 
@@ -114,20 +138,23 @@
   gap: 16rpx;
 }
 
-.title {
+.card-head .title {
   font-size: 30rpx;
   font-weight: 700;
   color: var(--color-text-primary);
   flex: 1;
 }
 
-.status {
-  color: var(--color-primary);
-  background: var(--color-primary-bg);
+/* ===== Status Tag ===== */
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6rpx;
   border-radius: 999rpx;
   padding: 6rpx 16rpx;
   font-size: 22rpx;
   flex-shrink: 0;
+  font-weight: 500;
 }
 
 .desc {
@@ -149,7 +176,7 @@
 
 .meta-row.secondary {
   font-size: 22rpx;
-  color: #999;
+  color: var(--color-text-muted);
 }
 
 .meta-item {
@@ -163,7 +190,7 @@
   margin-top: 14rpx;
 }
 
-.tag {
+.tag-row .tag {
   color: var(--color-primary);
   background: var(--color-primary-bg);
   border-radius: 999rpx;
@@ -171,9 +198,23 @@
   font-size: 22rpx;
 }
 
-.empty {
+/* ===== Empty State ===== */
+.empty-state {
   text-align: center;
-  padding: 48rpx 32rpx;
-  font-size: 26rpx;
+  padding: 100rpx 0;
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.empty-icon {
+  font-size: 64rpx;
+  margin-bottom: 8rpx;
+}
+
+.empty-sub {
+  font-size: 24rpx;
   color: var(--color-text-muted);
 }

@@ -1,5 +1,5 @@
-<view class="tool-page page-shell">
-  <view class="tool-hero premium-hero">
+<view class="page-shell tool-page">
+  <view class="premium-hero fadeInUp">
     <view class="premium-hero-body">
       <text class="premium-badge">车主工具</text>
       <text class="premium-hero-title">金融计算器</text>
@@ -7,18 +7,19 @@
     </view>
   </view>
 
-  <view class="calc-wrap glass-card">
+  <view class="card fadeInUp" style="animation-delay:0.1s;padding:20rpx">
     <finance-calculator />
   </view>
 
-  <view class="tips glass-card">
+  <view class="card fadeInUp" style="animation-delay:0.15s">
     <text class="tips-title">使用说明</text>
-    <text>· 支持等额本息、等额本金等常见还款方式</text>
-    <text>· 可调整首付比例、期限、利率进行试算</text>
-    <text>· 测算结果仅供参考，不构成审批承诺</text>
+    <text class="tip-line">· 支持等额本息、等额本金等常见还款方式</text>
+    <text class="tip-line">· 可调整首付比例、期限、利率进行试算</text>
+    <text class="tip-line">· 测算结果仅供参考，不构成审批承诺</text>
   </view>
 
-  <view class="compliance glass-card">
+  <view class="compliance fadeInUp" style="animation-delay:0.2s">
     <text>实际利率、费用以持牌机构合同为准，亮叶企服不发放贷款。</text>
   </view>
+  <view class="page-safe"></view>
 </view>

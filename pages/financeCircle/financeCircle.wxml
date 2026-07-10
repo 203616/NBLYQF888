@@ -1,10 +1,12 @@
 <view class="finance-circle page-shell">
-  <view class="location-bar glass-card" bindtap="handleChooseCity">
+  <!-- 定位栏 -->
+  <view class="location-bar glass-card fade-in-up" bindtap="handleChooseCity">
     <text class="iconfont icon-location loc-icon"></text>
     <text>{{location.city || '定位中'}} · 本地需求大厅</text>
     <text class="loc-arrow">›</text>
   </view>
 
+  <!-- 顶部英雄区 -->
   <view class="finance-hero premium-hero">
     <safe-image className="premium-hero-bg" src="/images/banner3.webp" mode="aspectFill" />
     <view class="premium-hero-body">
@@ -14,209 +16,579 @@
     </view>
   </view>
 
-  <view class="stat-row">
-    <view class="stat-item glass-card" wx:for="{{stats}}" wx:key="label">
+  <!-- 数据统计 -->
+  <view class="stat-row glass-card fade-in-up">
+    <view class="stat-item" wx:for="{{stats}}" wx:key="label" style="animation-delay: {{index * 0.06}}s">
       <text class="stat-num">{{item.value}}</text>
       <text class="stat-label">{{item.label}}</text>
     </view>
   </view>
 
-  <view class="flow-card glass-card">
-    <text class="block-title">撮合流程</text>
-    <view class="flow-steps">
-      <block wx:for="{{flowSteps}}" wx:key="title">
-        <view class="flow-step">
-          <text class="flow-index">{{index + 1}}</text>
-          <text class="flow-title">{{item.title}}</text>
-          <text class="flow-desc">{{item.desc}}</text>
-        </view>
-      </block>
-    </view>
-  </view>
-
-  <view class="institution-panel glass-card" wx:if="{{institutions.length}}">
-    <text class="block-title">宁波合作机构</text>
-    <view class="inst-grid">
-      <block wx:for="{{institutions}}" wx:key="name">
-        <view class="inst-item">
-          <text class="inst-name">{{item.name}}</text>
-          <text class="inst-products">{{item.products}}</text>
-        </view>
-      </block>
-    </view>
-  </view>
-
-  <view class="guide-panel glass-card" wx:if="{{guides.length}}">
-    <text class="block-title">撮合指南</text>
-    <block wx:for="{{guides}}" wx:key="title">
-      <view class="guide-item">
-        <text class="guide-title">{{item.title}}</text>
-        <text class="guide-desc">{{item.desc}}</text>
+  <!-- ===== 模块1：撮合流程 ===== -->
+  <view class="section-wrap glass-card fade-in-up">
+    <view class="section-header" bindtap="toggleSection" data-section="flow">
+      <view class="section-header-left">
+        <text class="section-icon">🔄</text>
+        <text class="section-title">撮合流程</text>
       </view>
-    </block>
-  </view>
-
-  <view class="supply-panel glass-card" wx:if="{{institutionSupply.length}}">
-    <text class="block-title">机构供给（供资金）</text>
-    <block wx:for="{{institutionSupply}}" wx:key="title">
-      <view class="supply-item">
-        <text class="supply-title">{{item.title}}</text>
-        <text class="supply-amount">{{item.amount}}</text>
-        <view class="tag-row">
-          <text class="mini-tag" wx:for="{{item.tags}}" wx:key="*this" wx:for-item="tag">{{tag}}</text>
-        </view>
-      </view>
-    </block>
-  </view>
-
-  <view class="purpose-panel glass-card" wx:if="{{hotPurposes.length}}">
-    <text class="block-title">热门用途</text>
-    <view class="purpose-tags">
-      <text class="purpose-tag" wx:for="{{hotPurposes}}" wx:key="*this">{{item}}</text>
+      <text class="section-toggle">{{sections.flow ? '收起 ▲' : '展开 ▼'}}</text>
     </view>
-  </view>
-
-  <view class="feed-panel glass-card">
-    <view class="feed-head-row">
-      <text class="block-title">融圈动态</text>
-      <text class="publish-btn" bindtap="togglePublish">{{showPublish ? '收起' : '+ 发布'}}</text>
-    </view>
-
-    <view class="publish-box" wx:if="{{showPublish}}">
-      <textarea class="publish-textarea" placeholder="分享融资需求、机构供给或服务心得…" value="{{publishContent}}" bindinput="onPublishInput" />
-      <view class="publish-images" wx:if="{{publishImages.length}}">
-        <safe-image wx:for="{{publishImages}}" wx:key="*this" src="{{item || ''}}" className="pub-img" mode="aspectFill" />
-      </view>
-      <view class="publish-actions">
-        <text class="pub-add-img" bindtap="choosePublishImage">📷 添加图片</text>
-        <button class="pub-submit btn-gold" bindtap="submitPublish">发布</button>
-      </view>
-    </view>
-
-    <block wx:for="{{feedPosts}}" wx:key="id">
-      <view class="feed-item" data-id="{{item.id}}" bindtap="navigateToFeedDetail">
-        <view class="feed-head">
-          <safe-image className="feed-avatar" src="{{item.avatar || ''}}" mode="aspectFill" />
-          <view class="feed-meta">
-            <text class="feed-user">{{item.user}}</text>
-            <text class="feed-time">{{item.time}}</text>
+    <view class="divider-gold"></view>
+    <view class="section-body" wx:if="{{sections.flow}}">
+      <view class="flow-steps">
+        <block wx:for="{{flowSteps}}" wx:key="title">
+          <view class="flow-step-wrap">
+            <view class="flow-step fade-in-up" style="animation-delay: {{index * 0.1}}s">
+              <view class="flow-index-wrap">
+                <text class="flow-index">{{index + 1}}</text>
+              </view>
+              <text class="flow-title">{{item.title}}</text>
+              <text class="flow-desc">{{item.desc}}</text>
+            </view>
+            <view class="flow-connector" wx:if="{{index < flowSteps.length - 1}}">
+              <text class="flow-arrow">→</text>
+            </view>
           </view>
-          <text class="feed-more">详情 ›</text>
-        </view>
-        <text class="feed-content">{{item.content}}</text>
-        <view class="feed-images" wx:if="{{item.images.length}}">
-          <safe-image wx:for="{{item.images}}" wx:key="*this" wx:for-item="img" src="{{img || ''}}" previewUrl="{{img}}" previewUrls="{{item.images}}" className="feed-img" catch:tap="previewFeedImage" />
-        </view>
-        <view class="feed-actions">
-          <text class="action-btn {{item.liked ? 'liked' : ''}}" data-id="{{item.id}}" catchtap="handleLike">👍 {{item.likes}}</text>
-          <text class="action-btn" data-id="{{item.id}}" catchtap="openComment">💬 {{item.comments || (item.commentList ? item.commentList.length : 0)}}</text>
-        </view>
-        <view class="comment-list" wx:if="{{item.commentList && item.commentList.length}}">
-          <block wx:for="{{item.commentList}}" wx:key="id" wx:for-item="c">
-            <text class="comment-line"><text class="comment-user">{{c.user}}：</text>{{c.content}}</text>
-          </block>
-        </view>
+        </block>
       </view>
-    </block>
+      <view class="flow-tip card">
+        <text class="flow-tip-icon">💡</text>
+        <text class="flow-tip-text">整个流程平均 3-5 个工作日完成，专业顾问全程跟进</text>
+      </view>
+    </view>
   </view>
 
+  <!-- ===== 模块2：宁波合作机构 ===== -->
+  <view class="section-wrap glass-card fade-in-up">
+    <view class="section-header" bindtap="toggleSection" data-section="institutions">
+      <view class="section-header-left">
+        <text class="section-icon">🏦</text>
+        <text class="section-title">宁波合作机构</text>
+      </view>
+      <text class="section-toggle">{{sections.institutions ? '收起 ▲' : '展开 ▼'}}</text>
+    </view>
+    <view class="divider-gold"></view>
+    <view class="section-body" wx:if="{{sections.institutions}}">
+      <view class="inst-grid">
+        <view class="inst-card list-card" wx:for="{{institutions}}" wx:key="id" data-id="{{item.id}}" bindtap="showInstitutionDetail" style="animation-delay: {{index * 0.08}}s">
+          <view class="inst-card-top">
+            <view class="inst-icon">{{item.icon || '🏛️'}}</view>
+            <view class="inst-info">
+              <text class="inst-name">{{item.name}}</text>
+              <text class="inst-type tag">{{item.type}}</text>
+            </view>
+            <view class="inst-rating">
+              <text class="rating-star">⭐</text>
+              <text class="rating-num">{{item.rating}}</text>
+            </view>
+          </view>
+          <view class="inst-tags">
+            <text class="mini-tag" wx:for="{{item.tags}}" wx:key="*this" wx:for-item="tag">{{tag}}</text>
+          </view>
+          <text class="inst-desc">{{item.desc || ''}}</text>
+          <button class="btn-gold consult-btn" data-id="{{item.id}}" catchtap="consultInstitution">立即咨询</button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 机构详情模态框 -->
+  <view class="modal-overlay" wx:if="{{institutionDetail}}" catchtap="closeInstitutionDetail">
+    <view class="modal-content glass-card" catchtap="noop">
+      <view class="modal-close" bindtap="closeInstitutionDetail">✕</view>
+      <view class="modal-header">
+        <text class="modal-icon">{{institutionDetail.icon || '🏛️'}}</text>
+        <view class="modal-title-group">
+          <text class="modal-title">{{institutionDetail.name || ''}}</text>
+          <text class="modal-type tag">{{institutionDetail.type || ''}}</text>
+        </view>
+        <view class="modal-rating">
+          <text>⭐ {{institutionDetail.rating || ''}}</text>
+        </view>
+      </view>
+      <view class="divider-gold"></view>
+      <view class="modal-body">
+        <view class="modal-section">
+          <text class="modal-label">机构简介</text>
+          <text class="modal-text">{{institutionDetail.desc || '暂无简介'}}</text>
+        </view>
+        <view class="modal-section">
+          <text class="modal-label">服务标签</text>
+          <view class="modal-tags">
+            <text class="mini-tag" wx:for="{{institutionDetail.tags || []}}" wx:key="*this" wx:for-item="tag">{{tag}}</text>
+          </view>
+        </view>
+        <view class="modal-section">
+          <text class="modal-label">主营产品</text>
+          <text class="modal-text">{{institutionDetail.products || '暂无信息'}}</text>
+        </view>
+        <view class="modal-section">
+          <text class="modal-label">联系方式</text>
+          <text class="modal-text">{{institutionDetail.contact || '请点击下方按钮咨询'}}</text>
+        </view>
+      </view>
+      <button class="btn-gold modal-btn" data-id="{{institutionDetail.id || ''}}" bindtap="consultInstitution">立即咨询</button>
+    </view>
+  </view>
+
+  <!-- ===== 模块3：撮合指南 ===== -->
+  <view class="section-wrap glass-card fade-in-up">
+    <view class="section-header" bindtap="toggleSection" data-section="guides">
+      <view class="section-header-left">
+        <text class="section-icon">📖</text>
+        <text class="section-title">撮合指南</text>
+      </view>
+      <text class="section-toggle">{{sections.guides ? '收起 ▲' : '展开 ▼'}}</text>
+    </view>
+    <view class="divider-gold"></view>
+    <view class="section-body" wx:if="{{sections.guides}}">
+      <view class="guide-list">
+        <view class="guide-item" wx:for="{{guides}}" wx:key="id" data-id="{{item.id}}" bindtap="toggleGuideItem">
+          <view class="guide-head">
+            <text class="guide-q-icon">❓</text>
+            <text class="guide-question">{{item.question}}</text>
+            <text class="guide-arrow">{{openedGuides.indexOf(item.id) !== -1 ? '−' : '+'}}</text>
+          </view>
+          <view class="guide-answer-wrap" wx:if="{{openedGuides.indexOf(item.id) !== -1}}">
+            <text class="guide-answer">{{item.answer}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 模块4：机构供给 ===== -->
+  <view class="section-wrap glass-card fade-in-up">
+    <view class="section-header" bindtap="toggleSection" data-section="supply">
+      <view class="section-header-left">
+        <text class="section-icon">📦</text>
+        <text class="section-title">机构供给</text>
+      </view>
+      <text class="section-toggle">{{sections.supply ? '收起 ▲' : '展开 ▼'}}</text>
+    </view>
+    <view class="divider-gold"></view>
+    <view class="section-body" wx:if="{{sections.supply}}">
+      <view class="supply-list">
+        <view class="supply-item list-card" wx:for="{{institutionSupply}}" wx:key="id" data-id="{{item.id}}" bindtap="showSupplyDetail" style="animation-delay: {{index * 0.06}}s">
+          <view class="supply-top">
+            <text class="supply-institution">{{item.institution}}</text>
+            <text class="supply-tag tag">{{item.tag || '信用贷'}}</text>
+          </view>
+          <text class="supply-product">{{item.product}}</text>
+          <view class="supply-meta-row">
+            <view class="supply-meta">
+              <text class="supply-label">额度范围</text>
+              <text class="supply-value">{{item.amountRange}}</text>
+            </view>
+            <view class="supply-meta">
+              <text class="supply-label">年化利率</text>
+              <text class="supply-value gold">{{item.rate}}</text>
+            </view>
+            <view class="supply-meta">
+              <text class="supply-label">期限</text>
+              <text class="supply-value">{{item.period || '1-5年'}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 供给产品详情模态框 -->
+  <view class="modal-overlay" wx:if="{{supplyDetail}}" catchtap="closeSupplyDetail">
+    <view class="modal-content glass-card" catchtap="noop">
+      <view class="modal-close" bindtap="closeSupplyDetail">✕</view>
+      <view class="modal-header">
+        <text class="modal-title">{{supplyDetail.product || ''}}</text>
+      </view>
+      <view class="divider-gold"></view>
+      <view class="modal-body">
+        <view class="modal-section">
+          <text class="modal-label">机构</text>
+          <text class="modal-text">{{supplyDetail.institution || ''}}</text>
+        </view>
+        <view class="modal-section">
+          <text class="modal-label">产品类型</text>
+          <text class="modal-text">{{supplyDetail.tag || ''}}</text>
+        </view>
+        <view class="modal-section">
+          <text class="modal-label">额度范围</text>
+          <text class="modal-text">{{supplyDetail.amountRange || ''}}</text>
+        </view>
+        <view class="modal-section">
+          <text class="modal-label">年化利率</text>
+          <text class="modal-text gold">{{supplyDetail.rate || ''}}</text>
+        </view>
+        <view class="modal-section">
+          <text class="modal-label">期限</text>
+          <text class="modal-text">{{supplyDetail.period || '1-5年'}}</text>
+        </view>
+        <view class="modal-section">
+          <text class="modal-label">产品简介</text>
+          <text class="modal-text">{{supplyDetail.desc || '暂无详细介绍'}}</text>
+        </view>
+        <view class="modal-section">
+          <text class="modal-label">申请条件</text>
+          <text class="modal-text">{{supplyDetail.requirements || '暂无条件说明'}}</text>
+        </view>
+      </view>
+      <button class="btn-gold modal-btn" bindtap="navigateToServiceChat">立即申请</button>
+    </view>
+  </view>
+
+  <!-- ===== 模块5：热门用途 ===== -->
+  <view class="section-wrap glass-card fade-in-up">
+    <view class="section-header" bindtap="toggleSection" data-section="purposes">
+      <view class="section-header-left">
+        <text class="section-icon">🏷️</text>
+        <text class="section-title">热门用途</text>
+      </view>
+      <text class="section-toggle">{{sections.purposes ? '收起 ▲' : '展开 ▼'}}</text>
+    </view>
+    <view class="divider-gold"></view>
+    <view class="section-body" wx:if="{{sections.purposes}}">
+      <text class="purpose-hint">点击标签快速筛选需求</text>
+      <view class="purpose-tags">
+        <text class="purpose-tag {{selectedPurpose === item ? 'active' : ''}} fade-in-up" wx:for="{{hotPurposes}}" wx:key="*this" data-purpose="{{item}}" bindtap="selectPurpose" style="animation-delay: {{index * 0.05}}s">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 模块6：融圈动态 ===== -->
+  <view class="section-wrap glass-card fade-in-up">
+    <view class="section-header" bindtap="toggleSection" data-section="feed">
+      <view class="section-header-left">
+        <text class="section-icon">💬</text>
+        <text class="section-title">融圈动态</text>
+      </view>
+      <view class="section-header-right">
+        <text class="publish-btn {{sections.feed ? '' : 'hidden'}}" catchtap="togglePublish">{{showPublish ? '收起' : '+ 发布'}}</text>
+        <text class="section-toggle">{{sections.feed ? '收起 ▲' : '展开 ▼'}}</text>
+      </view>
+    </view>
+    <view class="divider-gold"></view>
+    <view class="section-body" wx:if="{{sections.feed}}">
+      <!-- 发布框 -->
+      <view class="publish-box card" wx:if="{{showPublish}}">
+        <textarea class="publish-textarea" placeholder="分享融资需求、机构供给或服务心得…" value="{{publishContent || ''}}" bindinput="onPublishInput" />
+        <view class="publish-images" wx:if="{{publishImages.length}}">
+          <safe-image wx:for="{{publishImages}}" wx:key="*this" src="{{item || ''}}" className="pub-img" mode="aspectFill" />
+        </view>
+        <view class="publish-actions">
+          <text class="pub-add-img" bindtap="choosePublishImage">📷 添加图片</text>
+          <button class="pub-submit btn-gold" bindtap="submitPublish">发布</button>
+        </view>
+      </view>
+
+      <!-- 动态列表 -->
+      <view class="feed-list" wx:if="{{feedPosts.length}}">
+        <view class="feed-item" wx:for="{{feedPosts}}" wx:key="id" style="animation-delay: {{index * 0.08}}s">
+          <view class="feed-head" data-id="{{item.id}}" bindtap="navigateToFeedDetail">
+            <safe-image className="feed-avatar" src="{{item.avatar || ''}}" mode="aspectFill" />
+            <view class="feed-meta">
+              <text class="feed-user">{{item.user || ''}}</text>
+              <text class="feed-time">{{item.time || ''}}</text>
+            </view>
+            <text class="feed-more">详情 ›</text>
+          </view>
+          <text class="feed-content">{{item.content || ''}}</text>
+          <view class="feed-images" wx:if="{{item.images && item.images.length}}">
+            <safe-image wx:for="{{item.images}}" wx:key="*this" wx:for-item="img" src="{{img || ''}}" previewUrl="{{img || ''}}" previewUrls="{{item.images || []}}" className="feed-img" catch:tap="previewFeedImage" />
+          </view>
+          <view class="feed-actions">
+            <text class="action-btn {{item.liked ? 'liked' : ''}}" data-id="{{item.id}}" catchtap="handleLike">❤️ {{item.likes || 0}}</text>
+            <text class="action-btn" data-id="{{item.id}}" catchtap="openComment">💬 {{item.commentCount || 0}}</text>
+            <text class="action-btn" data-id="{{item.id}}" catchtap="handleShare">↗️ 分享</text>
+          </view>
+          <view class="comment-list" wx:if="{{item.commentList && item.commentList.length}}">
+            <block wx:for="{{item.commentList}}" wx:key="id" wx:for-item="c">
+              <text class="comment-line"><text class="comment-user">{{c.user || ''}}：</text>{{c.content || ''}}</text>
+            </block>
+          </view>
+        </view>
+      </view>
+      <view class="empty-state" wx:else>
+        <text class="empty-icon">📭</text>
+        <text class="empty-text">暂无动态，快来发布第一条吧</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 评论弹窗 -->
   <view class="comment-modal" wx:if="{{commentPostId}}">
-    <view class="comment-mask" bindtap="closeComment"></view>
+    <view class="comment-mask" catchtap="closeComment"></view>
     <view class="comment-box glass-card">
-      <input class="comment-input" placeholder="写下你的评论…" value="{{commentInput}}" bindinput="onCommentInput" focus />
-      <button class="btn-gold" bindtap="submitComment">发送</button>
+      <input class="comment-input" placeholder="写下你的评论…" value="{{commentInput || ''}}" bindinput="onCommentInput" focus />
+      <button class="btn-gold" catchtap="submitComment">发送</button>
     </view>
   </view>
 
-  <view class="demand-form glass-card">
-    <text class="block-title">发布需求</text>
-    <picker bindchange="handleTypeChange" value="{{selectedTypeIndex}}" range="{{demandTypes}}" range-key="label">
-      <view class="form-item">
-        <text class="form-label">需求类型</text>
-        <text class="form-value">{{demandTypes[selectedTypeIndex].label}} ›</text>
+  <!-- ===== 模块7：需求大厅 ===== -->
+  <view class="section-wrap glass-card fade-in-up">
+    <view class="section-header" bindtap="toggleSection" data-section="demands">
+      <view class="section-header-left">
+        <text class="section-icon">📋</text>
+        <text class="section-title">需求大厅</text>
       </view>
-    </picker>
-    <picker bindchange="handlePurposeChange" value="{{selectedPurposeIndex}}" range="{{purposes}}">
-      <view class="form-item">
-        <text class="form-label">资金用途</text>
-        <text class="form-value">{{newDemand.purpose}} ›</text>
+      <view class="section-header-right">
+        <text class="count-tag tag">{{filteredDemands.length || 0}} 条</text>
+        <text class="section-toggle">{{sections.demands ? '收起 ▲' : '展开 ▼'}}</text>
       </view>
-    </picker>
-    <view class="form-item">
-      <text class="form-label">金额</text>
-      <input class="form-input" placeholder="如：50万" value="{{newDemand.amount}}" bindinput="handleInputChange" data-field="amount" />
     </view>
-    <picker bindchange="handlePeriodChange" value="{{selectedPeriodIndex}}" range="{{periods}}">
-      <view class="form-item">
-        <text class="form-label">期限</text>
-        <text class="form-value">{{newDemand.period}} ›</text>
+    <view class="divider-gold"></view>
+    <view class="section-body" wx:if="{{sections.demands}}">
+      <!-- 筛选区 -->
+      <view class="demand-filters">
+        <view class="filter-row">
+          <text class="filter-pill {{filterType === 'all' ? 'active' : ''}}" data-type="all" bindtap="switchFilter">全部</text>
+          <text class="filter-pill {{filterType === 'funding' ? 'active' : ''}}" data-type="funding" bindtap="switchFilter">找资金</text>
+          <text class="filter-pill {{filterType === 'loan' ? 'active' : ''}}" data-type="loan" bindtap="switchFilter">供资金</text>
+          <text class="filter-pill {{filterType === 'mine' ? 'active' : ''}}" data-type="mine" bindtap="switchFilter">我的</text>
+        </view>
+        <view class="filter-row" wx:if="{{demandCities.length > 1}}">
+          <text class="filter-pill {{filterCity === 'all' ? 'active' : ''}}" data-city="all" bindtap="switchCity">全部城市</text>
+          <text class="filter-pill {{filterCity === item ? 'active' : ''}}" wx:for="{{demandCities}}" wx:key="*this" data-city="{{item}}" bindtap="switchCity">{{item}}</text>
+        </view>
       </view>
-    </picker>
-    <view class="form-item">
-      <text class="form-label">联系方式</text>
-      <input class="form-input" placeholder="手机号" value="{{newDemand.contact}}" bindinput="handleInputChange" data-field="contact" />
+
+      <!-- 需求卡片列表 -->
+      <view class="demand-list-wrap" wx:if="{{filteredDemands.length}}">
+        <view class="demand-item list-card" wx:for="{{filteredDemands}}" wx:key="id" style="animation-delay: {{index * 0.06}}s">
+          <view class="demand-card-head">
+            <view class="demand-avatar-wrap">
+              <text class="demand-avatar-text">{{item.publisherAvatar || '👤'}}</text>
+            </view>
+            <view class="demand-meta-info">
+              <text class="demand-title">{{item.title || ''}}</text>
+              <text class="demand-publisher">{{item.publisher || ''}} · {{item.time || ''}}</text>
+            </view>
+            <text class="demand-type-tag tag {{item.type === 'funding' ? 'tag-funding' : 'tag-loan'}}">{{item.type === 'funding' ? '找资金' : '供资金'}}</text>
+          </view>
+          <view class="demand-card-body">
+            <view class="demand-detail-row">
+              <view class="demand-detail-item">
+                <text class="detail-label">金额</text>
+                <text class="detail-value gold sensitive-data {{sensitiveDisplay ? 'active' : ''}}">{{item.amount || ''}}</text>
+              </view>
+              <view class="demand-detail-item">
+                <text class="detail-label">期限</text>
+                <text class="detail-value">{{item.period || ''}}</text>
+              </view>
+              <view class="demand-detail-item">
+                <text class="detail-label">城市</text>
+                <text class="detail-value">{{item.city || '全国'}}</text>
+              </view>
+            </view>
+            <view class="tag-row" wx:if="{{item.tags && item.tags.length}}">
+              <text class="mini-tag" wx:for="{{item.tags}}" wx:key="*this" wx:for-item="tag">{{tag}}</text>
+            </view>
+            <view class="progress-wrap" wx:if="{{item.progress !== undefined}}">
+              <view class="progress-bar"><view class="progress-inner" style="width: {{item.progress}}%;"></view></view>
+              <text class="progress-text">匹配进度 {{item.progress}}%</text>
+            </view>
+          </view>
+          <view class="demand-status-bar">
+            <text class="status-tag status-{{item.statusClass || 'pending'}}">{{item.status || ''}}</text>
+          </view>
+          <view class="demand-card-actions">
+            <text class="card-action-btn sensitive-data {{sensitiveDisplay ? 'active' : ''}}" data-id="{{item.id}}" catchtap="contactDemand" wx:if="{{item.contact}}">{{item.contact || '📞'}}</text>
+            <text class="card-action-btn" data-id="{{item.id}}" catchtap="toggleFavoriteDemand">{{item.favorited ? '⭐' : '☆'}} 收藏</text>
+            <text class="card-action-btn primary" data-id="{{item.id}}" catchtap="showDemandDetail">📄 详情</text>
+          </view>
+        </view>
+      </view>
+      <view class="empty-state" wx:else>
+        <text class="empty-icon">📭</text>
+        <text class="empty-text">暂无该类型需求，快来发布第一条吧</text>
+      </view>
     </view>
-    <view class="form-item">
-      <text class="form-label">所在城市</text>
-      <text class="form-value">{{newDemand.city || location.city}}</text>
-    </view>
-    <view class="form-item column">
-      <text class="form-label">补充说明</text>
-      <textarea class="form-textarea" placeholder="可填写用途、主体资质、期望方案等" value="{{newDemand.remark}}" bindinput="handleInputChange" data-field="remark" />
-    </view>
-    <button class="submit-btn btn-gold" loading="{{submitting}}" bindtap="handleSubmit">发布需求</button>
   </view>
 
+  <!-- 需求详情模态框 -->
+  <view class="modal-overlay" wx:if="{{demandDetail}}" catchtap="closeDemandDetail">
+    <view class="modal-content glass-card" catchtap="noop">
+      <view class="modal-close" bindtap="closeDemandDetail">✕</view>
+      <view class="modal-header">
+        <text class="modal-icon">{{demandDetail.publisherAvatar || '👤'}}</text>
+        <view class="modal-title-group">
+          <text class="modal-title">{{demandDetail.title || ''}}</text>
+          <text class="modal-publisher">{{demandDetail.publisher || ''}} · {{demandDetail.time || ''}}</text>
+        </view>
+        <text class="demand-type-tag tag {{demandDetail.type === 'funding' ? 'tag-funding' : 'tag-loan'}}">{{demandDetail.type === 'funding' ? '找资金' : '供资金'}}</text>
+      </view>
+      <view class="divider-gold"></view>
+      <view class="modal-body">
+        <view class="modal-section">
+          <text class="modal-label">需求详情</text>
+          <text class="modal-text">{{demandDetail.content || demandDetail.title || ''}}</text>
+        </view>
+        <view class="modal-section">
+          <text class="modal-label">金额</text>
+          <text class="modal-text gold sensitive-data {{sensitiveDisplay ? 'active' : ''}}">{{demandDetail.amount || ''}}</text>
+        </view>
+        <view class="modal-section">
+          <text class="modal-label">期限</text>
+          <text class="modal-text">{{demandDetail.period || ''}}</text>
+        </view>
+        <view class="modal-section">
+          <text class="modal-label">城市</text>
+          <text class="modal-text">{{demandDetail.city || '全国'}}</text>
+        </view>
+        <view class="modal-section" wx:if="{{demandDetail.contact}}">
+          <text class="modal-label">联系方式</text>
+          <text class="modal-text contact-text sensitive-data {{sensitiveDisplay ? 'active' : ''}}" catchtap="copyContact">{{demandDetail.contact || ''}} 📋复制</text>
+        </view>
+        <view class="modal-section" wx:if="{{demandDetail.remark}}">
+          <text class="modal-label">补充说明</text>
+          <text class="modal-text">{{demandDetail.remark || ''}}</text>
+        </view>
+        <view class="modal-section" wx:if="{{demandDetail.tags && demandDetail.tags.length}}">
+          <text class="modal-label">标签</text>
+          <view class="modal-tags">
+            <text class="mini-tag" wx:for="{{demandDetail.tags}}" wx:key="*this" wx:for-item="tag">{{tag}}</text>
+          </view>
+        </view>
+        <view class="progress-wrap" wx:if="{{demandDetail.progress !== undefined}}">
+          <text class="modal-label">匹配进度</text>
+          <view class="progress-bar"><view class="progress-inner" style="width: {{demandDetail.progress}}%;"></view></view>
+          <text class="progress-text">{{demandDetail.progress}}%</text>
+        </view>
+      </view>
+      <button class="btn-gold modal-btn" wx:if="{{demandDetail.contact}}" data-contact="{{demandDetail.contact || ''}}" bindtap="contactDemand">📞 联系Ta</button>
+    </view>
+  </view>
+
+  <!-- 快捷入口 -->
   <view class="quick-links">
-    <view class="quick-link glass-card" bindtap="navigateToChannel">
+    <view class="quick-link glass-card fade-in-up" bindtap="navigateToChannel">
       <text class="ql-icon">🤝</text>
       <text class="ql-title">助融渠道</text>
     </view>
-    <view class="quick-link glass-card" bindtap="navigateToServiceChat">
+    <view class="quick-link glass-card fade-in-up" bindtap="navigateToServiceChat">
       <text class="ql-icon">💬</text>
       <text class="ql-title">智能客服</text>
     </view>
-    <view class="quick-link glass-card" bindtap="goIntake">
+    <view class="quick-link glass-card fade-in-up" bindtap="goIntake">
       <text class="ql-icon">📋</text>
       <text class="ql-title">进件系统</text>
     </view>
   </view>
 
-  <view class="demand-list glass-card">
+  <!-- 发布需求表单 -->
+  <view class="demand-form-section card fade-in-up">
     <view class="section-header">
-      <text class="section-title">需求大厅</text>
-      <text class="count">{{filteredDemands.length}} 条</text>
-    </view>
-    <view class="filter-tabs">
-      <text class="filter-tab {{filterType === 'all' ? 'active' : ''}}" data-type="all" bindtap="switchFilter">全部</text>
-      <text class="filter-tab {{filterType === 'mine' ? 'active' : ''}}" data-type="mine" bindtap="switchFilter">我的</text>
-      <text class="filter-tab {{filterType === 'funding' ? 'active' : ''}}" data-type="funding" bindtap="switchFilter">找资金</text>
-      <text class="filter-tab {{filterType === 'loan' ? 'active' : ''}}" data-type="loan" bindtap="switchFilter">供资金</text>
-    </view>
-    <block wx:for="{{filteredDemands}}" wx:key="id">
-      <view class="demand-item" data-id="{{item.id}}" bindtap="navigateToDemandDetail">
-        <view class="demand-body">
-          <view class="demand-top">
-            <text class="demand-type tag-{{item.type}}">{{item.type === 'funding' ? '找资金' : '供资金'}}</text>
-            <text class="demand-status">{{item.status}}</text>
-          </view>
-          <text class="demand-title">{{item.title}}</text>
-          <text class="demand-meta">{{item.amount}} · {{item.period}} · {{item.city || '全国'}}</text>
-          <view class="tag-row" wx:if="{{item.tags}}">
-            <text class="mini-tag" wx:for="{{item.tags}}" wx:key="*this" wx:for-item="tag">{{tag}}</text>
-          </view>
-          <view class="progress-wrap">
-            <view class="progress-bar"><view class="progress-inner" style="width: {{item.progress}}%;"></view></view>
-            <text class="progress-text">匹配进度 {{item.progress}}%</text>
-          </view>
-        </view>
-        <text class="demand-arrow">›</text>
+      <view class="section-header-left">
+        <text class="section-icon">📝</text>
+        <text class="section-title">发布需求</text>
       </view>
-    </block>
-    <view class="empty-tip" wx:if="{{!filteredDemands.length}}">暂无该类型需求，快来发布第一条吧</view>
+    </view>
+    <view class="divider-gold"></view>
+    <picker bindchange="handleTypeChange" value="{{selectedTypeIndex || 0}}" range="{{demandTypes}}" range-key="label">
+      <view class="form-item">
+        <text class="form-label">需求类型</text>
+        <text class="form-value">{{demandTypes[selectedTypeIndex || 0].label || ''}} ›</text>
+      </view>
+    </picker>
+    <picker bindchange="handlePurposeChange" value="{{selectedPurposeIndex || 0}}" range="{{purposes}}">
+      <view class="form-item">
+        <text class="form-label">资金用途</text>
+        <text class="form-value">{{newDemand.purpose || ''}} ›</text>
+      </view>
+    </picker>
+    <view class="form-item">
+      <text class="form-label">金额</text>
+      <input class="form-input" placeholder="如：50万" value="{{newDemand.amount || ''}}" bindinput="handleInputChange" data-field="amount" />
+    </view>
+    <picker bindchange="handlePeriodChange" value="{{selectedPeriodIndex || 1}}" range="{{periods}}">
+      <view class="form-item">
+        <text class="form-label">期限</text>
+        <text class="form-value">{{newDemand.period || ''}} ›</text>
+      </view>
+    </picker>
+    <view class="form-item">
+      <text class="form-label">联系方式</text>
+      <input class="form-input" placeholder="手机号" value="{{newDemand.contact || ''}}" bindinput="handleInputChange" data-field="contact" />
+    </view>
+    <view class="form-item">
+      <text class="form-label">所在城市</text>
+      <text class="form-value">{{newDemand.city || location.city || '定位中'}}</text>
+    </view>
+    <view class="form-item column">
+      <text class="form-label">补充说明</text>
+      <textarea class="form-textarea" placeholder="可填写用途、主体资质、期望方案等" value="{{newDemand.remark || ''}}" bindinput="handleInputChange" data-field="remark" />
+    </view>
+    <button class="submit-btn btn-gold" loading="{{submitting || false}}" bindtap="handleSubmit">发布需求</button>
   </view>
 
+  <!-- 线索发布 -->
+  <view class="clue-panel card fade-in-up">
+    <view class="section-header">
+      <view class="section-header-left">
+        <text class="section-icon">🔍</text>
+        <text class="section-title">线索发布</text>
+      </view>
+      <view class="clue-head-actions">
+        <text class="clue-btn-link {{sections.clueList ? 'active' : ''}}" bindtap="toggleClueList">{{sections.clueList ? '收起' : '历史线索'}}</text>
+        <text class="clue-btn-link primary {{sections.clueForm ? 'active' : ''}}" bindtap="toggleClueForm">{{sections.clueForm ? '收起' : '+ 发布线索'}}</text>
+      </view>
+    </view>
+    <view class="divider-gold"></view>
+
+    <view class="clue-form" wx:if="{{sections.clueForm}}">
+      <view class="form-item">
+        <text class="form-label">姓名</text>
+        <input class="form-input" placeholder="请输入联系人姓名" value="{{clueForm.name || ''}}" bindinput="onClueInput" data-field="name" />
+      </view>
+      <view class="form-item">
+        <text class="form-label">手机号</text>
+        <input class="form-input" placeholder="请输入手机号" type="number" maxlength="11" value="{{clueForm.phone || ''}}" bindinput="onClueInput" data-field="phone" />
+      </view>
+      <picker bindchange="onClueTypeChange" value="{{clueTypes.indexOf(clueForm.demandType)}}" range="{{clueTypes}}">
+        <view class="form-item">
+          <text class="form-label">需求类型</text>
+          <text class="form-value">{{clueForm.demandType || ''}} ›</text>
+        </view>
+      </picker>
+      <view class="form-item column">
+        <text class="form-label">备注</text>
+        <textarea class="form-textarea" placeholder="补充说明（选填）" value="{{clueForm.remark || ''}}" bindinput="onClueInput" data-field="remark" />
+      </view>
+      <button class="submit-btn btn-gold" catchtap="submitClue">提交线索</button>
+    </view>
+
+    <view class="clue-list-wrap" wx:if="{{sections.clueList}}">
+      <block wx:if="{{clueList.length}}">
+        <view class="clue-item" wx:for="{{clueList}}" wx:key="id">
+          <view class="clue-item-head">
+            <text class="clue-name">{{item.name || ''}}</text>
+            <text class="clue-type tag">{{item.demandType || ''}}</text>
+          </view>
+          <text class="clue-phone sensitive-data {{sensitiveDisplay ? 'active' : ''}}">📞 {{item.phone || ''}}</text>
+          <text class="clue-remark" wx:if="{{item.remark}}">{{item.remark || ''}}</text>
+          <view class="clue-item-foot">
+            <text class="clue-time">{{item.createTime || ''}}</text>
+            <text class="clue-status status-{{item.statusClass || 'pending'}}">{{item.status || ''}}</text>
+          </view>
+        </view>
+      </block>
+      <view class="empty-state" wx:else>
+        <text class="empty-icon">📭</text>
+        <text class="empty-text">暂无线索，点击上方「发布线索」提交</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 敏感信息开关 -->
+  <view class="sensitive-toggle card fade-in-up" bindtap="toggleSensitiveDisplay">
+    <text class="toggle-label">敏感信息显示</text>
+    <view class="toggle-switch {{sensitiveDisplay ? 'on' : ''}}">
+      <view class="toggle-knob"></view>
+    </view>
+  </view>
+
+  <!-- 合规提示 -->
   <view class="compliance-panel">
     <text>温馨提示：亮叶企服仅提供金融信息咨询与居间撮合服务，不承诺审批结果，不收取前置保证金。</text>
   </view>
+  <view class="page-safe"></view>
 </view>

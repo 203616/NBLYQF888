@@ -1,70 +1,83 @@
-<view class="clue-page page-shell">
-  <view class="location-bar glass-card" bindtap="handleChooseCity">
-    <text class="iconfont icon-location loc-icon"></text>
-    <text>{{location.city || '定位中'}} · 本地线索</text>
-    <text class="loc-arrow">›</text>
+<view class="page-shell clue-page">
+  <view class="location-bar fadeInUp" bindtap="handleChooseCity">
+    <text class="iconfont icon-location"></text>
+    <text>{{location.city || '📍 定位中'}} · 本地线索</text>
+    <text class="icon-right loc-arrow"></text>
   </view>
 
-  <view class="clue-hero premium-hero">
+  <view class="premium-hero fadeInUp" style="animation-delay:0.1s">
     <safe-image className="premium-hero-bg" src="/images/banner1.webp" mode="aspectFill" />
     <view class="premium-hero-body">
-      <text class="premium-badge">汽车金融</text>
+      <text class="premium-badge">🔍 汽车金融</text>
       <text class="premium-hero-title">线索中心</text>
       <text class="premium-hero-sub">新车 · 二手车 · 车抵贷 · 宁波本地线索集中跟进</text>
     </view>
   </view>
 
-  <view class="intro-panel glass-card">
-    <text class="intro-title">线索来源</text>
-    <text class="intro-desc">官方表单、合作车商、网站咨询等多渠道汇聚，覆盖鄞州、江北、北仑、慈溪等宁波区域。点击线索可查看详情并一键发起进件。</text>
-  </view>
-
-  <view class="stat-row">
-    <view class="stat-item glass-card" wx:for="{{stats}}" wx:key="label">
-      <text class="stat-num">{{item.value}}</text>
-      <text class="stat-label">{{item.label}}</text>
+  <view class="glass-card fadeInUp intro-card" style="animation-delay:0.15s">
+    <view class="intro-row">
+      <text class="intro-icon">📌</text>
+      <view class="intro-body">
+        <text class="intro-title">线索来源</text>
+        <text class="intro-desc">官方表单、合作车商、网站咨询等多渠道汇聚，覆盖鄞州、江北、北仑、慈溪等宁波区域。</text>
+      </view>
     </view>
   </view>
 
-  <scroll-view scroll-x class="tabs" enable-flex>
-    <block wx:for="{{types}}" wx:key="id">
-      <view class="tab {{activeType === item.id ? 'active' : ''}}" data-type="{{item.id}}" bindtap="switchType">{{item.name}}</view>
+  <view class="stat-row fadeInUp" style="animation-delay:0.2s">
+    <view class="stat-item card" wx:for="{{stats || []}}" wx:key="label">
+      <text class="stat-num">{{item.value || ''}}</text>
+      <text class="stat-label">{{item.label || ''}}</text>
+    </view>
+  </view>
+
+  <scroll-view scroll-x class="tabs fadeInUp" style="animation-delay:0.25s" enable-flex>
+    <block wx:for="{{types || []}}" wx:key="id">
+      <view class="filter-tab {{activeType === item.id ? 'active' : ''}}" data-type="{{item.id}}" bindtap="switchType">{{item.name || ''}}</view>
     </block>
   </scroll-view>
 
-  <view class="entry-grid">
-    <block wx:for="{{entryCards}}" wx:key="id">
-      <view class="entry-card glass-card" data-path="{{item.path}}" bindtap="goEntry">
-        <text class="entry-icon">{{item.icon}}</text>
-        <text class="entry-title">{{item.title}}</text>
+  <view class="entry-grid fadeInUp" style="animation-delay:0.3s">
+    <block wx:for="{{entryCards || []}}" wx:key="id">
+      <view class="entry-card glass-card" data-path="{{item.path || ''}}" bindtap="goEntry">
+        <view class="entry-icon-circle">
+          <text class="entry-icon">{{item.icon || ''}}</text>
+        </view>
+        <text class="entry-title">{{item.title || ''}}</text>
       </view>
     </block>
   </view>
 
-  <block wx:for="{{clues}}" wx:key="id">
-    <view class="clue-card glass-card" bindtap="goDetail" data-id="{{item.id}}">
+  <block wx:for="{{clues || []}}" wx:key="id">
+    <view class="clue-card glass-card fadeInUp" style="animation-delay:{{0.3 + index * 0.05}}s" bindtap="goDetail" data-id="{{item.id}}">
       <view class="card-head">
-        <text class="title">{{item.title}}</text>
-        <text class="status">{{item.status}}</text>
+        <text class="title">{{item.title || ''}}</text>
+        <view class="status-tag" style="background:{{item._statusStyle.bg || '#E6F2EC'}};color:{{item._statusStyle.color || '#0F3D2E'}}">
+          <text>{{item._statusStyle.icon || '📌'}}</text>
+          <text>{{item.status || ''}}</text>
+        </view>
       </view>
-      <text class="desc">{{item.description}}</text>
+      <text class="desc">{{item.description || ''}}</text>
       <view class="meta-row">
-        <text class="meta-item">💰 {{item.price}}</text>
-        <text class="meta-item">📍 {{item.city || item.location}}</text>
+        <text class="meta-item">💰 {{item.price || ''}}</text>
+        <text class="meta-item">📍 {{item.city || item.location || ''}}</text>
       </view>
       <view class="meta-row secondary">
-        <text>{{item.dealer}}</text>
-        <text>{{item.contact}}</text>
+        <text>🏢 {{item.dealer || ''}}</text>
+        <text>📞 {{item.contact || ''}}</text>
       </view>
       <view class="tag-row">
-        <block wx:for="{{item.tags}}" wx:key="*this">
+        <block wx:for="{{item.tags || []}}" wx:key="*this">
           <text class="tag">{{item}}</text>
         </block>
       </view>
     </view>
   </block>
 
-  <view class="empty glass-card" wx:if="{{!loading && clues.length === 0}}">
-    <text>当前筛选条件下暂无线索，可切换城市或类型查看</text>
+  <view class="empty-state" wx:if="{{!loading && clues && clues.length === 0}}">
+    <text class="empty-icon">📭</text>
+    <text>当前筛选条件下暂无线索</text>
+    <text class="empty-sub">可切换城市或类型查看</text>
   </view>
+  <view class="page-safe"></view>
 </view>

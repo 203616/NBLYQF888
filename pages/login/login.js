@@ -26,7 +26,8 @@ Page({
     codeText: '获取验证码',
     loggingIn: false,
     agreedPrivacy: false,
-    agreedService: false
+    agreedService: false,
+    agreedContract: false
   },
 
   onLoad() {
@@ -55,9 +56,17 @@ Page({
     wx.navigateTo({ url: '/subpackages/auth/privacy/privacy?type=service' })
   },
 
+  toggleContract() {
+    this.setData({ agreedContract: !this.data.agreedContract })
+  },
+
+  viewContract() {
+    wx.navigateTo({ url: '/subpackages/profile/pages/docs/docs?tab=contract' })
+  },
+
   validateAgreements() {
-    if (!this.data.agreedPrivacy || !this.data.agreedService) {
-      wx.showToast({ title: '请先勾选协议', icon: 'none' })
+    if (!this.data.agreedPrivacy || !this.data.agreedService || !this.data.agreedContract) {
+      wx.showToast({ title: '请先勾选全部协议', icon: 'none' })
       return false
     }
     return true
